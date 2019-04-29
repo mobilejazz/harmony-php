@@ -3,8 +3,8 @@
 namespace src\data\repository\operation;
 
 /**
- * Class Operation
+ * Class DefaultOperation
  */
-class Operation {
+class DefaultOperation {
 
 }
