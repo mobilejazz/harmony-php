@@ -1,12 +1,12 @@
 <?php
 
-namespace src\data\repository;
+namespace harmony\data\repository;
 
-use src\data\dataSource\query\Query;
-use src\data\entity\BaseEntity;
-use src\data\mapper\Mapper;
-use src\data\repository\operation\Operation;
-use src\domain\model\BaseModel;
+use harmony\data\dataSource\query\Query;
+use harmony\data\entity\BaseEntity;
+use harmony\data\mapper\Mapper;
+use harmony\data\repository\operation\Operation;
+use harmony\domain\model\BaseModel;
 
 /**
  * Class RepositoryMapper

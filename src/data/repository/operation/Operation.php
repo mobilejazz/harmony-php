@@ -1,6 +1,6 @@
 <?php
 
-namespace src\data\repository\operation;
+namespace harmony\data\repository\operation;
 
 /**
  * Class Operation

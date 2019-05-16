@@ -1,9 +1,9 @@
 <?php
 
-namespace src\data\dataSource;
+namespace harmony\data\dataSource;
 
-use src\data\dataSource\query\Query;
-use src\domain\model\BaseModel;
+use harmony\data\dataSource\query\Query;
+use harmony\domain\model\BaseModel;
 
 interface GetDataSource {
 

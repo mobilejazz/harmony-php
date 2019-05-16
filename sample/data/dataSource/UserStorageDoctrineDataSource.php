@@ -38,7 +38,7 @@ class UserStorageDoctrineDataSource implements GetDataSource, PutDataSource, Del
         // TODO: Implement getAll() method.
     }
 
-    public function put(Query $query, BaseModel $baseEntity): BaseModel
+    public function put(Query $query, BaseEntity $baseEntity): BaseEntity
     {
         // TODO: Implement put() method.
     }

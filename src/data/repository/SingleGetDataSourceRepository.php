@@ -1,11 +1,11 @@
 <?php
 
-namespace src\data\repository;
+namespace harmony\data\repository;
 
-use src\data\dataSource\GetDataSource;
-use src\data\dataSource\query\Query;
-use src\data\repository\operation\Operation;
-use src\domain\model\BaseModel;
+use harmony\data\dataSource\GetDataSource;
+use harmony\data\dataSource\query\Query;
+use harmony\data\repository\operation\Operation;
+use harmony\domain\model\BaseModel;
 
 class SingleGetDataSourceRepository
     implements GetRepository {

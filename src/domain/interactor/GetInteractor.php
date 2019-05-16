@@ -1,11 +1,11 @@
 <?php
 
-namespace src\domain\interactor;
+namespace harmony\domain\interactor;
 
-use src\data\dataSource\query\Query;
-use src\data\repository\GetRepository;
-use src\data\repository\operation\Operation;
-use src\domain\model\BaseModel;
+use harmony\data\dataSource\query\Query;
+use harmony\data\repository\GetRepository;
+use harmony\data\repository\operation\Operation;
+use harmony\domain\model\BaseModel;
 
 /**
  * Class GetInteractor

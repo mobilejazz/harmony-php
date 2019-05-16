@@ -1,6 +1,6 @@
 <?php
 
-namespace src\data\mapper;
+namespace harmony\data\mapper;
 
 /**
  * Interface Mapper

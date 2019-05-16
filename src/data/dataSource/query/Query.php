@@ -1,6 +1,6 @@
 <?php
 
-namespace src\data\dataSource\query;
+namespace harmony\data\dataSource\query;
 
 class Query {
 

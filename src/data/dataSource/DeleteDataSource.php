@@ -1,8 +1,8 @@
 <?php
 
-namespace src\data\repository;
+namespace harmony\data\dataSource;
 
-use src\data\dataSource\query\Query;
+use harmony\data\dataSource\query\Query;
 
 interface DeleteDataSource {
 

@@ -1,9 +1,9 @@
 <?php
 
-namespace src\data\repository;
+namespace harmony\data\repository;
 
-use src\data\dataSource\query\Query;
-use src\data\repository\operation\Operation;
+use harmony\data\dataSource\query\Query;
+use harmony\data\repository\operation\Operation;
 
 /**
  * Interface DeleteRepository

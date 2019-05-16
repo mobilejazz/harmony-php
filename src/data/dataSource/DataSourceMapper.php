@@ -1,11 +1,11 @@
 <?php
 
-namespace src\data\dataSource;
+namespace harmony\data\dataSource;
 
-use src\data\dataSource\query\Query;
-use src\data\entity\BaseEntity;
-use src\data\mapper\Mapper;
-use src\data\repository\DeleteDataSource;
+use harmony\data\dataSource\query\Query;
+use harmony\data\entity\BaseEntity;
+use harmony\data\mapper\Mapper;
+use harmony\src\data\dataSource\GetDataSource;
 
 /**
  * Class DataSourceMapper

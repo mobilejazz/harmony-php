@@ -1,10 +1,10 @@
 <?php
 
-namespace src\domain\interactor;
+namespace harmony\domain\interactor;
 
-use src\data\dataSource\query\Query;
-use src\data\repository\DeleteRepository;
-use src\data\repository\operation\Operation;
+use harmony\data\dataSource\query\Query;
+use harmony\data\repository\DeleteRepository;
+use harmony\data\repository\operation\Operation;
 
 /**
  * Class DeleteInteractor

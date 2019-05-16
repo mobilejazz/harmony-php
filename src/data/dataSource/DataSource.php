@@ -1,6 +1,6 @@
 <?php
 
-namespace src\data\dataSource;
+namespace harmony\data\dataSource;
 
 /**
  * Interface DataSource

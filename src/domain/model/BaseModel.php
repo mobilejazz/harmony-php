@@ -1,6 +1,6 @@
 <?php
 
-namespace src\domain\model;
+namespace harmony\domain\model;
 
 /**
  * Class BaseModel

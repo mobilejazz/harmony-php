@@ -1,12 +1,13 @@
 <?php
 
-namespace src\data\repository;
+namespace harmony\data\repository;
 
-use src\data\dataSource\GetDataSource;
-use src\data\dataSource\PutDataSource;
-use src\data\dataSource\query\Query;
-use src\data\repository\operation\Operation;
-use src\domain\model\BaseModel;
+use harmony\data\dataSource\DeleteDataSource;
+use harmony\data\dataSource\GetDataSource;
+use harmony\data\dataSource\PutDataSource;
+use harmony\data\dataSource\query\Query;
+use harmony\data\repository\operation\Operation;
+use harmony\domain\model\BaseModel;
 
 class SingleDataSourceRepository
     implements GetRepository, PutRepository, DeleteRepository {

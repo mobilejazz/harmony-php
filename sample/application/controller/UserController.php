@@ -9,6 +9,7 @@ use sample\data\repository\doctrine\operation\CreateUserOperation;
 use sample\domain\entity\User;
 use src\data\dataSource\query\IntegerIdQuery;
 use src\data\dataSource\query\Query;
+use src\data\repository\operation\DefaultOperation;
 use src\data\repository\operation\Operation;
 use src\data\repository\RepositoryMapper;
 use src\data\repository\SingleDataSourceRepository;
@@ -114,11 +115,8 @@ class UserController {
         /* @var User $user */
         $user = $putInteractor->execute(
             new Query(),
-            new CreateUserOperation(
-                $request->id,
-                $request->name
-            ),
-            new User(null)
+            new DefaultOperation(),
+            new User(null, $request->name)
         );
         return (new UserResponse($user))->serialize();
     }
@@ -146,15 +144,20 @@ class UserController {
             new UserToUserEntityMapper(),
             new UserEntityToUserMapper()
         );
+
+        $getInteractor = $this->provideGetInteractor();
+        /* @var User $user */
+        $user = $getInteractor->execute(
+            new IntegerIdQuery($userId), new Operation()
+        );
+        $user->setName($request->name);
         $putInteractor = new PutInteractor($repositoryMapper);
+
         /* @var User $user */
         $user = $putInteractor->execute(
             new IntegerIdQuery($userId),
-            new Operation(
-                $request->id,
-                $request->name
-            ),
-            new User($userId)
+            new DefaultOperation(),
+            $user
         );
         return (new UserResponse($user))->serialize();
     }

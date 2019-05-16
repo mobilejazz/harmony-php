@@ -1,6 +1,6 @@
 <?php
 
-namespace src\data\entity;
+namespace harmony\data\entity;
 
 /**
  * Class BaseEntity
