@@ -1,2 +1,2 @@
-# Hello world
-## Section 1
+# Harmony PHP
+## Section one
