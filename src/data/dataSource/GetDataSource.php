@@ -3,7 +3,8 @@
 namespace harmony\data\dataSource;
 
 use harmony\data\dataSource\query\Query;
-use harmony\domain\model\BaseModel;
+use harmony\domain\model\BaseCollection;
+use harmony\domain\model\BaseHarmony;
 
 interface GetDataSource {
 
@@ -12,17 +13,17 @@ interface GetDataSource {
      *
      * @param Query $query query
      *
-     * @return BaseModel
+     * @return BaseHarmony
      */
-    public function get(Query $query) : BaseModel;
+    public function get(Query $query) : BaseHarmony;
 
     /**
      * Get all
      *
      * @param Query $query query
      *
-     * @return BaseModel[]
+     * @return BaseCollection
      */
-    public function getAll(Query $query) : array;
+    public function getAll(Query $query) : BaseCollection;
 
 }

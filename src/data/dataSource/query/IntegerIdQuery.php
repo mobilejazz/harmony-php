@@ -12,7 +12,7 @@ class IntegerIdQuery extends Query {
      *
      * @param integer $id id
      */
-    public function __construct(integer $id)
+    public function __construct(int $id)
     {
         $this->id = $id;
     }
@@ -20,7 +20,7 @@ class IntegerIdQuery extends Query {
     /**
      * @return mixed
      */
-    public function getId() : integer
+    public function getId() : int
     {
         return $this->id;
     }

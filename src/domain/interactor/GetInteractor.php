@@ -5,7 +5,7 @@ namespace harmony\domain\interactor;
 use harmony\data\dataSource\query\Query;
 use harmony\data\repository\GetRepository;
 use harmony\data\repository\operation\Operation;
-use harmony\domain\model\BaseModel;
+use harmony\domain\model\BaseHarmony;
 
 /**
  * Class GetInteractor
@@ -31,11 +31,11 @@ class GetInteractor {
      * @param Query     $query     query
      * @param Operation $operation operation
      *
-     * @return BaseModel
+     * @return BaseHarmony
      */
     public function execute(
         Query $query, Operation $operation
-    ) : BaseModel {
+    ) : BaseHarmony {
         return $this->getRepository->get($query, $operation);
     }
 }

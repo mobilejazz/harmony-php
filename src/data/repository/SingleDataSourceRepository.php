@@ -7,7 +7,8 @@ use harmony\data\dataSource\GetDataSource;
 use harmony\data\dataSource\PutDataSource;
 use harmony\data\dataSource\query\Query;
 use harmony\data\repository\operation\Operation;
-use harmony\domain\model\BaseModel;
+use harmony\domain\model\BaseCollection;
+use harmony\domain\model\BaseHarmony;
 
 class SingleDataSourceRepository
     implements GetRepository, PutRepository, DeleteRepository {
@@ -65,9 +66,9 @@ class SingleDataSourceRepository
     /**
      * @param Query $query
      * @param Operation $operation
-     * @return BaseModel
+     * @return BaseHarmony
      */
-    public function get(Query $query, Operation $operation): BaseModel
+    public function get(Query $query, Operation $operation): BaseHarmony
     {
         return $this->getDataSource->get($query);
     }
@@ -78,9 +79,9 @@ class SingleDataSourceRepository
      * @param Query     $query     query
      * @param Operation $operation operation
      *
-     * @return array
+     * @return BaseCollection
      */
-    public function getAll(Query $query, Operation $operation) : array
+    public function getAll(Query $query, Operation $operation) : BaseCollection
     {
         return $this->getDataSource->getAll($query);
     }
@@ -90,11 +91,11 @@ class SingleDataSourceRepository
      *
      * @param Query $query
      * @param Operation $operation
-     * @param BaseModel $baseModel
+     * @param BaseHarmony $baseModel
      *
-     * @return BaseModel
+     * @return BaseHarmony
      */
-    public function put(Query $query, Operation $operation, BaseModel $baseModel): BaseModel
+    public function put(Query $query, Operation $operation, BaseHarmony $baseModel): BaseHarmony
     {
         return $this->putDataSource->put($query, $baseModel);
     }
@@ -105,11 +106,11 @@ class SingleDataSourceRepository
      * @param Query     $query
      * @param Operation $operation
      *
-     * @param BaseModel[] $baseModels
+     * @param BaseCollection $baseModels
      *
      * @return void
      */
-    public function putAll(Query $query, Operation $operation, array $baseModels)
+    public function putAll(Query $query, Operation $operation, BaseCollection $baseModels)
     {
         $this->putDataSource->putAll($query, $baseModels);
     }

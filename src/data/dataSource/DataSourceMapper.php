@@ -3,9 +3,9 @@
 namespace harmony\data\dataSource;
 
 use harmony\data\dataSource\query\Query;
-use harmony\data\entity\BaseEntity;
 use harmony\data\mapper\Mapper;
-use harmony\src\data\dataSource\GetDataSource;
+use harmony\domain\model\BaseCollection;
+use harmony\domain\model\BaseHarmony;
 
 /**
  * Class DataSourceMapper
@@ -75,9 +75,9 @@ class DataSourceMapper implements GetDataSource, PutDataSource, DeleteDataSource
      *
      * @param Query $query query
      *
-     * @return BaseEntity
+     * @return BaseHarmony
      */
-    public function get(Query $query): BaseEntity
+    public function get(Query $query): BaseHarmony
     {
         return $this->getDataSource->get($query);
     }
@@ -87,9 +87,9 @@ class DataSourceMapper implements GetDataSource, PutDataSource, DeleteDataSource
      *
      * @param Query $query query
      *
-     * @return array
+     * @return BaseCollection
      */
-    public function getAll(Query $query): array
+    public function getAll(Query $query): BaseCollection
     {
         return $this->getDataSource->getAll($query);
     }
@@ -97,12 +97,12 @@ class DataSourceMapper implements GetDataSource, PutDataSource, DeleteDataSource
     /**
      * Put
      *
-     * @param Query      $query      query
-     * @param BaseEntity $baseEntity entity
+     * @param Query       $query      query
+     * @param BaseHarmony $baseEntity entity
      *
-     * @return BaseEntity
+     * @return BaseHarmony
      */
-    public function put(Query $query, BaseEntity $baseEntity): BaseEntity
+    public function put(Query $query, BaseHarmony $baseEntity): BaseHarmony
     {
         return $this->putDataSource->put($query, $baseEntity);
     }
@@ -110,12 +110,12 @@ class DataSourceMapper implements GetDataSource, PutDataSource, DeleteDataSource
     /**
      * Put all
      *
-     * @param Query $query        query
-     * @param array $baseEntities entities
+     * @param Query         $query        query
+     * @param BaseCollection $baseEntities entities
      *
      * @return void
      */
-    public function putAll(Query $query, array $baseEntities)
+    public function putAll(Query $query, BaseCollection $baseEntities)
     {
         $this->putDataSource->putAll($query, $baseEntities);
     }

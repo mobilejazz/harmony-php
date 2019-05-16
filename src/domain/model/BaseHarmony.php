@@ -5,6 +5,6 @@ namespace harmony\domain\model;
 /**
  * Class BaseModel
  */
-class BaseModel {
+class BaseHarmony {
 
 }

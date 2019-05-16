@@ -5,7 +5,7 @@ namespace harmony\domain\interactor;
 use harmony\data\dataSource\query\Query;
 use harmony\data\repository\operation\Operation;
 use harmony\data\repository\PutRepository;
-use harmony\domain\model\BaseModel;
+use harmony\domain\model\BaseHarmony;
 
 /**
  * Class PutInteractor
@@ -28,15 +28,15 @@ class PutInteractor {
     /**
      * Execute
      *
-     * @param Query     $query     query
-     * @param Operation $operation operation
-     * @param BaseModel $baseModel model
+     * @param Query       $query     query
+     * @param Operation   $operation operation
+     * @param BaseHarmony $baseModel model
      *
-     * @return BaseModel
+     * @return BaseHarmony
      */
     public function execute(
-        Query $query, Operation $operation, BaseModel $baseModel
-    ) : BaseModel {
+        Query $query, Operation $operation, BaseHarmony $baseModel
+    ) : BaseHarmony {
         return $this->putRepository->put($query, $operation, $baseModel);
     }
 }

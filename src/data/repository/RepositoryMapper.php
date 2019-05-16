@@ -3,10 +3,10 @@
 namespace harmony\data\repository;
 
 use harmony\data\dataSource\query\Query;
-use harmony\data\entity\BaseEntity;
 use harmony\data\mapper\Mapper;
 use harmony\data\repository\operation\Operation;
-use harmony\domain\model\BaseModel;
+use harmony\domain\model\BaseCollection;
+use harmony\domain\model\BaseHarmony;
 
 /**
  * Class RepositoryMapper
@@ -23,7 +23,7 @@ class RepositoryMapper implements
     /** @var Mapper */
     private $toBaseEntityMapper;
     /** @var Mapper */
-    private $toBaseModelMapper;
+    private $toBaseHarmonyMapper;
 
     /**
      * RepositoryMapper constructor.
@@ -32,20 +32,20 @@ class RepositoryMapper implements
      * @param PutRepository    $putRepository      repository
      * @param DeleteRepository $deleteRepository   repository
      * @param Mapper           $toBaseEntityMapper mapper
-     * @param Mapper           $toBaseModelMapper  mapper
+     * @param Mapper           $toBaseHarmonyMapper  mapper
      */
     public function __construct(
         GetRepository $getRepository,
         PutRepository $putRepository,
         DeleteRepository $deleteRepository,
         Mapper $toBaseEntityMapper,
-        Mapper $toBaseModelMapper
+        Mapper $toBaseHarmonyMapper
     ) {
         $this->getRepository = $getRepository;
         $this->putRepository = $putRepository;
         $this->deleteRepository = $deleteRepository;
         $this->toBaseEntityMapper = $toBaseEntityMapper;
-        $this->toBaseModelMapper = $toBaseModelMapper;
+        $this->toBaseHarmonyMapper = $toBaseHarmonyMapper;
     }
 
     /**
@@ -80,12 +80,12 @@ class RepositoryMapper implements
      * @param Query     $query     query
      * @param Operation $operation operation
      *
-     * @return BaseModel
+     * @return BaseHarmony
      */
-    public function get(Query $query, Operation $operation): BaseModel
+    public function get(Query $query, Operation $operation): BaseHarmony
     {
         $entity = $this->getRepository->get($query, $operation);
-        return $this->toBaseModelMapper->map($entity);
+        return $this->toBaseHarmonyMapper->map($entity);
     }
 
     /**
@@ -94,17 +94,17 @@ class RepositoryMapper implements
      * @param Query     $query     query
      * @param Operation $operation operation
      *
-     * @return BaseModel[]
+     * @return BaseCollection
      */
-    public function getAll(Query $query, Operation $operation) : array
+    public function getAll(Query $query, Operation $operation) : BaseCollection
     {
         $response = $this->getRepository->getAll($query, $operation);
         $models = [];
-        /** @var BaseEntity $entity */
+        /** @var BaseHarmony $entity */
         foreach ($response as $entity) {
-            $models[] = $this->toBaseModelMapper->map($entity);
+            $models[] = $this->toBaseHarmonyMapper->map($entity);
         }
-        return $models;
+        return new BaseCollection($models);
     }
 
     /**
@@ -112,30 +112,30 @@ class RepositoryMapper implements
      *
      * @param Query     $query     query
      * @param Operation $operation operation
-     * @param BaseModel $baseModel model
+     * @param BaseHarmony $baseModel model
      *
-     * @return BaseModel
+     * @return BaseHarmony
      */
     public function put(
-        Query $query, Operation $operation, BaseModel $baseModel
-    ): BaseModel {
+        Query $query, Operation $operation, BaseHarmony $baseModel
+    ): BaseHarmony {
         $baseEntity = $this->toBaseEntityMapper->map($baseModel);
         $response = $this->putRepository->put($query, $operation, $baseEntity);
-        return $this->toBaseModelMapper->map($response);
+        return $this->toBaseHarmonyMapper->map($response);
     }
 
     /**
      * Put all
      *
-     * @param Query       $query      query
-     * @param Operation   $operation  operation
-     * @param BaseModel[] $baseModels models
+     * @param Query          $query      query
+     * @param Operation      $operation  operation
+     * @param BaseCollection $baseModels models
      *
      * @return void
      */
-    public function putAll(Query $query, Operation $operation, array $baseModels)
+    public function putAll(Query $query, Operation $operation, BaseCollection $baseModels)
     {
-        /** @var BaseModel $baseModel */
+        /** @var BaseHarmony $baseModel */
         foreach ($baseModels as $baseModel) {
             $this->put($query, $operation, $baseModel);
         }
