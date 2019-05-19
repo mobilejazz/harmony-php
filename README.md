@@ -1,2 +1,1 @@
 # Harmony PHP
-## Section one
