@@ -6,6 +6,7 @@ use harmony\core\repository\mapper\Mapper;
 use harmony\core\repository\operation\Operation;
 use harmony\core\repository\query\Query;
 use harmony\core\shared\collection\GenericCollection;
+use MyCompany\domain\entity\User;
 
 /**
  * Class RepositoryMapper
@@ -103,7 +104,7 @@ class RepositoryMapper implements
             $models[] = $this->toBaseHarmonyMapper->map($entity);
         }
 
-        return new GenericCollection($models);
+        return new GenericCollection(User::class, $models);
     }
 
     /**
