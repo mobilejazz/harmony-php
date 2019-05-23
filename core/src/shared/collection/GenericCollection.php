@@ -24,6 +24,14 @@ class GenericCollection extends Collection
     }
 
     /**
+     * @return string
+     */
+    public function getGenericNameClass()
+    {
+        return $this->generic_name_class;
+    }
+
+    /**
      * @param mixed $index
      * @param mixed $newval
      */
