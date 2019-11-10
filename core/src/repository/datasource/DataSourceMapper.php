@@ -2,14 +2,11 @@
 
 namespace harmony\core\repository\datasource;
 
-use harmony\core\repository\BaseHarmony;
+use harmony\core\repository\BaseEntity;
 use harmony\core\repository\mapper\Mapper;
 use harmony\core\repository\query\Query;
 use harmony\core\shared\collection\GenericCollection;
 
-/**
- * Class DataSourceMapper
- */
 class DataSourceMapper implements GetDataSource, PutDataSource, DeleteDataSource
 {
     /** @var GetDataSource */
@@ -24,13 +21,11 @@ class DataSourceMapper implements GetDataSource, PutDataSource, DeleteDataSource
     private $toBaseModelMapper;
 
     /**
-     * DataSourceMapper constructor.
-     *
-     * @param GetDataSource    $getDataSource      DataSource
-     * @param PutDataSource    $putDataSource      DataSource
-     * @param DeleteDataSource $deleteDataSource   DataSource
-     * @param Mapper           $toBaseEntityMapper mapper
-     * @param Mapper           $toBaseModelMapper  mapper
+     * @param GetDataSource    $getDataSource
+     * @param PutDataSource    $putDataSource
+     * @param DeleteDataSource $deleteDataSource
+     * @param Mapper           $toBaseEntityMapper
+     * @param Mapper           $toBaseModelMapper
      */
     public function __construct(
         GetDataSource $getDataSource,
@@ -47,8 +42,6 @@ class DataSourceMapper implements GetDataSource, PutDataSource, DeleteDataSource
     }
 
     /**
-     * Delete
-     *
      * @param Query $query query
      *
      * @return void
@@ -75,9 +68,9 @@ class DataSourceMapper implements GetDataSource, PutDataSource, DeleteDataSource
      *
      * @param Query $query query
      *
-     * @return BaseHarmony
+     * @return BaseEntity
      */
-    public function get(Query $query): BaseHarmony
+    public function get(Query $query): BaseEntity
     {
         return $this->getDataSource->get($query);
     }
@@ -95,12 +88,12 @@ class DataSourceMapper implements GetDataSource, PutDataSource, DeleteDataSource
     /**
      * Put
      *
-     * @param Query       $query      query
-     * @param BaseHarmony $baseEntity entity
+     * @param Query      $query      query
+     * @param BaseEntity $baseEntity entity
      *
-     * @return BaseHarmony
+     * @return BaseEntity
      */
-    public function put(Query $query, BaseHarmony $baseEntity): BaseHarmony
+    public function put(Query $query, BaseEntity $baseEntity): BaseEntity
     {
         return $this->putDataSource->put($query, $baseEntity);
     }

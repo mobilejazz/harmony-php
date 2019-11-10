@@ -2,7 +2,7 @@
 
 namespace harmony\core\repository\datasource;
 
-use harmony\core\repository\BaseHarmony;
+use harmony\core\repository\BaseEntity;
 use harmony\core\repository\query\Query;
 use harmony\core\shared\collection\GenericCollection;
 
@@ -12,12 +12,12 @@ use harmony\core\shared\collection\GenericCollection;
 interface PutDataSource
 {
     /**
-     * @param Query       $query
-     * @param BaseHarmony $baseModel
+     * @param Query      $query
+     * @param BaseEntity $baseModel
      *
-     * @return BaseHarmony
+     * @return BaseEntity
      */
-    public function put(Query $query, BaseHarmony $baseModel): BaseHarmony;
+    public function put(Query $query, BaseEntity $baseModel): BaseEntity;
 
     /**
      * @param Query             $query

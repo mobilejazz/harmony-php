@@ -24,11 +24,39 @@ class GenericCollection extends Collection
     }
 
     /**
+     * @param iterable $array
+     */
+    protected function validateArrayOfGenericArguments(iterable $array)
+    {
+        foreach ($array AS $object) {
+            $this->validateGenericArgument($object);
+        }
+    }
+
+    /**
+     * @param $object
+     */
+    protected function validateGenericArgument($object)
+    {
+        if (!$object instanceof $this->generic_name_class) {
+            throw new InvalidArgumentException($this->generic_name_class, get_class($object));
+        }
+    }
+
+    /**
      * @return string
      */
     public function getGenericNameClass()
     {
         return $this->generic_name_class;
+    }
+
+    /**
+     * @return array
+     */
+    public function getArray()
+    {
+        return $this->getIterator()->getArrayCopy();
     }
 
     /**
@@ -50,25 +78,5 @@ class GenericCollection extends Collection
         parent::unserialize($serialized);
 
         $this->validateArrayOfGenericArguments($this->getIterator());
-    }
-
-    /**
-     * @param iterable $array
-     */
-    protected function validateArrayOfGenericArguments(iterable $array)
-    {
-        foreach ($array AS $object) {
-            $this->validateGenericArgument($object);
-        }
-    }
-
-    /**
-     * @param $object
-     */
-    protected function validateGenericArgument($object)
-    {
-        if (!$object instanceof $this->generic_name_class) {
-            throw new InvalidArgumentException($this->generic_name_class, get_class($object));
-        }
     }
 }

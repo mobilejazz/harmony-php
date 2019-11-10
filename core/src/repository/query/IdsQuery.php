@@ -8,8 +8,6 @@ class IdsQuery extends Query
     private $ids;
 
     /**
-     * IdQuery constructor.
-     *
      * @param array $ids
      */
     public function __construct(array $ids)
@@ -20,7 +18,7 @@ class IdsQuery extends Query
     /**
      * @return array
      */
-    public function getIds() : array
+    public function getIds(): array
     {
         return $this->ids;
     }

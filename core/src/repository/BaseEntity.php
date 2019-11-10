@@ -2,7 +2,7 @@
 
 namespace harmony\core\repository;
 
-class BaseHarmony
+interface BaseEntity
 {
 
 }

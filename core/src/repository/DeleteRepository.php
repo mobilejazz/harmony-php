@@ -5,28 +5,21 @@ namespace harmony\core\repository;
 use harmony\core\repository\operation\Operation;
 use harmony\core\repository\query\Query;
 
-/**
- * Interface DeleteRepository
- */
 interface DeleteRepository
 {
     /**
-     * Delete
-     *
      * @param Query     $query     query
      * @param Operation $operation operation
      *
-     * @return void
+     * @return bool
      */
-    public function delete(Query $query, Operation $operation);
+    public function delete(Query $query, Operation $operation): bool;
 
     /**
-     * Delete all
-     *
      * @param Query     $query     query
      * @param Operation $operation operation
      *
-     * @return void
+     * @return bool
      */
-    public function deleteAll(Query $query, Operation $operation);
+    public function deleteAll(Query $query, Operation $operation): bool;
 }

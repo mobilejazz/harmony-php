@@ -8,8 +8,6 @@ use Throwable;
 class InvalidArgumentException extends PHPInvalidArgumentException
 {
     /**
-     * InvalidArgumentException constructor.
-     *
      * @param string         $expected
      * @param string         $getted
      * @param string         $message

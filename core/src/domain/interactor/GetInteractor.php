@@ -2,22 +2,17 @@
 
 namespace harmony\core\domain\interactor;
 
-use harmony\core\repository\BaseHarmony;
+use harmony\core\repository\BaseEntity;
 use harmony\core\repository\GetRepository;
 use harmony\core\repository\operation\Operation;
 use harmony\core\repository\query\Query;
 
-/**
- * Class GetInteractor
- */
 class GetInteractor
 {
     /** @var GetRepository */
     private $getRepository;
 
     /**
-     * GetAllInteractor constructor.
-     *
      * @param $getRepository
      */
     public function __construct(GetRepository $getRepository)
@@ -26,17 +21,15 @@ class GetInteractor
     }
 
     /**
-     * Execute
-     *
      * @param Query     $query     query
      * @param Operation $operation operation
      *
-     * @return BaseHarmony
+     * @return BaseEntity
      */
     public function execute(
         Query $query,
         Operation $operation
-    ): BaseHarmony {
+    ): BaseEntity {
         return $this->getRepository->get($query, $operation);
     }
 }

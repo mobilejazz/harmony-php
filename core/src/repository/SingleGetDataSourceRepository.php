@@ -14,8 +14,6 @@ class SingleGetDataSourceRepository
     private $getDataSource;
 
     /**
-     * SingleDataSourceRepository constructor.
-     *
      * @param GetDataSource $getDataSource data source
      */
     public function __construct(
@@ -28,9 +26,9 @@ class SingleGetDataSourceRepository
      * @param Query     $query
      * @param Operation $operation
      *
-     * @return BaseHarmony
+     * @return BaseEntity
      */
-    public function get(Query $query, Operation $operation): BaseHarmony
+    public function get(Query $query, Operation $operation): BaseEntity
     {
         return $this->getDataSource->get($query);
     }

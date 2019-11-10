@@ -2,18 +2,17 @@
 
 namespace harmony\core\repository\query;
 
-class IdQuery extends Query
+class IdQuery extends KeyQuery
 {
     /** @var mixed */
     private $id;
 
     /**
-     * IdQuery constructor.
-     *
      * @param mixed $id
      */
     public function __construct($id)
     {
+        parent::__construct((string)$id);
         $this->id = $id;
     }
 

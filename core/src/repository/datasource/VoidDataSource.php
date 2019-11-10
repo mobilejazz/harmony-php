@@ -2,18 +2,19 @@
 
 namespace harmony\core\repository\datasource;
 
-use harmony\core\error\MethodNotImplementedException;
-use harmony\core\repository\BaseHarmony;
+use harmony\core\repository\BaseEntity;
 use harmony\core\repository\query\Query;
 use harmony\core\shared\collection\GenericCollection;
+use harmony\core\shared\error\MethodNotImplementedException;
 
 class VoidDataSource implements GetDataSource, PutDataSource, DeleteDataSource
 {
     /**
      * @param Query $query
-     * @throws MethodNotImplementedException
      *
      * @return void
+     * @throws MethodNotImplementedException
+     *
      */
     public function delete(Query $query)
     {
@@ -22,9 +23,10 @@ class VoidDataSource implements GetDataSource, PutDataSource, DeleteDataSource
 
     /**
      * @param Query $query
-     * @throws MethodNotImplementedException
      *
      * @return void
+     * @throws MethodNotImplementedException
+     *
      */
     public function deleteAll(Query $query)
     {
@@ -33,16 +35,18 @@ class VoidDataSource implements GetDataSource, PutDataSource, DeleteDataSource
 
     /**
      * @param Query $query
-     * @return BaseHarmony
+     *
+     * @return BaseEntity
      * @throws MethodNotImplementedException
      */
-    public function get(Query $query): BaseHarmony
+    public function get(Query $query): BaseEntity
     {
         throw new MethodNotImplementedException();
     }
 
     /**
      * @param Query $query
+     *
      * @return GenericCollection
      * @throws MethodNotImplementedException
      */
@@ -52,22 +56,24 @@ class VoidDataSource implements GetDataSource, PutDataSource, DeleteDataSource
     }
 
     /**
-     * @param Query $query
-     * @param BaseHarmony $baseModel
-     * @return BaseHarmony
+     * @param Query      $query
+     * @param BaseEntity $baseModel
+     *
+     * @return BaseEntity
      * @throws MethodNotImplementedException
      */
-    public function put(Query $query, BaseHarmony $baseModel): BaseHarmony
+    public function put(Query $query, BaseEntity $baseModel): BaseEntity
     {
         throw new MethodNotImplementedException();
     }
 
     /**
-     * @param Query $query
+     * @param Query             $query
      * @param GenericCollection $baseModels
-     * @throws MethodNotImplementedException
      *
      * @return void
+     * @throws MethodNotImplementedException
+     *
      */
     public function putAll(Query $query, GenericCollection $baseModels)
     {

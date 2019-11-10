@@ -6,17 +6,12 @@ use harmony\core\repository\DeleteRepository;
 use harmony\core\repository\operation\Operation;
 use harmony\core\repository\query\Query;
 
-/**
- * Class DeleteInteractor
- */
 class DeleteInteractor
 {
     /** @var DeleteRepository */
     private $deleteRepository;
 
     /**
-     * DeleteInteractor constructor.
-     *
      * @param $deleteRepository
      */
     public function __construct(DeleteRepository $deleteRepository)
@@ -25,17 +20,15 @@ class DeleteInteractor
     }
 
     /**
-     * Execute
-     *
      * @param Query     $query     query
      * @param Operation $operation operation
      *
-     * @return void
+     * @return bool
      */
     public function execute(
         Query $query,
         Operation $operation
-    ) {
-        $this->deleteRepository->delete($query, $operation);
+    ): bool {
+        return $this->deleteRepository->delete($query, $operation);
     }
 }

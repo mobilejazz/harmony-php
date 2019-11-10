@@ -20,8 +20,6 @@ class SingleDataSourceRepository
     private $deleteDataSource;
 
     /**
-     * SingleDataSourceRepository constructor.
-     *
      * @param GetDataSource    $getDataSource    data source
      * @param PutDataSource    $putDataSource    data source
      * @param DeleteDataSource $deleteDataSource data source
@@ -37,8 +35,6 @@ class SingleDataSourceRepository
     }
 
     /**
-     * Delete
-     *
      * @param Query     $query     query
      * @param Operation $operation operation
      *
@@ -50,8 +46,6 @@ class SingleDataSourceRepository
     }
 
     /**
-     * Delete all
-     *
      * @param Query     $query     query
      * @param Operation $operation operation
      *
@@ -66,9 +60,9 @@ class SingleDataSourceRepository
      * @param Query     $query
      * @param Operation $operation
      *
-     * @return BaseHarmony
+     * @return BaseEntity
      */
-    public function get(Query $query, Operation $operation): BaseHarmony
+    public function get(Query $query, Operation $operation): BaseEntity
     {
         return $this->getDataSource->get($query);
     }
@@ -85,17 +79,15 @@ class SingleDataSourceRepository
     }
 
     /**
-     * Put
+     * @param Query      $query
+     * @param Operation  $operation
+     * @param BaseEntity $entity
      *
-     * @param Query       $query
-     * @param Operation   $operation
-     * @param BaseHarmony $baseModel
-     *
-     * @return BaseHarmony
+     * @return BaseEntity
      */
-    public function put(Query $query, Operation $operation, BaseHarmony $baseModel): BaseHarmony
+    public function put(Query $query, Operation $operation, BaseEntity $entity): BaseEntity
     {
-        return $this->putDataSource->put($query, $baseModel);
+        return $this->putDataSource->put($query, $entity);
     }
 
     /**
