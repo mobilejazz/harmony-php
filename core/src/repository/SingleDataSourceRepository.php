@@ -35,23 +35,23 @@ class SingleDataSourceRepository
     }
 
     /**
-     * @param Query     $query     query
-     * @param Operation $operation operation
+     * @param Query     $query
+     * @param Operation $operation
      *
-     * @return mixed
+     * @return bool
      */
-    public function delete(Query $query, Operation $operation)
+    public function delete(Query $query, Operation $operation): bool
     {
         return $this->deleteDataSource->delete($query);
     }
 
     /**
-     * @param Query     $query     query
-     * @param Operation $operation operation
+     * @param Query     $query
+     * @param Operation $operation
      *
-     * @return mixed
+     * @return bool
      */
-    public function deleteAll(Query $query, Operation $operation)
+    public function deleteAll(Query $query, Operation $operation): bool
     {
         return $this->deleteDataSource->deleteAll($query);
     }
@@ -95,10 +95,10 @@ class SingleDataSourceRepository
      * @param Operation         $operation
      * @param GenericCollection $baseModels
      *
-     * @return mixed|void
+     * @return GenericCollection
      */
-    public function putAll(Query $query, Operation $operation, GenericCollection $baseModels)
+    public function putAll(Query $query, Operation $operation, GenericCollection $baseModels): GenericCollection
     {
-        $this->putDataSource->putAll($query, $baseModels);
+        return $this->putDataSource->putAll($query, $baseModels);
     }
 }

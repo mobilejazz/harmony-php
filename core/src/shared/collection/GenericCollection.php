@@ -10,8 +10,6 @@ class GenericCollection extends Collection
     protected $generic_name_class;
 
     /**
-     * GenericCollection constructor.
-     *
      * @param string   $generic_name_class
      * @param iterable $input
      */
@@ -26,7 +24,7 @@ class GenericCollection extends Collection
     /**
      * @param iterable $array
      */
-    protected function validateArrayOfGenericArguments(iterable $array)
+    protected function validateArrayOfGenericArguments(iterable $array): void
     {
         foreach ($array AS $object) {
             $this->validateGenericArgument($object);
@@ -36,7 +34,7 @@ class GenericCollection extends Collection
     /**
      * @param $object
      */
-    protected function validateGenericArgument($object)
+    protected function validateGenericArgument($object): void
     {
         if (!$object instanceof $this->generic_name_class) {
             throw new InvalidArgumentException($this->generic_name_class, get_class($object));
@@ -46,7 +44,7 @@ class GenericCollection extends Collection
     /**
      * @return string
      */
-    public function getGenericNameClass()
+    public function getGenericNameClass(): string
     {
         return $this->generic_name_class;
     }
@@ -54,7 +52,7 @@ class GenericCollection extends Collection
     /**
      * @return array
      */
-    public function getArray()
+    public function getArray(): array
     {
         return $this->getIterator()->getArrayCopy();
     }
@@ -63,7 +61,7 @@ class GenericCollection extends Collection
      * @param mixed $index
      * @param mixed $newval
      */
-    public function offsetSet($index, $newval)
+    public function offsetSet($index, $newval): void
     {
         $this->validateGenericArgument($newval);
 
@@ -73,7 +71,7 @@ class GenericCollection extends Collection
     /**
      * @param string $serialized
      */
-    public function unserialize($serialized)
+    public function unserialize($serialized): void
     {
         parent::unserialize($serialized);
 

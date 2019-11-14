@@ -7,20 +7,16 @@ use harmony\core\repository\query\Query;
 interface DeleteDataSource
 {
     /**
-     * Delete
+     * @param Query $query
      *
-     * @param Query $query query
-     *
-     * @return mixed
+     * @return bool
      */
-    public function delete(Query $query);
+    public function delete(Query $query): bool;
 
     /**
-     * Delete all
+     * @param Query $query
      *
-     * @param Query $query query
-     *
-     * @return mixed
+     * @return bool
      */
-    public function deleteAll(Query $query);
+    public function deleteAll(Query $query): bool;
 }

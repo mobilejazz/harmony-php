@@ -10,69 +10,69 @@ use harmony\core\shared\collection\GenericCollection;
 class DataSourceMapper implements GetDataSource, PutDataSource, DeleteDataSource
 {
     /** @var GetDataSource */
-    private $getDataSource;
+    protected $getDataSource;
     /** @var PutDataSource */
-    private $putDataSource;
+    protected $putDataSource;
     /** @var DeleteDataSource */
-    private $deleteDataSource;
+    protected $deleteDataSource;
+
     /** @var Mapper */
-    private $toBaseEntityMapper;
+    protected $toInMapper;
     /** @var Mapper */
-    private $toBaseModelMapper;
+    protected $toOutMapper;
 
     /**
      * @param GetDataSource    $getDataSource
      * @param PutDataSource    $putDataSource
      * @param DeleteDataSource $deleteDataSource
-     * @param Mapper           $toBaseEntityMapper
-     * @param Mapper           $toBaseModelMapper
+     * @param Mapper           $toInMapper
+     * @param Mapper           $toOutMapper
      */
     public function __construct(
         GetDataSource $getDataSource,
         PutDataSource $putDataSource,
         DeleteDataSource $deleteDataSource,
-        Mapper $toBaseEntityMapper,
-        Mapper $toBaseModelMapper
+        Mapper $toInMapper,
+        Mapper $toOutMapper
     ) {
         $this->getDataSource = $getDataSource;
         $this->putDataSource = $putDataSource;
         $this->deleteDataSource = $deleteDataSource;
-        $this->toBaseEntityMapper = $toBaseEntityMapper;
-        $this->toBaseModelMapper = $toBaseModelMapper;
+        $this->toInMapper = $toInMapper;
+        $this->toOutMapper = $toOutMapper;
     }
 
     /**
-     * @param Query $query query
+     * @param Query $query
      *
-     * @return void
+     * @return bool
      */
-    public function delete(Query $query)
+    public function delete(Query $query): bool
     {
-        $this->deleteDataSource->delete($query);
+        return $this->deleteDataSource->delete($query);
     }
 
     /**
-     * Delete all
+     * @param Query $query
      *
-     * @param Query $query query
-     *
-     * @return void
+     * @return bool
      */
-    public function deleteAll(Query $query)
+    public function deleteAll(Query $query): bool
     {
-        $this->deleteDataSource->deleteAll($query);
+        return $this->deleteDataSource->deleteAll($query);
     }
 
     /**
-     * Get
-     *
-     * @param Query $query query
+     * @param Query $query
      *
      * @return BaseEntity
      */
     public function get(Query $query): BaseEntity
     {
-        return $this->getDataSource->get($query);
+        $eloquent = $this->getDataSource->get($query);
+        $entity = $this->toOutMapper->map($eloquent);
+
+        return $entity;
     }
 
     /**
@@ -82,30 +82,38 @@ class DataSourceMapper implements GetDataSource, PutDataSource, DeleteDataSource
      */
     public function getAll(Query $query): GenericCollection
     {
-        return $this->getDataSource->getAll($query);
+        $eloquents = $this->getDataSource->getAll($query);
+        $entities = [];
+
+        foreach ($eloquents AS $eloquent) {
+            $entities[] = $this->toOutMapper->map($eloquent);
+        }
+
+        return $entities;
     }
 
     /**
-     * Put
-     *
-     * @param Query      $query      query
-     * @param BaseEntity $baseEntity entity
+     * @param Query      $query
+     * @param BaseEntity $baseEntity
      *
      * @return BaseEntity
      */
     public function put(Query $query, BaseEntity $baseEntity): BaseEntity
     {
-        return $this->putDataSource->put($query, $baseEntity);
+        $eloquentToPut = $this->toInMapper->map($baseEntity);
+        $eloquentResult = $this->putDataSource->put($query, $eloquentToPut);
+
+        return $this->toOutMapper->map($eloquentResult);
     }
 
     /**
      * @param Query             $query
      * @param GenericCollection $baseEntities
      *
-     * @return mixed|void
+     * @return GenericCollection
      */
-    public function putAll(Query $query, GenericCollection $baseEntities)
+    public function putAll(Query $query, GenericCollection $baseEntities): GenericCollection
     {
-        $this->putDataSource->putAll($query, $baseEntities);
+        return $this->putDataSource->putAll($query, $baseEntities);
     }
 }
