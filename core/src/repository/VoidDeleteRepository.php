@@ -13,9 +13,10 @@ class VoidDeleteRepository
      * @param Query     $query
      * @param Operation $operation
      *
+     * @return bool
      * @throws MethodNotImplementedException
      */
-    public function delete(Query $query, Operation $operation)
+    public function delete(Query $query, Operation $operation): bool
     {
         throw new MethodNotImplementedException();
     }
@@ -24,9 +25,10 @@ class VoidDeleteRepository
      * @param Query     $query
      * @param Operation $operation
      *
+     * @return bool
      * @throws MethodNotImplementedException
      */
-    public function deleteAll(Query $query, Operation $operation)
+    public function deleteAll(Query $query, Operation $operation): bool
     {
         throw new MethodNotImplementedException();
     }

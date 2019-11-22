@@ -17,7 +17,7 @@ class InvalidArgumentException extends PHPInvalidArgumentException
     public function __construct(
         string $expected,
         string $getted,
-        $message = "",
+        $message = '',
         $code = 0,
         Throwable $previous = null
     ) {

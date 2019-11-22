@@ -9,9 +9,7 @@ use harmony\core\shared\collection\GenericCollection;
 interface GetDataSource
 {
     /**
-     * Get
-     *
-     * @param Query $query query
+     * @param Query $query
      *
      * @return BaseEntity
      */

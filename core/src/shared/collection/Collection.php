@@ -15,11 +15,9 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
     // @see https://laravel.com/docs/5.8/collections
 
     /** @var array|iterable */
-    private $container = [];
+    private $container;
 
     /**
-     * Collection constructor.
-     *
      * @param iterable $items
      */
     public function __construct(iterable $items)
@@ -32,7 +30,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
      *
      * @return bool
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return isset($this->container[$offset]);
     }
@@ -44,7 +42,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
      */
     public function offsetGet($offset)
     {
-        return isset($this->container[$offset]) ? $this->container[$offset] : null;
+        return $this->container[$offset] ?? null;
     }
 
     /***
@@ -53,7 +51,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
      */
     public function offsetSet($offset, $value)
     {
-        if (is_null($offset)) {
+        if ($offset === null) {
             $this->container[] = $value;
         } else {
             $this->container[$offset] = $value;
@@ -71,7 +69,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
     /**
      * @return int
      */
-    public function count()
+    public function count(): int
     {
         return count($this->container);
     }

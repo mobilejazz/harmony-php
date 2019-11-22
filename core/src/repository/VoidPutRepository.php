@@ -31,15 +31,14 @@ class VoidPutRepository
      * @param Operation         $operation
      * @param GenericCollection $collection
      *
-     * @return void
+     * @return GenericCollection
      * @throws MethodNotImplementedException
-     *
      */
     public function putAll(
         Query $query,
         Operation $operation,
         GenericCollection $collection
-    ) {
+    ): GenericCollection {
         throw new MethodNotImplementedException();
     }
 }

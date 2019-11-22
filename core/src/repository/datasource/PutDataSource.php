@@ -23,7 +23,7 @@ interface PutDataSource
      * @param Query             $query
      * @param GenericCollection $baseModels
      *
-     * @return mixed
+     * @return GenericCollection
      */
-    public function putAll(Query $query, GenericCollection $baseModels);
+    public function putAll(Query $query, GenericCollection $baseModels): GenericCollection;
 }
