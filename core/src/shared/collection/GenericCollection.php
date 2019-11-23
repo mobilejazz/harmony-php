@@ -2,10 +2,12 @@
 
 namespace harmony\core\shared\collection;
 
-use harmony\core\shared\error\InvalidArgumentException;
+use harmony\core\shared\generics\GenericsHelper;
 
 class GenericCollection extends Collection
 {
+    use GenericsHelper;
+
     /** @var string */
     protected $generic_name_class;
 
@@ -27,18 +29,16 @@ class GenericCollection extends Collection
     protected function validateArrayOfGenericArguments(iterable $array): void
     {
         foreach ($array AS $object) {
-            $this->validateGenericArgument($object);
+            $this->validateGenericArgumentOrFail($object);
         }
     }
 
     /**
      * @param $object
      */
-    protected function validateGenericArgument($object): void
+    protected function validateGenericArgumentOrFail($object): void
     {
-        if (!$object instanceof $this->generic_name_class) {
-            throw new InvalidArgumentException($this->generic_name_class, get_class($object));
-        }
+        $this->isReceivedObjectLikeExpectedOrFail($object, $this->generic_name_class);
     }
 
     /**
@@ -63,7 +63,7 @@ class GenericCollection extends Collection
      */
     public function offsetSet($index, $newval): void
     {
-        $this->validateGenericArgument($newval);
+        $this->validateGenericArgumentOrFail($newval);
 
         parent::offsetSet($index, $newval);
     }

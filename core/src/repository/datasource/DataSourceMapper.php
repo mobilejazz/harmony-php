@@ -69,10 +69,10 @@ class DataSourceMapper implements GetDataSource, PutDataSource, DeleteDataSource
      */
     public function get(Query $query): BaseEntity
     {
-        $eloquent = $this->getDataSource->get($query);
-        $entity = $this->toOutMapper->map($eloquent);
+        $from = $this->getDataSource->get($query);
+        $to = $this->toOutMapper->map($from);
 
-        return $entity;
+        return $to;
     }
 
     /**
@@ -82,14 +82,14 @@ class DataSourceMapper implements GetDataSource, PutDataSource, DeleteDataSource
      */
     public function getAll(Query $query): GenericCollection
     {
-        $eloquents = $this->getDataSource->getAll($query);
-        $entities = [];
+        $froms = $this->getDataSource->getAll($query);
+        $tos = [];
 
-        foreach ($eloquents AS $eloquent) {
-            $entities[] = $this->toOutMapper->map($eloquent);
+        foreach ($froms AS $from) {
+            $tos[] = $this->toOutMapper->map($from);
         }
 
-        return $entities;
+        return $tos;
     }
 
     /**
@@ -100,10 +100,10 @@ class DataSourceMapper implements GetDataSource, PutDataSource, DeleteDataSource
      */
     public function put(Query $query, BaseEntity $baseEntity): BaseEntity
     {
-        $eloquentToPut = $this->toInMapper->map($baseEntity);
-        $eloquentResult = $this->putDataSource->put($query, $eloquentToPut);
+        $toPut = $this->toInMapper->map($baseEntity);
+        $result = $this->putDataSource->put($query, $toPut);
 
-        return $this->toOutMapper->map($eloquentResult);
+        return $this->toOutMapper->map($result);
     }
 
     /**

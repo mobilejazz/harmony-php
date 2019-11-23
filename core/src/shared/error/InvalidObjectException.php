@@ -2,28 +2,28 @@
 
 namespace harmony\core\shared\error;
 
-use InvalidArgumentException as PHPInvalidArgumentException;
+use InvalidArgumentException;
 use Throwable;
 
-class InvalidArgumentException extends PHPInvalidArgumentException
+class InvalidObjectException extends InvalidArgumentException
 {
     /**
      * @param string         $expected
-     * @param string         $getted
+     * @param string         $received
      * @param string         $message
      * @param int            $code
      * @param Throwable|null $previous
      */
     public function __construct(
         string $expected,
-        string $getted,
+        string $received,
         $message = '',
         $code = 0,
         Throwable $previous = null
     ) {
         if (empty($message)) {
             $message = "Error: Expected object instanceof '" . $expected . "'"
-                . ", getted '" . $getted . "'.";
+                . ", received '" . $received . "'.";
         }
 
         parent::__construct($message, $code, $previous);

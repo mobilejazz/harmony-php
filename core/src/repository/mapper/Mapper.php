@@ -5,9 +5,9 @@ namespace harmony\core\repository\mapper;
 interface Mapper
 {
     /**
-     * @param $input
+     * @param object $from
      *
      * @return mixed
      */
-    public function map($input);
+    public function map(object $from);
 }
