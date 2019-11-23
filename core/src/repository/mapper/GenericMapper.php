@@ -20,6 +20,22 @@ abstract class GenericMapper implements Mapper
     }
 
     /**
+     * @return string
+     */
+    public function getTypeFrom()
+    {
+        return $this->from;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTypeTo()
+    {
+        return $this->to;
+    }
+
+    /**
      * @param object $from
      *
      * @return mixed

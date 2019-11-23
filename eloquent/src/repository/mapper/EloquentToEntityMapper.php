@@ -2,9 +2,11 @@
 
 namespace harmony\eloquent\repository\mapper;
 
+use App\Models\SettingEloquent;
 use harmony\core\repository\BaseEntity;
 use harmony\core\repository\mapper\GenericMapper;
 use harmony\eloquent\repository\EloquentEntity;
+use ReflectionClass;
 
 class EloquentToEntityMapper extends GenericMapper
 {
@@ -16,13 +18,18 @@ class EloquentToEntityMapper extends GenericMapper
         $this->isReceivedClassLikeExpectedOrFail($to_class, BaseEntity::class);
     }
 
-    /**
-     * @param $from
-     *
-     * @return BaseEntity
-     */
+
     protected function overrideMap($from): BaseEntity
     {
+        /** @var SettingEloquent $from */
+        $cast = $from->getAttributes();
+
+        $reflection = new ReflectionClass($this->getTypeTo());
+        $constructor = $reflection->getConstructor();
+        $parameters = $constructor->getParameters();
+
+        // dd("map eloquent to entity", $from);
+        dd($parameters, $cast);
         // TODO: Implement overrideMap() method.
     }
 }

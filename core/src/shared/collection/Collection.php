@@ -2,14 +2,10 @@
 
 namespace harmony\core\shared\collection;
 
-use ArrayAccess;
-use ArrayIterator;
 use Countable;
-use IteratorAggregate;
-use JsonSerializable;
-use Traversable;
+use Iterator;
 
-class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSerializable
+class Collection implements Iterator, Countable
 {
     // TODO: new functions like: "add", "get"...
     // @see https://laravel.com/docs/5.8/collections
@@ -17,53 +13,16 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
     /** @var array|iterable */
     private $container;
 
+    /** @var int */
+    private $position;
+
     /**
      * @param iterable $items
      */
     public function __construct(iterable $items)
     {
         $this->container = $items;
-    }
-
-    /**
-     * @param mixed $offset
-     *
-     * @return bool
-     */
-    public function offsetExists($offset): bool
-    {
-        return isset($this->container[$offset]);
-    }
-
-    /**
-     * @param mixed $offset
-     *
-     * @return mixed|null
-     */
-    public function offsetGet($offset)
-    {
-        return $this->container[$offset] ?? null;
-    }
-
-    /***
-     * @param mixed $offset
-     * @param mixed $value
-     */
-    public function offsetSet($offset, $value)
-    {
-        if ($offset === null) {
-            $this->container[] = $value;
-        } else {
-            $this->container[$offset] = $value;
-        }
-    }
-
-    /**
-     * @param mixed $offset
-     */
-    public function offsetUnset($offset)
-    {
-        unset($this->container[$offset]);
+        $this->position = 0;
     }
 
     /**
@@ -74,19 +33,28 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
         return count($this->container);
     }
 
-    /**
-     * @return ArrayIterator|Traversable
-     */
-    public function getIterator()
+    public function rewind()
     {
-        return new ArrayIterator($this->container);
+        $this->position = 0;
     }
 
-    /**
-     * @return array|iterable|mixed
-     */
-    public function jsonSerialize()
+    public function current()
     {
-        return $this->container;
+        return $this->container[$this->position];
+    }
+
+    public function key()
+    {
+        return $this->position;
+    }
+
+    public function next()
+    {
+        ++$this->position;
+    }
+
+    public function valid()
+    {
+        return isset($this->container[$this->position]);
     }
 }

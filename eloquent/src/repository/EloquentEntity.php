@@ -2,7 +2,9 @@
 
 namespace harmony\eloquent\repository;
 
-interface EloquentEntity
+use harmony\core\repository\BaseEntity;
+
+interface EloquentEntity extends BaseEntity
 {
 
 }
