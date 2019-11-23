@@ -4,8 +4,9 @@ namespace harmony\core\shared\collection;
 
 use Countable;
 use Iterator;
+use JsonSerializable;
 
-class Collection implements Iterator, Countable
+class Collection implements Iterator, Countable, JsonSerializable
 {
     // TODO: new functions like: "add", "get"...
     // @see https://laravel.com/docs/5.8/collections
@@ -56,5 +57,13 @@ class Collection implements Iterator, Countable
     public function valid()
     {
         return isset($this->container[$this->position]);
+    }
+
+    /**
+     * @return array|iterable|mixed
+     */
+    public function jsonSerialize()
+    {
+        return $this->container;
     }
 }

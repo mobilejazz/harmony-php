@@ -89,12 +89,12 @@ class DataSourceMapper implements GetDataSource, PutDataSource, DeleteDataSource
             $tos[] = $this->toOutMapper->map($from);
         }
 
-        dd('after datasourcemapper');
-
-        return new GenericCollection(
+        $result = new GenericCollection(
             $this->toOutMapper->getTypeTo(),
             $tos
         );
+
+        return $result;
     }
 
     /**
