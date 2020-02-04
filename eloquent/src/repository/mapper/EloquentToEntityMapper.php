@@ -4,6 +4,7 @@ namespace harmony\eloquent\repository\mapper;
 
 use App\Models\SettingEloquent;
 use harmony\core\repository\BaseEntity;
+use harmony\core\repository\error\MapException;
 use harmony\core\repository\mapper\GenericMapper;
 use harmony\eloquent\repository\EloquentEntity;
 use ReflectionClass;
@@ -24,12 +25,24 @@ class EloquentToEntityMapper extends GenericMapper
         /** @var SettingEloquent $from */
         $cast = $from->getAttributes();
 
-        $reflection = new ReflectionClass($this->getTypeTo());
+        $class = $this->getTypeTo();
+        $reflection = new ReflectionClass($class);
         $constructor = $reflection->getConstructor();
         $parameters = $constructor->getParameters();
 
-        // dd("map eloquent to entity", $from);
-        dd($parameters, $cast);
-        // TODO: Implement overrideMap() method.
+        $ordered_parameters = [];
+
+        foreach($parameters AS $key => $parameter){
+            if(!isset($cast[$parameter->name])) {
+                throw new MapException('No value for constructor parameter "' . $parameter->name
+                . '" at Class "' . $class . '"');
+            }
+
+            $ordered_parameters[] = $cast[$parameter->name];
+        }
+
+        $to = new $class(...$ordered_parameters);
+
+        return $to;
     }
 }
