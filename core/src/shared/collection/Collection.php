@@ -12,7 +12,7 @@ class Collection implements Iterator, Countable, JsonSerializable
     // @see https://laravel.com/docs/5.8/collections
 
     /** @var array|iterable */
-    private $container;
+    protected $container;
 
     /** @var int */
     private $position;

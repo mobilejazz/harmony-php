@@ -119,6 +119,13 @@ class DataSourceMapper implements GetDataSource, PutDataSource, DeleteDataSource
      */
     public function putAll(Query $query, GenericCollection $baseEntities): GenericCollection
     {
-        return $this->putDataSource->putAll($query, $baseEntities);
+        $toPuts = new GenericCollection($this->toInMapper->getTypeTo());
+
+        foreach ($baseEntities AS $from) {
+            $toPuts->add($this->toInMapper->map($from));
+        }
+
+        $result = $this->putDataSource->putAll($query, $toPuts);
+        return $result;
     }
 }

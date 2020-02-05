@@ -3,6 +3,7 @@
 namespace harmony\eloquent\repository\mapper;
 
 use harmony\core\repository\BaseEntity;
+use harmony\core\repository\error\MapException;
 use harmony\core\repository\mapper\GenericMapper;
 use harmony\eloquent\repository\EloquentEntity;
 
@@ -17,13 +18,38 @@ class EntityToEloquentMapper extends GenericMapper
     }
 
     /**
-     * @param object $from
+     * @param $from
      *
      * @return EloquentEntity
+     * @throws MapException
      */
     protected function overrideMap($from): EloquentEntity
     {
-        dd('entity to eloquent');
-        // TODO: Implement overrideMap() method.
+        /** @var BaseEntity $from */
+        $class = $this->getTypeTo();
+
+        /** @var EloquentEntity $to */
+        if (method_exists($from, 'getId')) {
+            $to = $class::firstOrNew(['id' => $from->getId()]);
+        } else {
+            $to = new $class();
+        }
+
+        $attributes = $to->getFillable();
+
+        foreach ($attributes AS $attribute) {
+            $get_method = "get" . ucfirst($attribute);
+
+            if (!method_exists($from, $get_method)) {
+                throw new MapException(
+                    'No value for constructor parameter "' . $attribute
+                    . '" at Class "' . $class . '"'
+                );
+            }
+
+            $to->$attribute = $from->$get_method();
+        }
+
+        return $to;
     }
 }

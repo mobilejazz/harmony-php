@@ -24,6 +24,15 @@ class GenericCollection extends Collection
     }
 
     /**
+     * @param $item
+     */
+    public function add($item): void
+    {
+        $this->validateGenericArgumentOrFail($item);
+        $this->container[] = $item;
+    }
+
+    /**
      * @param iterable $array
      */
     protected function validateArrayOfGenericArguments(iterable $array): void
