@@ -10,11 +10,10 @@ class VoidDeleteDataSource implements DeleteDataSource
     /**
      * @param Query $query
      *
-     * @return void
+     * @return bool
      * @throws MethodNotImplementedException
-     *
      */
-    public function delete(Query $query)
+    public function delete(Query $query): bool
     {
         throw new MethodNotImplementedException();
     }
@@ -22,11 +21,10 @@ class VoidDeleteDataSource implements DeleteDataSource
     /**
      * @param Query $query
      *
-     * @return void
+     * @return bool
      * @throws MethodNotImplementedException
-     *
      */
-    public function deleteAll(Query $query)
+    public function deleteAll(Query $query): bool
     {
         throw new MethodNotImplementedException();
     }
