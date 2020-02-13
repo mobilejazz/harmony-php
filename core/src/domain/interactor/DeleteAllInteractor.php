@@ -23,12 +23,12 @@ class DeleteAllInteractor
      * @param Query     $query
      * @param Operation $operation
      *
-     * @return bool
+     * @return void
      */
     public function execute(
         Query $query,
         Operation $operation
-    ): bool {
-        return $this->deleteRepository->deleteAll($query, $operation);
+    ): void {
+        $this->deleteRepository->deleteAll($query, $operation);
     }
 }
