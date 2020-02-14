@@ -87,6 +87,6 @@ class SingleDataSourceRepository implements GetRepository, PutRepository, Delete
      */
     public function delete(Query $query, Operation $operation): void
     {
-        return $this->deleteDataSource->delete($query);
+        $this->deleteDataSource->delete($query);
     }
 }
