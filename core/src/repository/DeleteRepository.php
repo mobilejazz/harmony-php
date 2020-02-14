@@ -11,15 +11,7 @@ interface DeleteRepository
      * @param Query     $query     query
      * @param Operation $operation operation
      *
-     * @return bool
+     * @return void
      */
-    public function delete(Query $query, Operation $operation): bool;
-
-    /**
-     * @param Query     $query     query
-     * @param Operation $operation operation
-     *
-     * @return bool
-     */
-    public function deleteAll(Query $query, Operation $operation): bool;
+    public function delete(Query $query, Operation $operation): void;
 }

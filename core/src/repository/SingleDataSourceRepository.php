@@ -9,8 +9,7 @@ use harmony\core\repository\operation\Operation;
 use harmony\core\repository\query\Query;
 use harmony\core\shared\collection\GenericCollection;
 
-class SingleDataSourceRepository
-    implements GetRepository, PutRepository, DeleteRepository
+class SingleDataSourceRepository implements GetRepository, PutRepository, DeleteRepository
 {
     /** @var GetDataSource */
     private $getDataSource;
@@ -32,28 +31,6 @@ class SingleDataSourceRepository
         $this->getDataSource = $getDataSource;
         $this->putDataSource = $putDataSource;
         $this->deleteDataSource = $deleteDataSource;
-    }
-
-    /**
-     * @param Query     $query
-     * @param Operation $operation
-     *
-     * @return bool
-     */
-    public function delete(Query $query, Operation $operation): bool
-    {
-        return $this->deleteDataSource->delete($query);
-    }
-
-    /**
-     * @param Query     $query
-     * @param Operation $operation
-     *
-     * @return bool
-     */
-    public function deleteAll(Query $query, Operation $operation): bool
-    {
-        return $this->deleteDataSource->deleteAll($query);
     }
 
     /**
@@ -100,5 +77,16 @@ class SingleDataSourceRepository
     public function putAll(Query $query, Operation $operation, GenericCollection $baseModels): GenericCollection
     {
         return $this->putDataSource->putAll($query, $baseModels);
+    }
+
+    /**
+     * @param Query     $query
+     * @param Operation $operation
+     *
+     * @return void
+     */
+    public function delete(Query $query, Operation $operation): void
+    {
+        return $this->deleteDataSource->delete($query);
     }
 }

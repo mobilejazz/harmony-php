@@ -45,26 +45,6 @@ class DataSourceMapper implements GetDataSource, PutDataSource, DeleteDataSource
     /**
      * @param Query $query
      *
-     * @return bool
-     */
-    public function delete(Query $query): bool
-    {
-        return $this->deleteDataSource->delete($query);
-    }
-
-    /**
-     * @param Query $query
-     *
-     * @return bool
-     */
-    public function deleteAll(Query $query): bool
-    {
-        return $this->deleteDataSource->deleteAll($query);
-    }
-
-    /**
-     * @param Query $query
-     *
      * @return BaseEntity
      */
     public function get(Query $query): BaseEntity
@@ -127,5 +107,15 @@ class DataSourceMapper implements GetDataSource, PutDataSource, DeleteDataSource
 
         $result = $this->putDataSource->putAll($query, $toPuts);
         return $result;
+    }
+
+    /**
+     * @param Query $query
+     *
+     * @return void
+     */
+    public function delete(Query $query): void
+    {
+        $this->deleteDataSource->delete($query);
     }
 }

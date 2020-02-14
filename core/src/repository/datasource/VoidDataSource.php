@@ -12,28 +12,6 @@ class VoidDataSource implements GetDataSource, PutDataSource, DeleteDataSource
     /**
      * @param Query $query
      *
-     * @return bool
-     * @throws MethodNotImplementedException
-     */
-    public function delete(Query $query): bool
-    {
-        throw new MethodNotImplementedException();
-    }
-
-    /**
-     * @param Query $query
-     *
-     * @return bool
-     * @throws MethodNotImplementedException
-     */
-    public function deleteAll(Query $query): bool
-    {
-        throw new MethodNotImplementedException();
-    }
-
-    /**
-     * @param Query $query
-     *
      * @return BaseEntity
      * @throws MethodNotImplementedException
      */
@@ -73,6 +51,17 @@ class VoidDataSource implements GetDataSource, PutDataSource, DeleteDataSource
      * @throws MethodNotImplementedException
      */
     public function putAll(Query $query, GenericCollection $baseModels): GenericCollection
+    {
+        throw new MethodNotImplementedException();
+    }
+
+    /**
+     * @param Query $query
+     *
+     * @return void
+     * @throws MethodNotImplementedException
+     */
+    public function delete(Query $query): void
     {
         throw new MethodNotImplementedException();
     }

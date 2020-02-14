@@ -7,8 +7,7 @@ use harmony\core\repository\query\Query;
 use harmony\core\shared\collection\GenericCollection;
 use harmony\core\shared\error\MethodNotImplementedException;
 
-class VoidPutRepository
-    implements PutRepository
+class VoidPutRepository implements PutRepository
 {
     /**
      * @param Query      $query

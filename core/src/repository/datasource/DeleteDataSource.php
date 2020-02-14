@@ -9,14 +9,7 @@ interface DeleteDataSource
     /**
      * @param Query $query
      *
-     * @return bool
+     * @return void
      */
-    public function delete(Query $query): bool;
-
-    /**
-     * @param Query $query
-     *
-     * @return bool
-     */
-    public function deleteAll(Query $query): bool;
+    public function delete(Query $query): void;
 }

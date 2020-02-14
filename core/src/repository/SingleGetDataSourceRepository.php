@@ -7,8 +7,7 @@ use harmony\core\repository\operation\Operation;
 use harmony\core\repository\query\Query;
 use harmony\core\shared\collection\GenericCollection;
 
-class SingleGetDataSourceRepository
-    implements GetRepository
+class SingleGetDataSourceRepository implements GetRepository
 {
     /** @var GetDataSource */
     private $getDataSource;

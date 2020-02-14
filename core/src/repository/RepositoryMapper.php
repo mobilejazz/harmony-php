@@ -7,8 +7,7 @@ use harmony\core\repository\operation\Operation;
 use harmony\core\repository\query\Query;
 use harmony\core\shared\collection\GenericCollection;
 
-class RepositoryMapper implements
-    GetRepository, PutRepository, DeleteRepository
+class RepositoryMapper implements GetRepository, PutRepository, DeleteRepository
 {
     /** @var GetRepository */
     private $getRepository;
@@ -33,28 +32,6 @@ class RepositoryMapper implements
         $this->deleteRepository = $deleteRepository;
         $this->toBaseEntityMapper = $toBaseEntityMapper;
         $this->toEntityBaseMapper = $toEntityBaseMapper;
-    }
-
-    /**
-     * @param Query     $query     query
-     * @param Operation $operation operation
-     *
-     * @return void
-     */
-    public function delete(Query $query, Operation $operation)
-    {
-        $this->deleteRepository->delete($query, $operation);
-    }
-
-    /**
-     * @param Query     $query     query
-     * @param Operation $operation operation
-     *
-     * @return void
-     */
-    public function deleteAll(Query $query, Operation $operation)
-    {
-        $this->deleteRepository->deleteAll($query, $operation);
     }
 
     /**
@@ -89,6 +66,23 @@ class RepositoryMapper implements
     }
 
     /**
+     * @param Query      $query     query
+     * @param Operation  $operation operation
+     * @param BaseEntity $entity    model
+     *
+     * @return BaseEntity
+     */
+    public function put(
+        Query $query,
+        Operation $operation,
+        BaseEntity $entity
+    ): BaseEntity {
+        $baseEntity = $this->toBaseEntityMapper->map($entity);
+        $response = $this->putRepository->put($query, $operation, $baseEntity);
+        return $this->toBaseEntityMapper->map($response);
+    }
+
+    /**
      * @param Query             $query
      * @param Operation         $operation
      * @param GenericCollection $baseModels
@@ -104,19 +98,13 @@ class RepositoryMapper implements
     }
 
     /**
-     * @param Query      $query     query
-     * @param Operation  $operation operation
-     * @param BaseEntity $entity    model
+     * @param Query     $query     query
+     * @param Operation $operation operation
      *
-     * @return BaseEntity
+     * @return void
      */
-    public function put(
-        Query $query,
-        Operation $operation,
-        BaseEntity $entity
-    ): BaseEntity {
-        $baseEntity = $this->toBaseEntityMapper->map($entity);
-        $response = $this->putRepository->put($query, $operation, $baseEntity);
-        return $this->toBaseEntityMapper->map($response);
+    public function delete(Query $query, Operation $operation): void
+    {
+        $this->deleteRepository->delete($query, $operation);
     }
 }

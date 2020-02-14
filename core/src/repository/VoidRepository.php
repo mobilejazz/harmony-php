@@ -7,33 +7,8 @@ use harmony\core\repository\query\Query;
 use harmony\core\shared\collection\GenericCollection;
 use harmony\core\shared\error\MethodNotImplementedException;
 
-class VoidRepository
-    implements GetRepository, PutRepository, DeleteRepository
+class VoidRepository implements GetRepository, PutRepository, DeleteRepository
 {
-    /**
-     * @param Query     $query
-     * @param Operation $operation
-     *
-     * @return bool
-     * @throws MethodNotImplementedException
-     */
-    public function delete(Query $query, Operation $operation): bool
-    {
-        throw new MethodNotImplementedException();
-    }
-
-    /**
-     * @param Query     $query
-     * @param Operation $operation
-     *
-     * @return bool
-     * @throws MethodNotImplementedException
-     */
-    public function deleteAll(Query $query, Operation $operation): bool
-    {
-        throw new MethodNotImplementedException();
-    }
-
     /**
      * @param Query     $query
      * @param Operation $operation
@@ -91,6 +66,18 @@ class VoidRepository
         Operation $operation,
         GenericCollection $collection
     ): GenericCollection {
+        throw new MethodNotImplementedException();
+    }
+
+    /**
+     * @param Query     $query
+     * @param Operation $operation
+     *
+     * @return void
+     * @throws MethodNotImplementedException
+     */
+    public function delete(Query $query, Operation $operation): void
+    {
         throw new MethodNotImplementedException();
     }
 }
