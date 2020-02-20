@@ -2,7 +2,7 @@
 
 namespace harmony\core\repository;
 
-use harmony\core\repository\mapper\Mapper;
+use harmony\core\repository\mapper\GenericMapper;
 use harmony\core\repository\operation\Operation;
 use harmony\core\repository\query\Query;
 use harmony\core\shared\collection\GenericCollection;
@@ -15,35 +15,40 @@ class RepositoryMapper implements GetRepository, PutRepository, DeleteRepository
     private $putRepository;
     /** @var DeleteRepository */
     private $deleteRepository;
-    /** @var Mapper */
-    private $toBaseEntityMapper;
-    /**  @var Mapper */
-    private $toEntityBaseMapper;
+
+    /** @var GenericMapper */
+    protected $toInMapper;
+    /** @var GenericMapper */
+    protected $toOutMapper;
 
     public function __construct(
         GetRepository $getRepository,
         PutRepository $putRepository,
         DeleteRepository $deleteRepository,
-        Mapper $toBaseEntityMapper,
-        Mapper $toEntityBaseMapper
+        GenericMapper $toInMapper,
+        GenericMapper $toOutMapper
     ) {
         $this->getRepository = $getRepository;
         $this->putRepository = $putRepository;
         $this->deleteRepository = $deleteRepository;
-        $this->toBaseEntityMapper = $toBaseEntityMapper;
-        $this->toEntityBaseMapper = $toEntityBaseMapper;
+        $this->toInMapper = $toInMapper;
+        $this->toOutMapper = $toOutMapper;
     }
 
     /**
-     * @param Query     $query     query
-     * @param Operation $operation operation
+     * @param Query     $query
+     * @param Operation $operation
      *
      * @return BaseEntity
      */
-    public function get(Query $query, Operation $operation): BaseEntity
-    {
-        $entity = $this->getRepository->get($query, $operation);
-        return $this->toBaseEntityMapper->map($entity);
+    public function get(
+        Query $query,
+        Operation $operation
+    ): BaseEntity {
+        $from = $this->getRepository->get($query, $operation);
+        $to = $this->toOutMapper->map($from);
+
+        return $to;
     }
 
     /**
@@ -52,59 +57,73 @@ class RepositoryMapper implements GetRepository, PutRepository, DeleteRepository
      *
      * @return GenericCollection
      */
-    public function getAll(Query $query, Operation $operation): GenericCollection
-    {
-        $response = $this->getRepository->getAll($query, $operation);
-        $models = [];
+    public function getAll(
+        Query $query,
+        Operation $operation
+    ): GenericCollection {
+        $froms = $this->getRepository->getAll($query, $operation);
+        $tos = [];
 
-        /** @var BaseEntity $entity */
-        foreach ($response as $entity) {
-            $models[] = $this->toBaseEntityMapper->map($entity);
+        foreach ($froms AS $from) {
+            $tos[] = $this->toOutMapper->map($from);
         }
 
-        return new GenericCollection(User::class, $models);
+        $result = new GenericCollection(
+            $this->toOutMapper->getTypeTo(),
+            $tos
+        );
+
+        return $result;
     }
 
     /**
-     * @param Query      $query     query
-     * @param Operation  $operation operation
-     * @param BaseEntity $entity    model
+     * @param Query      $query
+     * @param Operation  $operation
+     * @param BaseEntity $baseEntity
      *
      * @return BaseEntity
      */
     public function put(
         Query $query,
         Operation $operation,
-        BaseEntity $entity
+        BaseEntity $baseEntity
     ): BaseEntity {
-        $baseEntity = $this->toBaseEntityMapper->map($entity);
-        $response = $this->putRepository->put($query, $operation, $baseEntity);
-        return $this->toBaseEntityMapper->map($response);
+        $toPut = $this->toInMapper->map($baseEntity);
+        $result = $this->putRepository->put($query, $operation, $toPut);
+
+        return $this->toOutMapper->map($result);
     }
 
     /**
      * @param Query             $query
      * @param Operation         $operation
-     * @param GenericCollection $baseModels
+     * @param GenericCollection $baseEntities
      *
      * @return GenericCollection
      */
-    public function putAll(Query $query, Operation $operation, GenericCollection $baseModels): GenericCollection
-    {
-        /** @var BaseEntity $baseModel */
-        foreach ($baseModels as $baseModel) {
-            $this->put($query, $operation, $baseModel);
+    public function putAll(
+        Query $query,
+        Operation $operation,
+        GenericCollection $baseEntities
+    ): GenericCollection {
+        $toPuts = new GenericCollection($this->toInMapper->getTypeTo());
+
+        foreach ($baseEntities AS $from) {
+            $toPuts->add($this->toInMapper->map($from));
         }
+
+        $result = $this->putRepository->putAll($query, $operation, $toPuts);
+        return $result;
     }
 
     /**
-     * @param Query     $query     query
-     * @param Operation $operation operation
-     *
-     * @return void
+     * @param Query     $query
+     * @param Operation $operation
      */
-    public function delete(Query $query, Operation $operation): void
-    {
+    public function delete(
+        Query $query,
+        Operation $operation
+    ): void {
         $this->deleteRepository->delete($query, $operation);
     }
 }
