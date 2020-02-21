@@ -2,17 +2,12 @@
 
 namespace harmony\core\repository\mapper;
 
-/**
- * Interface Mapper
- */
 interface Mapper
 {
     /**
-     * Map
-     *
-     * @param mixed $input input to be mapped
+     * @param object $from
      *
      * @return mixed
      */
-    public function map($input);
+    public function map(object $from);
 }

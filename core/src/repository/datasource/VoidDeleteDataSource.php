@@ -2,29 +2,18 @@
 
 namespace harmony\core\repository\datasource;
 
-use harmony\core\error\MethodNotImplementedException;
 use harmony\core\repository\query\Query;
+use harmony\core\shared\error\MethodNotImplementedException;
 
 class VoidDeleteDataSource implements DeleteDataSource
 {
     /**
      * @param Query $query
-     * @throws MethodNotImplementedException
      *
      * @return void
-     */
-    public function delete(Query $query)
-    {
-        throw new MethodNotImplementedException();
-    }
-
-    /**
-     * @param Query $query
      * @throws MethodNotImplementedException
-     *
-     * @return void
      */
-    public function deleteAll(Query $query)
+    public function delete(Query $query): void
     {
         throw new MethodNotImplementedException();
     }

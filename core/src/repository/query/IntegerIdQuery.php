@@ -2,23 +2,22 @@
 
 namespace harmony\core\repository\query;
 
-class IntegerIdQuery extends Query
+class IntegerIdQuery extends KeyQuery
 {
-    /** @var integer */
+    /** @var int */
     private $id;
 
     /**
-     * IntegerIdQuery constructor.
-     *
-     * @param integer $id id
+     * @param int $id
      */
     public function __construct(int $id)
     {
+        parent::__construct((string)$id);
         $this->id = $id;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getId(): int
     {

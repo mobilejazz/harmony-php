@@ -2,16 +2,16 @@
 
 namespace harmony\core\shared\collection;
 
-use harmony\core\shared\error\InvalidArgumentException;
+use harmony\core\shared\generics\GenericsHelper;
 
 class GenericCollection extends Collection
 {
+    use GenericsHelper;
+
     /** @var string */
     protected $generic_name_class;
 
     /**
-     * GenericCollection constructor.
-     *
      * @param string   $generic_name_class
      * @param iterable $input
      */
@@ -24,20 +24,55 @@ class GenericCollection extends Collection
     }
 
     /**
+     * @param $item
+     */
+    public function add($item): void
+    {
+        $this->validateGenericArgumentOrFail($item);
+        $this->container[] = $item;
+    }
+
+    /**
+     * @param iterable $array
+     */
+    protected function validateArrayOfGenericArguments(iterable $array): void
+    {
+        foreach ($array AS $object) {
+            $this->validateGenericArgumentOrFail($object);
+        }
+    }
+
+    /**
+     * @param $object
+     */
+    protected function validateGenericArgumentOrFail($object): void
+    {
+        $this->isReceivedObjectLikeExpectedOrFail($object, $this->generic_name_class);
+    }
+
+    /**
      * @return string
      */
-    public function getGenericNameClass()
+    public function getGenericNameClass(): string
     {
         return $this->generic_name_class;
+    }
+
+    /**
+     * @return array
+     */
+    public function getArray(): array
+    {
+        return $this->getIterator()->getArrayCopy();
     }
 
     /**
      * @param mixed $index
      * @param mixed $newval
      */
-    public function offsetSet($index, $newval)
+    public function offsetSet($index, $newval): void
     {
-        $this->validateGenericArgument($newval);
+        $this->validateGenericArgumentOrFail($newval);
 
         parent::offsetSet($index, $newval);
     }
@@ -45,30 +80,10 @@ class GenericCollection extends Collection
     /**
      * @param string $serialized
      */
-    public function unserialize($serialized)
+    public function unserialize($serialized): void
     {
         parent::unserialize($serialized);
 
         $this->validateArrayOfGenericArguments($this->getIterator());
-    }
-
-    /**
-     * @param iterable $array
-     */
-    protected function validateArrayOfGenericArguments(iterable $array)
-    {
-        foreach ($array AS $object) {
-            $this->validateGenericArgument($object);
-        }
-    }
-
-    /**
-     * @param $object
-     */
-    protected function validateGenericArgument($object)
-    {
-        if (!$object instanceof $this->generic_name_class) {
-            throw new InvalidArgumentException($this->generic_name_class, get_class($object));
-        }
     }
 }

@@ -7,15 +7,12 @@ use harmony\core\repository\operation\Operation;
 use harmony\core\repository\query\Query;
 use harmony\core\shared\collection\GenericCollection;
 
-class SingleGetDataSourceRepository
-    implements GetRepository
+class SingleGetDataSourceRepository implements GetRepository
 {
     /** @var GetDataSource */
     private $getDataSource;
 
     /**
-     * SingleDataSourceRepository constructor.
-     *
      * @param GetDataSource $getDataSource data source
      */
     public function __construct(
@@ -28,9 +25,9 @@ class SingleGetDataSourceRepository
      * @param Query     $query
      * @param Operation $operation
      *
-     * @return BaseHarmony
+     * @return BaseEntity
      */
-    public function get(Query $query, Operation $operation): BaseHarmony
+    public function get(Query $query, Operation $operation): BaseEntity
     {
         return $this->getDataSource->get($query);
     }

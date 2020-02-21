@@ -10,7 +10,6 @@ class PaginationOffsetLimitQuery extends Query
     private $limit;
 
     /**
-     * PaginationOffsetLimitQuery constructor.
      * @param int $offset
      * @param int $limit
      */
@@ -23,7 +22,7 @@ class PaginationOffsetLimitQuery extends Query
     /**
      * @return int
      */
-    public function getOffset() : int
+    public function getOffset(): int
     {
         return $this->offset;
     }
@@ -31,7 +30,7 @@ class PaginationOffsetLimitQuery extends Query
     /**
      * @return int
      */
-    public function getLimit() : int
+    public function getLimit(): int
     {
         return $this->limit;
     }

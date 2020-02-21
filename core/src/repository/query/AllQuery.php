@@ -2,7 +2,7 @@
 
 namespace harmony\core\repository\query;
 
-class AllObjectsQuery extends Query
+class AllQuery extends Query
 {
 
 }

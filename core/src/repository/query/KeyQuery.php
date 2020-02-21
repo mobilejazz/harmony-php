@@ -8,8 +8,6 @@ class KeyQuery extends Query
     private $key;
 
     /**
-     * KeyQuery constructor.
-     *
      * @param string $key
      */
     public function __construct(string $key)
@@ -20,7 +18,7 @@ class KeyQuery extends Query
     /**
      * @return string
      */
-    public function geKey() : string
+    public function geKey(): string
     {
         return $this->key;
     }
