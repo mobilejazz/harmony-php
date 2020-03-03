@@ -1,0 +1,45 @@
+# Base stack
+version: "3.7"
+
+services:
+    nginx:
+        image: nginx:1.14-alpine
+        container_name: nginx-docker
+        restart: unless-stopped
+        volumes:
+            - ../src:/var/www/html
+            - ./nginx/local.conf:/etc/nginx/conf.d/default.conf
+            - ../data/nginx/log:/var/log/nginx
+        links:
+            - php
+        ports:
+            - "80:80"
+    php:
+        build:
+            context: .
+            dockerfile: ./phpfpm/Dockerfile
+        image: php
+        container_name: php-docker
+        restart: unless-stopped
+        volumes:
+            - ../src:/var/www/html
+        links:
+            - mysql
+        environment:
+            # The same name server like PHPSTORM
+            - PHP_IDE_CONFIG=serverName=localhost
+            # Comment to disable XDebug
+            - ENABLE_XDEBUG=true
+    mysql:
+        image: mysql:5.7
+        container_name: mysql-docker
+        restart: unless-stopped
+        environment:
+            MYSQL_ROOT_PASSWORD: WIESDFNNEOWI38w053874vKDFJ
+            MYSQL_DATABASE: testdb
+            MYSQL_USER: testuser
+            MYSQL_PASSWORD: dei947DKFJEO39jdke3
+        ports:
+            - "3306:3306"
+        volumes:
+            - ../data/mysql/lib:/var/lib/mysql
