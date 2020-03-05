@@ -23,6 +23,8 @@ services:
         restart: unless-stopped
         volumes:
             - ../src:/var/www/html
+            - ../../core:/var/core
+            - ../../eloquent:/var/eloquent
         links:
             - mysql
         environment:

@@ -1,7 +1,8 @@
 <?php
-echo "Before start break of XDebug";
 
-xdebug_break();
-var_dump($_SERVER);
+use Sample\controllers\IndexController;
 
-echo "After start break of XDebug";
+require_once __DIR__ . '/../vendor/autoload.php';
+
+$controller = new IndexController();
+echo $controller->actionIndex();
