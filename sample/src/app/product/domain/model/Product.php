@@ -2,7 +2,9 @@
 
 namespace Sample\product\domain\model;
 
-class Product
+use harmony\core\domain\Model;
+
+class Product implements Model
 {
     /** @var int */
     protected $id;

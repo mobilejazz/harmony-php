@@ -2,6 +2,7 @@
 
 namespace harmony\core\domain\interactor;
 
+use harmony\core\domain\Model;
 use harmony\core\repository\BaseEntity;
 use harmony\core\repository\operation\Operation;
 use harmony\core\repository\PutRepository;
@@ -25,7 +26,7 @@ class PutInteractor
      * @param Operation  $operation
      * @param BaseEntity $baseModel
      *
-     * @return BaseEntity
+     * @return Model
      */
     public function execute(
         Query $query,

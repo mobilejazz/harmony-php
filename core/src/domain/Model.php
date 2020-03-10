@@ -2,7 +2,9 @@
 
 namespace harmony\core\domain;
 
-interface Model
+use harmony\core\repository\BaseEntity;
+
+interface Model extends BaseEntity
 {
 
 }

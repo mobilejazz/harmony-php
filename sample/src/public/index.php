@@ -7,11 +7,11 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 $productProvider = new ProductProvider();
 $controller = new ProductController(
-    $productProvider->registerGetInteractor(),
-    $productProvider->registerGetAllInteractor(),
-    $productProvider->registerPutInteractor(),
-    $productProvider->registerPutAllInteractor(),
-    $productProvider->registerDeleteInteractor()
+    $productProvider->getGetInteractor(),
+    $productProvider->getGetAllInteractor(),
+    $productProvider->getPutInteractor(),
+    $productProvider->getPutAllInteractor(),
+    $productProvider->getDeleteInteractor()
 );
 
 echo $controller->actionIndex();
