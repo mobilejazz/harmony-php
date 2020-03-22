@@ -24,7 +24,7 @@ class ProductProvider
 {
     protected $di_container = [];
 
-    const KEY_PRODUCT_REPOSITORY = 'ProductRepository';
+    protected const KEY_PRODUCT_REPOSITORY = 'ProductRepository';
 
     /**
      * @return RepositoryMapper

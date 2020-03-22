@@ -7,6 +7,8 @@ use harmony\core\domain\interactor\GetAllInteractor;
 use harmony\core\domain\interactor\GetInteractor;
 use harmony\core\domain\interactor\PutAllInteractor;
 use harmony\core\domain\interactor\PutInteractor;
+use harmony\core\domain\Model;
+use harmony\core\repository\BaseEntity;
 use harmony\core\repository\operation\DefaultOperation;
 use harmony\core\repository\query\KeyQuery;
 use harmony\core\shared\collection\GenericCollection;
@@ -14,25 +16,15 @@ use Sample\product\domain\model\Product;
 
 class ProductController
 {
-    /**
-     * @var GetInteractor
-     */
+    /** @var GetInteractor */
     protected $getInteractor;
-    /**
-     * @var GetAllInteractor
-     */
+    /** @var GetAllInteractor */
     protected $getAllInteractor;
-    /**
-     * @var PutInteractor
-     */
+    /** @var PutInteractor */
     protected $putInteractor;
-    /**
-     * @var PutAllInteractor
-     */
+    /** @var PutAllInteractor */
     protected $putAllInteractor;
-    /**
-     * @var DeleteInteractor
-     */
+    /** @var DeleteInteractor */
     protected $deleteInteractor;
 
     public function __construct(
@@ -49,6 +41,9 @@ class ProductController
         $this->deleteInteractor = $deleteInteractor;
     }
 
+    /**
+     * @return false|string
+     */
     public function actionIndex()
     {
         $productOne = new Product(
@@ -83,14 +78,14 @@ class ProductController
 
         return $this->renderView(
             $variables,
-            'indexTemplate'
+            'index'
         );
     }
 
     /**
      * @param $product
      *
-     * @return \harmony\core\domain\Model|\harmony\core\repository\BaseEntity
+     * @return Model|BaseEntity
      */
     protected function putProductAction(Product $product)
     {
@@ -106,9 +101,9 @@ class ProductController
     /**
      * @param string $id_product
      *
-     * @return \harmony\core\repository\BaseEntity
+     * @return BaseEntity
      */
-    protected function getProductAction(string $id_product)
+    protected function getProductAction(string $id_product): BaseEntity
     {
         $query = new KeyQuery($id_product);
         $product = $this->getInteractor->execute(
@@ -177,7 +172,7 @@ class ProductController
         ob_start();
 
         extract($variables, null);
-        include __DIR__ . '/../views/' . $template . '.php';
+        include __DIR__ . '/../views/' . $template . '.template.php';
 
         $result = ob_get_clean();
 

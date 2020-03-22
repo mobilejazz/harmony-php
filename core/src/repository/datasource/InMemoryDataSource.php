@@ -14,7 +14,7 @@ class InMemoryDataSource implements GetDataSource, PutDataSource, DeleteDataSour
     /** @var string */
     protected $genericClass;
 
-    // @todo Ask about why we are using two parameters instead of one container
+    // @todo Ask about why we are using two parameters instead of only one container
     
     /** @var array */
     protected $objects = [];
