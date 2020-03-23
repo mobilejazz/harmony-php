@@ -7,18 +7,12 @@ use harmony\core\domain\interactor\GetAllInteractor;
 use harmony\core\domain\interactor\GetInteractor;
 use harmony\core\domain\interactor\PutAllInteractor;
 use harmony\core\domain\interactor\PutInteractor;
-use harmony\core\repository\datasource\DataSourceMapper;
 use harmony\core\repository\datasource\InMemoryDataSource;
-use harmony\core\repository\Repository;
 use harmony\core\repository\RepositoryMapper;
 use harmony\core\repository\SingleDataSourceRepository;
-use Sample\product\data\datasource\inMemory\mapper\ProductEntityToInMemoryMapper;
-use Sample\product\data\datasource\inMemory\mapper\ProductInMemoryToEntityMapper;
-use Sample\product\data\datasource\inMemory\model\ProductInMemory;
 use Sample\product\data\entity\ProductEntity;
-use Sample\product\data\mapper\ProductEntityToModelMapper;
-use Sample\product\data\mapper\ProductModelToEntityMapper;
-use Sample\product\domain\model\Product;
+use Sample\product\data\mapper\ProductEntityToProductMapper;
+use Sample\product\data\mapper\ProductToProductEntityMapper;
 
 class ProductProvider
 {
@@ -31,55 +25,29 @@ class ProductProvider
      */
     protected function registerRepository(): RepositoryMapper
     {
-        $productInMemoryDataSource = new InMemoryDataSource(ProductInMemory::class);
-
-        $productEntityToInMemoryMapper = new ProductEntityToInMemoryMapper(
-            ProductEntity::class,
-            ProductInMemory::class
-        );
-        $productInMemoryToEntityMapper = new ProductInMemoryToEntityMapper(
-            ProductInMemory::class,
-            ProductEntity::class
-        );
-
-        $productEntityDataSourceMapper = new DataSourceMapper(
-            $productInMemoryDataSource,
-            $productInMemoryDataSource,
-            $productInMemoryDataSource,
-            $productEntityToInMemoryMapper,
-            $productInMemoryToEntityMapper
-        );
+        $productInMemoryDataSource = new InMemoryDataSource(ProductEntity::class);
 
         $productRepository = new SingleDataSourceRepository(
-            $productEntityDataSourceMapper,
-            $productEntityDataSourceMapper,
-            $productEntityDataSourceMapper
-        );
-
-        $productModelToEntityMapper = new ProductModelToEntityMapper(
-            Product::class,
-            ProductEntity::class
-        );
-        $productEntityToModelMapper = new ProductEntityToModelMapper(
-            ProductEntity::class,
-            Product::class
+            $productInMemoryDataSource,
+            $productInMemoryDataSource,
+            $productInMemoryDataSource
         );
 
         $productRepositoryMapper = new RepositoryMapper(
             $productRepository,
             $productRepository,
             $productRepository,
-            $productModelToEntityMapper,
-            $productEntityToModelMapper
+            new ProductToProductEntityMapper(),
+            new ProductEntityToProductMapper()
         );
 
         return $productRepositoryMapper;
     }
 
     /**
-     * @return Repository
+     * @return RepositoryMapper
      */
-    public function getProductRepository(): Repository
+    public function getProductRepository(): RepositoryMapper
     {
         if (empty($this->di_container[self::KEY_PRODUCT_REPOSITORY])) {
             $this->di_container[self::KEY_PRODUCT_REPOSITORY] = $this->registerRepository();

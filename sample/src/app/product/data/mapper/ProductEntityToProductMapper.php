@@ -2,21 +2,27 @@
 
 namespace Sample\product\data\mapper;
 
-use harmony\core\domain\Model;
-use harmony\core\repository\mapper\EntityToModelMapper;
+use harmony\core\repository\mapper\GenericMapper;
 use Sample\product\data\entity\ProductEntity;
 use Sample\product\domain\model\Product;
 
-class ProductEntityToModelMapper extends EntityToModelMapper
+class ProductEntityToProductMapper extends GenericMapper
 {
-    /**
-     * @param $from
-     *
-     * @return Model
-     */
-    protected function overrideMap($from): Model
+    public function __construct()
     {
-        /** @var ProductEntity $from */
+        parent::__construct(
+            ProductEntity::class,
+            Product::class
+        );
+    }
+
+    /**
+     * @param ProductEntity $from
+     *
+     * @return Product
+     */
+    protected function overrideMap($from): Product
+    {
         $model = new Product(
             $from->getId(),
             $from->getName(),

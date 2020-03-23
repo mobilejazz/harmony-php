@@ -10,6 +10,7 @@ use harmony\core\domain\interactor\PutInteractor;
 use harmony\core\domain\Model;
 use harmony\core\repository\BaseEntity;
 use harmony\core\repository\operation\DefaultOperation;
+use harmony\core\repository\query\AllQuery;
 use harmony\core\repository\query\KeyQuery;
 use harmony\core\shared\collection\GenericCollection;
 use Sample\product\domain\model\Product;
@@ -85,9 +86,9 @@ class ProductController
     /**
      * @param $product
      *
-     * @return Model|BaseEntity
+     * @return BaseEntity
      */
-    protected function putProductAction(Product $product)
+    protected function putProductAction(Product $product): BaseEntity
     {
         $query = new KeyQuery((string)$product->getId());
 
@@ -121,14 +122,14 @@ class ProductController
      */
     protected function putAllProductsAction(GenericCollection $products): GenericCollection
     {
-        $query = new KeyQuery('myproducts');
-        $products = $this->putAllInteractor->execute(
+        $query = new AllQuery();
+        $result = $this->putAllInteractor->execute(
             $query,
             new DefaultOperation(),
             $products
         );
 
-        return $products;
+        return $result;
     }
 
     /**
@@ -136,7 +137,7 @@ class ProductController
      */
     protected function getAllProductsAction(): GenericCollection
     {
-        $query = new KeyQuery('myproducts');
+        $query = new AllQuery();
         $products = $this->getAllInteractor->execute(
             $query,
             new DefaultOperation()

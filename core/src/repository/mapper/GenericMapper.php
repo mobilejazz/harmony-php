@@ -22,7 +22,7 @@ abstract class GenericMapper implements Mapper
     /**
      * @return string
      */
-    public function getTypeFrom()
+    public function getTypeFrom(): string
     {
         return $this->from;
     }
@@ -30,17 +30,17 @@ abstract class GenericMapper implements Mapper
     /**
      * @return string
      */
-    public function getTypeTo()
+    public function getTypeTo(): string
     {
         return $this->to;
     }
 
     /**
-     * @param object $from
+     * @param $from
      *
      * @return mixed
      */
-    public function map(object $from)
+    public function map($from)
     {
         $this->isTypeFromOrFail($from);
 

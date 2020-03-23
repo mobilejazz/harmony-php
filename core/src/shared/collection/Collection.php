@@ -18,11 +18,11 @@ class Collection implements Iterator, Countable, JsonSerializable
     private $position;
 
     /**
-     * @param iterable $items
+     * @param array $items
      */
-    public function __construct(iterable $items)
+    public function __construct(array $items)
     {
-        $this->container = $items;
+        $this->container = array_values($items);
         $this->position = 0;
     }
 

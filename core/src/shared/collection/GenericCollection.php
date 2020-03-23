@@ -63,7 +63,7 @@ class GenericCollection extends Collection
      */
     public function getArray(): array
     {
-        return $this->getIterator()->getArrayCopy();
+        return $this->container;
     }
 
     /**

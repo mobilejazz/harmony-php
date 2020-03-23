@@ -5,6 +5,7 @@ namespace harmony\core\repository\datasource;
 use harmony\core\repository\BaseEntity;
 use harmony\core\repository\error\DataNotFoundException;
 use harmony\core\repository\error\QueryNotSupportedException;
+use harmony\core\repository\query\AllQuery;
 use harmony\core\repository\query\KeyQuery;
 use harmony\core\repository\query\Query;
 use harmony\core\shared\collection\GenericCollection;
@@ -14,12 +15,8 @@ class InMemoryDataSource implements GetDataSource, PutDataSource, DeleteDataSour
     /** @var string */
     protected $genericClass;
 
-    // @todo Ask about why we are using two parameters instead of only one container
-    
     /** @var array */
     protected $objects = [];
-    /** @var array */
-    protected $arrays = [];
 
     public function __construct(string $genericClass)
     {
@@ -55,12 +52,15 @@ class InMemoryDataSource implements GetDataSource, PutDataSource, DeleteDataSour
      */
     public function getAll(Query $query): GenericCollection
     {
-        if ($query instanceof KeyQuery) {
-            if (!isset($this->arrays[$query->geKey()])) {
+        if ($query instanceof AllQuery) {
+            if (empty($this->objects)) {
                 throw new DataNotFoundException();
             }
 
-            return $this->arrays[$query->geKey()];
+            return new GenericCollection(
+                $this->genericClass,
+                $this->objects
+            );
         }
 
         throw new QueryNotSupportedException();
@@ -93,8 +93,10 @@ class InMemoryDataSource implements GetDataSource, PutDataSource, DeleteDataSour
      */
     public function putAll(Query $query, GenericCollection $baseModels): GenericCollection
     {
-        if ($query instanceof KeyQuery) {
-            $this->arrays[$query->geKey()] = $baseModels;
+        if ($query instanceof AllQuery) {
+            foreach ($baseModels AS $baseModel) {
+                $this->objects[] = $baseModel;
+            }
 
             return $baseModels;
         }
