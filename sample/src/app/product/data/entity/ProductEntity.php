@@ -33,18 +33,6 @@ class ProductEntity implements BaseEntity
     }
 
     /**
-     * @param $created_at
-     */
-    protected function setCreatedAt($created_at): void
-    {
-        if (empty($created_at)) {
-            $created_at = Carbon::now();
-        }
-
-        $this->created_at = $created_at;
-    }
-
-    /**
      * @return int
      */
     public function getId(): int
@@ -82,5 +70,17 @@ class ProductEntity implements BaseEntity
     public function getCreatedAt(): Carbon
     {
         return $this->created_at;
+    }
+
+    /**
+     * @param $created_at
+     */
+    protected function setCreatedAt($created_at): void
+    {
+        if (empty($created_at)) {
+            $created_at = Carbon::now();
+        }
+
+        $this->created_at = $created_at;
     }
 }

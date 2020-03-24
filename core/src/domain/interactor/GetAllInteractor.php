@@ -3,7 +3,6 @@
 namespace harmony\core\domain\interactor;
 
 use harmony\core\repository\GetRepository;
-use harmony\core\repository\operation\DefaultOperation;
 use harmony\core\repository\operation\Operation;
 use harmony\core\repository\query\Query;
 use harmony\core\shared\collection\GenericCollection;

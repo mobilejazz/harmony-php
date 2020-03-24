@@ -16,9 +16,9 @@ use Sample\product\data\mapper\ProductToProductEntityMapper;
 
 class ProductProvider
 {
-    protected $di_container = [];
-
     protected const KEY_PRODUCT_REPOSITORY = 'ProductRepository';
+
+    protected $di_container = [];
 
     /**
      * @return RepositoryMapper
