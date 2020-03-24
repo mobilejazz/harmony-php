@@ -9,7 +9,9 @@ logo
 
 # Host User and Group Id to avoid permissions problems
 DOCKER_PHP_USER_ID=$(id -u)
-DOCKER_PHP_GROUP_ID=$(id -g)
+DOCKER_PHP_GROUP_ID=1000
+# We can't use the Group ID on Mac OS
+# DOCKER_PHP_GROUP_ID=$(id -g)
 
 # Re-Build Dockerfile
 docker_compose down
