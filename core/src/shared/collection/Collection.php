@@ -5,6 +5,7 @@ namespace harmony\core\shared\collection;
 use Countable;
 use Iterator;
 use JsonSerializable;
+use Traversable;
 
 class Collection implements Iterator, Countable, JsonSerializable
 {
@@ -18,11 +19,16 @@ class Collection implements Iterator, Countable, JsonSerializable
     private $position;
 
     /**
-     * @param iterable $items
+     * @param Traversable|array $items
      */
-    public function __construct(iterable $items)
+    public function __construct($items)
     {
-        $this->container = $items;
+        if ($items instanceof Traversable) {
+            $this->container = iterator_to_array($items, false);
+        } else {
+            $this->container = array_values($items);
+        }
+
         $this->position = 0;
     }
 

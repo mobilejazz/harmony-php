@@ -1,0 +1,35 @@
+<?php
+
+namespace Sample\product\data\mapper;
+
+use harmony\core\repository\mapper\GenericMapper;
+use Sample\product\data\entity\ProductEntity;
+use Sample\product\domain\model\Product;
+
+class ProductEntityToProductMapper extends GenericMapper
+{
+    public function __construct()
+    {
+        parent::__construct(
+            ProductEntity::class,
+            Product::class
+        );
+    }
+
+    /**
+     * @param ProductEntity $from
+     *
+     * @return Product
+     */
+    protected function overrideMap($from): Product
+    {
+        $model = new Product(
+            $from->getId(),
+            $from->getName(),
+            $from->getDescription(),
+            $from->getPrice()
+        );
+
+        return $model;
+    }
+}

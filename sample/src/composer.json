@@ -1,0 +1,27 @@
+{
+    "name": "harmony/sample",
+    "description": "Harmony PHP Sample",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mobile Jazz",
+            "email": "info@mobilejazz.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": "7.3.*",
+        "nesbot/carbon": "^2.31"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "Sample\\": "app/",
+            "harmony\\core\\": "../../core/src/",
+            "harmony\\eloquent\\": "../../eloquent/src/"
+        }
+    }
+}
