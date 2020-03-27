@@ -6,7 +6,7 @@
 1. `cd sample`
 1. `./bin/build.sh`
 1. `./bin/start.sh`
-1. `./bin/ssh.sh` and run `composer install`
+1. `./bin/helpers/ssh.sh` and run `composer install`
 
 ## How to Run
 
