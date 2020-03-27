@@ -67,13 +67,13 @@ class InMemoryDataSource implements GetDataSource, PutDataSource, DeleteDataSour
     }
 
     /**
-     * @param Query      $query
-     * @param BaseEntity $baseModel
+     * @param Query           $query
+     * @param BaseEntity|null $baseModel
      *
      * @return BaseEntity
      * @throws QueryNotSupportedException
      */
-    public function put(Query $query, BaseEntity $baseModel): BaseEntity
+    public function put(Query $query, BaseEntity $baseModel = null): BaseEntity
     {
         if ($query instanceof KeyQuery) {
             $this->objects[$query->geKey()] = $baseModel;
@@ -85,14 +85,16 @@ class InMemoryDataSource implements GetDataSource, PutDataSource, DeleteDataSour
     }
 
     /**
-     * @param Query             $query
-     * @param GenericCollection $baseModels
+     * @param Query                  $query
+     * @param GenericCollection|null $baseModels
      *
      * @return GenericCollection
      * @throws QueryNotSupportedException
      */
-    public function putAll(Query $query, GenericCollection $baseModels): GenericCollection
-    {
+    public function putAll(
+        Query $query,
+        GenericCollection $baseModels = null
+    ): GenericCollection {
         if ($query instanceof AllQuery) {
             foreach ($baseModels AS $baseModel) {
                 $this->objects[] = $baseModel;

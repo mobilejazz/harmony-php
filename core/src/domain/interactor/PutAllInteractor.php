@@ -21,16 +21,16 @@ class PutAllInteractor
     }
 
     /**
-     * @param Query             $query
-     * @param Operation         $operation
-     * @param GenericCollection $baseModels
+     * @param Query                  $query
+     * @param Operation              $operation
+     * @param GenericCollection|null $baseModels
      *
      * @return GenericCollection
      */
     public function execute(
         Query $query,
         Operation $operation,
-        GenericCollection $baseModels
+        GenericCollection $baseModels = null
     ): GenericCollection {
         return $this->putRepository->putAll($query, $operation, $baseModels);
     }

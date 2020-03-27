@@ -21,16 +21,16 @@ class PutInteractor
     }
 
     /**
-     * @param Query      $query
-     * @param Operation  $operation
-     * @param BaseEntity $baseModel
+     * @param Query           $query
+     * @param Operation       $operation
+     * @param BaseEntity|null $baseModel
      *
      * @return BaseEntity
      */
     public function execute(
         Query $query,
         Operation $operation,
-        BaseEntity $baseModel
+        BaseEntity $baseModel = null
     ): BaseEntity {
         return $this->putRepository->put($query, $operation, $baseModel);
     }

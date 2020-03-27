@@ -9,28 +9,28 @@ use harmony\core\shared\collection\GenericCollection;
 interface PutRepository extends Repository
 {
     /**
-     * @param Query      $query     query
-     * @param Operation  $operation operation
-     * @param BaseEntity $entity    model
+     * @param Query           $query
+     * @param Operation       $operation
+     * @param BaseEntity|null $entity
      *
      * @return BaseEntity
      */
     public function put(
         Query $query,
         Operation $operation,
-        BaseEntity $entity
+        BaseEntity $entity = null
     ): BaseEntity;
 
     /**
-     * @param Query             $query
-     * @param Operation         $operation
-     * @param GenericCollection $collection
+     * @param Query                  $query
+     * @param Operation              $operation
+     * @param GenericCollection|null $collection
      *
-     * @return mixed
+     * @return GenericCollection
      */
     public function putAll(
         Query $query,
         Operation $operation,
-        GenericCollection $collection
+        GenericCollection $collection = null
     ): GenericCollection;
 }

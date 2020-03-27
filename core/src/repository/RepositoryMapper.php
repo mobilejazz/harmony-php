@@ -2,7 +2,7 @@
 
 namespace harmony\core\repository;
 
-use harmony\core\repository\mapper\GenericMapper;
+use harmony\core\repository\mapper\Mapper;
 use harmony\core\repository\operation\Operation;
 use harmony\core\repository\query\Query;
 use harmony\core\shared\collection\GenericCollection;
@@ -16,17 +16,17 @@ class RepositoryMapper implements GetRepository, PutRepository, DeleteRepository
     /** @var DeleteRepository */
     private $deleteRepository;
 
-    /** @var GenericMapper */
+    /** @var Mapper */
     protected $toInMapper;
-    /** @var GenericMapper */
+    /** @var Mapper */
     protected $toOutMapper;
 
     public function __construct(
         GetRepository $getRepository,
         PutRepository $putRepository,
         DeleteRepository $deleteRepository,
-        GenericMapper $toInMapper,
-        GenericMapper $toOutMapper
+        Mapper $toInMapper,
+        Mapper $toOutMapper
     ) {
         $this->getRepository = $getRepository;
         $this->putRepository = $putRepository;
@@ -77,42 +77,52 @@ class RepositoryMapper implements GetRepository, PutRepository, DeleteRepository
     }
 
     /**
-     * @param Query      $query
-     * @param Operation  $operation
-     * @param BaseEntity $baseEntity
+     * @param Query           $query
+     * @param Operation       $operation
+     * @param BaseEntity|null $baseEntity
      *
      * @return BaseEntity
      */
     public function put(
         Query $query,
         Operation $operation,
-        BaseEntity $baseEntity
+        BaseEntity $baseEntity = null
     ): BaseEntity {
-        $toPut = $this->toInMapper->map($baseEntity);
+        $toPut = null;
+
+        if ($baseEntity !== null) {
+            $toPut = $this->toInMapper->map($baseEntity);
+        }
+
         $result = $this->putRepository->put($query, $operation, $toPut);
 
         return $this->toOutMapper->map($result);
     }
 
     /**
-     * @param Query             $query
-     * @param Operation         $operation
-     * @param GenericCollection $baseEntities
+     * @param Query                  $query
+     * @param Operation              $operation
+     * @param GenericCollection|null $baseEntities
      *
      * @return GenericCollection
      */
     public function putAll(
         Query $query,
         Operation $operation,
-        GenericCollection $baseEntities
+        GenericCollection $baseEntities = null
     ): GenericCollection {
-        $toPuts = new GenericCollection($this->toInMapper->getTypeTo());
+        $toPuts = null;
 
-        foreach ($baseEntities AS $from) {
-            $toPuts->add($this->toInMapper->map($from));
+        if ($baseEntities !== null) {
+            $toPuts = new GenericCollection($this->toInMapper->getTypeTo());
+
+            foreach ($baseEntities AS $from) {
+                $toPuts->add($this->toInMapper->map($from));
+            }
         }
 
         $result = $this->putRepository->putAll($query, $operation, $toPuts);
+
         return $result;
     }
 

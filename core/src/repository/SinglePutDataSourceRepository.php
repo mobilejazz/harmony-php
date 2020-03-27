@@ -21,14 +21,17 @@ class SinglePutDataSourceRepository implements PutRepository
     }
 
     /**
-     * @param Query      $query     query
-     * @param Operation  $operation operation
-     * @param BaseEntity $entity    model
+     * @param Query           $query
+     * @param Operation       $operation
+     * @param BaseEntity|null $entity
      *
      * @return BaseEntity
      */
-    public function put(Query $query, Operation $operation, BaseEntity $entity): BaseEntity
-    {
+    public function put(
+        Query $query,
+        Operation $operation,
+        BaseEntity $entity = null
+    ): BaseEntity {
         return $this->putDataSource->put(
             $query,
             $entity
@@ -36,14 +39,17 @@ class SinglePutDataSourceRepository implements PutRepository
     }
 
     /**
-     * @param Query             $query
-     * @param Operation         $operation
-     * @param GenericCollection $collection
+     * @param Query                  $query
+     * @param Operation              $operation
+     * @param GenericCollection|null $collection
      *
-     * @return mixed
+     * @return GenericCollection
      */
-    public function putAll(Query $query, Operation $operation, GenericCollection $collection): GenericCollection
-    {
+    public function putAll(
+        Query $query,
+        Operation $operation,
+        GenericCollection $collection = null
+    ): GenericCollection {
         return $this->putDataSource->putAll($query, $collection);
     }
 }

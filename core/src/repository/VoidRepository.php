@@ -38,9 +38,9 @@ class VoidRepository implements GetRepository, PutRepository, DeleteRepository
     }
 
     /**
-     * @param Query      $query
-     * @param Operation  $operation
-     * @param BaseEntity $entity
+     * @param Query           $query
+     * @param Operation       $operation
+     * @param BaseEntity|null $entity
      *
      * @return BaseEntity
      * @throws MethodNotImplementedException
@@ -48,15 +48,15 @@ class VoidRepository implements GetRepository, PutRepository, DeleteRepository
     public function put(
         Query $query,
         Operation $operation,
-        BaseEntity $entity
+        BaseEntity $entity = null
     ): BaseEntity {
         throw new MethodNotImplementedException();
     }
 
     /**
-     * @param Query             $query
-     * @param Operation         $operation
-     * @param GenericCollection $collection
+     * @param Query                  $query
+     * @param Operation              $operation
+     * @param GenericCollection|null $collection
      *
      * @return GenericCollection
      * @throws MethodNotImplementedException
@@ -64,7 +64,7 @@ class VoidRepository implements GetRepository, PutRepository, DeleteRepository
     public function putAll(
         Query $query,
         Operation $operation,
-        GenericCollection $collection
+        GenericCollection $collection = null
     ): GenericCollection {
         throw new MethodNotImplementedException();
     }

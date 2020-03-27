@@ -25,23 +25,8 @@ services:
             - ../src:/var/www/html
             - ../../core:/var/core
             - ../../eloquent:/var/eloquent
-        links:
-            - mysql
         environment:
             # The same name server like PHPSTORM
             - PHP_IDE_CONFIG=serverName=localhost
             # Comment to disable XDebug
             - ENABLE_XDEBUG=true
-    mysql:
-        image: mysql:5.7
-        container_name: mysql-docker
-        restart: unless-stopped
-        environment:
-            MYSQL_ROOT_PASSWORD: WIESDFNNEOWI38w053874vKDFJ
-            MYSQL_DATABASE: testdb
-            MYSQL_USER: testuser
-            MYSQL_PASSWORD: dei947DKFJEO39jdke3
-        ports:
-            - "3306:3306"
-        volumes:
-            - ../data/mysql/lib:/var/lib/mysql

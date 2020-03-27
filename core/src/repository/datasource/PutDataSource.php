@@ -12,18 +12,21 @@ use harmony\core\shared\collection\GenericCollection;
 interface PutDataSource
 {
     /**
-     * @param Query      $query
-     * @param BaseEntity $baseModel
+     * @param Query           $query
+     * @param BaseEntity|null $baseModel
      *
      * @return BaseEntity
      */
-    public function put(Query $query, BaseEntity $baseModel): BaseEntity;
+    public function put(Query $query, BaseEntity $baseModel = null): BaseEntity;
 
     /**
-     * @param Query             $query
-     * @param GenericCollection $baseModels
+     * @param Query                  $query
+     * @param GenericCollection|null $baseModels
      *
      * @return GenericCollection
      */
-    public function putAll(Query $query, GenericCollection $baseModels): GenericCollection;
+    public function putAll(
+        Query $query,
+        GenericCollection $baseModels = null
+    ): GenericCollection;
 }

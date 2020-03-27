@@ -10,27 +10,28 @@ use harmony\core\shared\error\MethodNotImplementedException;
 class VoidPutDataSource implements PutDataSource
 {
     /**
-     * @param Query      $query
-     * @param BaseEntity $baseModel
+     * @param Query           $query
+     * @param BaseEntity|null $baseModel
      *
      * @return BaseEntity
      * @throws MethodNotImplementedException
      */
-    public function put(Query $query, BaseEntity $baseModel): BaseEntity
+    public function put(Query $query, BaseEntity $baseModel = null): BaseEntity
     {
         throw new MethodNotImplementedException();
     }
 
     /**
-     * @param Query             $query
-     * @param GenericCollection $baseModels
+     * @param Query                  $query
+     * @param GenericCollection|null $baseModels
      *
-     * @return void
+     * @return GenericCollection
      * @throws MethodNotImplementedException
-     *
      */
-    public function putAll(Query $query, GenericCollection $baseModels)
-    {
+    public function putAll(
+        Query $query,
+        GenericCollection $baseModels = null
+    ): GenericCollection {
         throw new MethodNotImplementedException();
     }
 }

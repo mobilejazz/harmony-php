@@ -56,26 +56,32 @@ class SingleDataSourceRepository implements GetRepository, PutRepository, Delete
     }
 
     /**
-     * @param Query      $query
-     * @param Operation  $operation
-     * @param BaseEntity $entity
+     * @param Query           $query
+     * @param Operation       $operation
+     * @param BaseEntity|null $entity
      *
      * @return BaseEntity
      */
-    public function put(Query $query, Operation $operation, BaseEntity $entity): BaseEntity
-    {
+    public function put(
+        Query $query,
+        Operation $operation,
+        BaseEntity $entity = null
+    ): BaseEntity {
         return $this->putDataSource->put($query, $entity);
     }
 
     /**
-     * @param Query             $query
-     * @param Operation         $operation
-     * @param GenericCollection $baseModels
+     * @param Query                  $query
+     * @param Operation              $operation
+     * @param GenericCollection|null $baseModels
      *
      * @return GenericCollection
      */
-    public function putAll(Query $query, Operation $operation, GenericCollection $baseModels): GenericCollection
-    {
+    public function putAll(
+        Query $query,
+        Operation $operation,
+        GenericCollection $baseModels = null
+    ): GenericCollection {
         return $this->putDataSource->putAll($query, $baseModels);
     }
 
