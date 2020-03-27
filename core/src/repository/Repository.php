@@ -2,7 +2,7 @@
 
 namespace harmony\core\repository;
 
-interface Entity extends BaseEntity
+interface Repository
 {
 
 }

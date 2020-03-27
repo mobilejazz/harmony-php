@@ -5,8 +5,9 @@ namespace harmony\eloquent\repository;
 use harmony\core\repository\BaseEntity;
 
 /**
- * @method getAttributes(): array | Method from Laravel Eloquent
- * @method getFillable(): array | Method from Laravel Eloquent
+ * @method array getAttributes() Method from Laravel Eloquent
+ * @method array getFillable() Method from Laravel Eloquent
+ * @method static EloquentEntity firstOrNew($value) Method from Laravel Eloquent
  */
 interface EloquentEntity extends BaseEntity
 {

@@ -5,7 +5,7 @@ namespace harmony\core\repository;
 use harmony\core\repository\operation\Operation;
 use harmony\core\repository\query\Query;
 
-interface DeleteRepository
+interface DeleteRepository extends Repository
 {
     /**
      * @param Query     $query     query

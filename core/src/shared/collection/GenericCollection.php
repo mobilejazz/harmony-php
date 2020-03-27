@@ -12,10 +12,13 @@ class GenericCollection extends Collection
     protected $generic_name_class;
 
     /**
-     * @param string   $generic_name_class
-     * @param iterable $input
+     * @param string $generic_name_class
+     * @param Traversable|array  $input
      */
-    public function __construct(string $generic_name_class, iterable $input = [])
+    public function __construct(
+        string $generic_name_class,
+        $input = []
+    )
     {
         $this->generic_name_class = $generic_name_class;
         $this->validateArrayOfGenericArguments($input);
@@ -63,7 +66,7 @@ class GenericCollection extends Collection
      */
     public function getArray(): array
     {
-        return $this->getIterator()->getArrayCopy();
+        return $this->container;
     }
 
     /**

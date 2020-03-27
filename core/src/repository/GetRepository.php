@@ -6,7 +6,7 @@ use harmony\core\repository\operation\Operation;
 use harmony\core\repository\query\Query;
 use harmony\core\shared\collection\GenericCollection;
 
-interface GetRepository
+interface GetRepository extends Repository
 {
     /**
      * @param Query     $query     query
