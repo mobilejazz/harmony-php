@@ -9,6 +9,7 @@ use harmony\core\repository\query\AllQuery;
 use harmony\core\repository\query\KeyQuery;
 use harmony\core\repository\query\Query;
 use harmony\core\shared\collection\GenericCollection;
+use InvalidArgumentException;
 
 class InMemoryDataSource implements GetDataSource, PutDataSource, DeleteDataSource
 {
@@ -75,6 +76,10 @@ class InMemoryDataSource implements GetDataSource, PutDataSource, DeleteDataSour
      */
     public function put(Query $query, BaseEntity $baseModel = null): BaseEntity
     {
+        if ($baseModel === null) {
+            throw new InvalidArgumentException();
+        }
+
         if ($query instanceof KeyQuery) {
             $this->objects[$query->geKey()] = $baseModel;
 
@@ -95,6 +100,10 @@ class InMemoryDataSource implements GetDataSource, PutDataSource, DeleteDataSour
         Query $query,
         GenericCollection $baseModels = null
     ): GenericCollection {
+        if ($baseModels === null) {
+            throw new InvalidArgumentException();
+        }
+
         if ($query instanceof AllQuery) {
             foreach ($baseModels AS $baseModel) {
                 $this->objects[] = $baseModel;

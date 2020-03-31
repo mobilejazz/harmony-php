@@ -3,6 +3,7 @@
 namespace harmony\core\shared\collection;
 
 use harmony\core\shared\generics\GenericsHelper;
+use Traversable;
 
 class GenericCollection extends Collection
 {
@@ -26,7 +27,7 @@ class GenericCollection extends Collection
     }
 
     /**
-     * @param $item
+     * @param mixed $item
      */
     public function add($item): void
     {
@@ -45,7 +46,7 @@ class GenericCollection extends Collection
     }
 
     /**
-     * @param $object
+     * @param mixed $object
      */
     protected function validateGenericArgumentOrFail($object): void
     {

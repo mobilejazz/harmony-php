@@ -17,8 +17,8 @@ class InvalidObjectException extends InvalidArgumentException
     public function __construct(
         string $expected,
         string $received,
-        $message = '',
-        $code = 0,
+        string $message = '',
+        int $code = 0,
         Throwable $previous = null
     ) {
         if (empty($message)) {

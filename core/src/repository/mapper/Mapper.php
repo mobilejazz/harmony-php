@@ -5,7 +5,7 @@ namespace harmony\core\repository\mapper;
 interface Mapper
 {
     /**
-     * @param $from
+     * @param mixed $from
      *
      * @return mixed
      */

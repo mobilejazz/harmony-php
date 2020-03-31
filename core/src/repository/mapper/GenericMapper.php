@@ -58,7 +58,7 @@ abstract class GenericMapper implements Mapper
     abstract protected function overrideMap($from);
 
     /**
-     * @param $object
+     * @param mixed $object
      *
      * @return bool
      */

@@ -2,6 +2,7 @@
 
 namespace harmony\core\repository;
 
+use harmony\core\repository\mapper\GenericMapper;
 use harmony\core\repository\mapper\Mapper;
 use harmony\core\repository\operation\Operation;
 use harmony\core\repository\query\Query;
@@ -16,17 +17,17 @@ class RepositoryMapper implements GetRepository, PutRepository, DeleteRepository
     /** @var DeleteRepository */
     private $deleteRepository;
 
-    /** @var Mapper */
+    /** @var GenericMapper */
     protected $toInMapper;
-    /** @var Mapper */
+    /** @var GenericMapper */
     protected $toOutMapper;
 
     public function __construct(
         GetRepository $getRepository,
         PutRepository $putRepository,
         DeleteRepository $deleteRepository,
-        Mapper $toInMapper,
-        Mapper $toOutMapper
+        GenericMapper $toInMapper,
+        GenericMapper $toOutMapper
     ) {
         $this->getRepository = $getRepository;
         $this->putRepository = $putRepository;

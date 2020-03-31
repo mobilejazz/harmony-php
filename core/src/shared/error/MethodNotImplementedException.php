@@ -8,8 +8,8 @@ use Throwable;
 class MethodNotImplementedException extends Exception
 {
     public function __construct(
-        $message = 'This method is not implemented yet.',
-        $code = 0,
+        string $message = 'This method is not implemented yet.',
+        int $code = 0,
         Throwable $previous = null
     ) {
         parent::__construct($message, $code, $previous);

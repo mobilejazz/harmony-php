@@ -100,13 +100,13 @@ class ProductController
     }
 
     /**
-     * @param string $id_product
+     * @param int $id_product
      *
      * @return BaseEntity
      */
-    protected function getProductAction(string $id_product): BaseEntity
+    protected function getProductAction(int $id_product): BaseEntity
     {
-        $query = new KeyQuery($id_product);
+        $query = new KeyQuery((string)$id_product);
         $product = $this->getInteractor->execute(
             $query,
             new DefaultOperation()
@@ -147,13 +147,13 @@ class ProductController
     }
 
     /**
-     * @param string $id_product
+     * @param int $id_product
      *
      * @return string
      */
-    protected function deleteProductAction(string $id_product): string
+    protected function deleteProductAction(int $id_product): string
     {
-        $query = new KeyQuery($id_product);
+        $query = new KeyQuery((string) $id_product);
         $this->deleteInteractor->execute(
             $query,
             new DefaultOperation()
@@ -172,8 +172,13 @@ class ProductController
     {
         ob_start();
 
-        extract($variables, null);
-        include __DIR__ . '/../views/' . $template . '.template.php';
+        extract($variables, EXTR_OVERWRITE);
+
+        $template_path = __DIR__ . '/../views/' . $template . '.template.php';
+
+        if (file_exists($template_path)) {
+            include $template_path;
+        }
 
         $result = ob_get_clean();
 

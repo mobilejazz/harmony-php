@@ -3,7 +3,7 @@
 namespace harmony\core\repository\datasource;
 
 use harmony\core\repository\BaseEntity;
-use harmony\core\repository\mapper\Mapper;
+use harmony\core\repository\mapper\GenericMapper;
 use harmony\core\repository\query\Query;
 use harmony\core\shared\collection\GenericCollection;
 
@@ -16,24 +16,24 @@ class DataSourceMapper implements GetDataSource, PutDataSource, DeleteDataSource
     /** @var DeleteDataSource */
     protected $deleteDataSource;
 
-    /** @var Mapper */
+    /** @var GenericMapper */
     protected $toInMapper;
-    /** @var Mapper */
+    /** @var GenericMapper */
     protected $toOutMapper;
 
     /**
      * @param GetDataSource    $getDataSource
      * @param PutDataSource    $putDataSource
      * @param DeleteDataSource $deleteDataSource
-     * @param Mapper           $toInMapper
-     * @param Mapper           $toOutMapper
+     * @param GenericMapper    $toInMapper
+     * @param GenericMapper    $toOutMapper
      */
     public function __construct(
         GetDataSource $getDataSource,
         PutDataSource $putDataSource,
         DeleteDataSource $deleteDataSource,
-        Mapper $toInMapper,
-        Mapper $toOutMapper
+        GenericMapper $toInMapper,
+        GenericMapper $toOutMapper
     ) {
         $this->getDataSource = $getDataSource;
         $this->putDataSource = $putDataSource;

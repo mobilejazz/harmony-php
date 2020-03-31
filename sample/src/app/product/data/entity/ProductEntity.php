@@ -73,11 +73,11 @@ class ProductEntity implements BaseEntity
     }
 
     /**
-     * @param $created_at
+     * @param Carbon $created_at
      */
-    protected function setCreatedAt($created_at): void
+    protected function setCreatedAt(Carbon $created_at = null): void
     {
-        if (empty($created_at)) {
+        if ($created_at === null) {
             $created_at = Carbon::now();
         }
 

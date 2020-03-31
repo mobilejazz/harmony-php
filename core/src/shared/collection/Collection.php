@@ -12,7 +12,7 @@ class Collection implements Iterator, Countable, JsonSerializable
     // TODO: new functions like: "add", "get"...
     // @see https://laravel.com/docs/5.8/collections
 
-    /** @var array|iterable */
+    /** @var array */
     protected $container;
 
     /** @var int */
