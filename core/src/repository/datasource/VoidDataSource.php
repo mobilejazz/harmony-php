@@ -7,13 +7,15 @@ use harmony\core\repository\query\Query;
 use harmony\core\shared\collection\GenericCollection;
 use harmony\core\shared\error\MethodNotImplementedException;
 
+/**
+ * @template T2
+ * @implements GetDataSource<T2>
+ * @implements PutDataSource<T2>
+ */
 class VoidDataSource implements GetDataSource, PutDataSource, DeleteDataSource
 {
     /**
-     * @param Query $query
-     *
-     * @return BaseEntity
-     * @throws MethodNotImplementedException
+     * @inheritdoc
      */
     public function get(Query $query): BaseEntity
     {
@@ -21,10 +23,7 @@ class VoidDataSource implements GetDataSource, PutDataSource, DeleteDataSource
     }
 
     /**
-     * @param Query $query
-     *
-     * @return GenericCollection
-     * @throws MethodNotImplementedException
+     * @inheritdoc
      */
     public function getAll(Query $query): GenericCollection
     {
@@ -32,11 +31,7 @@ class VoidDataSource implements GetDataSource, PutDataSource, DeleteDataSource
     }
 
     /**
-     * @param Query           $query
-     * @param BaseEntity|null $baseModel
-     *
-     * @return BaseEntity
-     * @throws MethodNotImplementedException
+     * @inheritdoc
      */
     public function put(Query $query, BaseEntity $baseModel = null): BaseEntity
     {
@@ -44,11 +39,7 @@ class VoidDataSource implements GetDataSource, PutDataSource, DeleteDataSource
     }
 
     /**
-     * @param Query                  $query
-     * @param GenericCollection|null $baseModels
-     *
-     * @return GenericCollection
-     * @throws MethodNotImplementedException
+     * @inheritdoc
      */
     public function putAll(
         Query $query,
@@ -58,10 +49,7 @@ class VoidDataSource implements GetDataSource, PutDataSource, DeleteDataSource
     }
 
     /**
-     * @param Query $query
-     *
-     * @return void
-     * @throws MethodNotImplementedException
+     * @inheritdoc
      */
     public function delete(Query $query): void
     {

@@ -76,7 +76,7 @@ abstract class GenericMapper implements Mapper
     /**
      * @psalm-param  Tfrom $from
      *
-     * @param $from
+     * @param mixed $from
      *
      * @psalm-return Tto
      * @return BaseEntity

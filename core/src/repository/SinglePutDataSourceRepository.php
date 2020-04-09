@@ -7,6 +7,10 @@ use harmony\core\repository\operation\Operation;
 use harmony\core\repository\query\Query;
 use harmony\core\shared\collection\GenericCollection;
 
+/**
+ * @template T2
+ * @implements PutRepository<T2>
+ */
 class SinglePutDataSourceRepository implements PutRepository
 {
     /**
@@ -21,11 +25,7 @@ class SinglePutDataSourceRepository implements PutRepository
     }
 
     /**
-     * @param Query           $query
-     * @param Operation       $operation
-     * @param BaseEntity|null $entity
-     *
-     * @return BaseEntity
+     * @inheritdoc
      */
     public function put(
         Query $query,
@@ -39,11 +39,7 @@ class SinglePutDataSourceRepository implements PutRepository
     }
 
     /**
-     * @param Query                  $query
-     * @param Operation              $operation
-     * @param GenericCollection|null $collection
-     *
-     * @return GenericCollection
+     * @inheritdoc
      */
     public function putAll(
         Query $query,

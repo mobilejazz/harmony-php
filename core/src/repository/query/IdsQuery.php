@@ -4,11 +4,11 @@ namespace harmony\core\repository\query;
 
 class IdsQuery extends Query
 {
-    /** @var array */
+    /** @var array<int> */
     private $ids;
 
     /**
-     * @param array $ids
+     * @param array<int> $ids
      */
     public function __construct(array $ids)
     {
@@ -16,7 +16,7 @@ class IdsQuery extends Query
     }
 
     /**
-     * @return array
+     * @return array<int>
      */
     public function getIds(): array
     {

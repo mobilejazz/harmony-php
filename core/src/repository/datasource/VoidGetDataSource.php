@@ -7,13 +7,14 @@ use harmony\core\repository\query\Query;
 use harmony\core\shared\collection\GenericCollection;
 use harmony\core\shared\error\MethodNotImplementedException;
 
+/**
+ * @template T2
+ * @implements GetDataSource<T2>
+ */
 class VoidGetDataSource implements GetDataSource
 {
     /**
-     * @param Query $query
-     *
-     * @return BaseEntity
-     * @throws MethodNotImplementedException
+     * @inheritdoc
      */
     public function get(Query $query): BaseEntity
     {
@@ -21,10 +22,7 @@ class VoidGetDataSource implements GetDataSource
     }
 
     /**
-     * @param Query $query
-     *
-     * @return GenericCollection
-     * @throws MethodNotImplementedException
+     * @inheritdoc
      */
     public function getAll(Query $query): GenericCollection
     {

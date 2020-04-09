@@ -46,9 +46,9 @@ class GenericCollection extends ArrayObject
     }
 
     /**
-     * @param iterable $array
+     * @param array<mixed> $array
      */
-    protected function validateArrayOfGenericArguments(iterable $array): void
+    protected function validateArrayOfGenericArguments(array $array): void
     {
         foreach ($array AS $object) {
             $this->validateGenericArgumentOrFail($object);

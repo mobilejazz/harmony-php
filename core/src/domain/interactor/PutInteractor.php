@@ -13,7 +13,7 @@ class PutInteractor
     private $putRepository;
 
     /**
-     * @param $putRepository
+     * @param PutRepository $putRepository
      */
     public function __construct(PutRepository $putRepository)
     {

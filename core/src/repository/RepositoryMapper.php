@@ -3,11 +3,15 @@
 namespace harmony\core\repository;
 
 use harmony\core\repository\mapper\GenericMapper;
-use harmony\core\repository\mapper\Mapper;
 use harmony\core\repository\operation\Operation;
 use harmony\core\repository\query\Query;
 use harmony\core\shared\collection\GenericCollection;
 
+/**
+ * @template T2
+ * @implements GetRepository<T2>
+ * @implements PutRepository<T2>
+ */
 class RepositoryMapper implements GetRepository, PutRepository, DeleteRepository
 {
     /** @var GetRepository */
@@ -37,10 +41,7 @@ class RepositoryMapper implements GetRepository, PutRepository, DeleteRepository
     }
 
     /**
-     * @param Query     $query
-     * @param Operation $operation
-     *
-     * @return BaseEntity
+     * @inheritdoc
      */
     public function get(
         Query $query,
@@ -53,10 +54,7 @@ class RepositoryMapper implements GetRepository, PutRepository, DeleteRepository
     }
 
     /**
-     * @param Query     $query
-     * @param Operation $operation
-     *
-     * @return GenericCollection
+     * @inheritdoc
      */
     public function getAll(
         Query $query,
@@ -78,11 +76,7 @@ class RepositoryMapper implements GetRepository, PutRepository, DeleteRepository
     }
 
     /**
-     * @param Query           $query
-     * @param Operation       $operation
-     * @param BaseEntity|null $baseEntity
-     *
-     * @return BaseEntity
+     * @inheritdoc
      */
     public function put(
         Query $query,
@@ -101,11 +95,7 @@ class RepositoryMapper implements GetRepository, PutRepository, DeleteRepository
     }
 
     /**
-     * @param Query                  $query
-     * @param Operation              $operation
-     * @param GenericCollection|null $baseEntities
-     *
-     * @return GenericCollection
+     * @inheritdoc
      */
     public function putAll(
         Query $query,
@@ -128,8 +118,7 @@ class RepositoryMapper implements GetRepository, PutRepository, DeleteRepository
     }
 
     /**
-     * @param Query     $query
-     * @param Operation $operation
+     * @inheritdoc
      */
     public function delete(
         Query $query,

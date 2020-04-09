@@ -7,6 +7,10 @@ use harmony\core\repository\operation\Operation;
 use harmony\core\repository\query\Query;
 use harmony\core\shared\collection\GenericCollection;
 
+/**
+ * @template T2
+ * @implements GetRepository<T2>
+ */
 class SingleGetDataSourceRepository implements GetRepository
 {
     /** @var GetDataSource */
@@ -22,10 +26,7 @@ class SingleGetDataSourceRepository implements GetRepository
     }
 
     /**
-     * @param Query     $query
-     * @param Operation $operation
-     *
-     * @return BaseEntity
+     * @inheritdoc
      */
     public function get(Query $query, Operation $operation): BaseEntity
     {
@@ -33,10 +34,7 @@ class SingleGetDataSourceRepository implements GetRepository
     }
 
     /**
-     * @param Query     $query
-     * @param Operation $operation
-     *
-     * @return GenericCollection
+     * @inheritdoc
      */
     public function getAll(Query $query, Operation $operation): GenericCollection
     {

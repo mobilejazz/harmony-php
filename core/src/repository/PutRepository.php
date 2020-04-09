@@ -6,14 +6,17 @@ use harmony\core\repository\operation\Operation;
 use harmony\core\repository\query\Query;
 use harmony\core\shared\collection\GenericCollection;
 
+/**
+ * @template T
+ */
 interface PutRepository extends Repository
 {
     /**
      * @param Query           $query
      * @param Operation       $operation
-     * @param BaseEntity|null $entity
+     * @param T|BaseEntity|null $entity
      *
-     * @return BaseEntity
+     * @return T|BaseEntity
      */
     public function put(
         Query $query,
@@ -24,9 +27,9 @@ interface PutRepository extends Repository
     /**
      * @param Query                  $query
      * @param Operation              $operation
-     * @param GenericCollection|null $collection
+     * @param GenericCollection<T>|null $collection
      *
-     * @return GenericCollection
+     * @return GenericCollection<T>
      */
     public function putAll(
         Query $query,

@@ -15,16 +15,15 @@ interface PutDataSource
      * @param Query           $query
      * @param BaseEntity|null $baseModel
      *
-     * @return BaseEntity
+     * @return T|BaseEntity
      */
     public function put(Query $query, BaseEntity $baseModel = null): BaseEntity;
 
     /**
      * @param Query                  $query
-     * @param GenericCollection|null $baseModels
+     * @param GenericCollection<T>|null $baseModels
      *
-     * @psalm-return GenericCollection<T>
-     * @return GenericCollection
+     * @return GenericCollection<T>
      */
     public function putAll(
         Query $query,

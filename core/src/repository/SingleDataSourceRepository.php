@@ -9,6 +9,11 @@ use harmony\core\repository\operation\Operation;
 use harmony\core\repository\query\Query;
 use harmony\core\shared\collection\GenericCollection;
 
+/**
+ * @template T2
+ * @implements GetRepository<T2>
+ * @implements PutRepository<T2>
+ */
 class SingleDataSourceRepository implements GetRepository, PutRepository, DeleteRepository
 {
     /** @var GetDataSource */
@@ -34,10 +39,7 @@ class SingleDataSourceRepository implements GetRepository, PutRepository, Delete
     }
 
     /**
-     * @param Query     $query
-     * @param Operation $operation
-     *
-     * @return BaseEntity
+     * @inheritdoc
      */
     public function get(Query $query, Operation $operation): BaseEntity
     {
@@ -45,10 +47,7 @@ class SingleDataSourceRepository implements GetRepository, PutRepository, Delete
     }
 
     /**
-     * @param Query     $query
-     * @param Operation $operation
-     *
-     * @return GenericCollection
+     * @inheritdoc
      */
     public function getAll(Query $query, Operation $operation): GenericCollection
     {
@@ -56,11 +55,7 @@ class SingleDataSourceRepository implements GetRepository, PutRepository, Delete
     }
 
     /**
-     * @param Query           $query
-     * @param Operation       $operation
-     * @param BaseEntity|null $entity
-     *
-     * @return BaseEntity
+     * @inheritdoc
      */
     public function put(
         Query $query,
@@ -71,11 +66,7 @@ class SingleDataSourceRepository implements GetRepository, PutRepository, Delete
     }
 
     /**
-     * @param Query                  $query
-     * @param Operation              $operation
-     * @param GenericCollection|null $baseModels
-     *
-     * @return GenericCollection
+     * @inheritdoc
      */
     public function putAll(
         Query $query,
@@ -86,10 +77,7 @@ class SingleDataSourceRepository implements GetRepository, PutRepository, Delete
     }
 
     /**
-     * @param Query     $query
-     * @param Operation $operation
-     *
-     * @return void
+     * @inheritdoc
      */
     public function delete(Query $query, Operation $operation): void
     {

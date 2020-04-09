@@ -14,15 +14,14 @@ interface GetDataSource
     /**
      * @param Query $query
      *
-     * @return BaseEntity
+     * @return T|BaseEntity
      */
     public function get(Query $query): BaseEntity;
 
     /**
      * @param Query $query
      *
-     * @psalm-return GenericCollection<T>
-     * @return GenericCollection
+     * @return GenericCollection<T>
      */
     public function getAll(Query $query): GenericCollection;
 }

@@ -7,6 +7,11 @@ use harmony\core\repository\mapper\GenericMapper;
 use harmony\core\repository\query\Query;
 use harmony\core\shared\collection\GenericCollection;
 
+/**
+ * @template T2
+ * @implements GetDataSource<T2>
+ * @implements PutDataSource<T2>
+ */
 class DataSourceMapper implements GetDataSource, PutDataSource, DeleteDataSource
 {
     /** @var GetDataSource */
@@ -43,9 +48,7 @@ class DataSourceMapper implements GetDataSource, PutDataSource, DeleteDataSource
     }
 
     /**
-     * @param Query $query
-     *
-     * @return BaseEntity
+     * @inheritdoc
      */
     public function get(Query $query): BaseEntity
     {
@@ -56,9 +59,7 @@ class DataSourceMapper implements GetDataSource, PutDataSource, DeleteDataSource
     }
 
     /**
-     * @param Query $query
-     *
-     * @return GenericCollection
+     * @inheritdoc
      */
     public function getAll(Query $query): GenericCollection
     {
@@ -78,10 +79,7 @@ class DataSourceMapper implements GetDataSource, PutDataSource, DeleteDataSource
     }
 
     /**
-     * @param Query           $query
-     * @param BaseEntity|null $baseEntity
-     *
-     * @return BaseEntity
+     * @inheritdoc
      */
     public function put(Query $query, BaseEntity $baseEntity = null): BaseEntity
     {
@@ -97,10 +95,7 @@ class DataSourceMapper implements GetDataSource, PutDataSource, DeleteDataSource
     }
 
     /**
-     * @param Query                  $query
-     * @param GenericCollection|null $baseEntities
-     *
-     * @return GenericCollection
+     * @inheritdoc
      */
     public function putAll(
         Query $query,
@@ -122,9 +117,7 @@ class DataSourceMapper implements GetDataSource, PutDataSource, DeleteDataSource
     }
 
     /**
-     * @param Query $query
-     *
-     * @return void
+     * @inheritdoc
      */
     public function delete(Query $query): void
     {

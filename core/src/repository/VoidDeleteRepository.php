@@ -9,11 +9,7 @@ use harmony\core\shared\error\MethodNotImplementedException;
 class VoidDeleteRepository implements DeleteRepository
 {
     /**
-     * @param Query     $query
-     * @param Operation $operation
-     *
-     * @return void
-     * @throws MethodNotImplementedException
+     * @inheritdoc
      */
     public function delete(Query $query, Operation $operation): void
     {

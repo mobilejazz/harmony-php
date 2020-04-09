@@ -13,7 +13,7 @@ class GetAllInteractor
     private $getRepository;
 
     /**
-     * @param $getRepository
+     * @param GetRepository $getRepository
      */
     public function __construct(GetRepository $getRepository)
     {

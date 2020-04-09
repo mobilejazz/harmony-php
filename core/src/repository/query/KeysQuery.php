@@ -4,11 +4,11 @@ namespace harmony\core\repository\query;
 
 class KeysQuery extends Query
 {
-    /** @var array */
+    /** @var array<string> */
     private $keys;
 
     /**
-     * @param array $keys
+     * @param array<string> $keys
      */
     public function __construct(array $keys)
     {
@@ -16,7 +16,7 @@ class KeysQuery extends Query
     }
 
     /**
-     * @return array
+     * @return array<string>
      */
     public function getKeys(): array
     {

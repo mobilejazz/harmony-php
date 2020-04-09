@@ -7,14 +7,15 @@ use harmony\core\repository\query\Query;
 use harmony\core\shared\collection\GenericCollection;
 use harmony\core\shared\error\MethodNotImplementedException;
 
+/**
+ * @template T2
+ * @implements GetRepository<T2>
+ * @implements PutRepository<T2>
+ */
 class VoidRepository implements GetRepository, PutRepository, DeleteRepository
 {
     /**
-     * @param Query     $query
-     * @param Operation $operation
-     *
-     * @return BaseEntity
-     * @throws MethodNotImplementedException
+     * @inheritdoc
      */
     public function get(
         Query $query,
@@ -24,11 +25,7 @@ class VoidRepository implements GetRepository, PutRepository, DeleteRepository
     }
 
     /**
-     * @param Query     $query
-     * @param Operation $operation
-     *
-     * @return GenericCollection
-     * @throws MethodNotImplementedException
+     * @inheritdoc
      */
     public function getAll(
         Query $query,
@@ -38,12 +35,7 @@ class VoidRepository implements GetRepository, PutRepository, DeleteRepository
     }
 
     /**
-     * @param Query           $query
-     * @param Operation       $operation
-     * @param BaseEntity|null $entity
-     *
-     * @return BaseEntity
-     * @throws MethodNotImplementedException
+     * @inheritdoc
      */
     public function put(
         Query $query,
@@ -54,12 +46,7 @@ class VoidRepository implements GetRepository, PutRepository, DeleteRepository
     }
 
     /**
-     * @param Query                  $query
-     * @param Operation              $operation
-     * @param GenericCollection|null $collection
-     *
-     * @return GenericCollection
-     * @throws MethodNotImplementedException
+     * @inheritdoc
      */
     public function putAll(
         Query $query,
@@ -70,11 +57,7 @@ class VoidRepository implements GetRepository, PutRepository, DeleteRepository
     }
 
     /**
-     * @param Query     $query
-     * @param Operation $operation
-     *
-     * @return void
-     * @throws MethodNotImplementedException
+     * @inheritdoc
      */
     public function delete(Query $query, Operation $operation): void
     {

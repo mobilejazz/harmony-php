@@ -83,7 +83,7 @@ class ProductController
     }
 
     /**
-     * @param $product
+     * @param Product $product
      *
      * @return BaseEntity
      */
@@ -115,9 +115,9 @@ class ProductController
     }
 
     /**
-     * @param GenericCollection $products
+     * @param GenericCollection<Product> $products
      *
-     * @return GenericCollection
+     * @return GenericCollection<Product>
      */
     protected function putAllProductsAction(GenericCollection $products): GenericCollection
     {
@@ -132,7 +132,7 @@ class ProductController
     }
 
     /**
-     * @return GenericCollection
+     * @return GenericCollection<Product>
      */
     protected function getAllProductsAction(): GenericCollection
     {
@@ -162,7 +162,7 @@ class ProductController
     }
 
     /**
-     * @param array  $variables
+     * @param array<string, mixed>  $variables
      * @param string $template
      *
      * @return false|string
@@ -173,7 +173,7 @@ class ProductController
 
         extract($variables, EXTR_OVERWRITE);
 
-        $template_path = __DIR__ . '/../views/' . $template . '.template.php';
+        $template_path = __DIR__ . '/../views/' . $template . '.template.view';
 
         if (file_exists($template_path)) {
             include $template_path;

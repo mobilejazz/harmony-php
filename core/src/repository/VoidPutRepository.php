@@ -7,15 +7,14 @@ use harmony\core\repository\query\Query;
 use harmony\core\shared\collection\GenericCollection;
 use harmony\core\shared\error\MethodNotImplementedException;
 
+/**
+ * @template T2
+ * @implements PutRepository<T2>
+ */
 class VoidPutRepository implements PutRepository
 {
     /**
-     * @param Query           $query
-     * @param Operation       $operation
-     * @param BaseEntity|null $entity
-     *
-     * @return BaseEntity
-     * @throws MethodNotImplementedException
+     * @inheritdoc
      */
     public function put(
         Query $query,
@@ -26,12 +25,7 @@ class VoidPutRepository implements PutRepository
     }
 
     /**
-     * @param Query                  $query
-     * @param Operation              $operation
-     * @param GenericCollection|null $collection
-     *
-     * @return GenericCollection
-     * @throws MethodNotImplementedException
+     * @inheritdoc
      */
     public function putAll(
         Query $query,

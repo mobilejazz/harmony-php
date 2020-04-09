@@ -19,7 +19,7 @@ class ProductProvider
     /** @var string */
     protected const KEY_PRODUCT_REPOSITORY = 'ProductRepository';
 
-    /** @var array */
+    /** @var array<string, mixed> */
     protected $di_container = [];
 
     /**

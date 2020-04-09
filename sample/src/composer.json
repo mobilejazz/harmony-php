@@ -16,7 +16,9 @@
     },
     "require-dev": {
         "roave/security-advisories": "dev-master",
-        "vimeo/psalm": "^3.10"
+        "vimeo/psalm": "^3.10",
+        "phan/phan": "2.x",
+        "phpstan/phpstan": "^0.12.18"
     },
     "autoload": {
         "psr-4": {

@@ -12,21 +12,22 @@ use harmony\core\shared\collection\GenericCollection;
 use InvalidArgumentException;
 
 /**
- * @template T
+ * @template T2
+ * @implements GetDataSource<T2>
+ * @implements PutDataSource<T2>
  */
 class InMemoryDataSource implements GetDataSource, PutDataSource, DeleteDataSource
 {
     /**
-     * @psalm-var class-string<T>
-     * @var string
+     * @var class-string<T2>
      */
     protected $genericClass;
 
-    /** @var array */
+    /** @var array<T2> */
     protected $objects = [];
 
     /**
-     * @psalm-param class-string<T> $genericClass
+     * @psalm-param class-string<T2> $genericClass
      *
      * @param string $genericClass
      */
@@ -36,11 +37,7 @@ class InMemoryDataSource implements GetDataSource, PutDataSource, DeleteDataSour
     }
 
     /**
-     * @param Query $query
-     *
-     * @return BaseEntity
-     * @throws DataNotFoundException
-     * @throws QueryNotSupportedException
+     * @inheritdoc
      */
     public function get(Query $query): BaseEntity
     {
@@ -56,11 +53,7 @@ class InMemoryDataSource implements GetDataSource, PutDataSource, DeleteDataSour
     }
 
     /**
-     * @param Query $query
-     *
-     * @return GenericCollection
-     * @throws DataNotFoundException
-     * @throws QueryNotSupportedException
+     * @inheritdoc
      */
     public function getAll(Query $query): GenericCollection
     {
@@ -79,11 +72,7 @@ class InMemoryDataSource implements GetDataSource, PutDataSource, DeleteDataSour
     }
 
     /**
-     * @param Query           $query
-     * @param BaseEntity|null $baseModel
-     *
-     * @return BaseEntity
-     * @throws QueryNotSupportedException
+     * @inheritdoc
      */
     public function put(Query $query, BaseEntity $baseModel = null): BaseEntity
     {
@@ -101,11 +90,7 @@ class InMemoryDataSource implements GetDataSource, PutDataSource, DeleteDataSour
     }
 
     /**
-     * @param Query                  $query
-     * @param GenericCollection|null $baseModels
-     *
-     * @return GenericCollection
-     * @throws QueryNotSupportedException
+     * @inheritdoc
      */
     public function putAll(
         Query $query,
@@ -127,10 +112,7 @@ class InMemoryDataSource implements GetDataSource, PutDataSource, DeleteDataSour
     }
 
     /**
-     * @param Query $query
-     *
-     * @throws DataNotFoundException
-     * @throws QueryNotSupportedException
+     * @inheritdoc
      */
     public function delete(Query $query): void
     {
