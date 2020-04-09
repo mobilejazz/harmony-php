@@ -7,7 +7,7 @@ use harmony\core\repository\query\Query;
 use harmony\core\shared\collection\GenericCollection;
 
 /**
- * Interface PutDataSource
+ * @template T
  */
 interface PutDataSource
 {
@@ -23,6 +23,7 @@ interface PutDataSource
      * @param Query                  $query
      * @param GenericCollection|null $baseModels
      *
+     * @psalm-return GenericCollection<T>
      * @return GenericCollection
      */
     public function putAll(

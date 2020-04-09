@@ -11,14 +11,25 @@ use harmony\core\repository\query\Query;
 use harmony\core\shared\collection\GenericCollection;
 use InvalidArgumentException;
 
+/**
+ * @template T
+ */
 class InMemoryDataSource implements GetDataSource, PutDataSource, DeleteDataSource
 {
-    /** @var string */
+    /**
+     * @psalm-var class-string<T>
+     * @var string
+     */
     protected $genericClass;
 
     /** @var array */
     protected $objects = [];
 
+    /**
+     * @psalm-param class-string<T> $genericClass
+     *
+     * @param string $genericClass
+     */
     public function __construct(string $genericClass)
     {
         $this->genericClass = $genericClass;

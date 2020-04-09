@@ -2,37 +2,47 @@
 
 namespace harmony\core\shared\collection;
 
+use ArrayObject;
 use harmony\core\shared\generics\GenericsHelper;
-use Traversable;
 
-class GenericCollection extends Collection
+/**
+ * @template T
+ * @extends ArrayObject<int, T>
+ */
+class GenericCollection extends ArrayObject
 {
     use GenericsHelper;
 
-    /** @var string */
-    protected $generic_name_class;
+    /**
+     * @psalm-var class-string<T>
+     * @var string
+     */
+    protected $type;
 
     /**
-     * @param string            $generic_name_class
-     * @param Traversable|array $input
+     * @psalm-param class-string<T> $type
+     * @psalm-param array<int, T> $input
+     * @param string $type
+     * @param array  $input
      */
     public function __construct(
-        string $generic_name_class,
-        $input = []
+        string $type,
+        array $input = []
     ) {
-        $this->generic_name_class = $generic_name_class;
+        $this->type = $type;
         $this->validateArrayOfGenericArguments($input);
 
         parent::__construct($input);
     }
 
     /**
+     * @psalm-param T $item
      * @param mixed $item
      */
     public function add($item): void
     {
         $this->validateGenericArgumentOrFail($item);
-        $this->container[] = $item;
+        $this->append($item);
     }
 
     /**
@@ -50,43 +60,15 @@ class GenericCollection extends Collection
      */
     protected function validateGenericArgumentOrFail($object): void
     {
-        $this->isReceivedObjectLikeExpectedOrFail($object, $this->generic_name_class);
+        $this->isReceivedObjectLikeExpectedOrFail($object, $this->type);
     }
 
     /**
+     * @psalm-return class-string<T>
      * @return string
      */
-    public function getGenericNameClass(): string
+    public function getType(): string
     {
-        return $this->generic_name_class;
-    }
-
-    /**
-     * @return array
-     */
-    public function getArray(): array
-    {
-        return $this->container;
-    }
-
-    /**
-     * @param mixed $index
-     * @param mixed $newval
-     */
-    public function offsetSet($index, $newval): void
-    {
-        $this->validateGenericArgumentOrFail($newval);
-
-        parent::offsetSet($index, $newval);
-    }
-
-    /**
-     * @param string $serialized
-     */
-    public function unserialize($serialized): void
-    {
-        parent::unserialize($serialized);
-
-        $this->validateArrayOfGenericArguments($this->getIterator());
+        return $this->type;
     }
 }

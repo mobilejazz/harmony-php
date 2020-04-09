@@ -2,17 +2,35 @@
 
 namespace harmony\core\repository\mapper;
 
+use harmony\core\repository\BaseEntity;
 use harmony\core\shared\generics\GenericsHelper;
 
+/**
+ * @template Tfrom
+ * @template Tto
+ */
 abstract class GenericMapper implements Mapper
 {
     use GenericsHelper;
 
-    /** @var string */
+    /**
+     * @psalm-var class-string<Tfrom>
+     * @var string
+     */
     protected $from;
-    /** @var string */
+    /**
+     * @psalm-var class-string<Tto>
+     * @var string
+     */
     protected $to;
 
+    /**
+     * @psalm-param class-string<Tfrom> $from_class
+     * @psalm-param class-string<Tto> $to_class
+     *
+     * @param string $from_class
+     * @param string $to_class
+     */
     public function __construct(string $from_class, string $to_class)
     {
         $this->from = $from_class;
@@ -20,6 +38,7 @@ abstract class GenericMapper implements Mapper
     }
 
     /**
+     * @psalm-return class-string<Tfrom>
      * @return string
      */
     public function getTypeFrom(): string
@@ -28,6 +47,7 @@ abstract class GenericMapper implements Mapper
     }
 
     /**
+     * @psalm-return class-string<Tto>
      * @return string
      */
     public function getTypeTo(): string
@@ -36,9 +56,12 @@ abstract class GenericMapper implements Mapper
     }
 
     /**
-     * @param $from
+     * @psalm-param  Tfrom $from
      *
-     * @return mixed
+     * @param mixed $from
+     *
+     * @psalm-return Tto
+     * @return BaseEntity
      */
     public function map($from)
     {
@@ -51,9 +74,12 @@ abstract class GenericMapper implements Mapper
     }
 
     /**
+     * @psalm-param  Tfrom $from
+     *
      * @param $from
      *
-     * @return mixed
+     * @psalm-return Tto
+     * @return BaseEntity
      */
     abstract protected function overrideMap($from);
 
@@ -68,11 +94,11 @@ abstract class GenericMapper implements Mapper
     }
 
     /**
-     * @param object $object
+     * @param mixed $object
      *
      * @return bool
      */
-    protected function isTypeToOrFail(object $object): bool
+    protected function isTypeToOrFail($object): bool
     {
         return $this->isReceivedObjectLikeExpectedOrFail($object, $this->to);
     }

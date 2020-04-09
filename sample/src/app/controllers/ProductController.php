@@ -7,7 +7,6 @@ use harmony\core\domain\interactor\GetAllInteractor;
 use harmony\core\domain\interactor\GetInteractor;
 use harmony\core\domain\interactor\PutAllInteractor;
 use harmony\core\domain\interactor\PutInteractor;
-use harmony\core\domain\Model;
 use harmony\core\repository\BaseEntity;
 use harmony\core\repository\operation\DefaultOperation;
 use harmony\core\repository\query\AllQuery;
