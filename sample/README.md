@@ -26,6 +26,7 @@
 We are using this tools to add Static Analysis and Generics to our PHP code:
 
 * [Psalm](https://psalm.dev/docs/)
+* [PHPStan](https://phpstan.org/)
 * @todo [Phan](https://github.com/phan/phan/wiki) (Note: needs `php-ast` to run)
 
 Info about Generics [Example 1](https://www.daveliddament.co.uk/articles/php-generics-today-almost/) and [Example 2

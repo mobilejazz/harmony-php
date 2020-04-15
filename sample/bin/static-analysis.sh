@@ -4,3 +4,4 @@ source "${HELPERS_DIR}"/functions.sh
 
 # See Sample Readme
 exec_wwwdata ./vendor/bin/psalm --show-info=true
+exec_wwwdata ./vendor/bin/phpstan analyse -l max app ../../core ../../eloquent
