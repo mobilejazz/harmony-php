@@ -15,12 +15,12 @@ interface GetRepository extends Repository
      * @param Query     $query     query
      * @param Operation $operation operation
      *
-     * @return T|BaseEntity
+     * @return T
      */
     public function get(
         Query $query,
         Operation $operation
-    ): BaseEntity;
+    );
 
     /**
      * @param Query     $query

@@ -7,13 +7,16 @@ use harmony\core\repository\operation\Operation;
 use harmony\core\repository\query\Query;
 use harmony\core\shared\collection\GenericCollection;
 
+/**
+ * @template T
+ */
 class GetAllInteractor
 {
-    /** @var GetRepository */
+    /** @var GetRepository<T> */
     private $getRepository;
 
     /**
-     * @param GetRepository $getRepository
+     * @param GetRepository<T> $getRepository
      */
     public function __construct(GetRepository $getRepository)
     {
@@ -24,7 +27,7 @@ class GetAllInteractor
      * @param Query     $query
      * @param Operation $operation
      *
-     * @return GenericCollection
+     * @return GenericCollection<T>
      */
     public function execute(
         Query $query,

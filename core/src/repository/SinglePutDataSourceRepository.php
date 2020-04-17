@@ -8,16 +8,19 @@ use harmony\core\repository\query\Query;
 use harmony\core\shared\collection\GenericCollection;
 
 /**
- * @template T2
- * @implements PutRepository<T2>
+ * @template T
+ * @implements PutRepository<T>
  */
 class SinglePutDataSourceRepository implements PutRepository
 {
     /**
-     * @var PutDataSource
+     * @var PutDataSource<T>
      */
     protected $putDataSource;
 
+    /**
+     * @param PutDataSource<T> $putDataSource
+     */
     public function __construct(
         PutDataSource $putDataSource
     ) {
@@ -30,8 +33,8 @@ class SinglePutDataSourceRepository implements PutRepository
     public function put(
         Query $query,
         Operation $operation,
-        BaseEntity $entity = null
-    ): BaseEntity {
+        $entity = null
+    ) {
         return $this->putDataSource->put(
             $query,
             $entity

@@ -12,22 +12,22 @@ use harmony\core\shared\collection\GenericCollection;
 use InvalidArgumentException;
 
 /**
- * @template T2
- * @implements GetDataSource<T2>
- * @implements PutDataSource<T2>
+ * @template T
+ * @implements GetDataSource<T>
+ * @implements PutDataSource<T>
  */
 class InMemoryDataSource implements GetDataSource, PutDataSource, DeleteDataSource
 {
     /**
-     * @var class-string<T2>
+     * @var class-string<T>
      */
     protected $genericClass;
 
-    /** @var array<T2> */
+    /** @var array<mixed, T> */
     protected $objects = [];
 
     /**
-     * @psalm-param class-string<T2> $genericClass
+     * @psalm-param class-string<T> $genericClass
      *
      * @param string $genericClass
      */
@@ -39,7 +39,7 @@ class InMemoryDataSource implements GetDataSource, PutDataSource, DeleteDataSour
     /**
      * @inheritdoc
      */
-    public function get(Query $query): BaseEntity
+    public function get(Query $query)
     {
         if ($query instanceof KeyQuery) {
             if (!isset($this->objects[$query->geKey()])) {
@@ -74,7 +74,7 @@ class InMemoryDataSource implements GetDataSource, PutDataSource, DeleteDataSour
     /**
      * @inheritdoc
      */
-    public function put(Query $query, BaseEntity $baseModel = null): BaseEntity
+    public function put(Query $query, $baseModel = null)
     {
         if ($baseModel === null) {
             throw new InvalidArgumentException();

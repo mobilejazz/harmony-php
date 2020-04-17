@@ -21,7 +21,7 @@ class GenericCollection extends ArrayObject
 
     /**
      * @psalm-param class-string<T> $type
-     * @psalm-param array<int, T> $input
+     * @psalm-param array<mixed, T> $input
      * @param string $type
      * @param array  $input
      */

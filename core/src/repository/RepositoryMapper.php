@@ -8,24 +8,34 @@ use harmony\core\repository\query\Query;
 use harmony\core\shared\collection\GenericCollection;
 
 /**
- * @template T2
- * @implements GetRepository<T2>
- * @implements PutRepository<T2>
+ * @template   Tmodel
+ * @template   Tentity
+ * @implements GetRepository<Tmodel>
+ * @implements PutRepository<Tmodel>
  */
 class RepositoryMapper implements GetRepository, PutRepository, DeleteRepository
 {
-    /** @var GetRepository */
+    /** @var GetRepository<Tentity> */
     private $getRepository;
-    /** @var PutRepository */
+    /** @var PutRepository<Tentity> */
     private $putRepository;
     /** @var DeleteRepository */
     private $deleteRepository;
 
-    /** @var GenericMapper */
+    /** @var GenericMapper<Tmodel, Tentity> */
     protected $toInMapper;
-    /** @var GenericMapper */
+    /** @var GenericMapper<Tentity, Tmodel> */
     protected $toOutMapper;
 
+    /**
+     * RepositoryMapper constructor.
+     *
+     * @param GetRepository<Tentity>         $getRepository
+     * @param PutRepository<Tentity>         $putRepository
+     * @param DeleteRepository               $deleteRepository
+     * @param GenericMapper<Tmodel, Tentity> $toInMapper
+     * @param GenericMapper<Tentity, Tmodel> $toOutMapper
+     */
     public function __construct(
         GetRepository $getRepository,
         PutRepository $putRepository,
@@ -46,7 +56,7 @@ class RepositoryMapper implements GetRepository, PutRepository, DeleteRepository
     public function get(
         Query $query,
         Operation $operation
-    ): BaseEntity {
+    ) {
         $from = $this->getRepository->get($query, $operation);
         $to = $this->toOutMapper->map($from);
 
@@ -63,7 +73,7 @@ class RepositoryMapper implements GetRepository, PutRepository, DeleteRepository
         $froms = $this->getRepository->getAll($query, $operation);
         $tos = [];
 
-        foreach ($froms AS $from) {
+        foreach ($froms as $from) {
             $tos[] = $this->toOutMapper->map($from);
         }
 
@@ -81,12 +91,12 @@ class RepositoryMapper implements GetRepository, PutRepository, DeleteRepository
     public function put(
         Query $query,
         Operation $operation,
-        BaseEntity $baseEntity = null
-    ): BaseEntity {
+        $entity = null
+    ) {
         $toPut = null;
 
-        if ($baseEntity !== null) {
-            $toPut = $this->toInMapper->map($baseEntity);
+        if ($entity !== null) {
+            $toPut = $this->toInMapper->map($entity);
         }
 
         $result = $this->putRepository->put($query, $operation, $toPut);
@@ -100,21 +110,26 @@ class RepositoryMapper implements GetRepository, PutRepository, DeleteRepository
     public function putAll(
         Query $query,
         Operation $operation,
-        GenericCollection $baseEntities = null
+        GenericCollection $collection = null
     ): GenericCollection {
         $toPuts = null;
 
-        if ($baseEntities !== null) {
+        if ($collection !== null) {
             $toPuts = new GenericCollection($this->toInMapper->getTypeTo());
 
-            foreach ($baseEntities AS $from) {
+            foreach ($collection as $from) {
                 $toPuts->add($this->toInMapper->map($from));
             }
         }
 
-        $result = $this->putRepository->putAll($query, $operation, $toPuts);
+        $datas = $this->putRepository->putAll($query, $operation, $toPuts);
+        $toOuts = new GenericCollection($this->toOutMapper->getTypeTo());
 
-        return $result;
+        foreach ($datas as $data) {
+            $toOuts->add($this->toOutMapper->map($data));
+        }
+
+        return $toOuts;
     }
 
     /**

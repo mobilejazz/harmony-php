@@ -13,6 +13,7 @@ use harmony\core\repository\SingleDataSourceRepository;
 use Sample\product\data\entity\ProductEntity;
 use Sample\product\data\mapper\ProductEntityToProductMapper;
 use Sample\product\data\mapper\ProductToProductEntityMapper;
+use Sample\product\domain\model\Product;
 
 class ProductProvider
 {
@@ -23,7 +24,7 @@ class ProductProvider
     protected $di_container = [];
 
     /**
-     * @return RepositoryMapper
+     * @return RepositoryMapper<Product, ProductEntity>
      */
     protected function registerRepository(): RepositoryMapper
     {
@@ -47,7 +48,7 @@ class ProductProvider
     }
 
     /**
-     * @return RepositoryMapper
+     * @return RepositoryMapper<Product, ProductEntity>
      */
     public function getProductRepository(): RepositoryMapper
     {
@@ -59,7 +60,7 @@ class ProductProvider
     }
 
     /**
-     * @return GetInteractor
+     * @return GetInteractor<Product>
      */
     public function getGetInteractor(): GetInteractor
     {
@@ -67,7 +68,7 @@ class ProductProvider
     }
 
     /**
-     * @return GetAllInteractor
+     * @return GetAllInteractor<Product>
      */
     public function getGetAllInteractor(): GetAllInteractor
     {
@@ -75,7 +76,7 @@ class ProductProvider
     }
 
     /**
-     * @return PutInteractor
+     * @return PutInteractor<Product>
      */
     public function getPutInteractor(): PutInteractor
     {
@@ -83,7 +84,7 @@ class ProductProvider
     }
 
     /**
-     * @return PutAllInteractor
+     * @return PutAllInteractor<Product>
      */
     public function getPutAllInteractor(): PutAllInteractor
     {

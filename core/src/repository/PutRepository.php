@@ -14,15 +14,15 @@ interface PutRepository extends Repository
     /**
      * @param Query           $query
      * @param Operation       $operation
-     * @param T|BaseEntity|null $entity
+     * @param T|null $entity
      *
-     * @return T|BaseEntity
+     * @return T
      */
     public function put(
         Query $query,
         Operation $operation,
-        BaseEntity $entity = null
-    ): BaseEntity;
+        $entity = null
+    );
 
     /**
      * @param Query                  $query

@@ -2,60 +2,60 @@
 
 namespace harmony\core\repository\datasource;
 
-use harmony\core\repository\BaseEntity;
 use harmony\core\repository\mapper\GenericMapper;
 use harmony\core\repository\query\Query;
 use harmony\core\shared\collection\GenericCollection;
 
 /**
- * @template T2
- * @implements GetDataSource<T2>
- * @implements PutDataSource<T2>
+ * @template   Tentity
+ * @template   Tdata
+ * @implements GetDataSource<Tentity>
+ * @implements PutDataSource<Tentity>
  */
 class DataSourceMapper implements GetDataSource, PutDataSource, DeleteDataSource
 {
-    /** @var GetDataSource */
+    /** @var GetDataSource<Tdata> */
     protected $getDataSource;
-    /** @var PutDataSource */
+    /** @var PutDataSource<Tdata> */
     protected $putDataSource;
     /** @var DeleteDataSource */
     protected $deleteDataSource;
 
-    /** @var GenericMapper */
-    protected $toInMapper;
-    /** @var GenericMapper */
-    protected $toOutMapper;
+    /** @var GenericMapper<Tentity, Tdata> */
+    protected $entityToDataMapper;
+    /** @var GenericMapper<Tdata, Tentity> */
+    protected $dataToEntityMapper;
 
     /**
-     * @param GetDataSource    $getDataSource
-     * @param PutDataSource    $putDataSource
-     * @param DeleteDataSource $deleteDataSource
-     * @param GenericMapper    $toInMapper
-     * @param GenericMapper    $toOutMapper
+     * @param GetDataSource<Tdata>          $getDataSource
+     * @param PutDataSource<Tdata>          $putDataSource
+     * @param DeleteDataSource              $deleteDataSource
+     * @param GenericMapper<Tentity, Tdata> $entityToDataMapper
+     * @param GenericMapper<Tdata, Tentity> $dataToEntityMapper
      */
     public function __construct(
         GetDataSource $getDataSource,
         PutDataSource $putDataSource,
         DeleteDataSource $deleteDataSource,
-        GenericMapper $toInMapper,
-        GenericMapper $toOutMapper
+        GenericMapper $entityToDataMapper,
+        GenericMapper $dataToEntityMapper
     ) {
         $this->getDataSource = $getDataSource;
         $this->putDataSource = $putDataSource;
         $this->deleteDataSource = $deleteDataSource;
-        $this->toInMapper = $toInMapper;
-        $this->toOutMapper = $toOutMapper;
+        $this->entityToDataMapper = $entityToDataMapper;
+        $this->dataToEntityMapper = $dataToEntityMapper;
     }
 
     /**
      * @inheritdoc
      */
-    public function get(Query $query): BaseEntity
+    public function get(Query $query)
     {
-        $from = $this->getDataSource->get($query);
-        $to = $this->toOutMapper->map($from);
+        $data = $this->getDataSource->get($query);
+        $entity = $this->dataToEntityMapper->map($data);
 
-        return $to;
+        return $entity;
     }
 
     /**
@@ -63,35 +63,31 @@ class DataSourceMapper implements GetDataSource, PutDataSource, DeleteDataSource
      */
     public function getAll(Query $query): GenericCollection
     {
-        $froms = $this->getDataSource->getAll($query);
-        $tos = [];
+        $datas = $this->getDataSource->getAll($query);
+        $entities = new GenericCollection($this->dataToEntityMapper->getTypeTo());
 
-        foreach ($froms AS $from) {
-            $tos[] = $this->toOutMapper->map($from);
+        foreach ($datas as $from) {
+            $entities->add($this->dataToEntityMapper->map($from));
         }
 
-        $result = new GenericCollection(
-            $this->toOutMapper->getTypeTo(),
-            $tos
-        );
-
-        return $result;
+        return $entities;
     }
 
     /**
      * @inheritdoc
      */
-    public function put(Query $query, BaseEntity $baseEntity = null): BaseEntity
+    public function put(Query $query, $entity = null)
     {
-        $toPut = null;
+        $data = null;
 
-        if ($baseEntity !== null) {
-            $toPut = $this->toInMapper->map($baseEntity);
+        if ($entity !== null) {
+            $data = $this->entityToDataMapper->map($entity);
         }
 
-        $result = $this->putDataSource->put($query, $toPut);
+        $dataPutted = $this->putDataSource->put($query, $data);
+        $entityPutted = $this->dataToEntityMapper->map($dataPutted);
 
-        return $this->toOutMapper->map($result);
+        return $entityPutted;
     }
 
     /**
@@ -99,21 +95,26 @@ class DataSourceMapper implements GetDataSource, PutDataSource, DeleteDataSource
      */
     public function putAll(
         Query $query,
-        GenericCollection $baseEntities = null
+        GenericCollection $entities = null
     ): GenericCollection {
-        $toPuts = null;
+        $datas = null;
 
-        if ($baseEntities !== null) {
-            $toPuts = new GenericCollection($this->toInMapper->getTypeTo());
+        if ($entities !== null) {
+            $datas = new GenericCollection($this->entityToDataMapper->getTypeTo());
 
-            foreach ($baseEntities AS $from) {
-                $toPuts->add($this->toInMapper->map($from));
+            foreach ($entities as $from) {
+                $datas->add($this->entityToDataMapper->map($from));
             }
         }
 
-        $result = $this->putDataSource->putAll($query, $toPuts);
+        $datasPutted = $this->putDataSource->putAll($query, $datas);
+        $entitiesPutted = new GenericCollection($this->dataToEntityMapper->getTypeTo());
 
-        return $result;
+        foreach ($datasPutted as $dataPutted) {
+            $entitiesPutted->add($this->dataToEntityMapper->map($dataPutted));
+        }
+
+        return $entitiesPutted;
     }
 
     /**

@@ -10,23 +10,23 @@ use harmony\core\repository\query\Query;
 use harmony\core\shared\collection\GenericCollection;
 
 /**
- * @template T2
- * @implements GetRepository<T2>
- * @implements PutRepository<T2>
+ * @template   T
+ * @implements GetRepository<T>
+ * @implements PutRepository<T>
  */
 class SingleDataSourceRepository implements GetRepository, PutRepository, DeleteRepository
 {
-    /** @var GetDataSource */
+    /** @var GetDataSource<T> */
     private $getDataSource;
-    /** @var PutDataSource */
+    /** @var PutDataSource<T> */
     private $putDataSource;
     /** @var DeleteDataSource */
     private $deleteDataSource;
 
     /**
-     * @param GetDataSource    $getDataSource    data source
-     * @param PutDataSource    $putDataSource    data source
-     * @param DeleteDataSource $deleteDataSource data source
+     * @param GetDataSource<T> $getDataSource
+     * @param PutDataSource<T> $putDataSource
+     * @param DeleteDataSource  $deleteDataSource
      */
     public function __construct(
         GetDataSource $getDataSource,
@@ -41,7 +41,7 @@ class SingleDataSourceRepository implements GetRepository, PutRepository, Delete
     /**
      * @inheritdoc
      */
-    public function get(Query $query, Operation $operation): BaseEntity
+    public function get(Query $query, Operation $operation)
     {
         return $this->getDataSource->get($query);
     }
@@ -60,8 +60,8 @@ class SingleDataSourceRepository implements GetRepository, PutRepository, Delete
     public function put(
         Query $query,
         Operation $operation,
-        BaseEntity $entity = null
-    ): BaseEntity {
+        $entity = null
+    ) {
         return $this->putDataSource->put($query, $entity);
     }
 
@@ -71,9 +71,9 @@ class SingleDataSourceRepository implements GetRepository, PutRepository, Delete
     public function putAll(
         Query $query,
         Operation $operation,
-        GenericCollection $baseModels = null
+        GenericCollection $collection = null
     ): GenericCollection {
-        return $this->putDataSource->putAll($query, $baseModels);
+        return $this->putDataSource->putAll($query, $collection);
     }
 
     /**

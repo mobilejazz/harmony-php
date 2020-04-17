@@ -7,13 +7,16 @@ use harmony\core\repository\PutRepository;
 use harmony\core\repository\query\Query;
 use harmony\core\shared\collection\GenericCollection;
 
+/**
+ * @template T
+ */
 class PutAllInteractor
 {
-    /** @var PutRepository */
+    /** @var PutRepository<T> */
     private $putRepository;
 
     /**
-     * @param PutRepository $putRepository
+     * @param PutRepository<T> $putRepository
      */
     public function __construct(PutRepository $putRepository)
     {
@@ -21,17 +24,17 @@ class PutAllInteractor
     }
 
     /**
-     * @param Query                  $query
-     * @param Operation              $operation
-     * @param GenericCollection|null $baseModels
+     * @param Query                     $query
+     * @param Operation                 $operation
+     * @param GenericCollection<T>|null $models
      *
-     * @return GenericCollection
+     * @return GenericCollection<T>
      */
     public function execute(
         Query $query,
         Operation $operation,
-        GenericCollection $baseModels = null
+        GenericCollection $models = null
     ): GenericCollection {
-        return $this->putRepository->putAll($query, $operation, $baseModels);
+        return $this->putRepository->putAll($query, $operation, $models);
     }
 }

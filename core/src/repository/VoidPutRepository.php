@@ -8,8 +8,8 @@ use harmony\core\shared\collection\GenericCollection;
 use harmony\core\shared\error\MethodNotImplementedException;
 
 /**
- * @template T2
- * @implements PutRepository<T2>
+ * @template T
+ * @implements PutRepository<T>
  */
 class VoidPutRepository implements PutRepository
 {
@@ -19,8 +19,8 @@ class VoidPutRepository implements PutRepository
     public function put(
         Query $query,
         Operation $operation,
-        BaseEntity $entity = null
-    ): BaseEntity {
+        $entity = null
+    ) {
         throw new MethodNotImplementedException();
     }
 

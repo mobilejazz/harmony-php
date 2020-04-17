@@ -8,16 +8,16 @@ use harmony\core\repository\query\Query;
 use harmony\core\shared\collection\GenericCollection;
 
 /**
- * @template T2
- * @implements GetRepository<T2>
+ * @template T
+ * @implements GetRepository<T>
  */
 class SingleGetDataSourceRepository implements GetRepository
 {
-    /** @var GetDataSource */
+    /** @var GetDataSource<T> */
     private $getDataSource;
 
     /**
-     * @param GetDataSource $getDataSource data source
+     * @param GetDataSource<T> $getDataSource
      */
     public function __construct(
         GetDataSource $getDataSource
@@ -28,7 +28,7 @@ class SingleGetDataSourceRepository implements GetRepository
     /**
      * @inheritdoc
      */
-    public function get(Query $query, Operation $operation): BaseEntity
+    public function get(Query $query, Operation $operation)
     {
         return $this->getDataSource->get($query);
     }

@@ -13,11 +13,11 @@ interface PutDataSource
 {
     /**
      * @param Query           $query
-     * @param BaseEntity|null $baseModel
+     * @param T|null $baseModel
      *
-     * @return T|BaseEntity
+     * @return T
      */
-    public function put(Query $query, BaseEntity $baseModel = null): BaseEntity;
+    public function put(Query $query, $baseModel = null);
 
     /**
      * @param Query                  $query

@@ -7,7 +7,6 @@ use harmony\core\domain\interactor\GetAllInteractor;
 use harmony\core\domain\interactor\GetInteractor;
 use harmony\core\domain\interactor\PutAllInteractor;
 use harmony\core\domain\interactor\PutInteractor;
-use harmony\core\repository\BaseEntity;
 use harmony\core\repository\operation\DefaultOperation;
 use harmony\core\repository\query\AllQuery;
 use harmony\core\repository\query\KeyQuery;
@@ -16,17 +15,24 @@ use Sample\product\domain\model\Product;
 
 class ProductController
 {
-    /** @var GetInteractor */
+    /** @var GetInteractor<Product> */
     protected $getInteractor;
-    /** @var GetAllInteractor */
+    /** @var GetAllInteractor<Product> */
     protected $getAllInteractor;
-    /** @var PutInteractor */
+    /** @var PutInteractor<Product> */
     protected $putInteractor;
-    /** @var PutAllInteractor */
+    /** @var PutAllInteractor<Product> */
     protected $putAllInteractor;
     /** @var DeleteInteractor */
     protected $deleteInteractor;
 
+    /**
+     * @param GetInteractor<Product>    $getInteractor
+     * @param GetAllInteractor<Product> $getAllInteractor
+     * @param PutInteractor<Product>    $putInteractor
+     * @param PutAllInteractor<Product> $putAllInteractor
+     * @param DeleteInteractor          $deleteInteractor
+     */
     public function __construct(
         GetInteractor $getInteractor,
         GetAllInteractor $getAllInteractor,
@@ -85,9 +91,9 @@ class ProductController
     /**
      * @param Product $product
      *
-     * @return BaseEntity
+     * @return Product
      */
-    protected function putProductAction(Product $product): BaseEntity
+    protected function putProductAction(Product $product): Product
     {
         $query = new KeyQuery((string)$product->getId());
 
@@ -101,9 +107,9 @@ class ProductController
     /**
      * @param int $id_product
      *
-     * @return BaseEntity
+     * @return Product
      */
-    protected function getProductAction(int $id_product): BaseEntity
+    protected function getProductAction(int $id_product): Product
     {
         $query = new KeyQuery((string)$id_product);
         $product = $this->getInteractor->execute(
@@ -152,7 +158,7 @@ class ProductController
      */
     protected function deleteProductAction(int $id_product): string
     {
-        $query = new KeyQuery((string) $id_product);
+        $query = new KeyQuery((string)$id_product);
         $this->deleteInteractor->execute(
             $query,
             new DefaultOperation()
@@ -162,8 +168,8 @@ class ProductController
     }
 
     /**
-     * @param array<string, mixed>  $variables
-     * @param string $template
+     * @param array<string, mixed> $variables
+     * @param string               $template
      *
      * @return false|string
      */

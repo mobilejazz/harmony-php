@@ -19,7 +19,7 @@ services:
         build:
             context: .
             dockerfile: ./phpfpm/Dockerfile
-        image: php
+        image: php-sample-harmony
         container_name: php-docker
         restart: unless-stopped
         volumes:

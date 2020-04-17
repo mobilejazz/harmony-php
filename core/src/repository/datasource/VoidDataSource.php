@@ -8,16 +8,16 @@ use harmony\core\shared\collection\GenericCollection;
 use harmony\core\shared\error\MethodNotImplementedException;
 
 /**
- * @template T2
- * @implements GetDataSource<T2>
- * @implements PutDataSource<T2>
+ * @template T
+ * @implements GetDataSource<T>
+ * @implements PutDataSource<T>
  */
 class VoidDataSource implements GetDataSource, PutDataSource, DeleteDataSource
 {
     /**
      * @inheritdoc
      */
-    public function get(Query $query): BaseEntity
+    public function get(Query $query)
     {
         throw new MethodNotImplementedException();
     }
@@ -33,7 +33,7 @@ class VoidDataSource implements GetDataSource, PutDataSource, DeleteDataSource
     /**
      * @inheritdoc
      */
-    public function put(Query $query, BaseEntity $baseModel = null): BaseEntity
+    public function put(Query $query, $baseModel = null)
     {
         throw new MethodNotImplementedException();
     }

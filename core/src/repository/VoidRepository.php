@@ -8,9 +8,9 @@ use harmony\core\shared\collection\GenericCollection;
 use harmony\core\shared\error\MethodNotImplementedException;
 
 /**
- * @template T2
- * @implements GetRepository<T2>
- * @implements PutRepository<T2>
+ * @template T
+ * @implements GetRepository<T>
+ * @implements PutRepository<T>
  */
 class VoidRepository implements GetRepository, PutRepository, DeleteRepository
 {
@@ -20,7 +20,7 @@ class VoidRepository implements GetRepository, PutRepository, DeleteRepository
     public function get(
         Query $query,
         Operation $operation
-    ): BaseEntity {
+    ) {
         throw new MethodNotImplementedException();
     }
 
@@ -40,8 +40,8 @@ class VoidRepository implements GetRepository, PutRepository, DeleteRepository
     public function put(
         Query $query,
         Operation $operation,
-        BaseEntity $entity = null
-    ): BaseEntity {
+        $entity = null
+    ) {
         throw new MethodNotImplementedException();
     }
 

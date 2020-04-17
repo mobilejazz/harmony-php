@@ -8,15 +8,15 @@ use harmony\core\shared\collection\GenericCollection;
 use harmony\core\shared\error\MethodNotImplementedException;
 
 /**
- * @template T2
- * @implements GetDataSource<T2>
+ * @template T
+ * @implements GetDataSource<T>
  */
 class VoidGetDataSource implements GetDataSource
 {
     /**
      * @inheritdoc
      */
-    public function get(Query $query): BaseEntity
+    public function get(Query $query)
     {
         throw new MethodNotImplementedException();
     }
