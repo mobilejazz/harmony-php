@@ -8,7 +8,7 @@ use harmony\core\shared\collection\GenericCollection;
 use harmony\core\shared\error\MethodNotImplementedException;
 
 /**
- * @template T
+ * @template   T
  * @implements PutRepository<T>
  */
 class VoidPutRepository implements PutRepository

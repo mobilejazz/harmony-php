@@ -12,9 +12,9 @@ use harmony\core\shared\collection\GenericCollection;
 interface PutRepository extends Repository
 {
     /**
-     * @param Query           $query
-     * @param Operation       $operation
-     * @param T|null $entity
+     * @param Query     $query
+     * @param Operation $operation
+     * @param T|null    $entity
      *
      * @return T
      */
@@ -25,8 +25,8 @@ interface PutRepository extends Repository
     );
 
     /**
-     * @param Query                  $query
-     * @param Operation              $operation
+     * @param Query                     $query
+     * @param Operation                 $operation
      * @param GenericCollection<T>|null $collection
      *
      * @return GenericCollection<T>

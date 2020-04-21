@@ -2,12 +2,10 @@
 
 namespace harmony\eloquent\repository;
 
-use harmony\core\repository\BaseEntity;
-
 trait EloquentHelper
 {
     /**
-     * @param BaseEntity            $from
+     * @param mixed                 $from
      * @param string|EloquentEntity $class_to
      *
      * @return EloquentEntity

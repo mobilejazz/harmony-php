@@ -26,7 +26,7 @@ class SingleDataSourceRepository implements GetRepository, PutRepository, Delete
     /**
      * @param GetDataSource<T> $getDataSource
      * @param PutDataSource<T> $putDataSource
-     * @param DeleteDataSource  $deleteDataSource
+     * @param DeleteDataSource $deleteDataSource
      */
     public function __construct(
         GetDataSource $getDataSource,

@@ -7,7 +7,7 @@ use harmony\core\shared\generics\GenericsHelper;
 
 /**
  * @template T
- * @extends ArrayObject<int, T>
+ * @extends  ArrayObject<int, T>
  */
 class GenericCollection extends ArrayObject
 {
@@ -22,6 +22,7 @@ class GenericCollection extends ArrayObject
     /**
      * @psalm-param class-string<T> $type
      * @psalm-param array<mixed, T> $input
+     *
      * @param string $type
      * @param array  $input
      */
@@ -37,6 +38,7 @@ class GenericCollection extends ArrayObject
 
     /**
      * @psalm-param T $item
+     *
      * @param mixed $item
      */
     public function add($item): void
@@ -50,7 +52,7 @@ class GenericCollection extends ArrayObject
      */
     protected function validateArrayOfGenericArguments(array $array): void
     {
-        foreach ($array AS $object) {
+        foreach ($array as $object) {
             $this->validateGenericArgumentOrFail($object);
         }
     }

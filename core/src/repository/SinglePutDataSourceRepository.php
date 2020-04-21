@@ -8,7 +8,7 @@ use harmony\core\repository\query\Query;
 use harmony\core\shared\collection\GenericCollection;
 
 /**
- * @template T
+ * @template   T
  * @implements PutRepository<T>
  */
 class SinglePutDataSourceRepository implements PutRepository

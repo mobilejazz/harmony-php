@@ -2,7 +2,6 @@
 
 namespace harmony\core\repository\mapper;
 
-use harmony\core\repository\BaseEntity;
 use harmony\core\shared\generics\GenericsHelper;
 
 /**
@@ -61,7 +60,7 @@ abstract class GenericMapper implements Mapper
      * @param mixed $from
      *
      * @psalm-return Tto
-     * @return BaseEntity
+     * @return mixed
      */
     public function map($from)
     {
@@ -79,7 +78,7 @@ abstract class GenericMapper implements Mapper
      * @param mixed $from
      *
      * @psalm-return Tto
-     * @return BaseEntity
+     * @return mixed
      */
     abstract protected function overrideMap($from);
 

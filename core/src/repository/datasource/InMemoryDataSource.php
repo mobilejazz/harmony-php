@@ -2,7 +2,6 @@
 
 namespace harmony\core\repository\datasource;
 
-use harmony\core\repository\BaseEntity;
 use harmony\core\repository\error\DataNotFoundException;
 use harmony\core\repository\error\QueryNotSupportedException;
 use harmony\core\repository\query\AllQuery;
@@ -12,7 +11,7 @@ use harmony\core\shared\collection\GenericCollection;
 use InvalidArgumentException;
 
 /**
- * @template T
+ * @template   T
  * @implements GetDataSource<T>
  * @implements PutDataSource<T>
  */
@@ -101,7 +100,7 @@ class InMemoryDataSource implements GetDataSource, PutDataSource, DeleteDataSour
         }
 
         if ($query instanceof AllQuery) {
-            foreach ($baseModels AS $baseModel) {
+            foreach ($baseModels as $baseModel) {
                 $this->objects[] = $baseModel;
             }
 

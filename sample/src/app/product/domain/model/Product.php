@@ -2,9 +2,7 @@
 
 namespace Sample\product\domain\model;
 
-use harmony\core\repository\BaseEntity;
-
-class Product implements BaseEntity
+class Product
 {
     /** @var int */
     protected $id;

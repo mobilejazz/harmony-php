@@ -74,7 +74,14 @@ class DataSourceMapper implements GetDataSource, PutDataSource, DeleteDataSource
     }
 
     /**
-     * @inheritdoc
+     * @param Query $query
+     *
+     * @psalm-param  Tentity $entity
+     *
+     * @param null  $entity
+     *
+     * @psalm-return Tentity
+     * @return T|mixed
      */
     public function put(Query $query, $entity = null)
     {
@@ -91,7 +98,14 @@ class DataSourceMapper implements GetDataSource, PutDataSource, DeleteDataSource
     }
 
     /**
-     * @inheritdoc
+     * @param Query                  $query
+     *
+     * @psalm-param  GenericCollection<Tentity> $entities
+     *
+     * @param GenericCollection|null $entities
+     *
+     * @psalm-return GenericCollection<Tentity>
+     * @return GenericCollection
      */
     public function putAll(
         Query $query,

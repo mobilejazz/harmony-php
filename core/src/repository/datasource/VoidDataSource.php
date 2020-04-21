@@ -2,13 +2,12 @@
 
 namespace harmony\core\repository\datasource;
 
-use harmony\core\repository\BaseEntity;
 use harmony\core\repository\query\Query;
 use harmony\core\shared\collection\GenericCollection;
 use harmony\core\shared\error\MethodNotImplementedException;
 
 /**
- * @template T
+ * @template   T
  * @implements GetDataSource<T>
  * @implements PutDataSource<T>
  */

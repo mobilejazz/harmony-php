@@ -3,9 +3,8 @@
 namespace Sample\product\data\entity;
 
 use Carbon\Carbon;
-use harmony\core\repository\BaseEntity;
 
-class ProductEntity implements BaseEntity
+class ProductEntity
 {
     /** @var int */
     protected $id;
