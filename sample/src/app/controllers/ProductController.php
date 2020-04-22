@@ -138,7 +138,7 @@ class ProductController
     }
 
     /**
-     * @return GenericCollection<Product>
+     * @return GenericCollection
      */
     protected function getAllProductsAction(): GenericCollection
     {
