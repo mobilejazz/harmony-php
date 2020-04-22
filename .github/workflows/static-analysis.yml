@@ -2,6 +2,9 @@ name: Harmony PHP | Static Analysis
 # Trigger this job on:
 on: [push]
 
+defaults:
+    run:
+        working-directory: sample
 jobs:
     build:
         # Job name
@@ -14,9 +17,7 @@ jobs:
                 run: date
 
             -   name: Validate composer.json and composer.lock
-                run: |
-                    cd sample
-                    composer validate
+                run: composer validate
 
             -   name: Install dependencies
                 run: composer install --prefer-dist --no-progress --no-suggest
