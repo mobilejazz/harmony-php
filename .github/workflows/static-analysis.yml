@@ -10,7 +10,7 @@ jobs:
         defaults:
             run:
                 shell: bash
-                working-directory: ./sample
+                working-directory: ./sample/src
         steps:
             -   uses: actions/checkout@v2
 
@@ -20,9 +20,6 @@ jobs:
             -   name: Pwd
                 run: pwd
 
-            -   name: Ls
-                run: ls -lah
-
             -   name: Validate composer.json and composer.lock
                 run: composer validate
 
@@ -31,4 +28,3 @@ jobs:
 
             -   name: Run Psalm
                 run: ./vendor/bin/psalm --show-info=true
-
