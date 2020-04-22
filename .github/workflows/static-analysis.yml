@@ -33,9 +33,9 @@ jobs:
                 working-directory: ./sample/src
 
             -   name: Psalm
-                run: psalm --show-info=true
+#                run: psalm --show-info=true
+                run: ./vendor/bin/psalm --show-info=true
                 working-directory: ./sample/src
-#                run: ./vendor/bin/psalm --show-info=true
 
             -   name: PHPStan
                 run: phpstan analyse -l max ./sample/src/app ./core/src ./eloquent/src
