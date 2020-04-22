@@ -19,12 +19,6 @@ jobs:
                 with:
                     php-version: '7.3'
 
-            -   name: Time
-                run: date
-
-            -   name: Pwd
-                run: pwd
-
             -   name: Validate composer.json and composer.lock
                 run: composer validate
 
@@ -33,3 +27,6 @@ jobs:
 
             -   name: Run Psalm
                 run: ./vendor/bin/psalm --show-info=true
+
+            -   name: Run PHPStan
+                run: ./vendor/bin/phpstan analyse -l max app ../../core ../../eloquent
