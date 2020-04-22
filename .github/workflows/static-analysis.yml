@@ -17,6 +17,12 @@ jobs:
             -   name: Time
                 run: date
 
+            -   name: Pwd
+                run: pwd
+
+            -   name: Ls
+                run: ls -lah
+
             -   name: Validate composer.json and composer.lock
                 run: composer validate
 
