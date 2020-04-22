@@ -2,7 +2,6 @@ name: Harmony PHP | Static Analysis
 # Trigger this job on:
 on: [push]
 
-
 jobs:
     build:
         # Job name
@@ -11,7 +10,7 @@ jobs:
         defaults:
             run:
                 shell: bash
-                working-directory: sample
+                working-directory: ./sample
         steps:
             -   uses: actions/checkout@v2
 
