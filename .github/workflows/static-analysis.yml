@@ -1,0 +1,26 @@
+name: Harmony PHP | Static Analysis
+# Trigger this job on:
+on: [push]
+
+jobs:
+    build:
+        # Job name
+        name: Static Analysis
+        runs-on: ubuntu-latest
+        steps:
+            -   uses: actions/checkout@v2
+
+            -   name: Time
+                run: date
+
+            -   name: Validate composer.json and composer.lock
+                run: |
+                    cd sample
+                    composer validate
+
+            -   name: Install dependencies
+                run: composer install --prefer-dist --no-progress --no-suggest
+
+            -   name: Run Psalm
+                run: ./vendor/bin/psalm --show-info=true
+
