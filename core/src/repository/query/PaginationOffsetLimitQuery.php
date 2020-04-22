@@ -34,5 +34,4 @@ class PaginationOffsetLimitQuery extends Query
     {
         return $this->limit;
     }
-
 }

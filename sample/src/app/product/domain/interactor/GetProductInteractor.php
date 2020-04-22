@@ -10,5 +10,4 @@ use Sample\product\domain\model\Product;
  */
 class GetProductInteractor extends GetInteractor
 {
-
 }

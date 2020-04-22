@@ -6,5 +6,4 @@ use harmony\core\domain\interactor\DeleteInteractor;
 
 class DeleteProductInteractor extends DeleteInteractor
 {
-
 }

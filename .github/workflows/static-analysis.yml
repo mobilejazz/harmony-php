@@ -1,4 +1,4 @@
-name: Harmony PHP | Static Analysis
+name: Static Analysis
 # Trigger this job on:
 on:
     push:
@@ -11,10 +11,10 @@ jobs:
         # Job name
         name: Static Analysis
         runs-on: ubuntu-latest
-        defaults:
-            run:
-                shell: bash
-                working-directory: ./sample/src
+#        defaults:
+#            run:
+#                shell: bash
+#                working-directory: ./sample/src
         steps:
             -   uses: actions/checkout@v2
 
@@ -22,15 +22,32 @@ jobs:
                 uses: shivammathur/setup-php@v2
                 with:
                     php-version: '7.3'
+                    tools: php-cs-fixer, phpcs, phpmd, phpstan, psalm
 
-            -   name: Validate composer.json and composer.lock
+            -   name: Validate composer
                 run: composer validate
+                working-directory: ./sample/src
 
-            -   name: Install dependencies
+            -   name: Composer Install
                 run: composer install --prefer-dist --no-progress --no-suggest
+                working-directory: ./sample/src
 
-            -   name: Run Psalm
-                run: ./vendor/bin/psalm --show-info=true
+            -   name: Psalm
+                run: psalm --show-info=true
+                working-directory: ./sample/src
+#                run: ./vendor/bin/psalm --show-info=true
 
-            -   name: Run PHPStan
-                run: ./vendor/bin/phpstan analyse -l max app ../../core ../../eloquent
+            -   name: PHPStan
+                run: phpstan analyse -l max ./sample/src/app ./core/src ./eloquent/src
+#                run: ./vendor/bin/phpstan analyse -l max app ../../core ../../eloquent
+
+            -   name: PHP Mess Detector
+                run: phpmd ./sample/src/app,./core/src,./eloquent/src text codesize,design,unusedcode
+
+            -   name: PHP_CodeSniffer
+                run: phpcs --standard=PSR2 ./sample/src/app ./core/src ./eloquent/src
+
+            -   name: PHP Coding Standards Fixer
+                run: php-cs-fixer fix --dry-run --diff ./sample/src/app
+                run: php-cs-fixer fix --dry-run --diff ./core/src
+                run: php-cs-fixer fix --dry-run --diff ./eloquent/src
