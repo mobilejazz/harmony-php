@@ -48,6 +48,7 @@ jobs:
                 run: phpcs --standard=PSR2 ./sample/src/app ./core/src ./eloquent/src
 
             -   name: PHP Coding Standards Fixer
-                run: php-cs-fixer fix --dry-run --diff ./sample/src/app
-                run: php-cs-fixer fix --dry-run --diff ./core/src
-                run: php-cs-fixer fix --dry-run --diff ./eloquent/src
+                run: |
+                    php-cs-fixer fix --dry-run --diff ./sample/src/app
+                    php-cs-fixer fix --dry-run --diff ./core/src
+                    php-cs-fixer fix --dry-run --diff ./eloquent/src
