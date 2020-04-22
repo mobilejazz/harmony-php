@@ -2,14 +2,16 @@ name: Harmony PHP | Static Analysis
 # Trigger this job on:
 on: [push]
 
-defaults:
-    run:
-        working-directory: sample
+
 jobs:
     build:
         # Job name
         name: Static Analysis
         runs-on: ubuntu-latest
+        defaults:
+            run:
+                shell: bash
+                working-directory: sample
         steps:
             -   uses: actions/checkout@v2
 
