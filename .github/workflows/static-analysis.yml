@@ -22,7 +22,7 @@ jobs:
                 uses: shivammathur/setup-php@v2
                 with:
                     php-version: '7.3'
-                    tools: php-cs-fixer, phpcs, phpmd, phpstan, psalm
+                    tools: php-cs-fixer, phpcs, phpmd
 
             -   name: Validate composer
                 run: composer validate
@@ -33,13 +33,12 @@ jobs:
                 working-directory: ./sample/src
 
             -   name: Psalm
-#                run: psalm --show-info=true
                 run: ./vendor/bin/psalm --show-info=true
                 working-directory: ./sample/src
 
             -   name: PHPStan
-                run: phpstan analyse -l max ./sample/src/app ./core/src ./eloquent/src
-#                run: ./vendor/bin/phpstan analyse -l max app ../../core ../../eloquent
+                run: ./vendor/bin/phpstan analyse -l max app ../../core ../../eloquent
+                working-directory: ./sample/src
 
             -   name: PHP Mess Detector
                 run: phpmd ./sample/src/app,./core/src,./eloquent/src text codesize,design,unusedcode
