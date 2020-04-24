@@ -1,5 +1,4 @@
 name: Static Analysis
-# Trigger this job on:
 on:
     push:
     pull_request:
@@ -8,13 +7,8 @@ on:
 
 jobs:
     build:
-        # Job name
         name: Static Analysis
         runs-on: ubuntu-latest
-#        defaults:
-#            run:
-#                shell: bash
-#                working-directory: ./sample/src
         steps:
             -   uses: actions/checkout@v2
 

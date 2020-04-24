@@ -75,10 +75,6 @@ class InMemoryDataSource implements GetDataSource, PutDataSource, DeleteDataSour
      */
     public function put(Query $query, $baseModel = null)
     {
-        if ($baseModel === null) {
-            throw new InvalidArgumentException();
-        }
-
         if ($query instanceof KeyQuery) {
             $this->objects[$query->geKey()] = $baseModel;
 
