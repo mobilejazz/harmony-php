@@ -8,33 +8,33 @@ use harmony\core\repository\query\Query;
 use harmony\core\shared\collection\GenericCollection;
 
 /**
- * @template   Tmodel
- * @template   Tentity
- * @implements GetRepository<Tmodel>
- * @implements PutRepository<Tmodel>
+ * @template   TModel
+ * @template   TEntity
+ * @implements GetRepository<TModel>
+ * @implements PutRepository<TModel>
  */
 class RepositoryMapper implements GetRepository, PutRepository, DeleteRepository
 {
-    /** @var GetRepository<Tentity> */
+    /** @var GetRepository<TEntity> */
     private $getRepository;
-    /** @var PutRepository<Tentity> */
+    /** @var PutRepository<TEntity> */
     private $putRepository;
     /** @var DeleteRepository */
     private $deleteRepository;
 
-    /** @var GenericMapper<Tmodel, Tentity> */
+    /** @var GenericMapper<TModel, TEntity> */
     protected $toInMapper;
-    /** @var GenericMapper<Tentity, Tmodel> */
+    /** @var GenericMapper<TEntity, TModel> */
     protected $toOutMapper;
 
     /**
      * RepositoryMapper constructor.
      *
-     * @param GetRepository<Tentity>         $getRepository
-     * @param PutRepository<Tentity>         $putRepository
+     * @param GetRepository<TEntity>         $getRepository
+     * @param PutRepository<TEntity>         $putRepository
      * @param DeleteRepository               $deleteRepository
-     * @param GenericMapper<Tmodel, Tentity> $toInMapper
-     * @param GenericMapper<Tentity, Tmodel> $toOutMapper
+     * @param GenericMapper<TModel, TEntity> $toInMapper
+     * @param GenericMapper<TEntity, TModel> $toOutMapper
      */
     public function __construct(
         GetRepository $getRepository,

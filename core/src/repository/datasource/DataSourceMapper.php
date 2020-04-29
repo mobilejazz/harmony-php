@@ -7,31 +7,31 @@ use harmony\core\repository\query\Query;
 use harmony\core\shared\collection\GenericCollection;
 
 /**
- * @template   Tentity
- * @template   Tdata
- * @implements GetDataSource<Tentity>
- * @implements PutDataSource<Tentity>
+ * @template   TEntity
+ * @template   TData
+ * @implements GetDataSource<TEntity>
+ * @implements PutDataSource<TEntity>
  */
 class DataSourceMapper implements GetDataSource, PutDataSource, DeleteDataSource
 {
-    /** @var GetDataSource<Tdata> */
+    /** @var GetDataSource<TData> */
     protected $getDataSource;
-    /** @var PutDataSource<Tdata> */
+    /** @var PutDataSource<TData> */
     protected $putDataSource;
     /** @var DeleteDataSource */
     protected $deleteDataSource;
 
-    /** @var GenericMapper<Tentity, Tdata> */
+    /** @var GenericMapper<TEntity, TData> */
     protected $entityToDataMapper;
-    /** @var GenericMapper<Tdata, Tentity> */
+    /** @var GenericMapper<TData, TEntity> */
     protected $dataToEntityMapper;
 
     /**
-     * @param GetDataSource<Tdata>          $getDataSource
-     * @param PutDataSource<Tdata>          $putDataSource
+     * @param GetDataSource<TData>          $getDataSource
+     * @param PutDataSource<TData>          $putDataSource
      * @param DeleteDataSource              $deleteDataSource
-     * @param GenericMapper<Tentity, Tdata> $entityToDataMapper
-     * @param GenericMapper<Tdata, Tentity> $dataToEntityMapper
+     * @param GenericMapper<TEntity, TData> $entityToDataMapper
+     * @param GenericMapper<TData, TEntity> $dataToEntityMapper
      */
     public function __construct(
         GetDataSource $getDataSource,
@@ -76,11 +76,11 @@ class DataSourceMapper implements GetDataSource, PutDataSource, DeleteDataSource
     /**
      * @param Query $query
      *
-     * @psalm-param  Tentity $entity
+     * @psalm-param  TEntity $entity
      *
      * @param null  $entity
      *
-     * @psalm-return Tentity
+     * @psalm-return TEntity
      * @return T|mixed
      */
     public function put(Query $query, $entity = null)
@@ -100,11 +100,11 @@ class DataSourceMapper implements GetDataSource, PutDataSource, DeleteDataSource
     /**
      * @param Query                  $query
      *
-     * @psalm-param  GenericCollection<Tentity> $entities
+     * @psalm-param  GenericCollection<TEntity> $entities
      *
      * @param GenericCollection|null $entities
      *
-     * @psalm-return GenericCollection<Tentity>
+     * @psalm-return GenericCollection<TEntity>
      * @return GenericCollection
      */
     public function putAll(
