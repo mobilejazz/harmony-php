@@ -4,7 +4,6 @@ namespace harmony\core\repository;
 
 use harmony\core\repository\operation\Operation;
 use harmony\core\repository\query\Query;
-use harmony\core\shared\collection\GenericCollection;
 use harmony\core\shared\error\MethodNotImplementedException;
 
 /**
@@ -30,7 +29,7 @@ class VoidRepository implements GetRepository, PutRepository, DeleteRepository
     public function getAll(
         Query $query,
         Operation $operation
-    ): GenericCollection {
+    ): array {
         throw new MethodNotImplementedException();
     }
 
@@ -40,7 +39,7 @@ class VoidRepository implements GetRepository, PutRepository, DeleteRepository
     public function put(
         Query $query,
         Operation $operation,
-        $entity = null
+        $model = null
     ) {
         throw new MethodNotImplementedException();
     }
@@ -51,8 +50,8 @@ class VoidRepository implements GetRepository, PutRepository, DeleteRepository
     public function putAll(
         Query $query,
         Operation $operation,
-        GenericCollection $collection = null
-    ): GenericCollection {
+        array $models = null
+    ): array {
         throw new MethodNotImplementedException();
     }
 

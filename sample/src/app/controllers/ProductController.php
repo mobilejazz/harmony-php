@@ -5,7 +5,6 @@ namespace Sample\controllers;
 use harmony\core\repository\operation\DefaultOperation;
 use harmony\core\repository\query\AllQuery;
 use harmony\core\repository\query\KeyQuery;
-use harmony\core\shared\collection\GenericCollection;
 use Sample\product\domain\interactor\DeleteProductInteractor;
 use Sample\product\domain\interactor\GetAllProductInteractor;
 use Sample\product\domain\interactor\GetProductInteractor;
@@ -66,13 +65,10 @@ class ProductController
             450.50
         );
 
-        $listProducts = new GenericCollection(
-            Product::class,
-            [
-                $productOne,
-                $productTwo,
-            ]
-        );
+        $listProducts = [
+            $productOne,
+            $productTwo,
+        ];
 
         $variables = [];
 
@@ -121,11 +117,11 @@ class ProductController
     }
 
     /**
-     * @param GenericCollection<Product> $products
+     * @param array<Product> $products
      *
-     * @return GenericCollection<Product>
+     * @return array<Product>
      */
-    protected function putAllProductsAction(GenericCollection $products): GenericCollection
+    protected function putAllProductsAction(array $products): array
     {
         $query = new AllQuery();
         $result = $this->putAllProductInteractor->execute(
@@ -138,9 +134,9 @@ class ProductController
     }
 
     /**
-     * @return GenericCollection<Product>
+     * @return Product[]
      */
-    protected function getAllProductsAction(): GenericCollection
+    protected function getAllProductsAction(): array
     {
         $query = new AllQuery();
         $products = $this->getAllProductInteractor->execute(

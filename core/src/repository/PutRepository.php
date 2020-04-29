@@ -4,7 +4,6 @@ namespace harmony\core\repository;
 
 use harmony\core\repository\operation\Operation;
 use harmony\core\repository\query\Query;
-use harmony\core\shared\collection\GenericCollection;
 
 /**
  * @template T
@@ -14,26 +13,26 @@ interface PutRepository extends Repository
     /**
      * @param Query     $query
      * @param Operation $operation
-     * @param T|null    $entity
+     * @param T|null    $model
      *
      * @return T
      */
     public function put(
         Query $query,
         Operation $operation,
-        $entity = null
+        $model = null
     );
 
     /**
-     * @param Query                     $query
-     * @param Operation                 $operation
-     * @param GenericCollection<T>|null $collection
+     * @param Query         $query
+     * @param Operation     $operation
+     * @param array<T>|null $models
      *
-     * @return GenericCollection<T>
+     * @return array<T>
      */
     public function putAll(
         Query $query,
         Operation $operation,
-        GenericCollection $collection = null
-    ): GenericCollection;
+        array $models = null
+    ): array;
 }

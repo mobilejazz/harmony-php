@@ -5,7 +5,6 @@ namespace harmony\core\repository;
 use harmony\core\repository\datasource\GetDataSource;
 use harmony\core\repository\operation\Operation;
 use harmony\core\repository\query\Query;
-use harmony\core\shared\collection\GenericCollection;
 
 /**
  * @template   T
@@ -36,7 +35,7 @@ class SingleGetDataSourceRepository implements GetRepository
     /**
      * @inheritdoc
      */
-    public function getAll(Query $query, Operation $operation): GenericCollection
+    public function getAll(Query $query, Operation $operation): array
     {
         return $this->getDataSource->getAll($query);
     }

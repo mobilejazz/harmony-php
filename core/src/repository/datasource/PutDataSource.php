@@ -3,7 +3,6 @@
 namespace harmony\core\repository\datasource;
 
 use harmony\core\repository\query\Query;
-use harmony\core\shared\collection\GenericCollection;
 
 /**
  * @template T
@@ -12,20 +11,20 @@ interface PutDataSource
 {
     /**
      * @param Query  $query
-     * @param T|null $baseModel
+     * @param T|null $entity
      *
      * @return T
      */
-    public function put(Query $query, $baseModel = null);
+    public function put(Query $query, $entity = null);
 
     /**
-     * @param Query                     $query
-     * @param GenericCollection<T>|null $baseModels
+     * @param Query         $query
+     * @param array<T>|null $entities
      *
-     * @return GenericCollection<T>
+     * @return array<T>
      */
     public function putAll(
         Query $query,
-        GenericCollection $baseModels = null
-    ): GenericCollection;
+        array $entities = null
+    ): array;
 }

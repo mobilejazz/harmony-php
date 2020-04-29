@@ -3,7 +3,6 @@
 namespace harmony\core\repository\datasource;
 
 use harmony\core\repository\query\Query;
-use harmony\core\shared\collection\GenericCollection;
 use harmony\core\shared\error\MethodNotImplementedException;
 
 /**
@@ -23,7 +22,7 @@ class VoidGetDataSource implements GetDataSource
     /**
      * @inheritdoc
      */
-    public function getAll(Query $query): GenericCollection
+    public function getAll(Query $query): array
     {
         throw new MethodNotImplementedException();
     }

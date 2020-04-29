@@ -3,7 +3,6 @@
 namespace harmony\core\repository\datasource;
 
 use harmony\core\repository\query\Query;
-use harmony\core\shared\collection\GenericCollection;
 use harmony\core\shared\error\MethodNotImplementedException;
 
 /**
@@ -24,7 +23,7 @@ class VoidDataSource implements GetDataSource, PutDataSource, DeleteDataSource
     /**
      * @inheritdoc
      */
-    public function getAll(Query $query): GenericCollection
+    public function getAll(Query $query): array
     {
         throw new MethodNotImplementedException();
     }
@@ -32,7 +31,7 @@ class VoidDataSource implements GetDataSource, PutDataSource, DeleteDataSource
     /**
      * @inheritdoc
      */
-    public function put(Query $query, $baseModel = null)
+    public function put(Query $query, $entity = null)
     {
         throw new MethodNotImplementedException();
     }
@@ -42,8 +41,8 @@ class VoidDataSource implements GetDataSource, PutDataSource, DeleteDataSource
      */
     public function putAll(
         Query $query,
-        GenericCollection $baseModels = null
-    ): GenericCollection {
+        array $entities = null
+    ): array {
         throw new MethodNotImplementedException();
     }
 

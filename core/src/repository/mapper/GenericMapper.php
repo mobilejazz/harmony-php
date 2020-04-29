@@ -5,27 +5,27 @@ namespace harmony\core\repository\mapper;
 use harmony\core\shared\generics\GenericsHelper;
 
 /**
- * @template Tfrom
- * @template Tto
+ * @template TFrom
+ * @template TTo
  */
 abstract class GenericMapper implements Mapper
 {
     use GenericsHelper;
 
     /**
-     * @psalm-var class-string<Tfrom>
+     * @psalm-var class-string<TFrom>
      * @var string
      */
     protected $from;
     /**
-     * @psalm-var class-string<Tto>
+     * @psalm-var class-string<TTo>
      * @var string
      */
     protected $to;
 
     /**
-     * @psalm-param class-string<Tfrom> $from_class
-     * @psalm-param class-string<Tto> $to_class
+     * @psalm-param class-string<TFrom> $from_class
+     * @psalm-param class-string<TTo> $to_class
      *
      * @param string $from_class
      * @param string $to_class
@@ -37,7 +37,7 @@ abstract class GenericMapper implements Mapper
     }
 
     /**
-     * @psalm-return class-string<Tfrom>
+     * @psalm-return class-string<TFrom>
      * @return string
      */
     public function getTypeFrom(): string
@@ -46,7 +46,7 @@ abstract class GenericMapper implements Mapper
     }
 
     /**
-     * @psalm-return class-string<Tto>
+     * @psalm-return class-string<TTo>
      * @return string
      */
     public function getTypeTo(): string
@@ -55,11 +55,11 @@ abstract class GenericMapper implements Mapper
     }
 
     /**
-     * @psalm-param  Tfrom $from
+     * @psalm-param  TFrom $from
      *
      * @param mixed $from
      *
-     * @psalm-return Tto
+     * @psalm-return TTo
      * @return mixed
      */
     public function map($from)
@@ -73,11 +73,11 @@ abstract class GenericMapper implements Mapper
     }
 
     /**
-     * @psalm-param  Tfrom $from
+     * @psalm-param  TFrom $from
      *
      * @param mixed $from
      *
-     * @psalm-return Tto
+     * @psalm-return TTo
      * @return mixed
      */
     abstract protected function overrideMap($from);

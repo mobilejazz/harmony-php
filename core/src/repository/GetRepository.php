@@ -4,7 +4,6 @@ namespace harmony\core\repository;
 
 use harmony\core\repository\operation\Operation;
 use harmony\core\repository\query\Query;
-use harmony\core\shared\collection\GenericCollection;
 
 /**
  * @template T
@@ -26,10 +25,10 @@ interface GetRepository extends Repository
      * @param Query     $query
      * @param Operation $operation
      *
-     * @return GenericCollection<T>
+     * @return array<T>
      */
     public function getAll(
         Query $query,
         Operation $operation
-    ): GenericCollection;
+    ): array;
 }

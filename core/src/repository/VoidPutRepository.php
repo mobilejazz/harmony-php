@@ -4,7 +4,6 @@ namespace harmony\core\repository;
 
 use harmony\core\repository\operation\Operation;
 use harmony\core\repository\query\Query;
-use harmony\core\shared\collection\GenericCollection;
 use harmony\core\shared\error\MethodNotImplementedException;
 
 /**
@@ -19,7 +18,7 @@ class VoidPutRepository implements PutRepository
     public function put(
         Query $query,
         Operation $operation,
-        $entity = null
+        $model = null
     ) {
         throw new MethodNotImplementedException();
     }
@@ -30,8 +29,8 @@ class VoidPutRepository implements PutRepository
     public function putAll(
         Query $query,
         Operation $operation,
-        GenericCollection $collection = null
-    ): GenericCollection {
+        array $models = null
+    ): array {
         throw new MethodNotImplementedException();
     }
 }

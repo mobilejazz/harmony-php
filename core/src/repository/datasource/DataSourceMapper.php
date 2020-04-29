@@ -4,7 +4,6 @@ namespace harmony\core\repository\datasource;
 
 use harmony\core\repository\mapper\GenericMapper;
 use harmony\core\repository\query\Query;
-use harmony\core\shared\collection\GenericCollection;
 
 /**
  * @template   TEntity
@@ -61,27 +60,23 @@ class DataSourceMapper implements GetDataSource, PutDataSource, DeleteDataSource
     /**
      * @inheritdoc
      */
-    public function getAll(Query $query): GenericCollection
+    public function getAll(Query $query): array
     {
         $datas = $this->getDataSource->getAll($query);
-        $entities = new GenericCollection($this->dataToEntityMapper->getTypeTo());
+        $entities = [];
 
         foreach ($datas as $from) {
-            $entities->add($this->dataToEntityMapper->map($from));
+            $entities[] = $this->dataToEntityMapper->map($from);
         }
 
         return $entities;
     }
 
     /**
-     * @param Query $query
+     * @param Query        $query
+     * @param TEntity|null $entity
      *
-     * @psalm-param  TEntity $entity
-     *
-     * @param null  $entity
-     *
-     * @psalm-return TEntity
-     * @return T|mixed
+     * @return TEntity|mixed
      */
     public function put(Query $query, $entity = null)
     {
@@ -98,34 +93,30 @@ class DataSourceMapper implements GetDataSource, PutDataSource, DeleteDataSource
     }
 
     /**
-     * @param Query                  $query
+     * @param Query               $query
+     * @param array<TEntity>|null $entities
      *
-     * @psalm-param  GenericCollection<TEntity> $entities
-     *
-     * @param GenericCollection|null $entities
-     *
-     * @psalm-return GenericCollection<TEntity>
-     * @return GenericCollection
+     * @return array<TEntity>
      */
     public function putAll(
         Query $query,
-        GenericCollection $entities = null
-    ): GenericCollection {
+        array $entities = null
+    ): array {
         $datas = null;
 
         if ($entities !== null) {
-            $datas = new GenericCollection($this->entityToDataMapper->getTypeTo());
+            $datas = [];
 
-            foreach ($entities as $from) {
-                $datas->add($this->entityToDataMapper->map($from));
+            foreach ($entities as $entity) {
+                $datas[] = $this->entityToDataMapper->map($entity);
             }
         }
 
         $datasPutted = $this->putDataSource->putAll($query, $datas);
-        $entitiesPutted = new GenericCollection($this->dataToEntityMapper->getTypeTo());
+        $entitiesPutted = [];
 
         foreach ($datasPutted as $dataPutted) {
-            $entitiesPutted->add($this->dataToEntityMapper->map($dataPutted));
+            $entitiesPutted[] = $this->dataToEntityMapper->map($dataPutted);
         }
 
         return $entitiesPutted;

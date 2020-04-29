@@ -7,7 +7,6 @@ use harmony\core\repository\error\QueryNotSupportedException;
 use harmony\core\repository\query\AllQuery;
 use harmony\core\repository\query\KeyQuery;
 use harmony\core\repository\query\Query;
-use harmony\core\shared\collection\GenericCollection;
 use InvalidArgumentException;
 
 /**
@@ -23,7 +22,7 @@ class InMemoryDataSource implements GetDataSource, PutDataSource, DeleteDataSour
     protected $genericClass;
 
     /** @var array<mixed, T> */
-    protected $objects = [];
+    protected $entities = [];
 
     /**
      * @psalm-param class-string<T> $genericClass
@@ -41,11 +40,11 @@ class InMemoryDataSource implements GetDataSource, PutDataSource, DeleteDataSour
     public function get(Query $query)
     {
         if ($query instanceof KeyQuery) {
-            if (!isset($this->objects[$query->geKey()])) {
+            if (!isset($this->entities[$query->geKey()])) {
                 throw new DataNotFoundException();
             }
 
-            return $this->objects[$query->geKey()];
+            return $this->entities[$query->geKey()];
         }
 
         throw new QueryNotSupportedException();
@@ -54,17 +53,14 @@ class InMemoryDataSource implements GetDataSource, PutDataSource, DeleteDataSour
     /**
      * @inheritdoc
      */
-    public function getAll(Query $query): GenericCollection
+    public function getAll(Query $query): array
     {
         if ($query instanceof AllQuery) {
-            if (empty($this->objects)) {
+            if (empty($this->entities)) {
                 throw new DataNotFoundException();
             }
 
-            return new GenericCollection(
-                $this->genericClass,
-                $this->objects
-            );
+            return $this->entities;
         }
 
         throw new QueryNotSupportedException();
@@ -73,16 +69,16 @@ class InMemoryDataSource implements GetDataSource, PutDataSource, DeleteDataSour
     /**
      * @inheritdoc
      */
-    public function put(Query $query, $baseModel = null)
+    public function put(Query $query, $entity = null)
     {
-        if ($baseModel === null) {
+        if ($entity === null) {
             throw new InvalidArgumentException();
         }
 
         if ($query instanceof KeyQuery) {
-            $this->objects[$query->geKey()] = $baseModel;
+            $this->entities[$query->geKey()] = $entity;
 
-            return $baseModel;
+            return $entity;
         }
 
         throw new QueryNotSupportedException();
@@ -93,18 +89,18 @@ class InMemoryDataSource implements GetDataSource, PutDataSource, DeleteDataSour
      */
     public function putAll(
         Query $query,
-        GenericCollection $baseModels = null
-    ): GenericCollection {
-        if ($baseModels === null) {
+        array $entities = null
+    ): array {
+        if ($entities === null) {
             throw new InvalidArgumentException();
         }
 
         if ($query instanceof AllQuery) {
-            foreach ($baseModels as $baseModel) {
-                $this->objects[] = $baseModel;
+            foreach ($entities as $entity) {
+                $this->entities[] = $entity;
             }
 
-            return $baseModels;
+            return $entities;
         }
 
         throw new QueryNotSupportedException();
@@ -116,11 +112,11 @@ class InMemoryDataSource implements GetDataSource, PutDataSource, DeleteDataSour
     public function delete(Query $query): void
     {
         if ($query instanceof KeyQuery) {
-            if (!isset($this->objects[$query->geKey()])) {
+            if (!isset($this->entities[$query->geKey()])) {
                 throw new DataNotFoundException();
             }
 
-            unset($this->objects[$query->geKey()]);
+            unset($this->entities[$query->geKey()]);
             return;
         }
 
