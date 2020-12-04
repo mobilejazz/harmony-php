@@ -1,65 +1,42 @@
-FROM php:7.3-fpm-stretch
+FROM php:8.0.0-fpm-alpine
 
-WORKDIR /var/www/html
+# Update system
+RUN apk --update --no-cache add \
+    git \
+    shadow
 
-# Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
-    && chmod +x /usr/local/bin/composer
-
-# Update debian and install php extensions
-RUN \
-    apt-get update \
-    && apt-get -y upgrade \
-    && apt-get install -y \
-        libfreetype6-dev \
-        libjpeg62-turbo-dev \
-        gnupg \
-        libmcrypt-dev \
-        libxml2-dev \
-        wget \
-        curl \
-        locales \
-        openssl \
-        zip \
-        unzip \
-        libzip-dev \
-        git \
-        iproute2 \
-        dnsutils \
-        iputils-ping \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* \
-    # Configure docker
-    && docker-php-ext-configure zip --with-libzip \
-    && docker-php-ext-install -j$(nproc) \
-        gettext \
-        pdo \
-        mysqli \
-        pdo_mysql \
-        mbstring \
-        iconv \
-        opcache \
-        zip \
-        bcmath \
-    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-    && docker-php-ext-install -j$(nproc) gd
+# Install PHP extensions
+RUN docker-php-ext-install pdo_mysql
 
 # Use the default development configuration
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 
-# Xdebug
-RUN pecl install xdebug-2.8.0 \
-    && rm -rf /tmp/pear
-
-# User www-data like a user from host machine
+# User www-data like the user from host machine to avoid file permissions problems
 ARG HOST_USER_ID=1000
 ARG HOST_GROUP_ID=1000
 RUN usermod -u $HOST_USER_ID www-data \
-    && groupmod -g $HOST_GROUP_ID www-data \
-    && chown -R www-data:www-data /var/www
+    && groupmod -g $HOST_GROUP_ID www-data
+#    && chown -R www-data:www-data /var/www
 
-VOLUME '/var/www/html'
-EXPOSE 80 443
+# Composer 2.0.8
+RUN curl -sS \
+    https://raw.githubusercontent.com/composer/getcomposer.org/bfd95e2a4383ee9cf7c058c2df29d7acb5f86d77/web/installer \
+    | php -- --quiet --install-dir=/usr/local/bin --filename=composer \
+    && chmod +x /usr/local/bin/composer
 
-COPY ./phpfpm/docker-entrypoint.sh /usr/local/bin/
-ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
+# Xdebug
+RUN apk add --no-cache $PHPIZE_DEPS \
+    && pecl install xdebug-3.0.0 \
+    && docker-php-ext-enable xdebug \
+    && echo "xdebug.mode=debug" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && echo "xdebug.client_port=9000" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && echo "xdebug.start_with_request=yes" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && echo "xdebug.client_host=host.docker.internal" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && echo "xdebug.log=/var/log/xdebug/xdebug.log" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && mkdir -p /var/log/xdebug \
+    && touch /var/log/xdebug/xdebug.log \
+    && chmod 664 /var/log/xdebug/xdebug.log \
+    && chown www-data:www-data /var/log/xdebug/xdebug.log \
+    && rm -rf /tmp/pear
+
+COPY ./phpfpm/docker-set-host-internal.sh /usr/local/bin/

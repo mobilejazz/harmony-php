@@ -29,5 +29,5 @@ services:
         environment:
             # The same name server like PHPSTORM
             - PHP_IDE_CONFIG=serverName=localhost
-            # Comment to disable XDebug
-            - ENABLE_XDEBUG=true
+            # https://xdebug.org/docs/all_settings#mode
+            - XDEBUG_MODE=debug
