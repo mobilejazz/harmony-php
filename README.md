@@ -2,6 +2,8 @@
 
 This repository contains the core structure for PHP of the [Mobile Jazz Harmony](https://harmony.mobilejazz.com/docs/introduction) project.
 
+![](https://github.com/mobilejazz/harmony-php/workflows/Static%20Analysis/badge.svg)
+
 ## Installation
 
 [How to install](https://harmony.mobilejazz.com/docs/gettingstarted/setup/)

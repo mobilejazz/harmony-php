@@ -12,7 +12,7 @@ class DeleteInteractor
     private $deleteRepository;
 
     /**
-     * @param $deleteRepository
+     * @param DeleteRepository $deleteRepository
      */
     public function __construct(DeleteRepository $deleteRepository)
     {

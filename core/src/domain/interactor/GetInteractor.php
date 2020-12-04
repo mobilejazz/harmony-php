@@ -2,18 +2,20 @@
 
 namespace harmony\core\domain\interactor;
 
-use harmony\core\repository\BaseEntity;
 use harmony\core\repository\GetRepository;
 use harmony\core\repository\operation\Operation;
 use harmony\core\repository\query\Query;
 
+/**
+ * @template T
+ */
 class GetInteractor
 {
-    /** @var GetRepository */
+    /** @var GetRepository<T> */
     private $getRepository;
 
     /**
-     * @param $getRepository
+     * @param GetRepository<T> $getRepository
      */
     public function __construct(GetRepository $getRepository)
     {
@@ -24,12 +26,13 @@ class GetInteractor
      * @param Query     $query     query
      * @param Operation $operation operation
      *
-     * @return BaseEntity
+     * @return mixed
+     * @phpstan-return T
      */
     public function execute(
         Query $query,
         Operation $operation
-    ): BaseEntity {
+    ) {
         return $this->getRepository->get($query, $operation);
     }
 }

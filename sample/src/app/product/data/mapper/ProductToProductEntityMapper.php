@@ -6,6 +6,9 @@ use harmony\core\repository\mapper\GenericMapper;
 use Sample\product\data\entity\ProductEntity;
 use Sample\product\domain\model\Product;
 
+/**
+ * @extends GenericMapper<Product, ProductEntity>
+ */
 class ProductToProductEntityMapper extends GenericMapper
 {
     public function __construct()

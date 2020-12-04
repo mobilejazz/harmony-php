@@ -5,15 +5,17 @@ namespace harmony\core\domain\interactor;
 use harmony\core\repository\GetRepository;
 use harmony\core\repository\operation\Operation;
 use harmony\core\repository\query\Query;
-use harmony\core\shared\collection\GenericCollection;
 
+/**
+ * @template T
+ */
 class GetAllInteractor
 {
-    /** @var GetRepository */
+    /** @var GetRepository<T> */
     private $getRepository;
 
     /**
-     * @param $getRepository
+     * @param GetRepository<T> $getRepository
      */
     public function __construct(GetRepository $getRepository)
     {
@@ -24,12 +26,12 @@ class GetAllInteractor
      * @param Query     $query
      * @param Operation $operation
      *
-     * @return GenericCollection
+     * @return array<T>
      */
     public function execute(
         Query $query,
         Operation $operation
-    ): GenericCollection {
+    ): array {
         return $this->getRepository->getAll($query, $operation);
     }
 }

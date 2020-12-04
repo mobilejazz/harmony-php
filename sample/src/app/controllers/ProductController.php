@@ -2,44 +2,48 @@
 
 namespace Sample\controllers;
 
-use harmony\core\domain\interactor\DeleteInteractor;
-use harmony\core\domain\interactor\GetAllInteractor;
-use harmony\core\domain\interactor\GetInteractor;
-use harmony\core\domain\interactor\PutAllInteractor;
-use harmony\core\domain\interactor\PutInteractor;
-use harmony\core\domain\Model;
-use harmony\core\repository\BaseEntity;
 use harmony\core\repository\operation\DefaultOperation;
 use harmony\core\repository\query\AllQuery;
 use harmony\core\repository\query\KeyQuery;
-use harmony\core\shared\collection\GenericCollection;
+use Sample\product\domain\interactor\DeleteProductInteractor;
+use Sample\product\domain\interactor\GetAllProductInteractor;
+use Sample\product\domain\interactor\GetProductInteractor;
+use Sample\product\domain\interactor\PutAllProductInteractor;
+use Sample\product\domain\interactor\PutProductInteractor;
 use Sample\product\domain\model\Product;
 
 class ProductController
 {
-    /** @var GetInteractor */
-    protected $getInteractor;
-    /** @var GetAllInteractor */
-    protected $getAllInteractor;
-    /** @var PutInteractor */
-    protected $putInteractor;
-    /** @var PutAllInteractor */
-    protected $putAllInteractor;
-    /** @var DeleteInteractor */
-    protected $deleteInteractor;
+    /** @var GetProductInteractor */
+    protected $getProductInteractor;
+    /** @var GetAllProductInteractor */
+    protected $getAllProductInteractor;
+    /** @var PutProductInteractor */
+    protected $putProductInteractor;
+    /** @var PutAllProductInteractor */
+    protected $putAllProductInteractor;
+    /** @var DeleteProductInteractor */
+    protected $deleteProductInteractor;
 
+    /**
+     * @param GetProductInteractor    $getInteractor
+     * @param GetAllProductInteractor $getAllInteractor
+     * @param PutProductInteractor    $putInteractor
+     * @param PutAllProductInteractor $putAllInteractor
+     * @param DeleteProductInteractor $deleteInteractor
+     */
     public function __construct(
-        GetInteractor $getInteractor,
-        GetAllInteractor $getAllInteractor,
-        PutInteractor $putInteractor,
-        PutAllInteractor $putAllInteractor,
-        DeleteInteractor $deleteInteractor
+        GetProductInteractor $getInteractor,
+        GetAllProductInteractor $getAllInteractor,
+        PutProductInteractor $putInteractor,
+        PutAllProductInteractor $putAllInteractor,
+        DeleteProductInteractor $deleteInteractor
     ) {
-        $this->getInteractor = $getInteractor;
-        $this->getAllInteractor = $getAllInteractor;
-        $this->putInteractor = $putInteractor;
-        $this->putAllInteractor = $putAllInteractor;
-        $this->deleteInteractor = $deleteInteractor;
+        $this->getProductInteractor = $getInteractor;
+        $this->getAllProductInteractor = $getAllInteractor;
+        $this->putProductInteractor = $putInteractor;
+        $this->putAllProductInteractor = $putAllInteractor;
+        $this->deleteProductInteractor = $deleteInteractor;
     }
 
     /**
@@ -61,13 +65,10 @@ class ProductController
             450.50
         );
 
-        $listProducts = new GenericCollection(
-            Product::class,
-            [
-                $productOne,
-                $productTwo,
-            ]
-        );
+        $listProducts = [
+            $productOne,
+            $productTwo,
+        ];
 
         $variables = [];
 
@@ -84,15 +85,15 @@ class ProductController
     }
 
     /**
-     * @param $product
+     * @param Product $product
      *
-     * @return BaseEntity
+     * @return Product
      */
-    protected function putProductAction(Product $product): BaseEntity
+    protected function putProductAction(Product $product): Product
     {
         $query = new KeyQuery((string)$product->getId());
 
-        return $this->putInteractor->execute(
+        return $this->putProductInteractor->execute(
             $query,
             new DefaultOperation(),
             $product
@@ -100,14 +101,14 @@ class ProductController
     }
 
     /**
-     * @param string $id_product
+     * @param int $id_product
      *
-     * @return BaseEntity
+     * @return Product
      */
-    protected function getProductAction(string $id_product): BaseEntity
+    protected function getProductAction(int $id_product): Product
     {
-        $query = new KeyQuery($id_product);
-        $product = $this->getInteractor->execute(
+        $query = new KeyQuery((string)$id_product);
+        $product = $this->getProductInteractor->execute(
             $query,
             new DefaultOperation()
         );
@@ -116,14 +117,14 @@ class ProductController
     }
 
     /**
-     * @param GenericCollection $products
+     * @param array<Product> $products
      *
-     * @return GenericCollection
+     * @return array<Product>
      */
-    protected function putAllProductsAction(GenericCollection $products): GenericCollection
+    protected function putAllProductsAction(array $products): array
     {
         $query = new AllQuery();
-        $result = $this->putAllInteractor->execute(
+        $result = $this->putAllProductInteractor->execute(
             $query,
             new DefaultOperation(),
             $products
@@ -133,12 +134,12 @@ class ProductController
     }
 
     /**
-     * @return GenericCollection
+     * @return Product[]
      */
-    protected function getAllProductsAction(): GenericCollection
+    protected function getAllProductsAction(): array
     {
         $query = new AllQuery();
-        $products = $this->getAllInteractor->execute(
+        $products = $this->getAllProductInteractor->execute(
             $query,
             new DefaultOperation()
         );
@@ -147,14 +148,14 @@ class ProductController
     }
 
     /**
-     * @param string $id_product
+     * @param int $id_product
      *
      * @return string
      */
-    protected function deleteProductAction(string $id_product): string
+    protected function deleteProductAction(int $id_product): string
     {
-        $query = new KeyQuery($id_product);
-        $this->deleteInteractor->execute(
+        $query = new KeyQuery((string)$id_product);
+        $this->deleteProductInteractor->execute(
             $query,
             new DefaultOperation()
         );
@@ -163,8 +164,8 @@ class ProductController
     }
 
     /**
-     * @param array  $variables
-     * @param string $template
+     * @param array<string, mixed> $variables
+     * @param string               $template
      *
      * @return false|string
      */
@@ -172,8 +173,13 @@ class ProductController
     {
         ob_start();
 
-        extract($variables, null);
-        include __DIR__ . '/../views/' . $template . '.template.php';
+        extract($variables, EXTR_OVERWRITE);
+
+        $template_path = __DIR__ . '/../views/' . $template . '.template.view';
+
+        if (file_exists($template_path)) {
+            include $template_path;
+        }
 
         $result = ob_get_clean();
 

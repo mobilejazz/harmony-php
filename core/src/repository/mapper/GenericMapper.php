@@ -4,15 +4,32 @@ namespace harmony\core\repository\mapper;
 
 use harmony\core\shared\generics\GenericsHelper;
 
+/**
+ * @template TFrom
+ * @template TTo
+ */
 abstract class GenericMapper implements Mapper
 {
     use GenericsHelper;
 
-    /** @var string */
+    /**
+     * @psalm-var class-string<TFrom>
+     * @var string
+     */
     protected $from;
-    /** @var string */
+    /**
+     * @psalm-var class-string<TTo>
+     * @var string
+     */
     protected $to;
 
+    /**
+     * @psalm-param class-string<TFrom> $from_class
+     * @psalm-param class-string<TTo> $to_class
+     *
+     * @param string $from_class
+     * @param string $to_class
+     */
     public function __construct(string $from_class, string $to_class)
     {
         $this->from = $from_class;
@@ -20,6 +37,7 @@ abstract class GenericMapper implements Mapper
     }
 
     /**
+     * @psalm-return class-string<TFrom>
      * @return string
      */
     public function getTypeFrom(): string
@@ -28,6 +46,7 @@ abstract class GenericMapper implements Mapper
     }
 
     /**
+     * @psalm-return class-string<TTo>
      * @return string
      */
     public function getTypeTo(): string
@@ -36,8 +55,11 @@ abstract class GenericMapper implements Mapper
     }
 
     /**
-     * @param $from
+     * @psalm-param  TFrom $from
      *
+     * @param mixed $from
+     *
+     * @psalm-return TTo
      * @return mixed
      */
     public function map($from)
@@ -51,14 +73,17 @@ abstract class GenericMapper implements Mapper
     }
 
     /**
-     * @param $from
+     * @psalm-param  TFrom $from
      *
+     * @param mixed $from
+     *
+     * @psalm-return TTo
      * @return mixed
      */
     abstract protected function overrideMap($from);
 
     /**
-     * @param $object
+     * @param mixed $object
      *
      * @return bool
      */
@@ -68,11 +93,11 @@ abstract class GenericMapper implements Mapper
     }
 
     /**
-     * @param object $object
+     * @param mixed $object
      *
      * @return bool
      */
-    protected function isTypeToOrFail(object $object): bool
+    protected function isTypeToOrFail($object): bool
     {
         return $this->isReceivedObjectLikeExpectedOrFail($object, $this->to);
     }

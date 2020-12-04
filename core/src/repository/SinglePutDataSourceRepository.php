@@ -5,15 +5,21 @@ namespace harmony\core\repository;
 use harmony\core\repository\datasource\PutDataSource;
 use harmony\core\repository\operation\Operation;
 use harmony\core\repository\query\Query;
-use harmony\core\shared\collection\GenericCollection;
 
+/**
+ * @template   T
+ * @implements PutRepository<T>
+ */
 class SinglePutDataSourceRepository implements PutRepository
 {
     /**
-     * @var PutDataSource
+     * @var PutDataSource<T>
      */
     protected $putDataSource;
 
+    /**
+     * @param PutDataSource<T> $putDataSource
+     */
     public function __construct(
         PutDataSource $putDataSource
     ) {
@@ -21,35 +27,27 @@ class SinglePutDataSourceRepository implements PutRepository
     }
 
     /**
-     * @param Query           $query
-     * @param Operation       $operation
-     * @param BaseEntity|null $entity
-     *
-     * @return BaseEntity
+     * @inheritdoc
      */
     public function put(
         Query $query,
         Operation $operation,
-        BaseEntity $entity = null
-    ): BaseEntity {
+        $model = null
+    ) {
         return $this->putDataSource->put(
             $query,
-            $entity
+            $model
         );
     }
 
     /**
-     * @param Query                  $query
-     * @param Operation              $operation
-     * @param GenericCollection|null $collection
-     *
-     * @return GenericCollection
+     * @inheritdoc
      */
     public function putAll(
         Query $query,
         Operation $operation,
-        GenericCollection $collection = null
-    ): GenericCollection {
-        return $this->putDataSource->putAll($query, $collection);
+        array $models = null
+    ): array {
+        return $this->putDataSource->putAll($query, $models);
     }
 }

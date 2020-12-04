@@ -13,13 +13,17 @@ fi
 if [[ -z "${ENABLE_XDEBUG}" ]]; then
     echo "Run PHP without XDebug"
 else
-    echo "Enable XDebug"
+    echo "XDebug Enabled..."
     docker-php-ext-enable xdebug
     echo "xdebug.remote_enable=1" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
     echo "xdebug.remote_autostart=1" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
     echo "xdebug.remote_port=9000" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
     echo "xdebug.remote_host=host.docker.internal" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
     echo "xdebug.remote_log=/var/log/xdebug/xdebug.log" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+    mkdir -p /var/log/xdebug
+    touch /var/log/xdebug/xdebug.log
+    chmod 664 /var/log/xdebug/xdebug.log
+    chown www-data:www-data /var/log/xdebug/xdebug.log
     echo "xdebug.idekey=PHPSTORM" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 fi
 

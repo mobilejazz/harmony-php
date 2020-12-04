@@ -7,21 +7,25 @@ use harmony\core\repository\datasource\GetDataSource;
 use harmony\core\repository\datasource\PutDataSource;
 use harmony\core\repository\operation\Operation;
 use harmony\core\repository\query\Query;
-use harmony\core\shared\collection\GenericCollection;
 
+/**
+ * @template   T
+ * @implements GetRepository<T>
+ * @implements PutRepository<T>
+ */
 class SingleDataSourceRepository implements GetRepository, PutRepository, DeleteRepository
 {
-    /** @var GetDataSource */
+    /** @var GetDataSource<T> */
     private $getDataSource;
-    /** @var PutDataSource */
+    /** @var PutDataSource<T> */
     private $putDataSource;
     /** @var DeleteDataSource */
     private $deleteDataSource;
 
     /**
-     * @param GetDataSource    $getDataSource    data source
-     * @param PutDataSource    $putDataSource    data source
-     * @param DeleteDataSource $deleteDataSource data source
+     * @param GetDataSource<T> $getDataSource
+     * @param PutDataSource<T> $putDataSource
+     * @param DeleteDataSource $deleteDataSource
      */
     public function __construct(
         GetDataSource $getDataSource,
@@ -34,62 +38,45 @@ class SingleDataSourceRepository implements GetRepository, PutRepository, Delete
     }
 
     /**
-     * @param Query     $query
-     * @param Operation $operation
-     *
-     * @return BaseEntity
+     * @inheritdoc
      */
-    public function get(Query $query, Operation $operation): BaseEntity
+    public function get(Query $query, Operation $operation)
     {
         return $this->getDataSource->get($query);
     }
 
     /**
-     * @param Query     $query
-     * @param Operation $operation
-     *
-     * @return GenericCollection
+     * @inheritdoc
      */
-    public function getAll(Query $query, Operation $operation): GenericCollection
+    public function getAll(Query $query, Operation $operation): array
     {
         return $this->getDataSource->getAll($query);
     }
 
     /**
-     * @param Query           $query
-     * @param Operation       $operation
-     * @param BaseEntity|null $entity
-     *
-     * @return BaseEntity
+     * @inheritdoc
      */
     public function put(
         Query $query,
         Operation $operation,
-        BaseEntity $entity = null
-    ): BaseEntity {
-        return $this->putDataSource->put($query, $entity);
+        $model = null
+    ) {
+        return $this->putDataSource->put($query, $model);
     }
 
     /**
-     * @param Query                  $query
-     * @param Operation              $operation
-     * @param GenericCollection|null $baseModels
-     *
-     * @return GenericCollection
+     * @inheritdoc
      */
     public function putAll(
         Query $query,
         Operation $operation,
-        GenericCollection $baseModels = null
-    ): GenericCollection {
-        return $this->putDataSource->putAll($query, $baseModels);
+        array $models = null
+    ): array {
+        return $this->putDataSource->putAll($query, $models);
     }
 
     /**
-     * @param Query     $query
-     * @param Operation $operation
-     *
-     * @return void
+     * @inheritdoc
      */
     public function delete(Query $query, Operation $operation): void
     {
