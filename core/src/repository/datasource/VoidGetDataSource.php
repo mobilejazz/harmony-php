@@ -2,31 +2,27 @@
 
 namespace harmony\core\repository\datasource;
 
-use harmony\core\repository\BaseEntity;
 use harmony\core\repository\query\Query;
-use harmony\core\shared\collection\GenericCollection;
 use harmony\core\shared\error\MethodNotImplementedException;
 
+/**
+ * @template   T
+ * @implements GetDataSource<T>
+ */
 class VoidGetDataSource implements GetDataSource
 {
     /**
-     * @param Query $query
-     *
-     * @return BaseEntity
-     * @throws MethodNotImplementedException
+     * @inheritdoc
      */
-    public function get(Query $query): BaseEntity
+    public function get(Query $query)
     {
         throw new MethodNotImplementedException();
     }
 
     /**
-     * @param Query $query
-     *
-     * @return GenericCollection
-     * @throws MethodNotImplementedException
+     * @inheritdoc
      */
-    public function getAll(Query $query): GenericCollection
+    public function getAll(Query $query): array
     {
         throw new MethodNotImplementedException();
     }

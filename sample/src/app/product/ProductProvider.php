@@ -2,26 +2,29 @@
 
 namespace Sample\product;
 
-use harmony\core\domain\interactor\DeleteInteractor;
-use harmony\core\domain\interactor\GetAllInteractor;
-use harmony\core\domain\interactor\GetInteractor;
-use harmony\core\domain\interactor\PutAllInteractor;
-use harmony\core\domain\interactor\PutInteractor;
 use harmony\core\repository\datasource\InMemoryDataSource;
 use harmony\core\repository\RepositoryMapper;
 use harmony\core\repository\SingleDataSourceRepository;
 use Sample\product\data\entity\ProductEntity;
 use Sample\product\data\mapper\ProductEntityToProductMapper;
 use Sample\product\data\mapper\ProductToProductEntityMapper;
+use Sample\product\domain\interactor\DeleteProductInteractor;
+use Sample\product\domain\interactor\GetAllProductInteractor;
+use Sample\product\domain\interactor\GetProductInteractor;
+use Sample\product\domain\interactor\PutAllProductInteractor;
+use Sample\product\domain\interactor\PutProductInteractor;
+use Sample\product\domain\model\Product;
 
 class ProductProvider
 {
+    /** @var string */
     protected const KEY_PRODUCT_REPOSITORY = 'ProductRepository';
 
+    /** @var array<string, mixed> */
     protected $di_container = [];
 
     /**
-     * @return RepositoryMapper
+     * @return RepositoryMapper<Product, ProductEntity>
      */
     protected function registerRepository(): RepositoryMapper
     {
@@ -45,7 +48,7 @@ class ProductProvider
     }
 
     /**
-     * @return RepositoryMapper
+     * @return RepositoryMapper<Product, ProductEntity>
      */
     public function getProductRepository(): RepositoryMapper
     {
@@ -57,42 +60,42 @@ class ProductProvider
     }
 
     /**
-     * @return GetInteractor
+     * @return GetProductInteractor
      */
-    public function getGetInteractor(): GetInteractor
+    public function getGetInteractor(): GetProductInteractor
     {
-        return new GetInteractor($this->getProductRepository());
+        return new GetProductInteractor($this->getProductRepository());
     }
 
     /**
-     * @return GetAllInteractor
+     * @return GetAllProductInteractor
      */
-    public function getGetAllInteractor(): GetAllInteractor
+    public function getGetAllInteractor(): GetAllProductInteractor
     {
-        return new GetAllInteractor($this->getProductRepository());
+        return new GetAllProductInteractor($this->getProductRepository());
     }
 
     /**
-     * @return PutInteractor
+     * @return PutProductInteractor
      */
-    public function getPutInteractor(): PutInteractor
+    public function getPutInteractor(): PutProductInteractor
     {
-        return new PutInteractor($this->getProductRepository());
+        return new PutProductInteractor($this->getProductRepository());
     }
 
     /**
-     * @return PutAllInteractor
+     * @return PutAllProductInteractor
      */
-    public function getPutAllInteractor(): PutAllInteractor
+    public function getPutAllInteractor(): PutAllProductInteractor
     {
-        return new PutAllInteractor($this->getProductRepository());
+        return new PutAllProductInteractor($this->getProductRepository());
     }
 
     /**
-     * @return DeleteInteractor
+     * @return DeleteProductInteractor
      */
-    public function getDeleteInteractor(): DeleteInteractor
+    public function getDeleteInteractor(): DeleteProductInteractor
     {
-        return new DeleteInteractor($this->getProductRepository());
+        return new DeleteProductInteractor($this->getProductRepository());
     }
 }

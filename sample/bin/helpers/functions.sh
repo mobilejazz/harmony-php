@@ -3,9 +3,9 @@ function exec_root() {
     docker exec -w "/var/www/html" php-docker "$@"
 }
 
-function exec_server() {
+function exec_wwwdata() {
     echo_with_color "\nExecuting on 'php-docker' like user 'www-data': '$*'\n"
-    docker exec -w "/var/www/html/server" -u "www-data" php-docker "$@"
+    docker exec -w "/var/www/html" -u "www-data" php-docker "$@"
 }
 
 function docker_compose() {

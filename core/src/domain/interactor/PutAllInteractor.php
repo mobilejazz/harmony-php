@@ -5,15 +5,17 @@ namespace harmony\core\domain\interactor;
 use harmony\core\repository\operation\Operation;
 use harmony\core\repository\PutRepository;
 use harmony\core\repository\query\Query;
-use harmony\core\shared\collection\GenericCollection;
 
+/**
+ * @template T
+ */
 class PutAllInteractor
 {
-    /** @var PutRepository */
+    /** @var PutRepository<T> */
     private $putRepository;
 
     /**
-     * @param $putRepository
+     * @param PutRepository<T> $putRepository
      */
     public function __construct(PutRepository $putRepository)
     {
@@ -21,17 +23,17 @@ class PutAllInteractor
     }
 
     /**
-     * @param Query                  $query
-     * @param Operation              $operation
-     * @param GenericCollection|null $baseModels
+     * @param Query         $query
+     * @param Operation     $operation
+     * @param array<T>|null $models
      *
-     * @return GenericCollection
+     * @return array<T>
      */
     public function execute(
         Query $query,
         Operation $operation,
-        GenericCollection $baseModels = null
-    ): GenericCollection {
-        return $this->putRepository->putAll($query, $operation, $baseModels);
+        array $models = null
+    ): array {
+        return $this->putRepository->putAll($query, $operation, $models);
     }
 }

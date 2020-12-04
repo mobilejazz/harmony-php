@@ -1,14 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="MessDetector">
+    <phpmd_settings>
+      <MessDetectorConfiguration tool_path="$USER_HOME$/.config/composer/vendor/bin/phpmd" />
+    </phpmd_settings>
+  </component>
+  <component name="PhpCSFixer">
+    <phpcsfixer_settings>
+      <PhpCSFixerConfiguration tool_path="$USER_HOME$/.config/composer/vendor/bin/php-cs-fixer" />
+    </phpcsfixer_settings>
+  </component>
+  <component name="PhpCodeSniffer">
+    <phpcs_settings>
+      <PhpCSConfiguration beautifier_path="$USER_HOME$/.config/composer/vendor/bin/phpcbf" standards="MySource;PEAR;PSR1;PSR12;PSR2;Squiz;Zend" tool_path="$USER_HOME$/.config/composer/vendor/bin/phpcs" />
+    </phpcs_settings>
+  </component>
   <component name="PhpInterpreters">
     <interpreters>
       <interpreter id="934ceabd-63a6-464f-9e41-a217a0945653" name="php" home="docker-compose://DATA" debugger_id="php.debugger.XDebug">
-        <remote_data DOCKER_ACCOUNT_NAME="Docker" DOCKER_COMPOSE_SERVICE_NAME="php" DOCKER_REMOTE_PROJECT_PATH="/opt/project" INTERPRETER_PATH="php" HELPERS_PATH="/opt/.phpstorm_helpers" INITIALIZED="false" VALID="true" RUN_AS_ROOT_VIA_SUDO="false">
+        <remote_data INTERPRETER_PATH="php" HELPERS_PATH="/opt/.phpstorm_helpers" INITIALIZED="false" VALID="true" RUN_AS_ROOT_VIA_SUDO="false" DOCKER_ACCOUNT_NAME="Docker" DOCKER_COMPOSE_SERVICE_NAME="php" DOCKER_REMOTE_PROJECT_PATH="/opt/project">
+          <type_data command="EXEC" />
           <dockerComposeConfigurationPaths>
             <item value="$PROJECT_DIR$/sample/docker/docker-compose.yml" />
           </dockerComposeConfigurationPaths>
           <envs />
-          <type_data command="EXEC" />
         </remote_data>
       </interpreter>
     </interpreters>
@@ -16,7 +31,7 @@
   <component name="PhpInterpretersPhpInfoCache">
     <phpInfoCache>
       <interpreter name="php">
-        <phpinfo binary_type="PHP" php_cli="/usr/local/bin/php" path_separator=":" version="7.3.14">
+        <phpinfo binary_type="PHP" php_cli="/usr/local/bin/php" path_separator=":" version="7.3.16">
           <additional_php_ini>/usr/local/etc/php/conf.d/docker-php-ext-bcmath.ini, /usr/local/etc/php/conf.d/docker-php-ext-gd.ini, /usr/local/etc/php/conf.d/docker-php-ext-gettext.ini, /usr/local/etc/php/conf.d/docker-php-ext-mysqli.ini, /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini, /usr/local/etc/php/conf.d/docker-php-ext-pdo_mysql.ini, /usr/local/etc/php/conf.d/docker-php-ext-sodium.ini, /usr/local/etc/php/conf.d/docker-php-ext-zip.ini</additional_php_ini>
           <configuration_file>/usr/local/etc/php/php.ini</configuration_file>
           <configuration_options>

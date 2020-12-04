@@ -22,3 +22,6 @@
 
 # Sonarlint
 .idea/**/sonarlint/
+
+# PHP CS
+.php_cs.cache

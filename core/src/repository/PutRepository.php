@@ -4,33 +4,35 @@ namespace harmony\core\repository;
 
 use harmony\core\repository\operation\Operation;
 use harmony\core\repository\query\Query;
-use harmony\core\shared\collection\GenericCollection;
 
+/**
+ * @template T
+ */
 interface PutRepository extends Repository
 {
     /**
-     * @param Query           $query
-     * @param Operation       $operation
-     * @param BaseEntity|null $entity
+     * @param Query     $query
+     * @param Operation $operation
+     * @param T|null    $model
      *
-     * @return BaseEntity
+     * @return T
      */
     public function put(
         Query $query,
         Operation $operation,
-        BaseEntity $entity = null
-    ): BaseEntity;
+        $model = null
+    );
 
     /**
-     * @param Query                  $query
-     * @param Operation              $operation
-     * @param GenericCollection|null $collection
+     * @param Query         $query
+     * @param Operation     $operation
+     * @param array<T>|null $models
      *
-     * @return GenericCollection
+     * @return array<T>
      */
     public function putAll(
         Query $query,
         Operation $operation,
-        GenericCollection $collection = null
-    ): GenericCollection;
+        array $models = null
+    ): array;
 }
