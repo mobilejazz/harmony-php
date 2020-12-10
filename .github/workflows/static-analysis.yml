@@ -1,44 +1,44 @@
 name: Static Analysis
 on:
-  push:
-  pull_request:
-    branches:
-      - master
+    push:
+    pull_request:
+        branches:
+            - master
 
 jobs:
-  build:
-    name: Static Analysis
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
+    build:
+        name: Static Analysis
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: "8.0"
-          tools: php-cs-fixer, phpcs, phpmd
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '8.0'
+                  tools: php-cs-fixer, phpcs, phpmd
 
-      - name: Validate composer
-        run: composer validate
-        working-directory: ./sample/src
+            - name: Validate composer
+              run: composer validate
+              working-directory: ./sample/src
 
-      - name: Composer Install
-        run: composer install --prefer-dist --no-progress --no-suggest
-        working-directory: ./sample/src
+            - name: Composer Install
+              run: composer install --prefer-dist --no-progress --no-suggest
+              working-directory: ./sample/src
 
-      - name: Psalm
-        run: ./vendor/bin/psalm --show-info=true
-        working-directory: ./sample/src
+            - name: Psalm
+              run: ./vendor/bin/psalm --show-info=true
+              working-directory: ./sample/src
 
-      - name: PHPStan
-        run: ./vendor/bin/phpstan analyse -l max app ../../core ../../eloquent
-        working-directory: ./sample/src
+            - name: PHPStan
+              run: ./vendor/bin/phpstan analyse -l max app ../../core ../../eloquent
+              working-directory: ./sample/src
 
-      - name: PHP Mess Detector
-        run: phpmd ./sample/src/app,./core/src,./eloquent/src text codesize,design,unusedcode
+            - name: PHP Mess Detector
+              run: phpmd ./sample/src/app,./core/src,./eloquent/src text codesize,design,unusedcode
 
-      - name: PHP_CodeSniffer
-        run: phpcs --standard=PSR2 ./sample/src/app ./core/src ./eloquent/src
+            - name: PHP_CodeSniffer
+              run: phpcs --standard=PSR2 ./sample/src/app ./core/src ./eloquent/src
 # @todo Waiting PHP 8.0 version
 #            -   name: PHP Coding Standards Fixer
 #                run: |

@@ -12,10 +12,8 @@ trait GenericsHelper
      *
      * @return bool
      */
-    protected function isReceivedObjectLikeExpected(
-        object $received,
-        string $expected
-    ): bool {
+    protected function isReceivedObjectLikeExpected(object $received, string $expected): bool
+    {
         return $received instanceof $expected;
     }
 
@@ -25,10 +23,8 @@ trait GenericsHelper
      *
      * @return bool
      */
-    protected function isReceivedObjectLikeExpectedOrFail(
-        object $received,
-        string $expected
-    ): bool {
+    protected function isReceivedObjectLikeExpectedOrFail(object $received, string $expected): bool
+    {
         if (!$this->isReceivedObjectLikeExpected($received, $expected)) {
             throw new InvalidObjectException($expected, get_class($received));
         }
@@ -42,10 +38,8 @@ trait GenericsHelper
      *
      * @return bool
      */
-    protected function isReceivedClassLikeExpected(
-        string $received,
-        string $expected
-    ): bool {
+    protected function isReceivedClassLikeExpected(string $received, string $expected): bool
+    {
         return is_subclass_of($received, $expected);
     }
 
@@ -55,10 +49,8 @@ trait GenericsHelper
      *
      * @return bool
      */
-    protected function isReceivedClassLikeExpectedOrFail(
-        string $received,
-        string $expected
-    ): bool {
+    protected function isReceivedClassLikeExpectedOrFail(string $received, string $expected): bool
+    {
         if (!$this->isReceivedClassLikeExpected($received, $expected)) {
             throw new InvalidObjectException($expected, $received);
         }

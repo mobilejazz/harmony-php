@@ -10,12 +10,10 @@ trait EloquentHelper
      *
      * @return EloquentEntity
      */
-    protected function getEloquentFromDbByIdOrNew(
-        $from,
-        string $class_to
-    ): EloquentEntity {
-        if (method_exists($from, "getId")) {
-            return $class_to::firstOrNew(["id" => $from->getId()]);
+    protected function getEloquentFromDbByIdOrNew($from, string $class_to): EloquentEntity
+    {
+        if (method_exists($from, 'getId')) {
+            return $class_to::firstOrNew(['id' => $from->getId()]);
         }
 
         return new $class_to();

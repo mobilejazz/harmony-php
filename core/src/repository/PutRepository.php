@@ -26,9 +26,5 @@ interface PutRepository extends Repository
      *
      * @return array<T>
      */
-    public function putAll(
-        Query $query,
-        Operation $operation,
-        array $models = null
-    ): array;
+    public function putAll(Query $query, Operation $operation, array $models = null): array;
 }

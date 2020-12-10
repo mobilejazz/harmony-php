@@ -95,11 +95,8 @@ class RepositoryMapper implements GetRepository, PutRepository, DeleteRepository
     /**
      * @inheritdoc
      */
-    public function putAll(
-        Query $query,
-        Operation $operation,
-        array $models = null
-    ): array {
+    public function putAll(Query $query, Operation $operation, array $models = null): array
+    {
         $entities = null;
 
         if ($models !== null) {
@@ -110,11 +107,7 @@ class RepositoryMapper implements GetRepository, PutRepository, DeleteRepository
             }
         }
 
-        $entitiesPutted = $this->putRepository->putAll(
-            $query,
-            $operation,
-            $entities
-        );
+        $entitiesPutted = $this->putRepository->putAll($query, $operation, $entities);
         $modelsPutted = [];
 
         foreach ($entitiesPutted as $entityPutted) {

@@ -17,13 +17,8 @@ class ProductEntity
     /** @var Carbon */
     protected $created_at;
 
-    public function __construct(
-        int $id,
-        string $name,
-        string $description,
-        float $price,
-        Carbon $created_at = null
-    ) {
+    public function __construct(int $id, string $name, string $description, float $price, Carbon $created_at = null)
+    {
         $this->id = $id;
         $this->name = $name;
         $this->description = $description;

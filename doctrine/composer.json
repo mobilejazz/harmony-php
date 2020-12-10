@@ -1,19 +1,19 @@
 {
-  "name": "harmony/doctrine",
-  "description": "Harmony PHP | Doctrine",
-  "type": "library",
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Mobile Jazz",
-      "email": "info@mobilejazz.com"
+    "name": "harmony/doctrine",
+    "description": "Harmony PHP | Doctrine",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mobile Jazz",
+            "email": "info@mobilejazz.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "harmony\\doctrine\\": "src/"
+        }
     }
-  ],
-  "minimum-stability": "dev",
-  "require": {},
-  "autoload": {
-    "psr-4": {
-      "harmony\\doctrine\\": "src/"
-    }
-  }
 }

@@ -36,11 +36,8 @@ class SinglePutDataSourceRepository implements PutRepository
     /**
      * @inheritdoc
      */
-    public function putAll(
-        Query $query,
-        Operation $operation,
-        array $models = null
-    ): array {
+    public function putAll(Query $query, Operation $operation, array $models = null): array
+    {
         return $this->putDataSource->putAll($query, $models);
     }
 }

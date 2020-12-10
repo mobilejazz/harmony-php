@@ -8,7 +8,7 @@ use Throwable;
 class MethodNotImplementedException extends Exception
 {
     public function __construct(
-        string $message = "This method is not implemented yet.",
+        string $message = 'This method is not implemented yet.',
         int $code = 0,
         Throwable $previous = null
     ) {

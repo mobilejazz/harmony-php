@@ -14,10 +14,7 @@ use InvalidArgumentException;
  * @implements GetDataSource<T>
  * @implements PutDataSource<T>
  */
-class InMemoryDataSource implements
-    GetDataSource,
-    PutDataSource,
-    DeleteDataSource
+class InMemoryDataSource implements GetDataSource, PutDataSource, DeleteDataSource
 {
     /**
      * @var class-string<T>

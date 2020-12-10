@@ -1,19 +1,19 @@
 {
-  "name": "harmony/eloquent",
-  "description": "Harmony PHP | Eloquent",
-  "type": "library",
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Mobile Jazz",
-      "email": "info@mobilejazz.com"
+    "name": "harmony/eloquent",
+    "description": "Harmony PHP | Eloquent",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mobile Jazz",
+            "email": "info@mobilejazz.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "harmony\\eloquent\\": "src/"
+        }
     }
-  ],
-  "minimum-stability": "dev",
-  "require": {},
-  "autoload": {
-    "psr-4": {
-      "harmony\\eloquent\\": "src/"
-    }
-  }
 }

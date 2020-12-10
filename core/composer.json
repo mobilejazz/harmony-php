@@ -1,19 +1,19 @@
 {
-  "name": "harmony/core",
-  "description": "Harmony PHP | Core",
-  "type": "library",
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Mobile Jazz",
-      "email": "info@mobilejazz.com"
+    "name": "harmony/core",
+    "description": "Harmony PHP | Core",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mobile Jazz",
+            "email": "info@mobilejazz.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "harmony\\core\\": "src/"
+        }
     }
-  ],
-  "minimum-stability": "dev",
-  "require": {},
-  "autoload": {
-    "psr-4": {
-      "harmony\\core\\": "src/"
-    }
-  }
 }

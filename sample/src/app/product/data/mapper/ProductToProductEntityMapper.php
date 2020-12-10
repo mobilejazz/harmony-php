@@ -23,12 +23,7 @@ class ProductToProductEntityMapper extends GenericMapper
      */
     protected function overrideMap($from): ProductEntity
     {
-        $entity = new ProductEntity(
-            $from->getId(),
-            $from->getName(),
-            $from->getDescription(),
-            $from->getPrice()
-        );
+        $entity = new ProductEntity($from->getId(), $from->getName(), $from->getDescription(), $from->getPrice());
 
         return $entity;
     }

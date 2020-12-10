@@ -29,11 +29,8 @@ class PutAllInteractor
      *
      * @return array<T>
      */
-    public function execute(
-        Query $query,
-        Operation $operation,
-        array $models = null
-    ): array {
+    public function execute(Query $query, Operation $operation, array $models = null): array
+    {
         return $this->putRepository->putAll($query, $operation, $models);
     }
 }
