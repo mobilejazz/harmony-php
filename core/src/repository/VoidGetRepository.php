@@ -15,20 +15,16 @@ class VoidGetRepository implements GetRepository
     /**
      * @inheritdoc
      */
-    public function get(
-        Query $query,
-        Operation $operation
-    ) {
+    public function get(Query $query, Operation $operation)
+    {
         throw new MethodNotImplementedException();
     }
 
     /**
      * @inheritdoc
      */
-    public function getAll(
-        Query $query,
-        Operation $operation
-    ): array {
+    public function getAll(Query $query, Operation $operation): array
+    {
         throw new MethodNotImplementedException();
     }
 }

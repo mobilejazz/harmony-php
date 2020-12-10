@@ -13,10 +13,7 @@ class ProductEntityToProductMapper extends GenericMapper
 {
     public function __construct()
     {
-        parent::__construct(
-            ProductEntity::class,
-            Product::class
-        );
+        parent::__construct(ProductEntity::class, Product::class);
     }
 
     /**

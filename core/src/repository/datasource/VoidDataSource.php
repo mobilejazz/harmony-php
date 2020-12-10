@@ -39,10 +39,8 @@ class VoidDataSource implements GetDataSource, PutDataSource, DeleteDataSource
     /**
      * @inheritdoc
      */
-    public function putAll(
-        Query $query,
-        array $entities = null
-    ): array {
+    public function putAll(Query $query, array $entities = null): array
+    {
         throw new MethodNotImplementedException();
     }
 

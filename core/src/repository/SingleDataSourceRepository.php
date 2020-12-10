@@ -13,7 +13,10 @@ use harmony\core\repository\query\Query;
  * @implements GetRepository<T>
  * @implements PutRepository<T>
  */
-class SingleDataSourceRepository implements GetRepository, PutRepository, DeleteRepository
+class SingleDataSourceRepository implements
+    GetRepository,
+    PutRepository,
+    DeleteRepository
 {
     /** @var GetDataSource<T> */
     private $getDataSource;
@@ -56,11 +59,8 @@ class SingleDataSourceRepository implements GetRepository, PutRepository, Delete
     /**
      * @inheritdoc
      */
-    public function put(
-        Query $query,
-        Operation $operation,
-        $model = null
-    ) {
+    public function put(Query $query, Operation $operation, $model = null)
+    {
         return $this->putDataSource->put($query, $model);
     }
 

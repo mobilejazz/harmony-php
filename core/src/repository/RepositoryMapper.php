@@ -52,10 +52,8 @@ class RepositoryMapper implements GetRepository, PutRepository, DeleteRepository
     /**
      * @inheritdoc
      */
-    public function get(
-        Query $query,
-        Operation $operation
-    ) {
+    public function get(Query $query, Operation $operation)
+    {
         $entity = $this->getRepository->get($query, $operation);
         $model = $this->toOutMapper->map($entity);
 
@@ -65,10 +63,8 @@ class RepositoryMapper implements GetRepository, PutRepository, DeleteRepository
     /**
      * @inheritdoc
      */
-    public function getAll(
-        Query $query,
-        Operation $operation
-    ): array {
+    public function getAll(Query $query, Operation $operation): array
+    {
         $entities = $this->getRepository->getAll($query, $operation);
         $models = [];
 
@@ -82,11 +78,8 @@ class RepositoryMapper implements GetRepository, PutRepository, DeleteRepository
     /**
      * @inheritdoc
      */
-    public function put(
-        Query $query,
-        Operation $operation,
-        $model = null
-    ) {
+    public function put(Query $query, Operation $operation, $model = null)
+    {
         $entity = null;
 
         if ($model !== null) {
@@ -117,7 +110,11 @@ class RepositoryMapper implements GetRepository, PutRepository, DeleteRepository
             }
         }
 
-        $entitiesPutted = $this->putRepository->putAll($query, $operation, $entities);
+        $entitiesPutted = $this->putRepository->putAll(
+            $query,
+            $operation,
+            $entities
+        );
         $modelsPutted = [];
 
         foreach ($entitiesPutted as $entityPutted) {
@@ -130,10 +127,8 @@ class RepositoryMapper implements GetRepository, PutRepository, DeleteRepository
     /**
      * @inheritdoc
      */
-    public function delete(
-        Query $query,
-        Operation $operation
-    ): void {
+    public function delete(Query $query, Operation $operation): void
+    {
         $this->deleteRepository->delete($query, $operation);
     }
 }

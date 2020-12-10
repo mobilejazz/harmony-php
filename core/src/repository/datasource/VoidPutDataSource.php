@@ -22,10 +22,8 @@ class VoidPutDataSource implements PutDataSource
     /**
      * @inheritdoc
      */
-    public function putAll(
-        Query $query,
-        array $entities = null
-    ): array {
+    public function putAll(Query $query, array $entities = null): array
+    {
         throw new MethodNotImplementedException();
     }
 }

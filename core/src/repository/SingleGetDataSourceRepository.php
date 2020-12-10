@@ -18,9 +18,8 @@ class SingleGetDataSourceRepository implements GetRepository
     /**
      * @param GetDataSource<T> $getDataSource
      */
-    public function __construct(
-        GetDataSource $getDataSource
-    ) {
+    public function __construct(GetDataSource $getDataSource)
+    {
         $this->getDataSource = $getDataSource;
     }
 

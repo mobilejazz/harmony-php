@@ -20,24 +20,17 @@ class SinglePutDataSourceRepository implements PutRepository
     /**
      * @param PutDataSource<T> $putDataSource
      */
-    public function __construct(
-        PutDataSource $putDataSource
-    ) {
+    public function __construct(PutDataSource $putDataSource)
+    {
         $this->putDataSource = $putDataSource;
     }
 
     /**
      * @inheritdoc
      */
-    public function put(
-        Query $query,
-        Operation $operation,
-        $model = null
-    ) {
-        return $this->putDataSource->put(
-            $query,
-            $model
-        );
+    public function put(Query $query, Operation $operation, $model = null)
+    {
+        return $this->putDataSource->put($query, $model);
     }
 
     /**

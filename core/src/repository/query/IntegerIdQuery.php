@@ -12,7 +12,7 @@ class IntegerIdQuery extends KeyQuery
      */
     public function __construct(int $id)
     {
-        parent::__construct((string)$id);
+        parent::__construct((string) $id);
         $this->id = $id;
     }
 

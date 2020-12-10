@@ -17,13 +17,18 @@ class InvalidObjectException extends InvalidArgumentException
     public function __construct(
         string $expected,
         string $received,
-        string $message = '',
+        string $message = "",
         int $code = 0,
         Throwable $previous = null
     ) {
         if (empty($message)) {
-            $message = "Error: Expected object instanceof '" . $expected . "'"
-                . ", received '" . $received . "'.";
+            $message =
+                "Error: Expected object instanceof '" .
+                $expected .
+                "'" .
+                ", received '" .
+                $received .
+                "'.";
         }
 
         parent::__construct($message, $code, $previous);

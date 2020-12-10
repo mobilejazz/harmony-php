@@ -16,10 +16,7 @@ interface GetRepository extends Repository
      *
      * @return T
      */
-    public function get(
-        Query $query,
-        Operation $operation
-    );
+    public function get(Query $query, Operation $operation);
 
     /**
      * @param Query     $query
@@ -27,8 +24,5 @@ interface GetRepository extends Repository
      *
      * @return array<T>
      */
-    public function getAll(
-        Query $query,
-        Operation $operation
-    ): array;
+    public function getAll(Query $query, Operation $operation): array;
 }

@@ -98,10 +98,8 @@ class DataSourceMapper implements GetDataSource, PutDataSource, DeleteDataSource
      *
      * @return array<TEntity>
      */
-    public function putAll(
-        Query $query,
-        array $entities = null
-    ): array {
+    public function putAll(Query $query, array $entities = null): array
+    {
         $datas = null;
 
         if ($entities !== null) {

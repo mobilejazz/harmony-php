@@ -12,7 +12,7 @@ class IdQuery extends KeyQuery
      */
     public function __construct($id)
     {
-        parent::__construct((string)$id);
+        parent::__construct((string) $id);
         $this->id = $id;
     }
 

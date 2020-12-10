@@ -17,11 +17,7 @@ interface PutRepository extends Repository
      *
      * @return T
      */
-    public function put(
-        Query $query,
-        Operation $operation,
-        $model = null
-    );
+    public function put(Query $query, Operation $operation, $model = null);
 
     /**
      * @param Query         $query

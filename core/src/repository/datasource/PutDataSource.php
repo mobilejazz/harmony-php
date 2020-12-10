@@ -23,8 +23,5 @@ interface PutDataSource
      *
      * @return array<T>
      */
-    public function putAll(
-        Query $query,
-        array $entities = null
-    ): array;
+    public function putAll(Query $query, array $entities = null): array;
 }

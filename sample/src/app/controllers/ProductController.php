@@ -53,35 +53,37 @@ class ProductController
     {
         $productOne = new Product(
             1,
-            'PlayStation 5',
-            'VideoGames Console from Sony.',
+            "PlayStation 5",
+            "VideoGames Console from Sony.",
             599.99
         );
 
         $productTwo = new Product(
             2,
-            'XBox X',
-            'VideoGames Console from Microsoft',
-            450.50
+            "XBox X",
+            "VideoGames Console from Microsoft",
+            450.5
         );
 
-        $listProducts = [
-            $productOne,
-            $productTwo,
-        ];
+        $listProducts = [$productOne, $productTwo];
 
         $variables = [];
 
-        $variables['resultPutProductAction'] = $this->putProductAction($productOne);
-        $variables['resultGetProductAction'] = $this->getProductAction($productOne->getId());
-        $variables['resultPutAllProductAction'] = $this->putAllProductsAction($listProducts);
-        $variables['resultGetAllProductAction'] = $this->getAllProductsAction();
-        $variables['resultDeleteProductAction'] = $this->deleteProductAction($productOne->getId());
-
-        return $this->renderView(
-            $variables,
-            'index'
+        $variables["resultPutProductAction"] = $this->putProductAction(
+            $productOne
         );
+        $variables["resultGetProductAction"] = $this->getProductAction(
+            $productOne->getId()
+        );
+        $variables["resultPutAllProductAction"] = $this->putAllProductsAction(
+            $listProducts
+        );
+        $variables["resultGetAllProductAction"] = $this->getAllProductsAction();
+        $variables["resultDeleteProductAction"] = $this->deleteProductAction(
+            $productOne->getId()
+        );
+
+        return $this->renderView($variables, "index");
     }
 
     /**
@@ -91,7 +93,7 @@ class ProductController
      */
     protected function putProductAction(Product $product): Product
     {
-        $query = new KeyQuery((string)$product->getId());
+        $query = new KeyQuery((string) $product->getId());
 
         return $this->putProductInteractor->execute(
             $query,
@@ -107,7 +109,7 @@ class ProductController
      */
     protected function getProductAction(int $id_product): Product
     {
-        $query = new KeyQuery((string)$id_product);
+        $query = new KeyQuery((string) $id_product);
         $product = $this->getProductInteractor->execute(
             $query,
             new DefaultOperation()
@@ -154,13 +156,10 @@ class ProductController
      */
     protected function deleteProductAction(int $id_product): string
     {
-        $query = new KeyQuery((string)$id_product);
-        $this->deleteProductInteractor->execute(
-            $query,
-            new DefaultOperation()
-        );
+        $query = new KeyQuery((string) $id_product);
+        $this->deleteProductInteractor->execute($query, new DefaultOperation());
 
-        return 'deleted';
+        return "deleted";
     }
 
     /**
@@ -175,7 +174,7 @@ class ProductController
 
         extract($variables, EXTR_OVERWRITE);
 
-        $template_path = __DIR__ . '/../views/' . $template . '.template.view';
+        $template_path = __DIR__ . "/../views/" . $template . ".template.view";
 
         if (file_exists($template_path)) {
             include $template_path;

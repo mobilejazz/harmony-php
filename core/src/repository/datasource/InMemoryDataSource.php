@@ -14,7 +14,10 @@ use InvalidArgumentException;
  * @implements GetDataSource<T>
  * @implements PutDataSource<T>
  */
-class InMemoryDataSource implements GetDataSource, PutDataSource, DeleteDataSource
+class InMemoryDataSource implements
+    GetDataSource,
+    PutDataSource,
+    DeleteDataSource
 {
     /**
      * @var class-string<T>
@@ -87,10 +90,8 @@ class InMemoryDataSource implements GetDataSource, PutDataSource, DeleteDataSour
     /**
      * @inheritdoc
      */
-    public function putAll(
-        Query $query,
-        array $entities = null
-    ): array {
+    public function putAll(Query $query, array $entities = null): array
+    {
         if ($entities === null) {
             throw new InvalidArgumentException();
         }

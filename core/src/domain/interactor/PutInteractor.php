@@ -30,11 +30,8 @@ class PutInteractor
      * @return mixed
      * @phpstan-return T
      */
-    public function execute(
-        Query $query,
-        Operation $operation,
-        $model = null
-    ) {
+    public function execute(Query $query, Operation $operation, $model = null)
+    {
         return $this->putRepository->put($query, $operation, $model);
     }
 }

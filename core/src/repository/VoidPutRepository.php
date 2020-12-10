@@ -15,11 +15,8 @@ class VoidPutRepository implements PutRepository
     /**
      * @inheritdoc
      */
-    public function put(
-        Query $query,
-        Operation $operation,
-        $model = null
-    ) {
+    public function put(Query $query, Operation $operation, $model = null)
+    {
         throw new MethodNotImplementedException();
     }
 

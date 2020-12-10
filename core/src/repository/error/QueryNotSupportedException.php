@@ -8,7 +8,7 @@ use Throwable;
 class QueryNotSupportedException extends Exception
 {
     public function __construct(
-        string $message = 'Query not supported',
+        string $message = "Query not supported",
         int $code = 0,
         Throwable $previous = null
     ) {

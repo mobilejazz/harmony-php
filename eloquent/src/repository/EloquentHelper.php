@@ -14,8 +14,8 @@ trait EloquentHelper
         $from,
         string $class_to
     ): EloquentEntity {
-        if (method_exists($from, 'getId')) {
-            return $class_to::firstOrNew(['id' => $from->getId()]);
+        if (method_exists($from, "getId")) {
+            return $class_to::firstOrNew(["id" => $from->getId()]);
         }
 
         return new $class_to();

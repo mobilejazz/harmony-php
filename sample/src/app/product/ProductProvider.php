@@ -18,7 +18,7 @@ use Sample\product\domain\model\Product;
 class ProductProvider
 {
     /** @var string */
-    protected const KEY_PRODUCT_REPOSITORY = 'ProductRepository';
+    protected const KEY_PRODUCT_REPOSITORY = "ProductRepository";
 
     /** @var array<string, mixed> */
     protected $di_container = [];
@@ -28,7 +28,9 @@ class ProductProvider
      */
     protected function registerRepository(): RepositoryMapper
     {
-        $productInMemoryDataSource = new InMemoryDataSource(ProductEntity::class);
+        $productInMemoryDataSource = new InMemoryDataSource(
+            ProductEntity::class
+        );
 
         $productRepository = new SingleDataSourceRepository(
             $productInMemoryDataSource,
@@ -53,7 +55,9 @@ class ProductProvider
     public function getProductRepository(): RepositoryMapper
     {
         if (empty($this->di_container[self::KEY_PRODUCT_REPOSITORY])) {
-            $this->di_container[self::KEY_PRODUCT_REPOSITORY] = $this->registerRepository();
+            $this->di_container[
+                self::KEY_PRODUCT_REPOSITORY
+            ] = $this->registerRepository();
         }
 
         return $this->di_container[self::KEY_PRODUCT_REPOSITORY];
