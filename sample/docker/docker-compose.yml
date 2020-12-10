@@ -2,32 +2,32 @@
 version: "3.7"
 
 services:
-    nginx:
-        image: nginx:1.14-alpine
-        container_name: nginx-docker
-        restart: unless-stopped
-        volumes:
-            - ../src:/var/www/html
-            - ./nginx/local.conf:/etc/nginx/conf.d/default.conf
-            - ../data/nginx/log:/var/log/nginx
-            - ../data/xdebug/log:/var/log/xdebug
-        links:
-            - php
-        ports:
-            - "80:80"
-    php:
-        build:
-            context: .
-            dockerfile: ./phpfpm/Dockerfile
-        image: php-sample-harmony
-        container_name: php-docker
-        restart: unless-stopped
-        volumes:
-            - ../src:/var/www/html
-            - ../../core:/var/core
-            - ../../eloquent:/var/eloquent
-        environment:
-            # The same name server like PHPSTORM
-            - PHP_IDE_CONFIG=serverName=localhost
-            # https://xdebug.org/docs/all_settings#mode
-            - XDEBUG_MODE=debug
+  nginx:
+    image: nginx:1.14-alpine
+    container_name: nginx-docker
+    restart: unless-stopped
+    volumes:
+      - ../src:/var/www/html
+      - ./nginx/local.conf:/etc/nginx/conf.d/default.conf
+      - ../data/nginx/log:/var/log/nginx
+      - ../data/xdebug/log:/var/log/xdebug
+    links:
+      - php
+    ports:
+      - "80:80"
+  php:
+    build:
+      context: .
+      dockerfile: ./phpfpm/Dockerfile
+    image: php-sample-harmony
+    container_name: php-docker
+    restart: unless-stopped
+    volumes:
+      - ../src:/var/www/html
+      - ../../core:/var/core
+      - ../../eloquent:/var/eloquent
+    environment:
+      # The same name server like PHPSTORM
+      - PHP_IDE_CONFIG=serverName=localhost
+      # https://xdebug.org/docs/all_settings#mode
+      - XDEBUG_MODE=debug

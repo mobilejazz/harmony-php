@@ -26,9 +26,9 @@ Perform Static Analysis:
 
 We are using this tools to add Static Analysis and Generics to our PHP code:
 
-* [PHPStan](https://phpstan.org/)
-* [Psalm](https://psalm.dev/docs/)
-* @todo Update version of PHP-CS-Fixer to PHP 8.0 `"friendsofphp/php-cs-fixer": "^2.16"`
+- [PHPStan](https://phpstan.org/)
+- [Psalm](https://psalm.dev/docs/)
+- @todo Update version of PHP-CS-Fixer to PHP 8.0 `"friendsofphp/php-cs-fixer": "^2.16"`
 
 Info about Generics [Example 1](https://www.daveliddament.co.uk/articles/php-generics-today-almost/) and [Example 2
 ](https://medium.com/vimeo-engineering-blog/uncovering-php-bugs-with-template-a4ca46eb9aeb).

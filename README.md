@@ -12,7 +12,7 @@ This repository contains the core structure for PHP of the [Mobile Jazz Harmony]
 
 Mobile Jazz, info@mobilejazz.com
 
-## API Reference 
+## API Reference
 
 [https://harmony.mobilejazz.com/](https://harmony.mobilejazz.com/)
 
