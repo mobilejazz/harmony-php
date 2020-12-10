@@ -23,7 +23,7 @@ jobs:
               working-directory: ./sample/src
 
             - name: Composer Install
-              run: composer install --prefer-dist --no-progress --no-suggest
+              run: composer install --prefer-dist --no-progress
               working-directory: ./sample/src
 
             - name: Psalm
@@ -33,9 +33,9 @@ jobs:
             - name: PHPStan
               run: ./vendor/bin/phpstan analyse -l max app ../../core ../../eloquent
               working-directory: ./sample/src
-
-            - name: PHP Mess Detector
-              run: phpmd ./sample/src/app,./core/src,./eloquent/src text codesize,design,unusedcode
+            # # @todo Waiting for PHP 8.0 version
+            #            - name: PHP Mess Detector
+            #              run: phpmd ./sample/src/app,./core/src,./eloquent/src text codesize,design,unusedcode
 
             - name: PHP_CodeSniffer
               run: phpcs --standard=PSR2 ./sample/src/app ./core/src ./eloquent/src
