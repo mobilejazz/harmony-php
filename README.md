@@ -4,9 +4,13 @@ This repository contains the core structure for PHP of the [Mobile Jazz Harmony]
 
 ![](https://github.com/mobilejazz/harmony-php/workflows/Static%20Analysis/badge.svg)
 
-## Installation
+## Production Installation
 
-[How to install](https://harmony.mobilejazz.com/docs/gettingstarted/setup/)
+[How to install](https://harmony.mobilejazz.com/docs/getting-started/setup/#php)
+
+## Develop Installation
+
+1. `npm install`
 
 ## Author
 
