@@ -13,16 +13,11 @@ use harmony\core\repository\query\Query;
 class SinglePutDataSourceRepository implements PutRepository
 {
     /**
-     * @var PutDataSource<T>
-     */
-    protected $putDataSource;
-
-    /**
      * @param PutDataSource<T> $putDataSource
      */
-    public function __construct(PutDataSource $putDataSource)
-    {
-        $this->putDataSource = $putDataSource;
+    public function __construct(
+        protected PutDataSource $putDataSource
+    ) {
     }
 
     /**

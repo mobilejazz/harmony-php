@@ -11,15 +11,12 @@ use harmony\core\repository\query\Query;
  */
 class GetInteractor
 {
-    /** @var GetRepository<T> */
-    private $getRepository;
-
     /**
      * @param GetRepository<T> $getRepository
      */
-    public function __construct(GetRepository $getRepository)
-    {
-        $this->getRepository = $getRepository;
+    public function __construct(
+        protected GetRepository $getRepository
+    ) {
     }
 
     /**

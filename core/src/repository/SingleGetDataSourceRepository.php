@@ -12,15 +12,11 @@ use harmony\core\repository\query\Query;
  */
 class SingleGetDataSourceRepository implements GetRepository
 {
-    /** @var GetDataSource<T> */
-    private $getDataSource;
-
     /**
      * @param GetDataSource<T> $getDataSource
      */
-    public function __construct(GetDataSource $getDataSource)
+    public function __construct(protected GetDataSource $getDataSource)
     {
-        $this->getDataSource = $getDataSource;
     }
 
     /**

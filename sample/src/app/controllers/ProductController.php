@@ -14,36 +14,13 @@ use Sample\product\domain\model\Product;
 
 class ProductController
 {
-    /** @var GetProductInteractor */
-    protected $getProductInteractor;
-    /** @var GetAllProductInteractor */
-    protected $getAllProductInteractor;
-    /** @var PutProductInteractor */
-    protected $putProductInteractor;
-    /** @var PutAllProductInteractor */
-    protected $putAllProductInteractor;
-    /** @var DeleteProductInteractor */
-    protected $deleteProductInteractor;
-
-    /**
-     * @param GetProductInteractor    $getInteractor
-     * @param GetAllProductInteractor $getAllInteractor
-     * @param PutProductInteractor    $putInteractor
-     * @param PutAllProductInteractor $putAllInteractor
-     * @param DeleteProductInteractor $deleteInteractor
-     */
     public function __construct(
-        GetProductInteractor $getInteractor,
-        GetAllProductInteractor $getAllInteractor,
-        PutProductInteractor $putInteractor,
-        PutAllProductInteractor $putAllInteractor,
-        DeleteProductInteractor $deleteInteractor
+        protected GetProductInteractor $getProductInteractor,
+        protected GetAllProductInteractor $getAllProductInteractor,
+        protected PutProductInteractor $putProductInteractor,
+        protected PutAllProductInteractor $putAllProductInteractor,
+        protected DeleteProductInteractor $deleteProductInteractor
     ) {
-        $this->getProductInteractor = $getInteractor;
-        $this->getAllProductInteractor = $getAllInteractor;
-        $this->putProductInteractor = $putInteractor;
-        $this->putAllProductInteractor = $putAllInteractor;
-        $this->deleteProductInteractor = $deleteInteractor;
     }
 
     /**
@@ -75,7 +52,7 @@ class ProductController
      */
     protected function putProductAction(Product $product): Product
     {
-        $query = new KeyQuery((string) $product->getId());
+        $query = new KeyQuery((string)$product->getId());
 
         return $this->putProductInteractor->execute($query, new DefaultOperation(), $product);
     }
@@ -87,7 +64,7 @@ class ProductController
      */
     protected function getProductAction(int $id_product): Product
     {
-        $query = new KeyQuery((string) $id_product);
+        $query = new KeyQuery((string)$id_product);
         $product = $this->getProductInteractor->execute($query, new DefaultOperation());
 
         return $product;
@@ -124,7 +101,7 @@ class ProductController
      */
     protected function deleteProductAction(int $id_product): string
     {
-        $query = new KeyQuery((string) $id_product);
+        $query = new KeyQuery((string)$id_product);
         $this->deleteProductInteractor->execute($query, new DefaultOperation());
 
         return 'deleted';

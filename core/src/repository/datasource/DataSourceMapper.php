@@ -13,18 +13,6 @@ use harmony\core\repository\query\Query;
  */
 class DataSourceMapper implements GetDataSource, PutDataSource, DeleteDataSource
 {
-    /** @var GetDataSource<TData> */
-    protected $getDataSource;
-    /** @var PutDataSource<TData> */
-    protected $putDataSource;
-    /** @var DeleteDataSource */
-    protected $deleteDataSource;
-
-    /** @var GenericMapper<TEntity, TData> */
-    protected $entityToDataMapper;
-    /** @var GenericMapper<TData, TEntity> */
-    protected $dataToEntityMapper;
-
     /**
      * @param GetDataSource<TData>          $getDataSource
      * @param PutDataSource<TData>          $putDataSource
@@ -33,17 +21,12 @@ class DataSourceMapper implements GetDataSource, PutDataSource, DeleteDataSource
      * @param GenericMapper<TData, TEntity> $dataToEntityMapper
      */
     public function __construct(
-        GetDataSource $getDataSource,
-        PutDataSource $putDataSource,
-        DeleteDataSource $deleteDataSource,
-        GenericMapper $entityToDataMapper,
-        GenericMapper $dataToEntityMapper
+        protected GetDataSource $getDataSource,
+        protected PutDataSource $putDataSource,
+        protected DeleteDataSource $deleteDataSource,
+        protected GenericMapper $entityToDataMapper,
+        protected GenericMapper $dataToEntityMapper
     ) {
-        $this->getDataSource = $getDataSource;
-        $this->putDataSource = $putDataSource;
-        $this->deleteDataSource = $deleteDataSource;
-        $this->entityToDataMapper = $entityToDataMapper;
-        $this->dataToEntityMapper = $dataToEntityMapper;
     }
 
     /**

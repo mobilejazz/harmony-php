@@ -4,19 +4,14 @@ namespace harmony\core\repository\query;
 
 class PaginationOffsetLimitQuery extends Query
 {
-    /** @var integer */
-    private $offset;
-    /** @var integer */
-    private $limit;
-
     /**
      * @param int $offset
      * @param int $limit
      */
-    public function __construct(int $offset, int $limit)
-    {
-        $this->offset = $offset;
-        $this->limit = $limit;
+    public function __construct(
+        protected int $offset,
+        protected int $limit
+    ) {
     }
 
     /**

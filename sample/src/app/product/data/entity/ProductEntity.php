@@ -6,23 +6,15 @@ use Carbon\Carbon;
 
 class ProductEntity
 {
-    /** @var int */
-    protected $id;
-    /** @var string */
-    protected $name;
-    /** @var string */
-    protected $description;
-    /** @var float */
-    protected $price;
-    /** @var Carbon */
-    protected $created_at;
+    protected Carbon $created_at;
 
-    public function __construct(int $id, string $name, string $description, float $price, Carbon $created_at = null)
-    {
-        $this->id = $id;
-        $this->name = $name;
-        $this->description = $description;
-        $this->price = $price;
+    public function __construct(
+        protected int $id,
+        protected string $name,
+        protected string $description,
+        protected float $price,
+        Carbon $created_at = null
+    ) {
         $this->setCreatedAt($created_at);
     }
 
@@ -67,7 +59,7 @@ class ProductEntity
     }
 
     /**
-     * @param Carbon $created_at
+     * @param Carbon|null $created_at
      */
     protected function setCreatedAt(Carbon $created_at = null): void
     {

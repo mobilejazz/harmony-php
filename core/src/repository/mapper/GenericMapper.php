@@ -13,27 +13,16 @@ abstract class GenericMapper implements Mapper
     use GenericsHelper;
 
     /**
-     * @psalm-var class-string<TFrom>
-     * @var string
-     */
-    protected $from;
-    /**
-     * @psalm-var class-string<TTo>
-     * @var string
-     */
-    protected $to;
-
-    /**
-     * @psalm-param class-string<TFrom> $from_class
-     * @psalm-param class-string<TTo> $to_class
+     * @psalm-param class-string<TFrom> $from
+     * @psalm-param class-string<TTo>   $to
      *
-     * @param string $from_class
-     * @param string $to_class
+     * @param string                    $from
+     * @param string                    $to
      */
-    public function __construct(string $from_class, string $to_class)
-    {
-        $this->from = $from_class;
-        $this->to = $to_class;
+    public function __construct(
+        protected string $from,
+        protected string $to
+    ) {
     }
 
     /**
@@ -57,7 +46,7 @@ abstract class GenericMapper implements Mapper
     /**
      * @psalm-param  TFrom $from
      *
-     * @param mixed $from
+     * @param mixed        $from
      *
      * @psalm-return TTo
      * @return mixed
@@ -75,7 +64,7 @@ abstract class GenericMapper implements Mapper
     /**
      * @psalm-param  TFrom $from
      *
-     * @param mixed $from
+     * @param mixed        $from
      *
      * @psalm-return TTo
      * @return mixed

@@ -15,26 +15,16 @@ use harmony\core\repository\query\Query;
  */
 class SingleDataSourceRepository implements GetRepository, PutRepository, DeleteRepository
 {
-    /** @var GetDataSource<T> */
-    private $getDataSource;
-    /** @var PutDataSource<T> */
-    private $putDataSource;
-    /** @var DeleteDataSource */
-    private $deleteDataSource;
-
     /**
      * @param GetDataSource<T> $getDataSource
      * @param PutDataSource<T> $putDataSource
      * @param DeleteDataSource $deleteDataSource
      */
     public function __construct(
-        GetDataSource $getDataSource,
-        PutDataSource $putDataSource,
-        DeleteDataSource $deleteDataSource
+        protected GetDataSource $getDataSource,
+        protected PutDataSource $putDataSource,
+        protected DeleteDataSource $deleteDataSource
     ) {
-        $this->getDataSource = $getDataSource;
-        $this->putDataSource = $putDataSource;
-        $this->deleteDataSource = $deleteDataSource;
     }
 
     /**

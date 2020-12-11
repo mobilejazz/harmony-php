@@ -8,15 +8,9 @@ use harmony\core\repository\query\Query;
 
 class DeleteInteractor
 {
-    /** @var DeleteRepository */
-    private $deleteRepository;
-
-    /**
-     * @param DeleteRepository $deleteRepository
-     */
-    public function __construct(DeleteRepository $deleteRepository)
-    {
-        $this->deleteRepository = $deleteRepository;
+    public function __construct(
+        protected DeleteRepository $deleteRepository
+    ) {
     }
 
     /**

@@ -14,18 +14,6 @@ use harmony\core\repository\query\Query;
  */
 class RepositoryMapper implements GetRepository, PutRepository, DeleteRepository
 {
-    /** @var GetRepository<TEntity> */
-    private $getRepository;
-    /** @var PutRepository<TEntity> */
-    private $putRepository;
-    /** @var DeleteRepository */
-    private $deleteRepository;
-
-    /** @var GenericMapper<TModel, TEntity> */
-    protected $toInMapper;
-    /** @var GenericMapper<TEntity, TModel> */
-    protected $toOutMapper;
-
     /**
      * RepositoryMapper constructor.
      *
@@ -36,17 +24,12 @@ class RepositoryMapper implements GetRepository, PutRepository, DeleteRepository
      * @param GenericMapper<TEntity, TModel> $toOutMapper
      */
     public function __construct(
-        GetRepository $getRepository,
-        PutRepository $putRepository,
-        DeleteRepository $deleteRepository,
-        GenericMapper $toInMapper,
-        GenericMapper $toOutMapper
+        protected GetRepository $getRepository,
+        protected PutRepository $putRepository,
+        protected DeleteRepository $deleteRepository,
+        protected GenericMapper $toInMapper,
+        protected GenericMapper $toOutMapper
     ) {
-        $this->getRepository = $getRepository;
-        $this->putRepository = $putRepository;
-        $this->deleteRepository = $deleteRepository;
-        $this->toInMapper = $toInMapper;
-        $this->toOutMapper = $toOutMapper;
     }
 
     /**

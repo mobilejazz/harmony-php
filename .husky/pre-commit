@@ -2,4 +2,4 @@
 . "$(dirname $0)/_/husky.sh"
 
 #prettier --check .
-npm run prettier -- . --check
+#npm run prettier -- . --check

@@ -4,21 +4,12 @@ namespace Sample\product\domain\model;
 
 class Product
 {
-    /** @var int */
-    protected $id;
-    /** @var string */
-    protected $name;
-    /** @var string */
-    protected $description;
-    /** @var float */
-    protected $price;
-
-    public function __construct(int $id, string $name, string $description, float $price)
-    {
-        $this->id = $id;
-        $this->name = $name;
-        $this->description = $description;
-        $this->price = $price;
+    public function __construct(
+        protected int $id,
+        protected string $name,
+        protected string $description,
+        protected float $price
+    ) {
     }
 
     /**

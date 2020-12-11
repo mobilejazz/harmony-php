@@ -11,15 +11,12 @@ use harmony\core\repository\query\Query;
  */
 class PutAllInteractor
 {
-    /** @var PutRepository<T> */
-    private $putRepository;
-
     /**
      * @param PutRepository<T> $putRepository
      */
-    public function __construct(PutRepository $putRepository)
-    {
-        $this->putRepository = $putRepository;
+    public function __construct(
+        protected PutRepository $putRepository
+    ) {
     }
 
     /**

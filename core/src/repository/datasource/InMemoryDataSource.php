@@ -16,22 +16,17 @@ use InvalidArgumentException;
  */
 class InMemoryDataSource implements GetDataSource, PutDataSource, DeleteDataSource
 {
-    /**
-     * @var class-string<T>
-     */
-    protected $genericClass;
-
     /** @var array<mixed, T> */
     protected $entities = [];
 
     /**
      * @psalm-param class-string<T> $genericClass
      *
-     * @param string $genericClass
+     * @param string                $genericClass
      */
-    public function __construct(string $genericClass)
-    {
-        $this->genericClass = $genericClass;
+    public function __construct(
+        protected string $genericClass
+    ) {
     }
 
     /**
