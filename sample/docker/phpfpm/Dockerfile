@@ -28,6 +28,7 @@ RUN curl -sS \
 RUN apk add --no-cache $PHPIZE_DEPS \
     && pecl install xdebug-3.0.0 \
     && docker-php-ext-enable xdebug \
+    && echo "xdebug.log_level = 0" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
     && echo "xdebug.mode=debug" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
     && echo "xdebug.client_port=9000" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
     && echo "xdebug.start_with_request=yes" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
