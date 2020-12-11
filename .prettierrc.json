@@ -6,6 +6,5 @@
     "semi": true,
     "singleQuote": true,
     "printWidth": 120,
-    "endOfLine": "lf",
-    "trailingCommaPHP": true
+    "endOfLine": "lf"
 }
