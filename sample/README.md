@@ -7,9 +7,9 @@
 
 ## How to Run
 
-1. `./bin/start.sh`
+1. `bin/start.sh`
 1. Visit [localhost](http://localhost/) in your browser.
-1. `Ctrl+C` to exit or `./bin/stop.sh`
+1. `Ctrl+C` or `bin/stop.sh` to exit
 
 ## How to use XDebug
 

@@ -6,6 +6,6 @@ logo
 
 docker_compose down
 docker_compose up -d
-docker exec -it -u "root" php-docker /usr/local/bin/docker-set-host-internal.sh
+exec_root /usr/local/bin/docker-set-host-internal.sh
 docker_compose logs -f -t
 docker_compose down

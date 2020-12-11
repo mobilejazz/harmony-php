@@ -13,7 +13,6 @@
         "**/*": "prettier --write --ignore-unknown"
     },
     "devDependencies": {
-        "@prettier/plugin-php": "^0.16.0",
         "husky": "^5.0.4",
         "prettier": "^2.2.1"
     }

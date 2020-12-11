@@ -12,7 +12,7 @@ function docker_compose() {
     echo_with_color "\nExecuting docker-compose $* \n"
     DOCKER_DIR="$(get_docker_dir)"
     cd "${DOCKER_DIR}" &&
-        docker-compose "$@"
+        docker-compose -p harmony-php-sample "$@"
 }
 
 function get_docker_dir() {
