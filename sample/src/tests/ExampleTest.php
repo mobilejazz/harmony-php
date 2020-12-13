@@ -1,3 +1,8 @@
 <?php
 
-it('asserts true is true')->assertTrue(true);
+class ExampleTest extends \PHPUnit\Framework\TestCase
+{
+    public function testExample() {
+        $this->assertTrue(true);
+    }
+}

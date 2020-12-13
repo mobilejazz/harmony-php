@@ -8,11 +8,11 @@
     xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
 >
     <projectFiles>
-        <directory name="../../core/src" />
-        <directory name="../../eloquent/src" />
-        <directory name="app" />
+        <directory name="./core" />
+        <directory name="./eloquent" />
+        <directory name="./app" />
         <ignoreFiles>
-            <directory name="vendor" />
+            <directory name="./vendor" />
         </ignoreFiles>
     </projectFiles>
 </psalm>

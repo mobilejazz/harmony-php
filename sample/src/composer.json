@@ -27,8 +27,8 @@
     "autoload": {
         "psr-4": {
             "Sample\\": "app/",
-            "harmony\\core\\": "../../core/src/",
-            "harmony\\eloquent\\": "../../eloquent/src/"
+            "harmony\\core\\": "core/",
+            "harmony\\eloquent\\": "eloquent/"
         }
     }
 }

@@ -24,10 +24,10 @@ services:
         restart: unless-stopped
         volumes:
             - ../src:/var/www/html
-            - ../../core:/var/core
-            - ../../eloquent:/var/eloquent
+            - ../../core/src:/var/www/html/core
+            - ../../eloquent/src:/var/www/html/eloquent
         environment:
             # The same name server like PHPSTORM
             - PHP_IDE_CONFIG=serverName=localhost
             # https://xdebug.org/docs/all_settings#mode
-            - XDEBUG_MODE=debug
+            - XDEBUG_MODE=debug,coverage

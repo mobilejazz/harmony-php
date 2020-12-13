@@ -18,9 +18,7 @@
 
 ## Static Analysis
 
-Perform Static Analysis:
-
-1. Run `./bin/static-analysis.sh`
+1. `bin/static-analysis.sh`
 
 We are using this tools to add Static Analysis and Generics to our PHP code:
 
@@ -28,6 +26,17 @@ We are using this tools to add Static Analysis and Generics to our PHP code:
 -   [Psalm](https://psalm.dev/docs/)
 -   @todo Update version of PHP Mess Detector to PHP 8.0
 -   @todo Update version of PHP-CS-Fixer to PHP 8.0 `"friendsofphp/php-cs-fixer": "^2.16"`
+
+## Testing
+
+1. `bin/phpunit.sh`
+
+We are using this tools for Unit Test and Coverage:
+
+-   [PHPUnit](https://phpunit.readthedocs.io/en/9.5/writing-tests-for-phpunit.html#)
+-   [Pest](https://pestphp.com/docs/writing-tests)
+
+## Other
 
 Info about Generics [Example 1](https://www.daveliddament.co.uk/articles/php-generics-today-almost/) and [Example 2
 ](https://medium.com/vimeo-engineering-blog/uncovering-php-bugs-with-template-a4ca46eb9aeb).
