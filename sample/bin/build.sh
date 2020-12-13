@@ -15,6 +15,7 @@ DOCKER_PHP_GROUP_ID=$(id -g)
 
 # Re-Build Dockerfile
 docker_compose down
+docker_compose rm -f
 docker_compose build \
     --compress \
     --force-rm \

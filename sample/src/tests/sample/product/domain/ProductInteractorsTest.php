@@ -1,15 +1,17 @@
 <?php
 
+namespace App\Tests\Sample\Product\Domain;
+
 use harmony\core\repository\operation\DefaultOperation;
 use harmony\core\repository\query\AllQuery;
 use harmony\core\repository\query\KeyQuery;
 use JetBrains\PhpStorm\Pure;
+use PHPUnit\Framework\TestCase;
 use Sample\product\domain\model\Product;
 use Sample\product\ProductProvider;
 
-class ProductInteractorsTest extends \PHPUnit\Framework\TestCase
+class ProductInteractorsTest extends TestCase
 {
-
     /**
      * @var ProductProvider
      */

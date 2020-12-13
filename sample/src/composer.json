@@ -30,5 +30,10 @@
             "harmony\\core\\": "core/",
             "harmony\\eloquent\\": "eloquent/"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\Tests\\": "tests/"
+        }
     }
 }
