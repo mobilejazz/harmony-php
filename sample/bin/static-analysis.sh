@@ -4,8 +4,8 @@ source "${HELPERS_DIR}"/functions.sh
 
 # See Sample Readme
 exec_wwwdata ./vendor/bin/psalm --show-info=true --php-version=8.0
-exec_wwwdata ./vendor/bin/phpstan analyse -l max app ../../core ../../eloquent
-exec_wwwdata ./vendor/bin/phpcs -p -s --standard=PSR1,PSR2 --exclude="Generic.WhiteSpace.ScopeIndent" app ../../core ../../eloquent
+exec_wwwdata ./vendor/bin/phpstan analyse -l max app core eloquent
+exec_wwwdata ./vendor/bin/phpcs -p -s --standard=PSR1,PSR2 --exclude="Generic.WhiteSpace.ScopeIndent" app core eloquent
 # @todo Waiting for PHP 8.0 version | @link https://github.com/phpmd/phpmd/issues/853
 # phpmd @todo cleancode, naming
 #exec_wwwdata ./vendor/bin/phpmd /var/www/html/app,/var/core/src,/var/eloquent/src text codesize,design,unusedcode
