@@ -16,13 +16,12 @@
         "nesbot/carbon": "2.42.*"
     },
     "require-dev": {
-        "roave/security-advisories": "dev-master",
-        "vimeo/psalm": "4.3.*",
+        "roave/security-advisories": "dev-latest",
+        "vimeo/psalm": "4.7.*",
         "phpstan/phpstan": "0.12.*",
         "phpmd/phpmd": "2.9.*",
-        "phpunit/phpunit": "9.3.*",
-        "pestphp/pest": "0.3.*",
-        "squizlabs/php_codesniffer": "3.5.*"
+        "phpunit/phpunit": "9.5.*",
+        "squizlabs/php_codesniffer": "3.6.*"
     },
     "autoload": {
         "psr-4": {

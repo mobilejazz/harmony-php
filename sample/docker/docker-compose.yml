@@ -26,6 +26,8 @@ services:
             - ../src:/var/www/html
             - ../../core/src:/var/www/html/core
             - ../../eloquent/src:/var/www/html/eloquent
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
         environment:
             # The same name server like PHPSTORM
             - PHP_IDE_CONFIG=serverName=localhost

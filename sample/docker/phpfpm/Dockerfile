@@ -1,4 +1,4 @@
-FROM php:8.0.0-fpm-alpine
+FROM php:8.0-fpm-alpine
 
 # Update system
 RUN apk --update --no-cache add \
@@ -17,15 +17,15 @@ ARG HOST_GROUP_ID=1000
 RUN usermod -u $HOST_USER_ID www-data \
     && groupmod -g $HOST_GROUP_ID www-data
 
-# Composer 2.0.8
+# Composer 2.0.12
 RUN curl -sS \
-    https://raw.githubusercontent.com/composer/getcomposer.org/bfd95e2a4383ee9cf7c058c2df29d7acb5f86d77/web/installer \
+    https://raw.githubusercontent.com/composer/getcomposer.org/76a7060ccb93902cd7576b67264ad91c8a2700e2/web/installer \
     | php -- --quiet --install-dir=/usr/local/bin --filename=composer \
     && chmod +x /usr/local/bin/composer
 
 # Xdebug
 RUN apk add --no-cache $PHPIZE_DEPS \
-    && pecl install xdebug-3.0.1 \
+    && pecl install xdebug-3.0.4 \
     && docker-php-ext-enable xdebug \
     && echo "xdebug.log_level = 0" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
     && echo "xdebug.mode=debug" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
@@ -38,5 +38,3 @@ RUN apk add --no-cache $PHPIZE_DEPS \
     && chmod 664 /var/log/xdebug/xdebug.log \
     && chown www-data:www-data /var/log/xdebug/xdebug.log \
     && rm -rf /tmp/pear
-
-COPY ./phpfpm/docker-set-host-internal.sh /usr/local/bin/
