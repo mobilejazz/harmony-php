@@ -3,11 +3,8 @@ HELPERS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/helpers" >/dev/null 2>&1 && pw
 source "${HELPERS_DIR}"/functions.sh
 
 # See Sample Readme
-exec_wwwdata ./vendor/bin/psalm --show-info=true
-exec_wwwdata ./vendor/bin/phpstan analyse -l max app ../../core ../../eloquent
-# phpmd @todo cleancode, naming
-exec_wwwdata ./vendor/bin/phpmd /var/www/html/app,/var/core/src,/var/eloquent/src text codesize,design,unusedcode
-exec_wwwdata ./vendor/bin/phpcs --standard=PSR2 app ../../core ../../eloquent
-exec_wwwdata ./vendor/bin/php-cs-fixer fix --dry-run --diff app
-exec_wwwdata ./vendor/bin/php-cs-fixer fix --dry-run --diff ../../core
-exec_wwwdata ./vendor/bin/php-cs-fixer fix --dry-run --diff ../../eloquent
+exec_wwwdata ./vendor/bin/psalm --show-info=true --php-version=8.0
+exec_wwwdata ./vendor/bin/phpstan analyse -l max app core eloquent
+exec_wwwdata ./vendor/bin/phpmd /var/www/html/app,/var/www/html/core,/var/www/html/eloquent text codesize,design,cleancode
+# @todo "Could not open input file"
+#exec_wwwdata find . -path ./vendor -prune -o -type f -name '*.php' -print0 | xargs -0 -n1 -P4 php -l -n | (! grep -v 'No syntax errors detected' )

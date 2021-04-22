@@ -9,29 +9,22 @@ use harmony\core\repository\query\Query;
 /**
  * @template T
  */
-class GetAllInteractor
-{
-    /** @var GetRepository<T> */
-    private $getRepository;
+class GetAllInteractor {
+  /**
+   * @param GetRepository<T> $getRepository
+   */
+  public function __construct(
+    protected GetRepository $getRepository
+  ) {
+  }
 
-    /**
-     * @param GetRepository<T> $getRepository
-     */
-    public function __construct(GetRepository $getRepository)
-    {
-        $this->getRepository = $getRepository;
-    }
-
-    /**
-     * @param Query     $query
-     * @param Operation $operation
-     *
-     * @return array<T>
-     */
-    public function execute(
-        Query $query,
-        Operation $operation
-    ): array {
-        return $this->getRepository->getAll($query, $operation);
-    }
+  /**
+   * @param Query     $query
+   * @param Operation $operation
+   *
+   * @return array<T>
+   */
+  public function execute(Query $query, Operation $operation): array {
+    return $this->getRepository->getAll($query, $operation);
+  }
 }
