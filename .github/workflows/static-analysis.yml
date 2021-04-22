@@ -16,10 +16,12 @@ jobs:
           php-version: '8.0'
           tools: phpmd
       - name: Link Harmony PHP
-        run: ln -s ./core/src ./sample/src/core && ln -s ./eloquent/src ./sample/src/eloquent
+        run: ln -s core/src sample/src/core && ln -s eloquent/src sample/src/eloquent
         working-directory: .
       - name: LS
         run: ls -lah sample/src
+      - name: LS core
+        run: ls -lah sample/src/core
       - name: Validate composer
         run: composer validate
         working-directory: ./sample/src
