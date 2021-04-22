@@ -3,4 +3,5 @@ HELPERS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/helpers" >/dev/null 2>&1 && pw
 source "${HELPERS_DIR}"/functions.sh
 
 # See Sample Readme
-#exec_wwwdata ./vendor/bin/pest --no-interaction --coverage --min=98
+exec_wwwdata ./vendor/bin/pest --no-interaction --coverage --min=98
+#exec_wwwdata ./vendor/bin/phpunit --testdox --testsuite "unit"

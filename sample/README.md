@@ -22,10 +22,11 @@
 
 We are using this tools to add Static Analysis and Generics to our PHP code:
 
--   [PHPStan](https://phpstan.org/)
 -   [Psalm](https://psalm.dev/docs/)
--   @todo Update version of PHP Mess Detector to PHP 8.0
--   @todo Update version of PHP-CS-Fixer to PHP 8.0 `"friendsofphp/php-cs-fixer": "^2.16"`
+-   [PHPStan](https://phpstan.org/)
+-   [PHP CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer)
+-   [PHP Mess Detector](https://phpmd.org/)
+    Note: We don't use the `naming` rule as is incompatible with Harmony
 
 ## Testing
 
@@ -34,7 +35,7 @@ We are using this tools to add Static Analysis and Generics to our PHP code:
 We are using this tools for Unit Test and Coverage:
 
 -   [PHPUnit](https://phpunit.readthedocs.io/en/9.5/writing-tests-for-phpunit.html#)
--   [Pest](https://pestphp.com/docs/writing-tests)
+-   [Pest](https://pestphp.com/docs/writing-tests) (only to run test)
 
 ## Other
 

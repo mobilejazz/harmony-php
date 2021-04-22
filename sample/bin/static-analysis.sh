@@ -6,10 +6,4 @@ source "${HELPERS_DIR}"/functions.sh
 exec_wwwdata ./vendor/bin/psalm --show-info=true --php-version=8.0
 exec_wwwdata ./vendor/bin/phpstan analyse -l max app core eloquent
 exec_wwwdata ./vendor/bin/phpcs -p -s --standard=PSR1,PSR2 --exclude="Generic.WhiteSpace.ScopeIndent" app core eloquent
-# @todo Waiting for PHP 8.0 version | @link https://github.com/phpmd/phpmd/issues/853
-# phpmd @todo cleancode, naming
-#exec_wwwdata ./vendor/bin/phpmd /var/www/html/app,/var/core/src,/var/eloquent/src text codesize,design,unusedcode
-# @todo Waiting for PHP 8.0 version | @link https://github.com/FriendsOfPHP/PHP-CS-Fixer/issues/4702
-#exec_wwwdata ./vendor/bin/php-cs-fixer fix --dry-run --diff app
-#exec_wwwdata ./vendor/bin/php-cs-fixer fix --dry-run --diff ../../core
-#exec_wwwdata ./vendor/bin/php-cs-fixer fix --dry-run --diff ../../eloquent
+exec_wwwdata ./vendor/bin/phpmd /var/www/html/app,/var/www/html/core,/var/www/html/eloquent text codesize,design,cleancode

@@ -27,8 +27,8 @@
 /.php_cs.cache
 
 # NPM
-/node_modules
+/node_modules/**/*
 
 # Project
 /sample/src/composer.lock
-/sample/src/vendor
+/sample/src/vendor/**/*

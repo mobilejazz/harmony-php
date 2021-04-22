@@ -64,7 +64,7 @@ class ProductEntity
     protected function setCreatedAt(Carbon $created_at = null): void
     {
         if ($created_at === null) {
-            $created_at = Carbon::now();
+            $created_at = new Carbon();
         }
 
         $this->created_at = $created_at;
