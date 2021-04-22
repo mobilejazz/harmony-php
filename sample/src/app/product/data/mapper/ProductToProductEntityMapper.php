@@ -9,30 +9,24 @@ use Sample\product\domain\model\Product;
 /**
  * @extends GenericMapper<Product, ProductEntity>
  */
-class ProductToProductEntityMapper extends GenericMapper
-{
-    public function __construct()
-    {
-        parent::__construct(
-            Product::class,
-            ProductEntity::class
-        );
-    }
+class ProductToProductEntityMapper extends GenericMapper {
+  public function __construct() {
+    parent::__construct(Product::class, ProductEntity::class);
+  }
 
-    /**
-     * @param Product $from
-     *
-     * @return ProductEntity
-     */
-    protected function overrideMap($from): ProductEntity
-    {
-        $entity = new ProductEntity(
-            $from->getId(),
-            $from->getName(),
-            $from->getDescription(),
-            $from->getPrice()
-        );
+  /**
+   * @param Product $from
+   *
+   * @return ProductEntity
+   */
+  protected function overrideMap($from): ProductEntity {
+    $entity = new ProductEntity(
+      $from->getId(),
+      $from->getName(),
+      $from->getDescription(),
+      $from->getPrice(),
+    );
 
-        return $entity;
-    }
+    return $entity;
+  }
 }

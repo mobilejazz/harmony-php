@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PhpTestFrameworkSettings">
+    <test_tools>
+      <tool tool_name="Pest">
+        <settings>
+          <configurations>
+            <configuration_by_sdk interpreter_id="934ceabd-63a6-464f-9e41-a217a0945653" configuration_file_path="/var/www/html/phpunit.xml" executable_path="/var/www/html/vendor/bin/pest " use_configuration_file="true" />
+            <local_configuration executable_path="$PROJECT_DIR$/sample/src/vendor/bin/pest" />
+          </configurations>
+        </settings>
+      </tool>
+    </test_tools>
+  </component>
+  <component name="PhpTestFrameworkVersionCache">
+    <tools_cache>
+      <tool tool_name="Pest">
+        <cache>
+          <versions>
+            <info id="interpreter-934ceabd-63a6-464f-9e41-a217a0945653" version="Xdebug: [Config] The setting 'xdebug.remote_enable' has been renamed, see the upgrading guide at https://xdebug.org/docs/upgrade_guide#changed-xdebug.remote_enable (See: https://xdebug.org/docs/errors#CFG-C-CHANGED)" />
+          </versions>
+        </cache>
+      </tool>
+    </tools_cache>
+  </component>
+</project>

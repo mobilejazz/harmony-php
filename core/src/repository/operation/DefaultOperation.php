@@ -2,6 +2,5 @@
 
 namespace harmony\core\repository\operation;
 
-class DefaultOperation extends Operation
-{
+class DefaultOperation extends Operation {
 }

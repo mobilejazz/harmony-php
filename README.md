@@ -2,17 +2,23 @@
 
 This repository contains the core structure for PHP of the [Mobile Jazz Harmony](https://harmony.mobilejazz.com/docs/introduction) project.
 
-![](https://github.com/mobilejazz/harmony-php/workflows/Static%20Analysis/badge.svg)
+![](https://github.com/mobilejazz/harmony-php/workflows/Static%20Analysis/badge.svg?branch=master)
+![](https://github.com/mobilejazz/harmony-php/workflows/Tests/badge.svg?branch=master)
 
-## Installation
+## Production Installation
 
-[How to install](https://harmony.mobilejazz.com/docs/gettingstarted/setup/)
+[How to install](https://harmony.mobilejazz.com/docs/getting-started/setup/#php)
+
+## Develop Installation
+
+1. `npm install`
+1. Setup [Sample](sample/README.md)
 
 ## Author
 
 Mobile Jazz, info@mobilejazz.com
 
-## API Reference 
+## API Reference
 
 [https://harmony.mobilejazz.com/](https://harmony.mobilejazz.com/)
 

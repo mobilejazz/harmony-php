@@ -8,6 +8,5 @@ use Sample\product\domain\model\Product;
 /**
  * @template-extends PutInteractor<Product>
  */
-class PutProductInteractor extends PutInteractor
-{
+class PutProductInteractor extends PutInteractor {
 }

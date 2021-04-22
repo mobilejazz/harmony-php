@@ -2,24 +2,19 @@
 
 namespace harmony\core\repository\query;
 
-class KeysQuery extends Query
-{
-    /** @var array<string> */
-    private $keys;
+class KeysQuery extends Query {
+  /**
+   * @param array<string> $keys
+   */
+  public function __construct(
+    protected array $keys
+  ) {
+  }
 
-    /**
-     * @param array<string> $keys
-     */
-    public function __construct(array $keys)
-    {
-        $this->keys = $keys;
-    }
-
-    /**
-     * @return array<string>
-     */
-    public function getKeys(): array
-    {
-        return $this->keys;
-    }
+  /**
+   * @return array<string>
+   */
+  public function getKeys(): array {
+    return $this->keys;
+  }
 }

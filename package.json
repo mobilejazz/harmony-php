@@ -1,0 +1,23 @@
+{
+  "private": true,
+  "scripts": {
+    "prepare": "husky install",
+    "prettier": "prettier --ignore-unknown",
+    "prettier-check": "prettier --check core doctrine eloquent sample/src",
+    "prettier-write": "prettier --ignore-unknown --write core doctrine eloquent sample/src"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "**/*.php": "php -l"
+  },
+  "devDependencies": {
+    "@prettier/plugin-php": "0.16.2",
+    "husky": "5.2.0",
+    "lint-staged": "10.5.4",
+    "prettier": "2.2.1"
+  }
+}

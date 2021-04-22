@@ -2,6 +2,5 @@
 
 namespace harmony\core\repository\query;
 
-class AllQuery extends Query
-{
+class AllQuery extends Query {
 }

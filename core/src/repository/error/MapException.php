@@ -4,6 +4,5 @@ namespace harmony\core\repository\error;
 
 use Exception;
 
-class MapException extends Exception
-{
+class MapException extends Exception {
 }

@@ -67,14 +67,23 @@
       </option>
       <option name="migratedIntoUserSpace" value="true" />
     </inspection_tool>
-    <inspection_tool class="MessDetectorValidationInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+    <inspection_tool class="MessDetectorValidationInspection" enabled="false" level="WEAK WARNING" enabled_by_default="false">
       <option name="CODESIZE" value="true" />
       <option name="DESIGN" value="true" />
       <option name="UNUSEDCODE" value="true" />
     </inspection_tool>
-    <inspection_tool class="PhpCSFixerValidationInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
-    <inspection_tool class="PhpCSValidationInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+    <inspection_tool class="PhpCSFixerValidationInspection" enabled="false" level="WEAK WARNING" enabled_by_default="false">
+      <option name="CODING_STANDARD" />
+    </inspection_tool>
+    <inspection_tool class="PhpCSValidationInspection" enabled="false" level="WARNING" enabled_by_default="false">
       <option name="EXTENSIONS" value="php,js,css,inc" />
+    </inspection_tool>
+    <inspection_tool class="PhpStanGlobal" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="FULL_PROJECT" value="true" />
+      <option name="autoload" value="/var/www/html/vendor/autoload.php" />
+    </inspection_tool>
+    <inspection_tool class="PsalmGlobal" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="config" value="/var/www/html/psalm.xml" />
     </inspection_tool>
     <inspection_tool class="SecurityAdvisoriesInspection" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="optionConfiguration">

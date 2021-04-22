@@ -1,0 +1,31 @@
+name: Tests
+on:
+  push:
+  pull_request:
+    branches:
+      - master
+jobs:
+  build:
+    name: Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.0'
+      - name: Link Harmony PHP
+        run: mv core/src sample/src/core && mv eloquent/src sample/src/eloquent
+        # @todo Try to use a symlink instead of mv a folder
+        # run: ln -s core/src sample/src/core && ln -s eloquent/src sample/src/eloquent
+        working-directory: .
+      - name: Validate composer
+        run: composer validate
+        working-directory: ./sample/src
+      - name: Composer Install
+        run: composer install --prefer-dist --no-progress
+        working-directory: ./sample/src
+      - name: PHPUnit Test
+        # @todo Increase the % of coverage at same time that we add new test
+        run: ./vendor/bin/pest --no-interaction --coverage --min=49
+        working-directory: ./sample/src

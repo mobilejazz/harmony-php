@@ -8,6 +8,5 @@ use Sample\product\domain\model\Product;
 /**
  * @template-extends GetAllInteractor<Product>
  */
-class GetAllProductInteractor extends GetAllInteractor
-{
+class GetAllProductInteractor extends GetAllInteractor {
 }

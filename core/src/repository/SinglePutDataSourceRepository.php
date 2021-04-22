@@ -10,44 +10,26 @@ use harmony\core\repository\query\Query;
  * @template   T
  * @implements PutRepository<T>
  */
-class SinglePutDataSourceRepository implements PutRepository
-{
-    /**
-     * @var PutDataSource<T>
-     */
-    protected $putDataSource;
+class SinglePutDataSourceRepository implements PutRepository {
+  /**
+   * @param PutDataSource<T> $putDataSource
+   */
+  public function __construct(
+    protected PutDataSource $putDataSource
+  ) {
+  }
 
-    /**
-     * @param PutDataSource<T> $putDataSource
-     */
-    public function __construct(
-        PutDataSource $putDataSource
-    ) {
-        $this->putDataSource = $putDataSource;
-    }
+  /**
+   * @inheritdoc
+   */
+  public function put(Query $query, Operation $operation, $model = null) {
+    return $this->putDataSource->put($query, $model);
+  }
 
-    /**
-     * @inheritdoc
-     */
-    public function put(
-        Query $query,
-        Operation $operation,
-        $model = null
-    ) {
-        return $this->putDataSource->put(
-            $query,
-            $model
-        );
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function putAll(
-        Query $query,
-        Operation $operation,
-        array $models = null
-    ): array {
-        return $this->putDataSource->putAll($query, $models);
-    }
+  /**
+   * @inheritdoc
+   */
+  public function putAll(Query $query, Operation $operation, array $models = null): array {
+    return $this->putDataSource->putAll($query, $models);
+  }
 }

@@ -2,6 +2,5 @@
 
 namespace harmony\core\repository\query;
 
-class Query
-{
+class Query {
 }
