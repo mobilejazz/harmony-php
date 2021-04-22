@@ -27,10 +27,11 @@ jobs:
         run: composer install --prefer-dist --no-progress
         working-directory: ./sample/src
       - name: PHPStan
-        run: ./vendor/bin/phpstan analyse -l max app ../../core ../../eloquent
+        run: ./vendor/bin/phpstan analyse -l max app core eloquent
         working-directory: ./sample/src
       - name: PHP Mess Detector
-        run: phpmd ./sample/src/app,./core/src,./eloquent/src text codesize,design,cleancode
+        run: phpmd app,core,eloquent text codesize,design,cleancode
+        working-directory: ./sample/src
       - name: Psalm
         run: ./vendor/bin/psalm --show-info=true --php-version=8.0
         working-directory: ./sample/src
