@@ -1,4 +1,4 @@
-name: Static Analysis
+name: Tests
 on:
   push:
   pull_request:
@@ -6,7 +6,7 @@ on:
       - master
 jobs:
   build:
-    name: Static Analysis
+    name: Tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -14,7 +14,6 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.0'
-          tools: phpmd
       - name: Link Harmony PHP
         run: mv core/src sample/src/core && mv eloquent/src sample/src/eloquent
         # @todo Try to use a symlink instead of mv a folder
@@ -26,15 +25,7 @@ jobs:
       - name: Composer Install
         run: composer install --prefer-dist --no-progress
         working-directory: ./sample/src
-      - name: PHPStan
-        run: ./vendor/bin/phpstan analyse -l max app core eloquent
-        working-directory: ./sample/src
-      - name: PHP Mess Detector
-        run: phpmd app,core,eloquent text codesize,design,cleancode
-        working-directory: ./sample/src
-      - name: Psalm
-        run: ./vendor/bin/psalm --show-info=true --php-version=8.0
-        working-directory: ./sample/src
-      - name: PHP Lint
-        run: find . -path ./vendor -prune -o -type f -name '*.php' -print0 | xargs -0 -n1 -P4 php -l -n | (! grep -v 'No syntax errors detected' )
+      - name: PHPUnit Test
+        # @todo Increase the % of coverage at same time that we add new test
+        run: ./vendor/bin/pest --no-interaction --coverage --min=49
         working-directory: ./sample/src
