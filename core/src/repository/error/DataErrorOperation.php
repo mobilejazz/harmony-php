@@ -4,6 +4,5 @@ namespace harmony\core\repository\error;
 
 use Exception;
 
-class DataErrorOperation extends Exception
-{
+class DataErrorOperation extends Exception {
 }

@@ -2,6 +2,5 @@
 
 namespace harmony\core\repository\operation;
 
-abstract class Operation
-{
+abstract class Operation {
 }

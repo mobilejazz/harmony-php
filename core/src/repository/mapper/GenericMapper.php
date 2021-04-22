@@ -8,86 +8,80 @@ use harmony\core\shared\generics\GenericsHelper;
  * @template TFrom
  * @template TTo
  */
-abstract class GenericMapper implements Mapper
-{
-    use GenericsHelper;
+abstract class GenericMapper implements Mapper {
+  use GenericsHelper;
 
-    /**
-     * @psalm-param class-string<TFrom> $from
-     * @psalm-param class-string<TTo>   $to
-     *
-     * @param string                    $from
-     * @param string                    $to
-     */
-    public function __construct(
-        protected string $from,
-        protected string $to
-    ) {
-    }
+  /**
+   * @psalm-param class-string<TFrom> $from
+   * @psalm-param class-string<TTo>   $to
+   *
+   * @param string                    $from
+   * @param string                    $to
+   */
+  public function __construct(
+    protected string $from,
+    protected string $to
+  ) {
+  }
 
-    /**
-     * @psalm-return class-string<TFrom>
-     * @return string
-     */
-    public function getTypeFrom(): string
-    {
-        return $this->from;
-    }
+  /**
+   * @psalm-return class-string<TFrom>
+   * @return string
+   */
+  public function getTypeFrom(): string {
+    return $this->from;
+  }
 
-    /**
-     * @psalm-return class-string<TTo>
-     * @return string
-     */
-    public function getTypeTo(): string
-    {
-        return $this->to;
-    }
+  /**
+   * @psalm-return class-string<TTo>
+   * @return string
+   */
+  public function getTypeTo(): string {
+    return $this->to;
+  }
 
-    /**
-     * @psalm-param  TFrom $from
-     *
-     * @param mixed        $from
-     *
-     * @psalm-return TTo
-     * @return mixed
-     */
-    public function map($from)
-    {
-        $this->isTypeFromOrFail($from);
+  /**
+   * @psalm-param  TFrom $from
+   *
+   * @param mixed        $from
+   *
+   * @psalm-return TTo
+   * @return mixed
+   */
+  public function map($from) {
+    $this->isTypeFromOrFail($from);
 
-        $to = $this->overrideMap($from);
-        $this->isTypeToOrFail($to);
+    $to = $this->overrideMap($from);
+    $this->isTypeToOrFail($to);
 
-        return $to;
-    }
+    return $to;
+  }
 
-    /**
-     * @psalm-param  TFrom $from
-     *
-     * @param mixed        $from
-     *
-     * @psalm-return TTo
-     * @return mixed
-     */
-    abstract protected function overrideMap($from);
+  /**
+   * @psalm-param  TFrom $from
+   *
+   * @param mixed        $from
+   *
+   * @psalm-return TTo
+   * @return mixed
+   */
+  abstract protected function overrideMap($from);
 
-    /**
-     * @param mixed $object
-     *
-     * @return bool
-     */
-    protected function isTypeFromOrFail($object): bool
-    {
-        return $this->isReceivedObjectLikeExpectedOrFail($object, $this->from);
-    }
+  /**
+   * @param mixed $object
+   *
+   * @return bool
+   */
+  protected function isTypeFromOrFail($object): bool {
+    return $this->isReceivedObjectLikeExpectedOrFail($object, $this->from);
+  }
 
-    /**
-     * @param mixed $object
-     *
-     * @return bool
-     */
-    protected function isTypeToOrFail($object): bool
-    {
-        return $this->isReceivedObjectLikeExpectedOrFail($object, $this->to);
-    }
+  /**
+   * @param mixed $object
+   *
+   * @return bool
+   */
+  protected function isTypeToOrFail($object): bool {
+    return $this->isReceivedObjectLikeExpectedOrFail($object, $this->to);
+  }
 }

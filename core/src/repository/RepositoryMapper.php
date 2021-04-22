@@ -12,99 +12,93 @@ use harmony\core\repository\query\Query;
  * @implements GetRepository<TModel>
  * @implements PutRepository<TModel>
  */
-class RepositoryMapper implements GetRepository, PutRepository, DeleteRepository
-{
-    /**
-     * RepositoryMapper constructor.
-     *
-     * @param GetRepository<TEntity>         $getRepository
-     * @param PutRepository<TEntity>         $putRepository
-     * @param DeleteRepository               $deleteRepository
-     * @param GenericMapper<TModel, TEntity> $toInMapper
-     * @param GenericMapper<TEntity, TModel> $toOutMapper
-     */
-    public function __construct(
-        protected GetRepository $getRepository,
-        protected PutRepository $putRepository,
-        protected DeleteRepository $deleteRepository,
-        protected GenericMapper $toInMapper,
-        protected GenericMapper $toOutMapper
-    ) {
+class RepositoryMapper implements GetRepository, PutRepository, DeleteRepository {
+  /**
+   * RepositoryMapper constructor.
+   *
+   * @param GetRepository<TEntity>         $getRepository
+   * @param PutRepository<TEntity>         $putRepository
+   * @param DeleteRepository               $deleteRepository
+   * @param GenericMapper<TModel, TEntity> $toInMapper
+   * @param GenericMapper<TEntity, TModel> $toOutMapper
+   */
+  public function __construct(
+    protected GetRepository $getRepository,
+    protected PutRepository $putRepository,
+    protected DeleteRepository $deleteRepository,
+    protected GenericMapper $toInMapper,
+    protected GenericMapper $toOutMapper
+  ) {
+  }
+
+  /**
+   * @inheritdoc
+   */
+  public function get(Query $query, Operation $operation) {
+    $entity = $this->getRepository->get($query, $operation);
+    $model = $this->toOutMapper->map($entity);
+
+    return $model;
+  }
+
+  /**
+   * @inheritdoc
+   */
+  public function getAll(Query $query, Operation $operation): array {
+    $entities = $this->getRepository->getAll($query, $operation);
+    $models = [];
+
+    foreach ($entities as $entity) {
+      $models[] = $this->toOutMapper->map($entity);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function get(Query $query, Operation $operation)
-    {
-        $entity = $this->getRepository->get($query, $operation);
-        $model = $this->toOutMapper->map($entity);
+    return $models;
+  }
 
-        return $model;
+  /**
+   * @inheritdoc
+   */
+  public function put(Query $query, Operation $operation, $model = null) {
+    $entity = null;
+
+    if ($model !== null) {
+      $entity = $this->toInMapper->map($model);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getAll(Query $query, Operation $operation): array
-    {
-        $entities = $this->getRepository->getAll($query, $operation);
-        $models = [];
+    $entityPutted = $this->putRepository->put($query, $operation, $entity);
+    $modelPutted = $this->toOutMapper->map($entityPutted);
 
-        foreach ($entities as $entity) {
-            $models[] = $this->toOutMapper->map($entity);
-        }
+    return $modelPutted;
+  }
 
-        return $models;
+  /**
+   * @inheritdoc
+   */
+  public function putAll(Query $query, Operation $operation, array $models = null): array {
+    $entities = null;
+
+    if ($models !== null) {
+      $entities = [];
+
+      foreach ($models as $model) {
+        $entities[] = $this->toInMapper->map($model);
+      }
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function put(Query $query, Operation $operation, $model = null)
-    {
-        $entity = null;
+    $entitiesPutted = $this->putRepository->putAll($query, $operation, $entities);
+    $modelsPutted = [];
 
-        if ($model !== null) {
-            $entity = $this->toInMapper->map($model);
-        }
-
-        $entityPutted = $this->putRepository->put($query, $operation, $entity);
-        $modelPutted = $this->toOutMapper->map($entityPutted);
-
-        return $modelPutted;
+    foreach ($entitiesPutted as $entityPutted) {
+      $modelsPutted[] = $this->toOutMapper->map($entityPutted);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function putAll(Query $query, Operation $operation, array $models = null): array
-    {
-        $entities = null;
+    return $modelsPutted;
+  }
 
-        if ($models !== null) {
-            $entities = [];
-
-            foreach ($models as $model) {
-                $entities[] = $this->toInMapper->map($model);
-            }
-        }
-
-        $entitiesPutted = $this->putRepository->putAll($query, $operation, $entities);
-        $modelsPutted = [];
-
-        foreach ($entitiesPutted as $entityPutted) {
-            $modelsPutted[] = $this->toOutMapper->map($entityPutted);
-        }
-
-        return $modelsPutted;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function delete(Query $query, Operation $operation): void
-    {
-        $this->deleteRepository->delete($query, $operation);
-    }
+  /**
+   * @inheritdoc
+   */
+  public function delete(Query $query, Operation $operation): void {
+    $this->deleteRepository->delete($query, $operation);
+  }
 }

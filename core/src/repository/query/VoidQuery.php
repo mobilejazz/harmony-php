@@ -2,6 +2,5 @@
 
 namespace harmony\core\repository\query;
 
-class VoidQuery extends Query
-{
+class VoidQuery extends Query {
 }

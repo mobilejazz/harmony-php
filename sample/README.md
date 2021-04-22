@@ -22,11 +22,23 @@
 
 We are using this tools to add Static Analysis and Generics to our PHP code:
 
--   [Psalm](https://psalm.dev/docs/)
--   [PHPStan](https://phpstan.org/)
--   [PHP CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer)
--   [PHP Mess Detector](https://phpmd.org/)
-    Note: We don't use the `naming` rule as is incompatible with Harmony
+- [Psalm](https://psalm.dev/docs/)
+- [PHPStan](https://phpstan.org/)
+- [PHP Mess Detector](https://phpmd.org/)
+  Note: We don't use the `naming` rule as is incompatible with Harmony
+
+## Code Style
+
+- [Prettier](https://prettier.io/) with [Prettier PHP](https://github.com/prettier/plugin-php)
+  Note: currently is disabled waiting a fix for PHP 8.0
+
+```json
+"lint-staged": {
+"**/*.php": "php -l",
+"**/*": "prettier --write --ignore-unknown",
+"*.{js,css,md}": "prettier --write"
+},
+```
 
 ## Testing
 
@@ -34,8 +46,8 @@ We are using this tools to add Static Analysis and Generics to our PHP code:
 
 We are using this tools for Unit Test and Coverage:
 
--   [PHPUnit](https://phpunit.readthedocs.io/en/9.5/writing-tests-for-phpunit.html#)
--   [Pest](https://pestphp.com/docs/writing-tests) (only to run test)
+- [PHPUnit](https://phpunit.readthedocs.io/en/9.5/writing-tests-for-phpunit.html#)
+- [Pest](https://pestphp.com/docs/writing-tests) (only to run test)
 
 ## Other
 

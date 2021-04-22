@@ -14,105 +14,99 @@ use InvalidArgumentException;
  * @implements GetDataSource<T>
  * @implements PutDataSource<T>
  */
-class InMemoryDataSource implements GetDataSource, PutDataSource, DeleteDataSource
-{
-    /** @var array<mixed, T> */
-    protected $entities = [];
+class InMemoryDataSource implements GetDataSource, PutDataSource, DeleteDataSource {
+  /** @var array<mixed, T> */
+  protected $entities = [];
 
-    /**
-     * @psalm-param class-string<T> $genericClass
-     *
-     * @param string                $genericClass
-     */
-    public function __construct(
-        protected string $genericClass
-    ) {
+  /**
+   * @psalm-param class-string<T> $genericClass
+   *
+   * @param string                $genericClass
+   */
+  public function __construct(
+    protected string $genericClass
+  ) {
+  }
+
+  /**
+   * @inheritdoc
+   */
+  public function get(Query $query) {
+    if ($query instanceof KeyQuery) {
+      if (!isset($this->entities[$query->geKey()])) {
+        throw new DataNotFoundException();
+      }
+
+      return $this->entities[$query->geKey()];
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function get(Query $query)
-    {
-        if ($query instanceof KeyQuery) {
-            if (!isset($this->entities[$query->geKey()])) {
-                throw new DataNotFoundException();
-            }
+    throw new QueryNotSupportedException();
+  }
 
-            return $this->entities[$query->geKey()];
-        }
+  /**
+   * @inheritdoc
+   */
+  public function getAll(Query $query): array {
+    if ($query instanceof AllQuery) {
+      if (empty($this->entities)) {
+        throw new DataNotFoundException();
+      }
 
-        throw new QueryNotSupportedException();
+      return $this->entities;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getAll(Query $query): array
-    {
-        if ($query instanceof AllQuery) {
-            if (empty($this->entities)) {
-                throw new DataNotFoundException();
-            }
+    throw new QueryNotSupportedException();
+  }
 
-            return $this->entities;
-        }
-
-        throw new QueryNotSupportedException();
+  /**
+   * @inheritdoc
+   */
+  public function put(Query $query, $entity = null) {
+    if ($entity === null) {
+      throw new InvalidArgumentException();
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function put(Query $query, $entity = null)
-    {
-        if ($entity === null) {
-            throw new InvalidArgumentException();
-        }
+    if ($query instanceof KeyQuery) {
+      $this->entities[$query->geKey()] = $entity;
 
-        if ($query instanceof KeyQuery) {
-            $this->entities[$query->geKey()] = $entity;
-
-            return $entity;
-        }
-
-        throw new QueryNotSupportedException();
+      return $entity;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function putAll(Query $query, array $entities = null): array
-    {
-        if ($entities === null) {
-            throw new InvalidArgumentException();
-        }
+    throw new QueryNotSupportedException();
+  }
 
-        if ($query instanceof AllQuery) {
-            foreach ($entities as $entity) {
-                $this->entities[] = $entity;
-            }
-
-            return $entities;
-        }
-
-        throw new QueryNotSupportedException();
+  /**
+   * @inheritdoc
+   */
+  public function putAll(Query $query, array $entities = null): array {
+    if ($entities === null) {
+      throw new InvalidArgumentException();
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function delete(Query $query): void
-    {
-        if ($query instanceof KeyQuery) {
-            if (!isset($this->entities[$query->geKey()])) {
-                throw new DataNotFoundException();
-            }
+    if ($query instanceof AllQuery) {
+      foreach ($entities as $entity) {
+        $this->entities[] = $entity;
+      }
 
-            unset($this->entities[$query->geKey()]);
-            return;
-        }
-
-        throw new QueryNotSupportedException();
+      return $entities;
     }
+
+    throw new QueryNotSupportedException();
+  }
+
+  /**
+   * @inheritdoc
+   */
+  public function delete(Query $query): void {
+    if ($query instanceof KeyQuery) {
+      if (!isset($this->entities[$query->geKey()])) {
+        throw new DataNotFoundException();
+      }
+
+      unset($this->entities[$query->geKey()]);
+      return;
+    }
+
+    throw new QueryNotSupportedException();
+  }
 }

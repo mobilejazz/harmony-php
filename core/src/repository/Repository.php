@@ -2,6 +2,5 @@
 
 namespace harmony\core\repository;
 
-interface Repository
-{
+interface Repository {
 }
