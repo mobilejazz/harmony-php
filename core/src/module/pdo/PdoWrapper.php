@@ -11,12 +11,12 @@ class PdoWrapper {
   ) {
   }
 
-  public function queryOne(string $sql, array $params) {
+  public function findOne(string $sql, array $params) {
     $query = $this->execute($sql, $params);
     return $query->fetch();
   }
 
-  public function queryAll(string $sql, array $params): array {
+  public function findAll(string $sql, array $params): array {
     $query = $this->execute($sql, $params);
     return $query->fetchAll();
   }

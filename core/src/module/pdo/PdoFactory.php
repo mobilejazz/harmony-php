@@ -14,7 +14,7 @@ class PdoFactory {
     ?string $dbName,
     ?string $charset,
     ?string $port
-  ): PDO {
+  ): PdoWrapper {
     if (empty($dsn)) {
       $dsn = $this->constructDsn($dbType, $host, $dbName, $charset, $port);
     }
@@ -24,7 +24,7 @@ class PdoFactory {
       PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
     ]);
 
-    return $pdoConnection;
+    return new PdoWrapper($pdoConnection);
   }
 
   protected function constructDsn(
