@@ -2,6 +2,7 @@
 
 namespace harmony\core\module\pdo;
 
+use Exception;
 use PDO;
 use PDOStatement;
 
@@ -11,7 +12,7 @@ class PdoWrapper {
   ) {
   }
 
-  public function findOne(string $sql, array $params) {
+  public function findOne(string $sql, array $params){
     $query = $this->execute($sql, $params);
     return $query->fetch();
   }
@@ -21,7 +22,32 @@ class PdoWrapper {
     return $query->fetchAll();
   }
 
-  protected function execute(string $sql, array $params): bool|PDOStatement {
+  public function executeTransaction(string $sql, array $params): bool|PDOStatement {
+    try {
+      $this->startTransaction();
+      $result = $this->execute($sql, $params);
+      $this->endTransaction();
+    }catch (Exception $error){
+      $this->rollbackTransaction();
+      throw $error;
+    }
+
+    return $result;
+  }
+
+  public function startTransaction(): void {
+    $this->pdoConnection->beginTransaction();
+  }
+
+  public function endTransaction(): void {
+    $this->pdoConnection->commit();
+  }
+
+  public function rollbackTransaction(): void {
+    $this->pdoConnection->rollBack();
+  }
+
+  public function execute(string $sql, array $params): bool|PDOStatement {
     $query = $this->pdoConnection->prepare($sql);
     $query->execute($params);
 

@@ -2,6 +2,7 @@
 
 namespace harmony\core\module\pdo;
 
+use Exception;
 use harmony\core\repository\datasource\DeleteDataSource;
 use harmony\core\repository\datasource\GetDataSource;
 use harmony\core\repository\datasource\PutDataSource;
@@ -11,6 +12,7 @@ use harmony\core\repository\query\AllQuery;
 use harmony\core\repository\query\IdQuery;
 use harmony\core\repository\query\KeyQuery;
 use harmony\core\repository\query\Query;
+use harmony\core\repository\query\VoidQuery;
 use InvalidArgumentException;
 
 /**
@@ -19,47 +21,28 @@ use InvalidArgumentException;
  * @implements PutDataSource<T>
  */
 class PdoDataSource implements GetDataSource, PutDataSource, DeleteDataSource {
-  protected const TABLE_NAME = 'tableName';
-  protected const WHERE_COLUMN = 'whereColumn';
-  protected const WHERE_VALUE = 'whereValue';
-
   /**
    * @psalm-param class-string<T> $genericClass
    *
    * @param string                $genericClass
    * @param PdoWrapper            $pdo
-   * @param PdoConfigDataSource   $config
+   * @param SqlBuilder            $sqlBuilder
    */
   public function __construct(
     protected string $genericClass,
     protected PdoWrapper $pdo,
-    protected PdoConfigDataSource $config
+    protected SqlBuilder $sqlBuilder
   ) {
   }
 
   public function get(Query $query) {
-    $params = match (true) {
-      $query instanceof KeyQuery => [
-        self::WHERE_COLUMN => $this->config->getKeyColumn(),
-        self::WHERE_VALUE => $query->geKey(),
-      ],
-      $query instanceof IdQuery => [
-        self::WHERE_COLUMN => $this->config->getIdColumn(),
-        self::WHERE_VALUE => $query->getId(),
-      ],
+    $sql = match (true) {
+      $query instanceof KeyQuery => $this->sqlBuilder->selectByKey($query->geKey()),
+      $query instanceof IdQuery => $this->sqlBuilder->selectById($query->getId()),
       default => throw new QueryNotSupportedException()
     };
 
-    $sql = "
-        SELECT *
-        FROM :{self::TABLE_NAME}
-        WHERE :{self::WHERE_COLUMN} = :{self::WHERE_VALUE}
-        LIMIT 1
-        ";
-
-    $params[self::TABLE_NAME] = $this->config->getTableName();
-
-    $item = $this->pdo->findOne($sql, $params);
+    $item = $this->pdo->findOne($sql->sql(), $sql->params());
 
     if (!isset($item)) {
       throw new DataNotFoundException();
@@ -69,20 +52,12 @@ class PdoDataSource implements GetDataSource, PutDataSource, DeleteDataSource {
   }
 
   public function getAll(Query $query): array {
-    $params = match (true) {
-      $query instanceof AllQuery => [
-      ],
+    $sql = match (true) {
+      $query instanceof AllQuery => $this->sqlBuilder->selectAll(),
       default => throw new QueryNotSupportedException()
     };
 
-    $sql = "
-        SELECT *
-        FROM :{self::TABLE_NAME}
-        ";
-
-    $params[self::TABLE_NAME] = $this->config->getTableName();
-
-    $items = $this->pdo->findAll($sql, $params);
+    $items = $this->pdo->findAll($sql->sql(), $sql->params());
 
     if (!isset($items)) {
       throw new DataNotFoundException();
@@ -91,18 +66,18 @@ class PdoDataSource implements GetDataSource, PutDataSource, DeleteDataSource {
     return $items;
   }
 
-  public function put(Query $query, $entity = null) {
+  public function put(Query $query, PdoEntityInterface $entity = null) {
     if ($entity === null) {
       throw new InvalidArgumentException();
     }
 
-    if ($query instanceof KeyQuery) {
-      $this->entities[$query->geKey()] = $entity;
+    $sql = match (true) {
+      $query instanceof VoidQuery => $this->sqlBuilder->insert($entity),
+      $query instanceof IdQuery => $this->sqlBuilder->updateById($query->getId(), $entity),
+      default => throw new QueryNotSupportedException()
+    };
 
-      return $entity;
-    }
-
-    throw new QueryNotSupportedException();
+    $this->pdo->execute($sql->sql(), $sql->params());
   }
 
   public function putAll(Query $query, array $entities = null): array {
@@ -110,27 +85,21 @@ class PdoDataSource implements GetDataSource, PutDataSource, DeleteDataSource {
       throw new InvalidArgumentException();
     }
 
-    if ($query instanceof AllQuery) {
-      foreach ($entities as $entity) {
-        $this->entities[] = $entity;
-      }
+    $sql = match (true) {
+      $query instanceof VoidQuery => $this->sqlBuilder->multiInsert($entities),
+      default => throw new QueryNotSupportedException()
+    };
 
-      return $entities;
-    }
-
-    throw new QueryNotSupportedException();
+    $this->pdo->executeTransaction($sql->sql(), $sql->params());
+    return $entities;
   }
 
   public function delete(Query $query): void {
-    if ($query instanceof KeyQuery) {
-      if (!isset($this->entities[$query->geKey()])) {
-        throw new DataNotFoundException();
-      }
+    $sql = match (true) {
+      $query instanceof IdQuery => $this->sqlBuilder->deleteById($query->getId()),
+      default => throw new QueryNotSupportedException()
+    };
 
-      unset($this->entities[$query->geKey()]);
-      return;
-    }
-
-    throw new QueryNotSupportedException();
+    $this->pdo->executeTransaction($sql->sql(), $sql->params());
   }
 }
