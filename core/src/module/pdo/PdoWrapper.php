@@ -6,6 +6,10 @@ use Exception;
 use PDO;
 use PDOStatement;
 
+/**
+ * @link https://phpdelusions.net/pdo
+ * @link https://phpdelusions.net/pdo_examples
+ */
 class PdoWrapper {
   public function __construct(
     protected PDO $pdoConnection

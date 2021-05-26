@@ -2,7 +2,6 @@
 
 namespace harmony\core\module\pdo;
 
-use Exception;
 use harmony\core\repository\datasource\DeleteDataSource;
 use harmony\core\repository\datasource\GetDataSource;
 use harmony\core\repository\datasource\PutDataSource;

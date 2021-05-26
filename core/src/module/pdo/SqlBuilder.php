@@ -6,6 +6,9 @@ use Latitude\QueryBuilder\Query;
 use Latitude\QueryBuilder\QueryFactory;
 use function Latitude\QueryBuilder\field;
 
+/**
+ * @link https://latitude.shadowhand.com/
+ */
 class SqlBuilder {
   public function __construct(
     protected SqlSchemaInterface $schema,
