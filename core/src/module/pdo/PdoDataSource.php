@@ -65,7 +65,7 @@ class PdoDataSource implements GetDataSource, PutDataSource, DeleteDataSource {
     return $items;
   }
 
-  public function put(Query $query, PdoEntityInterface $entity = null) {
+  public function put(Query $query, $entity = null) {
     if ($entity === null) {
       throw new InvalidArgumentException();
     }

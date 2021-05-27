@@ -8,16 +8,13 @@ class PdoFactory {
   public function __invoke(
     string $user,
     string $pass,
-    ?string $dsn,
-    ?string $dbType,
-    ?string $host,
-    ?string $dbName,
-    ?string $charset,
-    ?string $port
+    string $host,
+    string $dbName,
+    string $dbType = "mysql",
+    string $charset = "utf8mb4",
+    string $port = "3306"
   ): PdoWrapper {
-    if (empty($dsn)) {
-      $dsn = $this->constructDsn($dbType, $host, $dbName, $charset, $port);
-    }
+    $dsn = $this->constructDsn($host, $dbName, $dbType, $charset, $port);
 
     $pdoConnection = new PDO($dsn, $user, $pass, [
       PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -28,11 +25,11 @@ class PdoFactory {
   }
 
   protected function constructDsn(
-    string $dbType,
     string $host,
     string $dbName,
-    string $charset = "utf8mb4",
-    string $port = "3306"
+    string $dbType,
+    string $charset,
+    string $port
   ): string {
     return "$dbType:host=$host;dbname=$dbName;charset=$charset;port=$port";
   }
