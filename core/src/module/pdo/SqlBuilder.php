@@ -2,6 +2,10 @@
 
 namespace harmony\core\module\pdo;
 
+use harmony\core\repository\query\ComposedQuery;
+use harmony\core\repository\query\OrderBy;
+use harmony\core\repository\query\Pagination;
+use harmony\core\repository\query\Where;
 use Latitude\QueryBuilder\Query;
 use Latitude\QueryBuilder\QueryFactory;
 use function Latitude\QueryBuilder\field;
@@ -25,14 +29,14 @@ class SqlBuilder {
   }
 
   public function selectByKey($value): Query {
-    return $this->selectWhere($this->schema->getKeyColumn(), $value);
+    return $this->selectOneWhere($this->schema->getKeyColumn(), $value);
   }
 
   public function selectById($value): Query {
-    return $this->selectWhere($this->schema->getIdColumn(), $value);
+    return $this->selectOneWhere($this->schema->getIdColumn(), $value);
   }
 
-  public function selectWhere(string $column, $value): Query {
+  public function selectOneWhere(string $column, $value): Query {
     $query = $this->factory
       ->select()
       ->from($this->schema->getTableName())
@@ -43,13 +47,54 @@ class SqlBuilder {
     return $query;
   }
 
-  public function selectAll(): Query {
-    $query = $this->factory
+  public function selectAll(
+    ?int $offset = null,
+    ?int $limit = null
+  ): Query {
+    $factory = $this->factory
       ->select()
-      ->from($this->schema->getTableName())
-      ->compile();
+      ->from($this->schema->getTableName());
+
+    if (
+      $offset !== null
+      && $limit !== null
+    ) {
+      $factory->offset($offset);
+      $factory->limit($limit);
+    }
+
+    $query = $factory->compile();
 
     return $query;
+  }
+
+  public function selectAllComposed(ComposedQuery $composed) {
+    $factory = $this->factory
+      ->select()
+      ->from($this->schema->getTableName());
+
+    if ($composed instanceof Pagination) {
+      $factory->offset($composed->offset());
+      $factory->limit($composed->limit());
+    }
+
+    if ($composed instanceof OrderBy) {
+      $ascending = $composed->ascending() ? 'ASC' : 'DESC';
+      $factory->orderBy($composed->orderBy(), $ascending);
+      unset($ascending);
+    }
+
+    if ($composed instanceof Where) {
+      $wheres = $composed->where();
+
+      foreach ($wheres as $column => $value) {
+        $factory->where(field($column)->eq($value));
+      }
+    }
+
+    $composed = $factory->compile();
+
+    return $composed;
   }
 
   public function updateById($id, PdoEntityInterface $entity): Query {

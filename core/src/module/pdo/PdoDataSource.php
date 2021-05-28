@@ -8,8 +8,10 @@ use harmony\core\repository\datasource\PutDataSource;
 use harmony\core\repository\error\DataNotFoundException;
 use harmony\core\repository\error\QueryNotSupportedException;
 use harmony\core\repository\query\AllQuery;
+use harmony\core\repository\query\ComposedQuery;
 use harmony\core\repository\query\IdQuery;
 use harmony\core\repository\query\KeyQuery;
+use harmony\core\repository\query\PaginationOffsetLimitQuery;
 use harmony\core\repository\query\Query;
 use harmony\core\repository\query\VoidQuery;
 use InvalidArgumentException;
@@ -53,6 +55,11 @@ class PdoDataSource implements GetDataSource, PutDataSource, DeleteDataSource {
   public function getAll(Query $query): array {
     $sql = match (true) {
       $query instanceof AllQuery => $this->sqlBuilder->selectAll(),
+      $query instanceof PaginationOffsetLimitQuery => $this->sqlBuilder->selectAll(
+        $query->getOffset(),
+        $query->getLimit()
+      ),
+      $query instanceof ComposedQuery => $this->sqlBuilder->selectAllComposed($query),
       default => throw new QueryNotSupportedException()
     };
 
