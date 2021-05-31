@@ -15,13 +15,15 @@ abstract class GenericMapper implements Mapper {
    * @psalm-param class-string<TFrom> $from
    * @psalm-param class-string<TTo>   $to
    *
-   * @param string                    $from
-   * @param string                    $to
+   * @param class-string              $from
+   * @param class-string              $to
    */
   public function __construct(
     protected string $from,
     protected string $to
   ) {
+    $this->isClassOrFail($from);
+    $this->isClassOrFail($to);
   }
 
   /**

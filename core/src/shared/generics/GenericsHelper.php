@@ -3,6 +3,7 @@
 namespace harmony\core\shared\generics;
 
 use harmony\core\shared\error\InvalidObjectException;
+use Psr\Log\InvalidArgumentException;
 
 trait GenericsHelper {
   /**
@@ -63,5 +64,14 @@ trait GenericsHelper {
     }
 
     return true;
+  }
+
+  /**
+   * @param string $className
+   */
+  protected function isClassOrFail(string $className): void {
+    if (!class_exists($className)) {
+      throw new InvalidArgumentException("Class not found: " . $className);
+    }
   }
 }

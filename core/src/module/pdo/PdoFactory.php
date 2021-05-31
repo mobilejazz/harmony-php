@@ -4,6 +4,9 @@ namespace harmony\core\module\pdo;
 
 use PDO;
 
+/**
+ * @psalm-suppress RedundantConditionGivenDocblockType
+ */
 class PdoFactory {
   public function __invoke(
     string $user,
