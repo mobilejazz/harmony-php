@@ -29,4 +29,8 @@ class PutInteractor {
   public function execute(Query $query, Operation $operation, $model = null) {
     return $this->putRepository->put($query, $operation, $model);
   }
+
+  public function __invoke(Query $query, Operation $operation, $model = null) {
+    return $this->execute($query, $operation, $model);
+  }
 }

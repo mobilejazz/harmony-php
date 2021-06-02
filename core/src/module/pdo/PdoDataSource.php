@@ -84,6 +84,8 @@ class PdoDataSource implements GetDataSource, PutDataSource, DeleteDataSource {
     };
 
     $this->pdo->execute($sql->sql(), $sql->params());
+
+    return $entity;
   }
 
   public function putAll(Query $query, array $entities = null): array {
@@ -97,6 +99,7 @@ class PdoDataSource implements GetDataSource, PutDataSource, DeleteDataSource {
     };
 
     $this->pdo->executeTransaction($sql->sql(), $sql->params());
+
     return $entities;
   }
 

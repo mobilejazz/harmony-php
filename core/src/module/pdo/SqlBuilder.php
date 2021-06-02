@@ -8,6 +8,7 @@ use harmony\core\repository\query\Pagination;
 use harmony\core\repository\query\Where;
 use Latitude\QueryBuilder\Query;
 use Latitude\QueryBuilder\QueryFactory;
+use stdClass;
 use function Latitude\QueryBuilder\field;
 
 /**
@@ -97,8 +98,8 @@ class SqlBuilder {
     return $composed;
   }
 
-  public function updateById($id, PdoEntityInterface $entity): Query {
-    $values = $entity->getColumnsWithValues();
+  public function updateById($id, stdClass $entity): Query {
+    $values = (array) $entity;
 
     $query = $this->factory
       ->update(
@@ -111,8 +112,8 @@ class SqlBuilder {
     return $query;
   }
 
-  public function insert(PdoEntityInterface $entity): Query {
-    $values = $entity->getColumnsWithValues();
+  public function insert(stdClass $entity): Query {
+    $values = (array) $entity;
 
     $query = $this->factory
       ->insert($this->schema->getTableName(), $values)
@@ -126,7 +127,7 @@ class SqlBuilder {
       ->insert($this->schema->getTableName());
 
     foreach ($entities as $entity) {
-      $values = $entity->getColumnsWithValues();
+      $values = (array) $entity;
       $factory->values($values);
     }
 
