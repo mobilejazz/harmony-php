@@ -15,9 +15,9 @@ jobs:
         with:
           php-version: '8.0'
       - name: Link Harmony PHP
-        run: mv core/src sample/src/core && mv eloquent/src sample/src/eloquent
+        run: mv core/src sample/src/core
         # @todo Try to use a symlink instead of mv a folder
-        # run: ln -s core/src sample/src/core && ln -s eloquent/src sample/src/eloquent
+        # run: ln -s core/src sample/src/core
         working-directory: .
       - name: Validate composer
         run: composer validate

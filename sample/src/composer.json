@@ -14,7 +14,8 @@
   "require": {
     "latitude/latitude": "4.2.*",
     "nesbot/carbon": "2.42.*",
-    "php": "8.0.*"
+    "php": "8.0.*",
+    "symfony/dependency-injection": "5.2.*"
   },
   "require-dev": {
     "pestphp/pest": "1.0.*",
@@ -28,8 +29,7 @@
   "autoload": {
     "psr-4": {
       "Sample\\": "app/",
-      "harmony\\core\\": "core/",
-      "harmony\\eloquent\\": "eloquent/"
+      "harmony\\core\\": "core/"
     }
   },
   "autoload-dev": {

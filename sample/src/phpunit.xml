@@ -14,7 +14,6 @@
     <include>
       <directory suffix=".php">./app</directory>
       <directory suffix=".php">./core</directory>
-      <directory suffix=".php">./eloquent</directory>
     </include>
   </coverage>
 </phpunit>
