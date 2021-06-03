@@ -43,17 +43,13 @@ class ProductInteractorsTest extends TestCase {
   function putProduct(Product $product): Product {
     $query = new KeyQuery((string) $product->getId());
 
-    return $this->productProvider
-      ->getPutInteractor()
-      ->execute($query, new DefaultOperation(), $product);
+    return $this->productProvider->getPutInteractor()($query, new DefaultOperation(), $product);
   }
 
   function putProducts(array $products): array {
     $query = new AllQuery();
 
-    return $this->productProvider
-      ->getPutAllInteractor()
-      ->execute($query, new DefaultOperation(), $products);
+    return $this->productProvider->getPutAllInteractor()($query, new DefaultOperation(), $products);
   }
 
   function testPutProductInteractor() {
@@ -69,9 +65,10 @@ class ProductInteractorsTest extends TestCase {
 
     $queryGet = new KeyQuery((string) $productSaved->getId());
 
-    $productGetted = $this->productProvider
-      ->getGetInteractor()
-      ->execute($queryGet, new DefaultOperation());
+    $productGetted = $this->productProvider->getGetInteractor()(
+      $queryGet,
+      new DefaultOperation(),
+    );
 
     $this->assertEquals($productSaved->getName(), $product->getName());
   }
@@ -88,9 +85,10 @@ class ProductInteractorsTest extends TestCase {
     $productsSaved = $this->putProducts($products);
 
     $getQuery = new AllQuery();
-    $productsGetted = $this->productProvider
-      ->getGetAllInteractor()
-      ->execute($getQuery, new DefaultOperation());
+    $productsGetted = $this->productProvider->getGetAllInteractor()(
+      $getQuery,
+      new DefaultOperation(),
+    );
 
     $this->assertEquals($productsSaved, $productsGetted);
   }
@@ -104,13 +102,15 @@ class ProductInteractorsTest extends TestCase {
     $productSaved = $this->putProduct($product);
 
     $queryDelete = new KeyQuery((string) $productSaved->getId());
-    $this->productProvider
-      ->getDeleteInteractor()
-      ->execute($queryDelete, new DefaultOperation());
+    $this->productProvider->getDeleteInteractor()(
+      $queryDelete,
+      new DefaultOperation(),
+    );
 
     $queryGet = new KeyQuery((string) $productSaved->getId());
-    $this->productProvider
-      ->getGetInteractor()
-      ->execute($queryGet, new DefaultOperation());
+    $this->productProvider->getGetInteractor()(
+      $queryGet,
+      new DefaultOperation(),
+    );
   }
 }

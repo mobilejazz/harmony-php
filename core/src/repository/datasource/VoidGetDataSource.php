@@ -13,7 +13,7 @@ class VoidGetDataSource implements GetDataSource {
   /**
    * @inheritdoc
    */
-  public function get(Query $query) {
+  public function get(Query $query): mixed {
     throw new MethodNotImplementedException();
   }
 

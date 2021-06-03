@@ -14,7 +14,7 @@ class VoidDataSource implements GetDataSource, PutDataSource, DeleteDataSource {
   /**
    * @inheritdoc
    */
-  public function get(Query $query) {
+  public function get(Query $query): mixed {
     throw new MethodNotImplementedException();
   }
 
@@ -28,7 +28,7 @@ class VoidDataSource implements GetDataSource, PutDataSource, DeleteDataSource {
   /**
    * @inheritdoc
    */
-  public function put(Query $query, $entity = null) {
+  public function put(Query $query, mixed $entity = null): mixed {
     throw new MethodNotImplementedException();
   }
 

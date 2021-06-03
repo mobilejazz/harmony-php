@@ -51,7 +51,7 @@ class ProductController {
   protected function putProductAction(Product $product): Product {
     $query = new KeyQuery((string) $product->getId());
 
-    return $this->putProductInteractor->execute($query, new DefaultOperation(), $product);
+    return ($this->putProductInteractor)($query, new DefaultOperation(), $product);
   }
 
   /**
@@ -61,7 +61,7 @@ class ProductController {
    */
   protected function getProductAction(int $id_product): Product {
     $query = new KeyQuery((string) $id_product);
-    $product = $this->getProductInteractor->execute($query, new DefaultOperation());
+    $product = ($this->getProductInteractor)($query, new DefaultOperation());
 
     return $product;
   }
@@ -73,7 +73,7 @@ class ProductController {
    */
   protected function putAllProductsAction(array $products): array {
     $query = new AllQuery();
-    $result = $this->putAllProductInteractor->execute($query, new DefaultOperation(), $products);
+    $result = ($this->putAllProductInteractor)($query, new DefaultOperation(), $products);
 
     return $result;
   }
@@ -83,7 +83,7 @@ class ProductController {
    */
   protected function getAllProductsAction(): array {
     $query = new AllQuery();
-    $products = $this->getAllProductInteractor->execute($query, new DefaultOperation());
+    $products = ($this->getAllProductInteractor)($query, new DefaultOperation());
 
     return $products;
   }
@@ -95,7 +95,7 @@ class ProductController {
    */
   protected function deleteProductAction(int $id_product): string {
     $query = new KeyQuery((string) $id_product);
-    $this->deleteProductInteractor->execute($query, new DefaultOperation());
+    ($this->deleteProductInteractor)($query, new DefaultOperation());
 
     return 'deleted';
   }

@@ -8,7 +8,6 @@ use harmony\core\repository\query\Pagination;
 use harmony\core\repository\query\Where;
 use Latitude\QueryBuilder\Query;
 use Latitude\QueryBuilder\QueryFactory;
-use stdClass;
 use function Latitude\QueryBuilder\field;
 
 /**
@@ -29,15 +28,15 @@ class SqlBuilder {
     return $this->factory;
   }
 
-  public function selectByKey($value): Query {
+  public function selectByKey(mixed $value): Query {
     return $this->selectOneWhere($this->schema->getKeyColumn(), $value);
   }
 
-  public function selectById($value): Query {
+  public function selectById(mixed $value): Query {
     return $this->selectOneWhere($this->schema->getIdColumn(), $value);
   }
 
-  public function selectOneWhere(string $column, $value): Query {
+  public function selectOneWhere(string $column, mixed $value): Query {
     $query = $this->factory
       ->select()
       ->from($this->schema->getTableName())
@@ -69,7 +68,7 @@ class SqlBuilder {
     return $query;
   }
 
-  public function selectAllComposed(ComposedQuery $composed) {
+  public function selectAllComposed(ComposedQuery $composed): Query {
     $factory = $this->factory
       ->select()
       ->from($this->schema->getTableName());
@@ -98,7 +97,7 @@ class SqlBuilder {
     return $composed;
   }
 
-  public function updateById($id, stdClass $entity): Query {
+  public function updateById(mixed $id, mixed $entity): Query {
     $values = (array) $entity;
 
     $query = $this->factory
@@ -112,7 +111,7 @@ class SqlBuilder {
     return $query;
   }
 
-  public function insert(stdClass $entity): Query {
+  public function insert(mixed $entity): Query {
     $values = (array) $entity;
 
     $query = $this->factory
@@ -122,6 +121,11 @@ class SqlBuilder {
     return $query;
   }
 
+  /**
+   * @param mixed[] $entities
+   *
+   * @return Query
+   */
   public function multiInsert(array $entities): Query {
     $factory = $this->factory
       ->insert($this->schema->getTableName());
@@ -136,7 +140,7 @@ class SqlBuilder {
     return $query;
   }
 
-  public function deleteById($value): Query {
+  public function deleteById(mixed $value): Query {
     $query = $this->factory
       ->delete($this->schema->getTableName())
       ->where(field($this->schema->getIdColumn())->eq($value))

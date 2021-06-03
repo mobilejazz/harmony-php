@@ -31,7 +31,7 @@ class InMemoryDataSource implements GetDataSource, PutDataSource, DeleteDataSour
   /**
    * @inheritdoc
    */
-  public function get(Query $query) {
+  public function get(Query $query): mixed {
     if ($query instanceof KeyQuery) {
       if (!isset($this->entities[$query->geKey()])) {
         throw new DataNotFoundException();
@@ -61,7 +61,7 @@ class InMemoryDataSource implements GetDataSource, PutDataSource, DeleteDataSour
   /**
    * @inheritdoc
    */
-  public function put(Query $query, $entity = null) {
+  public function put(Query $query, mixed $entity = null): mixed {
     if ($entity === null) {
       throw new InvalidArgumentException();
     }

@@ -14,7 +14,7 @@ interface PutDataSource {
    *
    * @return T
    */
-  public function put(Query $query, $entity = null);
+  public function put(Query $query, mixed $entity = null): mixed;
 
   /**
    * @param Query         $query

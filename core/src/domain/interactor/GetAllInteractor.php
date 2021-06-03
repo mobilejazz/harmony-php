@@ -24,11 +24,7 @@ class GetAllInteractor {
    *
    * @return array<T>
    */
-  public function execute(Query $query, Operation $operation): array {
-    return $this->getRepository->getAll($query, $operation);
-  }
-
   public function __invoke(Query $query, Operation $operation): array {
-    return $this->execute($query, $operation);
+    return $this->getRepository->getAll($query, $operation);
   }
 }

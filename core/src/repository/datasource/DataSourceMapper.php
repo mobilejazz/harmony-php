@@ -31,7 +31,7 @@ class DataSourceMapper implements GetDataSource, PutDataSource, DeleteDataSource
   /**
    * @inheritdoc
    */
-  public function get(Query $query) {
+  public function get(Query $query): mixed {
     $data = $this->getDataSource->get($query);
     $entity = $this->dataToEntityMapper->map($data);
 
@@ -58,7 +58,7 @@ class DataSourceMapper implements GetDataSource, PutDataSource, DeleteDataSource
    *
    * @return TEntity|mixed
    */
-  public function put(Query $query, $entity = null) {
+  public function put(Query $query, mixed $entity = null): mixed {
     $data = null;
 
     if ($entity !== null) {

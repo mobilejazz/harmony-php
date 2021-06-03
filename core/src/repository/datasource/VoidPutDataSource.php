@@ -13,7 +13,7 @@ class VoidPutDataSource implements PutDataSource {
   /**
    * @inheritdoc
    */
-  public function put(Query $query, $entity = null) {
+  public function put(Query $query, mixed $entity = null): mixed {
     throw new MethodNotImplementedException();
   }
 

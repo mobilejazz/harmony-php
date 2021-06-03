@@ -36,7 +36,14 @@ class PdoDataSource implements GetDataSource, PutDataSource, DeleteDataSource {
   ) {
   }
 
-  public function get(Query $query) {
+  /**
+   * @param Query $query
+   *
+   * @return mixed
+   * @throws DataNotFoundException
+   * @throws QueryNotSupportedException
+   */
+  public function get(Query $query): mixed {
     $sql = match (true) {
       $query instanceof KeyQuery => $this->sqlBuilder->selectByKey($query->geKey()),
       $query instanceof IdQuery => $this->sqlBuilder->selectById($query->getId()),
@@ -52,6 +59,13 @@ class PdoDataSource implements GetDataSource, PutDataSource, DeleteDataSource {
     return $item;
   }
 
+  /**
+   * @param Query $query
+   *
+   * @return mixed[]
+   * @throws DataNotFoundException
+   * @throws QueryNotSupportedException
+   */
   public function getAll(Query $query): array {
     $sql = match (true) {
       $query instanceof AllQuery => $this->sqlBuilder->selectAll(),
@@ -65,14 +79,21 @@ class PdoDataSource implements GetDataSource, PutDataSource, DeleteDataSource {
 
     $items = $this->pdo->findAll($sql->sql(), $sql->params());
 
-    if (!isset($items)) {
+    if (empty($items)) {
       throw new DataNotFoundException();
     }
 
     return $items;
   }
 
-  public function put(Query $query, $entity = null) {
+  /**
+   * @param Query      $query
+   * @param mixed|null $entity
+   *
+   * @return mixed
+   * @throws QueryNotSupportedException
+   */
+  public function put(Query $query, mixed $entity = null): mixed {
     if ($entity === null) {
       throw new InvalidArgumentException();
     }
@@ -88,6 +109,13 @@ class PdoDataSource implements GetDataSource, PutDataSource, DeleteDataSource {
     return $entity;
   }
 
+  /**
+   * @param Query      $query
+   * @param mixed[]|null $entities
+   *
+   * @return mixed[]
+   * @throws QueryNotSupportedException
+   */
   public function putAll(Query $query, array $entities = null): array {
     if ($entities === null) {
       throw new InvalidArgumentException();
@@ -103,6 +131,11 @@ class PdoDataSource implements GetDataSource, PutDataSource, DeleteDataSource {
     return $entities;
   }
 
+  /**
+   * @param Query $query
+   *
+   * @throws QueryNotSupportedException
+   */
   public function delete(Query $query): void {
     $sql = match (true) {
       $query instanceof IdQuery => $this->sqlBuilder->deleteById($query->getId()),

@@ -29,9 +29,10 @@ jobs:
       - name: PHPStan
         run: ./vendor/bin/phpstan analyse -l max app core eloquent
         working-directory: ./sample/src
-      - name: PHP Mess Detector
-        run: phpmd app,core,eloquent text codesize,design,cleancode
-        working-directory: ./sample/src
+        # @todo PHP Mess Detector is not 100% with PHP 8.0 yet
+#      - name: PHP Mess Detector
+#        run: phpmd app,core,eloquent text codesize,design,cleancode
+#        working-directory: ./sample/src
       - name: Psalm
         run: ./vendor/bin/psalm --show-info=true --php-version=8.0
         working-directory: ./sample/src

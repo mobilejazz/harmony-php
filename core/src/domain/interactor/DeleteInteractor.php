@@ -18,7 +18,7 @@ class DeleteInteractor {
    *
    * @return void
    */
-  public function execute(Query $query, Operation $operation): void {
+  public function __invoke(Query $query, Operation $operation): void {
     $this->deleteRepository->delete($query, $operation);
   }
 }

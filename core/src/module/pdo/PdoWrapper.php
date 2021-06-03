@@ -16,22 +16,49 @@ class PdoWrapper {
   ) {
   }
 
-  public function findOne(string $sql, array $params){
+  /**
+   * @param string  $sql
+   * @param mixed[] $params
+   *
+   * @return mixed
+   * @throws Exception
+   */
+  public function findOne(string $sql, array $params): mixed {
     $query = $this->execute($sql, $params);
     return $query->fetch();
   }
 
+  /**
+   * @param string  $sql
+   * @param mixed[] $params
+   *
+   * @return mixed[]
+   * @throws Exception
+   */
   public function findAll(string $sql, array $params): array {
     $query = $this->execute($sql, $params);
-    return $query->fetchAll();
+    $items = $query->fetchAll();
+
+    if ($items === false) {
+      throw new Exception("Error on Fetch All.");
+    }
+
+    return $items;
   }
 
+  /**
+   * @param string  $sql
+   * @param mixed[] $params
+   *
+   * @return bool|PDOStatement
+   * @throws Exception
+   */
   public function executeTransaction(string $sql, array $params): bool|PDOStatement {
     try {
       $this->startTransaction();
       $result = $this->execute($sql, $params);
       $this->endTransaction();
-    }catch (Exception $error){
+    } catch (Exception $error) {
       $this->rollbackTransaction();
       throw $error;
     }
@@ -51,8 +78,20 @@ class PdoWrapper {
     $this->pdoConnection->rollBack();
   }
 
-  public function execute(string $sql, array $params): bool|PDOStatement {
+  /**
+   * @param string  $sql
+   * @param mixed[] $params
+   *
+   * @return PDOStatement
+   * @throws Exception
+   */
+  public function execute(string $sql, array $params): PDOStatement {
     $query = $this->pdoConnection->prepare($sql);
+
+    if (empty($query)) {
+      throw new Exception("PDO Connection not ready.");
+    }
+
     $query->execute($params);
 
     return $query;

@@ -25,7 +25,7 @@ class GetInteractor {
    * @return mixed
    * @phpstan-return T
    */
-  public function execute(Query $query, Operation $operation) {
+  public function __invoke(Query $query, Operation $operation): mixed {
     return $this->getRepository->get($query, $operation);
   }
 }
