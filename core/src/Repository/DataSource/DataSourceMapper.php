@@ -1,9 +1,9 @@
 <?php
 
-namespace harmony\core\Repository\DataSource;
+namespace Harmony\Core\Repository\DataSource;
 
-use harmony\core\Repository\Mapper\GenericMapper;
-use harmony\core\Repository\Query\Query;
+use Harmony\Core\Repository\Mapper\GenericMapper;
+use Harmony\Core\Repository\Query\Query;
 
 /**
  * @template   TEntity

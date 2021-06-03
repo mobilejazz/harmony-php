@@ -1,6 +1,6 @@
 <?php
 
-namespace harmony\core\Repository\Operation;
+namespace Harmony\Core\Repository\Operation;
 
 abstract class Operation {
 }

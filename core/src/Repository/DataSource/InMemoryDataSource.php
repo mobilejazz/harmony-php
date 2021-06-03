@@ -1,12 +1,12 @@
 <?php
 
-namespace harmony\core\Repository\DataSource;
+namespace Harmony\Core\Repository\DataSource;
 
-use harmony\core\Repository\Error\DataNotFoundException;
-use harmony\core\Repository\Error\QueryNotSupportedException;
-use harmony\core\Repository\Query\AllQuery;
-use harmony\core\Repository\Query\KeyQuery;
-use harmony\core\Repository\Query\Query;
+use Harmony\Core\Repository\Error\DataNotFoundException;
+use Harmony\Core\Repository\Error\QueryNotSupportedException;
+use Harmony\Core\Repository\Query\AllQuery;
+use Harmony\Core\Repository\Query\KeyQuery;
+use Harmony\Core\Repository\Query\Query;
 use InvalidArgumentException;
 
 /**

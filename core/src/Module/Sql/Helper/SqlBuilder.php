@@ -1,12 +1,12 @@
 <?php
 
-namespace harmony\core\Module\Sql\Helper;
+namespace Harmony\Core\Module\Sql\Helper;
 
-use harmony\core\Module\Sql\Helper\SqlSchema;
-use harmony\core\Module\Sql\Query\ComposedSqlQuery;
-use harmony\core\Module\Sql\Query\OrderBySqlQuery;
-use harmony\core\Module\Sql\Query\PaginationSqlQuery;
-use harmony\core\Module\Sql\Query\WhereSqlQuery;
+use Harmony\Core\Module\Sql\Helper\SqlSchema;
+use Harmony\Core\Module\Sql\Query\ComposedSqlQuery;
+use Harmony\Core\Module\Sql\Query\OrderBySqlQuery;
+use Harmony\Core\Module\Sql\Query\PaginationSqlQuery;
+use Harmony\Core\Module\Sql\Query\WhereSqlQuery;
 use Latitude\QueryBuilder\Query;
 use Latitude\QueryBuilder\QueryFactory;
 use function Latitude\QueryBuilder\field;

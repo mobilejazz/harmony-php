@@ -1,10 +1,10 @@
 <?php
 
-namespace harmony\core\Module\Pdo;
+namespace Harmony\Core\Module\Pdo;
 
 use Exception;
-use harmony\core\Module\Pdo\Error\PdoConnectionNotReadyException;
-use harmony\core\Module\Pdo\Error\PdoFetchAllException;
+use Harmony\Core\Module\Pdo\Error\PdoConnectionNotReadyException;
+use Harmony\Core\Module\Pdo\Error\PdoFetchAllException;
 use PDO;
 use PDOStatement;
 

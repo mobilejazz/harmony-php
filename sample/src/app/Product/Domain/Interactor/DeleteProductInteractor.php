@@ -2,7 +2,7 @@
 
 namespace Sample\Product\Domain\Interactor;
 
-use harmony\core\Domain\Interactor\DeleteInteractor;
+use Harmony\Core\Domain\Interactor\DeleteInteractor;
 
 class DeleteProductInteractor extends DeleteInteractor {
 }

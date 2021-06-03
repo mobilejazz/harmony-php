@@ -2,9 +2,9 @@
 
 namespace Sample\Controller;
 
-use harmony\core\Repository\Operation\DefaultOperation;
-use harmony\core\Repository\Query\AllQuery;
-use harmony\core\Repository\Query\KeyQuery;
+use Harmony\Core\Repository\Operation\DefaultOperation;
+use Harmony\Core\Repository\Query\AllQuery;
+use Harmony\Core\Repository\Query\KeyQuery;
 use Sample\Product\Domain\Interactor\DeleteProductInteractor;
 use Sample\Product\Domain\Interactor\GetAllProductInteractor;
 use Sample\Product\Domain\Interactor\GetProductInteractor;

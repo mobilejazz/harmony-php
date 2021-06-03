@@ -1,6 +1,6 @@
 <?php
 
-namespace harmony\core\Repository\Mapper;
+namespace Harmony\Core\Repository\Mapper;
 
 class BlankMapper implements Mapper {
   /**

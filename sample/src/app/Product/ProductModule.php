@@ -2,9 +2,9 @@
 
 namespace Sample\Product;
 
-use harmony\core\Repository\DataSource\InMemoryDataSource;
-use harmony\core\Repository\RepositoryMapper;
-use harmony\core\Repository\SingleDataSourceRepository;
+use Harmony\Core\Repository\DataSource\InMemoryDataSource;
+use Harmony\Core\Repository\RepositoryMapper;
+use Harmony\Core\Repository\SingleDataSourceRepository;
 use Sample\Product\Data\Entity\ProductEntity;
 use Sample\Product\Data\Mapper\ProductEntityToProductMapper;
 use Sample\Product\Data\Mapper\ProductToProductEntityMapper;

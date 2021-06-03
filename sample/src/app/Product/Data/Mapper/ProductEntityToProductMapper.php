@@ -2,7 +2,7 @@
 
 namespace Sample\Product\Data\Mapper;
 
-use harmony\core\Repository\Mapper\GenericMapper;
+use Harmony\Core\Repository\Mapper\GenericMapper;
 use Sample\Product\Data\Entity\ProductEntity;
 use Sample\Product\Domain\Model\Product;
 

@@ -2,7 +2,7 @@
 
 namespace Sample\Product\Domain\Interactor;
 
-use harmony\core\Domain\Interactor\GetAllInteractor;
+use Harmony\Core\Domain\Interactor\GetAllInteractor;
 use Sample\Product\Domain\Model\Product;
 
 /**

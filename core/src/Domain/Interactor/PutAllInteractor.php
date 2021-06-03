@@ -1,10 +1,10 @@
 <?php
 
-namespace harmony\core\Domain\Interactor;
+namespace Harmony\Core\Domain\Interactor;
 
-use harmony\core\Repository\Operation\Operation;
-use harmony\core\Repository\PutRepository;
-use harmony\core\Repository\Query\Query;
+use Harmony\Core\Repository\Operation\Operation;
+use Harmony\Core\Repository\PutRepository;
+use Harmony\Core\Repository\Query\Query;
 
 /**
  * @template T

@@ -1,6 +1,6 @@
 <?php
 
-namespace harmony\core\Module\Symfony\DependencyInjection;
+namespace Harmony\Core\Module\Symfony\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\Loader\Configurator\ReferenceConfigurator;
 // @phpstan-ignore-next-line

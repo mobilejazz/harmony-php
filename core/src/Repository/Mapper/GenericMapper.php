@@ -1,8 +1,8 @@
 <?php
 
-namespace harmony\core\Repository\Mapper;
+namespace Harmony\Core\Repository\Mapper;
 
-use harmony\core\shared\generics\GenericsHelper;
+use Harmony\Core\Shared\Generics\GenericsHelper;
 
 /**
  * @template TFrom

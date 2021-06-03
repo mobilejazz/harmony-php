@@ -1,8 +1,8 @@
 <?php
 
-namespace harmony\core\Module\Sql\Query;
+namespace Harmony\Core\Module\Sql\Query;
 
-use harmony\core\Repository\Query\Query;
+use Harmony\Core\Repository\Query\Query;
 
 interface ComposedSqlQuery extends Query {
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace harmony\core\Repository\DataSource;
+namespace Harmony\Core\Repository\DataSource;
 
 interface DataSource {
 }

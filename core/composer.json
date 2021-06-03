@@ -13,7 +13,7 @@
   "require": {},
   "autoload": {
     "psr-4": {
-      "harmony\\core\\": "src/"
+      "Harmony\\Core\\": "src/"
     }
   }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace harmony\core\Repository\Query;
+namespace Harmony\Core\Repository\Query;
 
 class KeyQuery implements Query {
   /**

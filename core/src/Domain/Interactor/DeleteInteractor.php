@@ -1,10 +1,10 @@
 <?php
 
-namespace harmony\core\Domain\Interactor;
+namespace Harmony\Core\Domain\Interactor;
 
-use harmony\core\Repository\DeleteRepository;
-use harmony\core\Repository\Operation\Operation;
-use harmony\core\Repository\Query\Query;
+use Harmony\Core\Repository\DeleteRepository;
+use Harmony\Core\Repository\Operation\Operation;
+use Harmony\Core\Repository\Query\Query;
 
 class DeleteInteractor {
   public function __construct(

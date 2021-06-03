@@ -1,6 +1,6 @@
 <?php
 
-namespace harmony\core\Module\Pdo;
+namespace Harmony\Core\Module\Pdo;
 
 use PDO;
 

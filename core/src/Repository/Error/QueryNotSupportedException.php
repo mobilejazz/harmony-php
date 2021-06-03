@@ -1,6 +1,6 @@
 <?php
 
-namespace harmony\core\Repository\Error;
+namespace Harmony\Core\Repository\Error;
 
 use Exception;
 use Throwable;

@@ -1,8 +1,8 @@
 <?php
 
-namespace harmony\core\shared\generics;
+namespace Harmony\Core\Shared\Generics;
 
-use harmony\core\shared\error\InvalidObjectException;
+use Harmony\Core\Shared\Error\InvalidObjectException;
 use Psr\Log\InvalidArgumentException;
 
 trait GenericsHelper {

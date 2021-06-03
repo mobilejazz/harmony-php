@@ -2,9 +2,9 @@
 
 namespace App\Tests\Sample\Product\Domain;
 
-use harmony\core\Repository\Operation\DefaultOperation;
-use harmony\core\Repository\Query\AllQuery;
-use harmony\core\Repository\Query\KeyQuery;
+use Harmony\Core\Repository\Operation\DefaultOperation;
+use Harmony\Core\Repository\Query\AllQuery;
+use Harmony\Core\Repository\Query\KeyQuery;
 use JetBrains\PhpStorm\Pure;
 use PHPUnit\Framework\TestCase;
 use Sample\Product\Domain\Model\Product;
@@ -95,7 +95,7 @@ class ProductInteractorsTest extends TestCase {
 
   function testDeleteProductInteractor() {
     $this->expectException(
-      \harmony\core\Repository\Error\DataNotFoundException::class,
+      \Harmony\Core\Repository\Error\DataNotFoundException::class,
     );
 
     $product = $this->getProductOne();

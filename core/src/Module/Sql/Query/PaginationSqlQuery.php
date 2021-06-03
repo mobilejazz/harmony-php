@@ -1,6 +1,6 @@
 <?php
 
-namespace harmony\core\Module\Sql\Query;
+namespace Harmony\Core\Module\Sql\Query;
 
 interface PaginationSqlQuery extends ComposedSqlQuery {
   public function offset(): int;

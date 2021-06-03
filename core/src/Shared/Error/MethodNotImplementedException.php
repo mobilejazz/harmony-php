@@ -1,6 +1,6 @@
 <?php
 
-namespace harmony\core\shared\error;
+namespace Harmony\Core\Shared\Error;
 
 use Exception;
 use Throwable;

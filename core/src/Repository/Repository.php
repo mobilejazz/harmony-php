@@ -1,6 +1,6 @@
 <?php
 
-namespace harmony\core\Repository;
+namespace Harmony\Core\Repository;
 
 interface Repository {
 }

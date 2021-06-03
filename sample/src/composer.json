@@ -29,7 +29,7 @@
   "autoload": {
     "psr-4": {
       "Sample\\": "app/",
-      "harmony\\core\\": "core/"
+      "Harmony\\Core\\": "core/"
     }
   },
   "autoload-dev": {
