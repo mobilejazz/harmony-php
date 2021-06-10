@@ -5,38 +5,24 @@ namespace Harmony\Core\Module\Pdo;
 use Exception;
 use Harmony\Core\Module\Pdo\Error\PdoConnectionNotReadyException;
 use Harmony\Core\Module\Pdo\Error\PdoFetchAllException;
+use Harmony\Core\Module\Sql\DataSource\SqlInterface;
 use PDO;
-use PDOStatement;
 
 /**
  * @link https://phpdelusions.net/pdo
  * @link https://phpdelusions.net/pdo_examples
  */
-class PdoWrapper {
+class PdoWrapper implements SqlInterface {
   public function __construct(
     protected PDO $pdoConnection
   ) {
   }
 
-  /**
-   * @param string  $sql
-   * @param mixed[] $params
-   *
-   * @return mixed
-   * @throws Exception
-   */
-  public function findOne(string $sql, array $params): mixed {
+  public function findOne(string $sql, array $params): ?object {
     $query = $this->execute($sql, $params);
     return $query->fetch();
   }
 
-  /**
-   * @param string  $sql
-   * @param mixed[] $params
-   *
-   * @return mixed[]
-   * @throws Exception
-   */
   public function findAll(string $sql, array $params): array {
     $query = $this->execute($sql, $params);
     $items = $query->fetchAll();
@@ -48,14 +34,7 @@ class PdoWrapper {
     return $items;
   }
 
-  /**
-   * @param string  $sql
-   * @param mixed[] $params
-   *
-   * @return bool|PDOStatement
-   * @throws Exception
-   */
-  public function executeTransaction(string $sql, array $params): bool|PDOStatement {
+  public function transaction(string $sql, array $params): bool {
     try {
       $this->startTransaction();
       $result = $this->execute($sql, $params);
@@ -65,7 +44,7 @@ class PdoWrapper {
       throw $error;
     }
 
-    return $result;
+    return (bool) $result;
   }
 
   public function startTransaction(): void {
@@ -80,14 +59,7 @@ class PdoWrapper {
     $this->pdoConnection->rollBack();
   }
 
-  /**
-   * @param string  $sql
-   * @param mixed[] $params
-   *
-   * @return PDOStatement
-   * @throws Exception
-   */
-  public function execute(string $sql, array $params): PDOStatement {
+  public function execute(string $sql, array $params): mixed {
     $query = $this->pdoConnection->prepare($sql);
 
     if (empty($query)) {

@@ -2,7 +2,6 @@
 
 namespace Harmony\Core\Module\Sql\Helper;
 
-use Harmony\Core\Module\Sql\Helper\SqlSchema;
 use Harmony\Core\Module\Sql\Query\ComposedSqlQuery;
 use Harmony\Core\Module\Sql\Query\OrderBySqlQuery;
 use Harmony\Core\Module\Sql\Query\PaginationSqlQuery;
@@ -122,11 +121,6 @@ class SqlBuilder {
     return $query;
   }
 
-  /**
-   * @param mixed[] $entities
-   *
-   * @return Query
-   */
   public function multiInsert(array $entities): Query {
     $factory = $this->factory
       ->insert($this->schema->getTableName());

@@ -1,7 +1,8 @@
 <?php
 
-namespace Harmony\Core\Module\Pdo;
+namespace Harmony\Core\Module\Sql\DataSource;
 
+use harmony\core\Data\SqlInterface;
 use Harmony\Core\Module\Sql\Helper\SqlBuilder;
 use Harmony\Core\Repository\DataSource\DeleteDataSource;
 use Harmony\Core\Repository\DataSource\GetDataSource;
@@ -21,17 +22,13 @@ use InvalidArgumentException;
  * @implements GetDataSource<T>
  * @implements PutDataSource<T>
  */
-class PdoDataSource implements GetDataSource, PutDataSource, DeleteDataSource {
+class SqlDataSource implements GetDataSource, PutDataSource, DeleteDataSource {
   /**
-   * @psalm-param class-string<T> $genericClass
-   *
-   * @param string                $genericClass
-   * @param PdoWrapper            $pdo
+   * @param SqlInterface            $pdo
    * @param SqlBuilder            $sqlBuilder
    */
   public function __construct(
-    protected string $genericClass,
-    protected PdoWrapper $pdo,
+    protected SqlInterface $pdo,
     protected SqlBuilder $sqlBuilder
   ) {
   }
@@ -39,11 +36,11 @@ class PdoDataSource implements GetDataSource, PutDataSource, DeleteDataSource {
   /**
    * @param Query $query
    *
-   * @return mixed
+   * @return object
    * @throws DataNotFoundException
    * @throws QueryNotSupportedException
    */
-  public function get(Query $query): mixed {
+  public function get(Query $query): object {
     $sql = match (true) {
       $query instanceof IdQuery => $this->sqlBuilder->selectById($query->getId()),
       $query instanceof KeyQuery => $this->sqlBuilder->selectByKey($query->geKey()),
@@ -62,7 +59,7 @@ class PdoDataSource implements GetDataSource, PutDataSource, DeleteDataSource {
   /**
    * @param Query $query
    *
-   * @return mixed[]
+   * @return object[]
    * @throws DataNotFoundException
    * @throws QueryNotSupportedException
    */
@@ -107,9 +104,9 @@ class PdoDataSource implements GetDataSource, PutDataSource, DeleteDataSource {
 
   /**
    * @param Query      $query
-   * @param mixed[]|null $entities
+   * @param object[]|null $entities
    *
-   * @return mixed[]
+   * @return object[]
    * @throws QueryNotSupportedException
    */
   public function putAll(Query $query, array $entities = null): array {
@@ -122,7 +119,7 @@ class PdoDataSource implements GetDataSource, PutDataSource, DeleteDataSource {
       default => throw new QueryNotSupportedException()
     };
 
-    $this->pdo->executeTransaction($sql->sql(), $sql->params());
+    $this->pdo->transaction($sql->sql(), $sql->params());
 
     return $entities;
   }
@@ -138,6 +135,6 @@ class PdoDataSource implements GetDataSource, PutDataSource, DeleteDataSource {
       default => throw new QueryNotSupportedException()
     };
 
-    $this->pdo->executeTransaction($sql->sql(), $sql->params());
+    $this->pdo->transaction($sql->sql(), $sql->params());
   }
 }
