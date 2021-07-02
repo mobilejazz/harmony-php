@@ -2,7 +2,6 @@
 
 namespace Harmony\Core\Module\Sql\DataSource;
 
-use harmony\core\Data\SqlInterface;
 use Harmony\Core\Module\Sql\Helper\SqlBuilder;
 use Harmony\Core\Repository\DataSource\DeleteDataSource;
 use Harmony\Core\Repository\DataSource\GetDataSource;
