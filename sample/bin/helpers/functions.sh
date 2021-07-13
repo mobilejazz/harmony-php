@@ -1,11 +1,11 @@
 function exec_root() {
-    echo_with_color "\nExecuting on 'php-docker' like user 'root': '$*'\n"
-    docker exec -w "/var/www/html" php-docker "$@"
+    echo_with_color "\nExecuting on 'php-sample-docker' like user 'root': '$*'\n"
+    docker exec -w "/var/www/html" php-sample-docker "$@"
 }
 
 function exec_wwwdata() {
-    echo_with_color "\nExecuting on 'php-docker' like user 'www-data': '$*'\n"
-    docker exec -w "/var/www/html" -u "www-data" php-docker "$@"
+    echo_with_color "\nExecuting on 'php-sample-docker' like user 'www-data': '$*'\n"
+    docker exec -w "/var/www/html" -u "www-data" php-sample-docker "$@"
 }
 
 function docker_compose() {

@@ -3,8 +3,8 @@
   "scripts": {
     "prepare": "husky install",
     "prettier": "prettier --ignore-unknown",
-    "prettier-check": "prettier --check core doctrine eloquent sample/src",
-    "prettier-write": "prettier --ignore-unknown --write core doctrine eloquent sample/src"
+    "prettier-check": "prettier --check core sample/src",
+    "prettier-write": "prettier --ignore-unknown --write core sample/src"
   },
   "husky": {
     "hooks": {

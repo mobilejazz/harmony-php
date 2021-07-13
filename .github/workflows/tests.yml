@@ -15,9 +15,9 @@ jobs:
         with:
           php-version: '8.0'
       - name: Link Harmony PHP
-        run: mv core/src sample/src/core && mv eloquent/src sample/src/eloquent
+        run: mv core/src sample/src/core
         # @todo Try to use a symlink instead of mv a folder
-        # run: ln -s core/src sample/src/core && ln -s eloquent/src sample/src/eloquent
+        # run: ln -s core/src sample/src/core
         working-directory: .
       - name: Validate composer
         run: composer validate
@@ -27,5 +27,5 @@ jobs:
         working-directory: ./sample/src
       - name: PHPUnit Test
         # @todo Increase the % of coverage at same time that we add new test
-        run: ./vendor/bin/pest --no-interaction --coverage --min=49
+        run: ./vendor/bin/pest --no-interaction --coverage --min=30
         working-directory: ./sample/src
