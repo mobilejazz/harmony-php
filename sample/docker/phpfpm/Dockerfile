@@ -10,6 +10,7 @@ RUN docker-php-ext-install pdo_mysql
 
 # Use the default development configuration
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
+COPY phpfpm/php.ini /usr/local/etc/php/conf.d/customphp.ini
 
 # User www-data like the user from host machine to avoid file permissions problems
 ARG HOST_USER_ID=1000

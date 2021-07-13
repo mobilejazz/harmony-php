@@ -16,9 +16,9 @@ jobs:
           php-version: '8.0'
           tools: phpmd
       - name: Link Harmony PHP
-        run: mv core/src sample/src/core && mv eloquent/src sample/src/eloquent
+        run: mv core/src sample/src/core
         # @todo Try to use a symlink instead of mv a folder
-        # run: ln -s core/src sample/src/core && ln -s eloquent/src sample/src/eloquent
+        # run: ln -s core/src sample/src/core
         working-directory: .
       - name: Validate composer
         run: composer validate
@@ -27,11 +27,12 @@ jobs:
         run: composer install --prefer-dist --no-progress
         working-directory: ./sample/src
       - name: PHPStan
-        run: ./vendor/bin/phpstan analyse -l max app core eloquent
+        run: ./vendor/bin/phpstan analyse -l max app core
         working-directory: ./sample/src
-      - name: PHP Mess Detector
-        run: phpmd app,core,eloquent text codesize,design,cleancode
-        working-directory: ./sample/src
+        # @todo PHP Mess Detector is not 100% with PHP 8.0 yet
+#      - name: PHP Mess Detector
+#        run: phpmd app,core text codesize,design,cleancode
+#        working-directory: ./sample/src
       - name: Psalm
         run: ./vendor/bin/psalm --show-info=true --php-version=8.0
         working-directory: ./sample/src

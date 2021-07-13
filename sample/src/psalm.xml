@@ -9,7 +9,6 @@
 >
   <projectFiles>
     <directory name="core" />
-    <directory name="eloquent" />
     <directory name="app" />
     <ignoreFiles>
       <directory name="vendor" />

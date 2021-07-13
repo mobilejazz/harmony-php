@@ -7,5 +7,5 @@ source "${HELPERS_DIR}"/functions.sh
 
 logo
 
-echo_with_color "Opening terminal on php-docker as root user:"
-docker exec -it -u "root" -w "/var/www/html" php-docker sh
+echo_with_color "Opening terminal on php-sample-docker as root user:"
+docker exec -it -u "root" -w "/var/www/html" php-sample-docker sh
