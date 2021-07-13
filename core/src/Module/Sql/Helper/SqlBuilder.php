@@ -121,6 +121,11 @@ class SqlBuilder {
     return $query;
   }
 
+  /**
+   * @param object[] $entities
+   *
+   * @return Query
+   */
   public function multiInsert(array $entities): Query {
     $factory = $this->factory
       ->insert($this->schema->getTableName());

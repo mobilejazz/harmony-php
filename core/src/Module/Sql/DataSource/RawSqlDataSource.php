@@ -17,11 +17,10 @@ use Harmony\Core\Repository\Query\VoidQuery;
 use InvalidArgumentException;
 
 /**
- * @template   T
- * @implements GetDataSource<T>
- * @implements PutDataSource<T>
+ * @implements GetDataSource<object>
+ * @implements PutDataSource<object>
  */
-class SqlDataSource implements GetDataSource, PutDataSource, DeleteDataSource {
+class RawSqlDataSource implements GetDataSource, PutDataSource, DeleteDataSource {
   /**
    * @param SqlInterface            $pdo
    * @param SqlBuilder            $sqlBuilder
@@ -33,6 +32,7 @@ class SqlDataSource implements GetDataSource, PutDataSource, DeleteDataSource {
   }
 
   /**
+   * @psalm-suppress ImplementedReturnTypeMismatch
    * @param Query $query
    *
    * @return object
@@ -56,6 +56,7 @@ class SqlDataSource implements GetDataSource, PutDataSource, DeleteDataSource {
   }
 
   /**
+   * @psalm-suppress ImplementedReturnTypeMismatch
    * @param Query $query
    *
    * @return object[]
@@ -79,6 +80,7 @@ class SqlDataSource implements GetDataSource, PutDataSource, DeleteDataSource {
   }
 
   /**
+   * @psalm-suppress LessSpecificImplementedReturnType
    * @param Query      $query
    * @param mixed|null $entity
    *
@@ -102,6 +104,7 @@ class SqlDataSource implements GetDataSource, PutDataSource, DeleteDataSource {
   }
 
   /**
+   * @psalm-suppress MoreSpecificImplementedParamType
    * @param Query      $query
    * @param object[]|null $entities
    *

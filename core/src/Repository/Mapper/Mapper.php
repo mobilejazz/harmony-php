@@ -2,11 +2,15 @@
 
 namespace Harmony\Core\Repository\Mapper;
 
+/**
+ * @template TFrom
+ * @template TTo
+ */
 interface Mapper {
   /**
-   * @param mixed $from
+   * @param TFrom $from
    *
-   * @return mixed
+   * @return TTo
    */
-  public function map($from);
+  public function map(mixed $from);
 }

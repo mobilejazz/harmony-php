@@ -13,7 +13,7 @@ interface GetDataSource {
    *
    * @return T
    */
-  public function get(Query $query): mixed;
+  public function get(Query $query);
 
   /**
    * @param Query $query
