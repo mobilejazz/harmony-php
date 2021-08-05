@@ -1,6 +1,3 @@
-![](https://github.com/mobilejazz/harmony-php/workflows/Static%20Analysis/badge.svg?branch=master)
-![](https://github.com/mobilejazz/harmony-php/workflows/Tests/badge.svg?branch=master)
-
 <p align="center">
   <a href="https://harmony.mobilejazz.com">
     <img src="https://raw.githubusercontent.com/mobilejazz/metadata/master/images/icons/harmony.svg" alt="MJ Harmony logo" width="80" height="80">
@@ -19,6 +16,11 @@
     <a href="https://github.com/mobilejazz/harmony-swift">Swift</a>
     ·
     <a href="https://github.com/mobilejazz/harmony-typescript">TypeScript</a>
+  </p>
+  
+  <p align="center">
+    <img src="https://github.com/mobilejazz/harmony-php/workflows/Static%20Analysis/badge.svg?branch=master">
+    <img src="https://github.com/mobilejazz/harmony-php/workflows/Tests/badge.svg?branch=master">
   </p>
 </p>
 
