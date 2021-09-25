@@ -1,41 +1,42 @@
 name: Static Analysis
 on:
-  push:
-  pull_request:
-    branches:
-      - master
+    push:
+    pull_request:
+        branches:
+            - master
 jobs:
-  build:
-    name: Static Analysis
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.0'
-          tools: phpmd
-      - name: Link Harmony PHP
-        run: mv core/src sample/src/core
-        # @todo Try to use a symlink instead of mv a folder
-        # run: ln -s core/src sample/src/core
-        working-directory: .
-      - name: Validate composer
-        run: composer validate
-        working-directory: ./sample/src
-      - name: Composer Install
-        run: composer install --prefer-dist --no-progress
-        working-directory: ./sample/src
-      - name: PHPStan
-        run: ./vendor/bin/phpstan analyse -l max app core
-        working-directory: ./sample/src
-        # @todo PHP Mess Detector is not 100% with PHP 8.0 yet
-#      - name: PHP Mess Detector
-#        run: phpmd app,core text codesize,design,cleancode
-#        working-directory: ./sample/src
-      - name: Psalm
-        run: ./vendor/bin/psalm --show-info=true --php-version=8.0
-        working-directory: ./sample/src
-      - name: PHP Lint
-        run: find . -path ./vendor -prune -o -type f -name '*.php' -print0 | xargs -0 -n1 -P4 php -l -n | (! grep -v 'No syntax errors detected' )
-        working-directory: ./sample/src
+    build:
+        name: Static Analysis
+        runs-on: ubuntu-latest
+        steps:
+            -   uses: actions/checkout@v2
+            -   name: Setup PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: '8.0'
+            -   name: Link Harmony PHP
+                run: mv core/src sample/src/core
+                # @todo Try to use a symlink instead of mv a folder
+                # run: ln -s core/src sample/src/core
+                working-directory: .
+            -   name: Validate composer
+                run: composer validate
+                working-directory: ./sample/src
+            -   name: Composer Install
+                run: composer install --prefer-dist --no-progress
+                working-directory: ./sample/src
+            -   name: PSalm
+                run: ./vendor/bin/psalm --show-info=true --php-version=8.0
+                working-directory: ./sample/src
+            -   name: PHPStan
+                run: ./vendor/bin/phpstan analyse -l max app core
+                working-directory: ./sample/src
+            -   name: PHP Mess Detector
+                run: /vendor/bin/phpmd app,core ansi phpmd.xml
+                working-directory: ./sample/src
+            -   name: Psalm
+                run: ./vendor/bin/psalm --show-info=true --php-version=8.0
+                working-directory: ./sample/src
+            -   name: PHP Lint
+                run: find . -path ./vendor -prune -o -type f -name '*.php' -print0 | xargs -0 -n1 -P4 php -l -n | (! grep -v 'No syntax errors detected' )
+                working-directory: ./sample/src

@@ -1,39 +1,38 @@
 {
-  "name": "harmony/sample",
-  "description": "Harmony PHP Sample",
-  "type": "project",
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Mobile Jazz",
-      "email": "info@mobilejazz.com"
+    "name": "harmony/sample",
+    "description": "Harmony PHP Sample",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mobile Jazz",
+            "email": "info@mobilejazz.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "latitude/latitude": "4.2.*",
+        "nesbot/carbon": "2.53.*",
+        "php": "8.0.*"
+    },
+    "require-dev": {
+        "pestphp/pest": "1.20.*",
+        "phpmd/phpmd": "2.10.*",
+        "phpstan/phpstan": "0.12.*",
+        "phpunit/phpunit": "9.5.*",
+        "roave/security-advisories": "dev-latest",
+        "vimeo/psalm": "4.10.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Sample\\": "app/",
+            "Harmony\\Core\\": "core/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\Tests\\": "tests/"
+        }
     }
-  ],
-  "minimum-stability": "dev",
-  "prefer-stable": true,
-  "require": {
-    "latitude/latitude": "4.2.*",
-    "nesbot/carbon": "2.50.*",
-    "php": "8.0.*"
-  },
-  "require-dev": {
-    "pestphp/pest": "1.10.*",
-    "phpmd/phpmd": "2.10.*",
-    "phpstan/phpstan": "0.12.*",
-    "phpunit/phpunit": "9.5.*",
-    "roave/security-advisories": "dev-latest",
-    "squizlabs/php_codesniffer": "3.6.*",
-    "vimeo/psalm": "4.8.*"
-  },
-  "autoload": {
-    "psr-4": {
-      "Sample\\": "app/",
-      "Harmony\\Core\\": "core/"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "App\\Tests\\": "tests/"
-    }
-  }
 }
