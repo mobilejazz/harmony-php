@@ -30,7 +30,6 @@ We are using this tools to add Static Analysis and Generics to our PHP code:
 ## Code Style
 
 - [Prettier](https://prettier.io/) with [Prettier PHP](https://github.com/prettier/plugin-php)
-  Note: currently is disabled waiting a fix for PHP 8.0
 
 ```json
 "lint-staged": {

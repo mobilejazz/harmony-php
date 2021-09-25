@@ -11,8 +11,10 @@ This repository contains the core structure for PHP of the [Mobile Jazz Harmony]
 
 ## Develop Installation
 
-1. `npm install`
-1. Setup [Sample](sample/README.md)
+1. `nvm install`
+2. `nvm use`
+3. `npm ci --also=dev`
+4. Setup [Sample](sample/README.md)
 
 ## Author
 

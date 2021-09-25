@@ -24,5 +24,5 @@ docker_compose build \
     --build-arg HOST_GROUP_ID="${DOCKER_PHP_GROUP_ID}"
 
 docker_compose up -d php-sample
-docker_compose exec php-sample composer install
+docker_compose exec php-sample composer install --dev
 docker_compose down
