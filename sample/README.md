@@ -25,7 +25,6 @@ We are using this tools to add Static Analysis and Generics to our PHP code:
 - [Psalm](https://psalm.dev/docs/)
 - [PHPStan](https://phpstan.org/)
 - [PHP Mess Detector](https://phpmd.org/)
-  Note: We don't use the `naming` rule as is incompatible with Harmony
 
 ## Code Style
 
@@ -46,7 +45,7 @@ We are using this tools to add Static Analysis and Generics to our PHP code:
 We are using this tools for Unit Test and Coverage:
 
 - [PHPUnit](https://phpunit.readthedocs.io/en/9.5/writing-tests-for-phpunit.html#)
-- [Pest](https://pestphp.com/docs/writing-tests) (only to run test)
+- [Pest](https://pestphp.com/docs/writing-tests) (only to run test with coverage)
 
 ## Other
 

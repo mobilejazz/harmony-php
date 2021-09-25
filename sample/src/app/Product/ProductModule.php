@@ -20,7 +20,7 @@ class ProductModule {
   protected const KEY_PRODUCT_REPOSITORY = "ProductRepository";
 
   /** @var array<string, mixed> */
-  protected $di_container = [];
+  protected array $di_container = [];
 
   /**
    * @return RepositoryMapper<Product, ProductEntity>
@@ -58,37 +58,22 @@ class ProductModule {
     return $this->di_container[self::KEY_PRODUCT_REPOSITORY];
   }
 
-  /**
-   * @return GetProductInteractor
-   */
   public function getGetInteractor(): GetProductInteractor {
     return new GetProductInteractor($this->getProductRepository());
   }
 
-  /**
-   * @return GetAllProductInteractor
-   */
   public function getGetAllInteractor(): GetAllProductInteractor {
     return new GetAllProductInteractor($this->getProductRepository());
   }
 
-  /**
-   * @return PutProductInteractor
-   */
   public function getPutInteractor(): PutProductInteractor {
     return new PutProductInteractor($this->getProductRepository());
   }
 
-  /**
-   * @return PutAllProductInteractor
-   */
   public function getPutAllInteractor(): PutAllProductInteractor {
     return new PutAllProductInteractor($this->getProductRepository());
   }
 
-  /**
-   * @return DeleteProductInteractor
-   */
   public function getDeleteInteractor(): DeleteProductInteractor {
     return new DeleteProductInteractor($this->getProductRepository());
   }
