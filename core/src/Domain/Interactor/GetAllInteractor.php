@@ -3,8 +3,10 @@
 namespace Harmony\Core\Domain\Interactor;
 
 use Harmony\Core\Repository\GetRepository;
+use Harmony\Core\Repository\Operation\DefaultOperation;
 use Harmony\Core\Repository\Operation\Operation;
 use Harmony\Core\Repository\Query\Query;
+use Harmony\Core\Repository\Query\VoidQuery;
 
 /**
  * @template T
@@ -13,18 +15,21 @@ class GetAllInteractor {
   /**
    * @param GetRepository<T> $getRepository
    */
-  public function __construct(
-    protected GetRepository $getRepository
-  ) {
+  public function __construct(protected GetRepository $getRepository) {
   }
 
   /**
-   * @param Query     $query
-   * @param Operation $operation
+   * @param Query|null $query
+   * @param Operation|null $operation
    *
    * @return array<T>
    */
-  public function __invoke(Query $query, Operation $operation): array {
+  public function __invoke(
+    ?Query $query = null,
+    ?Operation $operation = null
+  ): array {
+    $query = $query ?? new VoidQuery();
+    $operation = $operation ?? new DefaultOperation();
     return $this->getRepository->getAll($query, $operation);
   }
 }
