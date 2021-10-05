@@ -13,7 +13,7 @@ Class VoidMapper implements Mapper {
     /**
      * @inheritdoc
      */
-    public function map(mixed $from): void {
+    public function map(mixed $from) {
         throw new MethodNotImplementedException();
     }
 }
