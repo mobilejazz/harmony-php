@@ -2,10 +2,10 @@
 
 namespace Harmony\Core\Module\Sql\Helper;
 
-use Harmony\Core\Module\Sql\Query\ComposedSqlQuery;
-use Harmony\Core\Module\Sql\Query\OrderBySqlQuery;
-use Harmony\Core\Module\Sql\Query\PaginationSqlQuery;
-use Harmony\Core\Module\Sql\Query\WhereSqlQuery;
+use Harmony\Core\Module\Sql\Query\ComposedQuery;
+use Harmony\Core\Module\Sql\Query\OrderByQuery;
+use Harmony\Core\Module\Sql\Query\WhereQuery;
+use Harmony\Core\Repository\Query\PaginationOffsetLimitQuery;
 use Latitude\QueryBuilder\Query;
 use Latitude\QueryBuilder\QueryFactory;
 use function Latitude\QueryBuilder\field;
@@ -68,23 +68,23 @@ class SqlBuilder {
     return $query;
   }
 
-  public function selectAllComposed(ComposedSqlQuery $composed): Query {
+  public function selectAllComposed(ComposedQuery $composed): Query {
     $factory = $this->factory
       ->select()
       ->from($this->schema->getTableName());
 
-    if ($composed instanceof PaginationSqlQuery) {
+    if ($composed instanceof PaginationOffsetLimitQuery) {
       $factory->offset($composed->offset());
       $factory->limit($composed->limit());
     }
 
-    if ($composed instanceof OrderBySqlQuery) {
+    if ($composed instanceof OrderByQuery) {
       $ascending = $composed->ascending() ? 'ASC' : 'DESC';
       $factory->orderBy($composed->orderBy(), $ascending);
       unset($ascending);
     }
 
-    if ($composed instanceof WhereSqlQuery) {
+    if ($composed instanceof WhereQuery) {
       $wheres = $composed->where();
 
       foreach ($wheres as $column => $value) {
@@ -92,9 +92,8 @@ class SqlBuilder {
       }
     }
 
-    $composed = $factory->compile();
-
-    return $composed;
+    $query = $factory->compile();
+    return $query;
   }
 
   public function updateById(mixed $id, mixed $entity): Query {
