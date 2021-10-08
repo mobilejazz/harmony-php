@@ -2,10 +2,10 @@
 
 namespace Harmony\Core\Module\Sql\Helper;
 
-use Harmony\Core\Module\Sql\Query\ComposedQuery;
-use Harmony\Core\Module\Sql\Query\OrderByQuery;
-use Harmony\Core\Module\Sql\Query\WhereQuery;
-use Harmony\Core\Repository\Query\PaginationOffsetLimitQuery;
+use Harmony\Core\Repository\Query\Composed\ComposedQuery;
+use Harmony\Core\Repository\Query\Composed\OrderByQuery;
+use Harmony\Core\Repository\Query\Composed\PaginationOffsetLimitQuery;
+use Harmony\Core\Repository\Query\Composed\WhereQuery;
 use Latitude\QueryBuilder\Query;
 use Latitude\QueryBuilder\QueryFactory;
 use function Latitude\QueryBuilder\field;
