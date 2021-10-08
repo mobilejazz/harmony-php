@@ -2,9 +2,14 @@
 
 namespace Harmony\Core\Domain\Pagination;
 
+/**
+ * @template T
+ * @extends Pagination<T>
+ */
 class PaginationOffsetLimit extends Pagination {
+
     /**
-     * @param array $values
+     * @param array<T> $values
      * @param int $offset
      * @param int $limit
      * @param int $size
@@ -18,24 +23,15 @@ class PaginationOffsetLimit extends Pagination {
         parent::__construct($values);
     }
 
-    /**
-     * @return int
-     */
     public function getOffset(): int {
         return $this->offset;
     }
 
-    /**
-     * @return int
-     */
     public function getLimit(): int
     {
         return $this->limit;
     }
 
-    /**
-     * @return int
-     */
     public function getSize(): int
     {
         return $this->size;

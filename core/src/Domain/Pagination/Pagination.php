@@ -2,9 +2,12 @@
 
 namespace Harmony\Core\Domain\Pagination;
 
+/**
+ * @template T
+ */
 class Pagination {
     /**
-     * @param array $values
+     * @param array<T> $values
      */
     public function __construct(
         protected array $values,
@@ -12,7 +15,7 @@ class Pagination {
     }
 
     /**
-     * @return array
+     * @return array<T>
      */
     public function getValues(): array {
         return $this->values;

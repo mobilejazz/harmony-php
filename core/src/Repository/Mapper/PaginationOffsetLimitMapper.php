@@ -7,7 +7,7 @@ use Harmony\Core\Domain\Pagination\PaginationOffsetLimit;
 /**
  * @template TFrom
  * @template TTo
- * @implements Mapper<TFrom, TTo>
+ * @implements Mapper<PaginationOffsetLimit<TFrom>, PaginationOffsetLimit<TTo>>
  */
 Class PaginationOffsetLimitMapper implements Mapper {
     /**
@@ -20,6 +20,7 @@ Class PaginationOffsetLimitMapper implements Mapper {
 
     /**
      * @param PaginationOffsetLimit<TFrom> $from
+     * @return PaginationOffsetLimit<TTo>
      */
     public function map(mixed $from): PaginationOffsetLimit {
         return new PaginationOffsetLimit(
