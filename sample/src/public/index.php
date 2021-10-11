@@ -1,17 +1,17 @@
 <?php
 
-use Sample\Controller\ProductController;
-use Sample\Product\ProductModule;
+use Harmony\Core\Module\Config\Env\DotEnvPathsContainer;
+use Harmony\Core\Module\Kernel\HttpKernel;
+use Sample\SampleModules;
+use Symfony\Component\HttpFoundation\Request;
 
 require_once __DIR__ . "/../vendor/autoload.php";
 
-$productProvider = new ProductModule();
-$controller = new ProductController(
-  $productProvider->getGetInteractor(),
-  $productProvider->getGetAllInteractor(),
-  $productProvider->getPutInteractor(),
-  $productProvider->getPutAllInteractor(),
-  $productProvider->getDeleteInteractor(),
-);
+$dotEnvPaths = new DotEnvPathsContainer([__DIR__ . "/../.env"]);
+$kernel = new HttpKernel($dotEnvPaths, new SampleModules());
 
-echo $controller->actionIndex();
+$request = Request::createFromGlobals();
+$kernel->bootstrap($request);
+$response = $kernel->handleRequest();
+
+$response->send();
