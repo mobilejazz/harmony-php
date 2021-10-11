@@ -17,10 +17,10 @@ class ProductEntityToProductMapper implements Mapper {
    */
   public function map($from): Product {
     $model = new Product(
-      $from->getId(),
-      $from->getName(),
-      $from->getDescription(),
-      $from->getPrice(),
+      $from->id,
+      $from->name,
+      $from->description,
+      $from->price,
     );
 
     return $model;

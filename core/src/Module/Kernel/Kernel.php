@@ -5,6 +5,7 @@ namespace Harmony\Core\Module\Kernel;
 use Harmony\Core\Module\Config\Env\DotEnvPathsContainerInterface;
 use Harmony\Core\Module\Config\ModuleInterface;
 use Harmony\Core\Module\Config\ModulesToLoadInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGenerator;
@@ -18,6 +19,8 @@ class Kernel {
   protected array $moduleCommands = [];
   /** @var string[] */
   protected array $moduleRoutes = [];
+
+  protected ContainerBuilder $diContainer;
 
   protected Request $request;
   protected RequestContext $context;
@@ -37,6 +40,7 @@ class Kernel {
 
     $this->loadEnv();
     $this->loadModules();
+    $this->loadDI();
     $this->loadCommands();
     $this->loadRoutes();
     $this->loadRouting();
@@ -52,6 +56,19 @@ class Kernel {
 
       unset($module);
     }
+  }
+
+  protected function loadDI(): void {
+    $this->diContainer = new ContainerBuilder();
+
+    foreach ($this->modules as $module) {
+      $resolver = $module->getResolver();
+      $resolver->register($this->diContainer);
+
+      unset($resolver);
+    }
+
+    $this->diContainer->compile();
   }
 
   protected function loadCommands(): void {

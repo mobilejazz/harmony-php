@@ -1,7 +1,8 @@
 <?php
 
-namespace Sample\Controller;
+namespace Sample\Product\Controller;
 
+use Harmony\Core\Module\Router\ControllerActionInterface;
 use Harmony\Core\Repository\Operation\DefaultOperation;
 use Harmony\Core\Repository\Query\AllQuery;
 use Harmony\Core\Repository\Query\KeyQuery;
@@ -11,8 +12,10 @@ use Sample\Product\Domain\Interactor\GetProductInteractor;
 use Sample\Product\Domain\Interactor\PutAllProductInteractor;
 use Sample\Product\Domain\Interactor\PutProductInteractor;
 use Sample\Product\Domain\Model\Product;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
-class ProductController {
+class ProductAction implements ControllerActionInterface {
   public function __construct(
     protected GetProductInteractor $getProductInteractor,
     protected GetAllProductInteractor $getAllProductInteractor,
@@ -22,10 +25,18 @@ class ProductController {
   ) {
   }
 
+  public function __invoke(Request $request): Response {
+    $response = new Response($this->render(), Response::HTTP_OK, [
+      "content-type" => "text/html",
+    ]);
+
+    return $response;
+  }
+
   /**
    * @return false|string
    */
-  public function actionIndex(): bool|string {
+  public function render(): bool|string {
     $productOne = new Product(
       1,
       "PlayStation 5",
@@ -46,14 +57,14 @@ class ProductController {
 
     $variables["resultPutProductAction"] = $this->putProductAction($productOne);
     $variables["resultGetProductAction"] = $this->getProductAction(
-      $productOne->getId(),
+      $productOne->id,
     );
     $variables["resultPutAllProductAction"] = $this->putAllProductsAction(
       $listProducts,
     );
     $variables["resultGetAllProductAction"] = $this->getAllProductsAction();
     $variables["resultDeleteProductAction"] = $this->deleteProductAction(
-      $productOne->getId(),
+      $productOne->id,
     );
 
     return $this->renderView($variables, "index");
@@ -65,7 +76,7 @@ class ProductController {
    * @return Product
    */
   protected function putProductAction(Product $product): Product {
-    $query = new KeyQuery((string) $product->getId());
+    $query = new KeyQuery((string) $product->id);
 
     return ($this->putProductInteractor)(
       $query,
