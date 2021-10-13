@@ -2,15 +2,18 @@
 
 namespace Harmony\Core\Module\Kernel;
 
+use DI\Container;
+use DI\ContainerBuilder;
 use Harmony\Core\Module\Config\Env\DotEnvPathsContainerInterface;
 use Harmony\Core\Module\Config\ModuleInterface;
 use Harmony\Core\Module\Config\ModulesToLoadInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RouteCollection;
+
+// use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class Kernel {
   /** @var ModuleInterface[] */
@@ -20,7 +23,7 @@ class Kernel {
   /** @var string[] */
   protected array $moduleRoutes = [];
 
-  protected ContainerBuilder $diContainer;
+  protected Container $diContainer;
 
   protected Request $request;
   protected RequestContext $context;
@@ -59,16 +62,16 @@ class Kernel {
   }
 
   protected function loadDI(): void {
-    $this->diContainer = new ContainerBuilder();
+    $diBuilder = new ContainerBuilder();
 
     foreach ($this->modules as $module) {
       $resolver = $module->getResolver();
-      $resolver->register($this->diContainer);
+      $resolver?->register($diBuilder);
 
       unset($resolver);
     }
 
-    $this->diContainer->compile();
+    $this->diContainer = $diBuilder->build();
   }
 
   protected function loadCommands(): void {
@@ -103,10 +106,6 @@ class Kernel {
     }
 
     $this->urlGenerator = new UrlGenerator($this->routes, $this->context);
-    // $url = $this->urlGenerator->generate("blog_show", [
-    //   "slug" => "my-blog-post",
-    // ]);
-    // $url = '/blog/my-blog-post'
   }
 
   protected function loadEnv(): void {

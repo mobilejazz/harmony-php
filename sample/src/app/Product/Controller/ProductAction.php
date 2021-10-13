@@ -2,26 +2,26 @@
 
 namespace Sample\Product\Controller;
 
+use Harmony\Core\Domain\Interactor\DeleteInteractor;
+use Harmony\Core\Domain\Interactor\GetAllInteractor;
+use Harmony\Core\Domain\Interactor\GetInteractor;
+use Harmony\Core\Domain\Interactor\PutAllInteractor;
+use Harmony\Core\Domain\Interactor\PutInteractor;
 use Harmony\Core\Module\Router\ControllerActionInterface;
 use Harmony\Core\Repository\Operation\DefaultOperation;
 use Harmony\Core\Repository\Query\AllQuery;
 use Harmony\Core\Repository\Query\KeyQuery;
-use Sample\Product\Domain\Interactor\DeleteProductInteractor;
-use Sample\Product\Domain\Interactor\GetAllProductInteractor;
-use Sample\Product\Domain\Interactor\GetProductInteractor;
-use Sample\Product\Domain\Interactor\PutAllProductInteractor;
-use Sample\Product\Domain\Interactor\PutProductInteractor;
 use Sample\Product\Domain\Model\Product;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProductAction implements ControllerActionInterface {
   public function __construct(
-    protected GetProductInteractor $getProductInteractor,
-    protected GetAllProductInteractor $getAllProductInteractor,
-    protected PutProductInteractor $putProductInteractor,
-    protected PutAllProductInteractor $putAllProductInteractor,
-    protected DeleteProductInteractor $deleteProductInteractor,
+    protected GetInteractor $getProductInteractor,
+    protected GetAllInteractor $getAllProductInteractor,
+    protected PutInteractor $putProductInteractor,
+    protected PutAllInteractor $putAllProductInteractor,
+    protected DeleteInteractor $deleteProductInteractor,
   ) {
   }
 
@@ -33,9 +33,6 @@ class ProductAction implements ControllerActionInterface {
     return $response;
   }
 
-  /**
-   * @return false|string
-   */
   public function render(): bool|string {
     $productOne = new Product(
       1,
@@ -70,11 +67,6 @@ class ProductAction implements ControllerActionInterface {
     return $this->renderView($variables, "index");
   }
 
-  /**
-   * @param Product $product
-   *
-   * @return Product
-   */
   protected function putProductAction(Product $product): Product {
     $query = new KeyQuery((string) $product->id);
 
@@ -85,11 +77,6 @@ class ProductAction implements ControllerActionInterface {
     );
   }
 
-  /**
-   * @param int $id_product
-   *
-   * @return Product
-   */
   protected function getProductAction(int $id_product): Product {
     $query = new KeyQuery((string) $id_product);
     $product = ($this->getProductInteractor)($query, new DefaultOperation());
@@ -97,11 +84,6 @@ class ProductAction implements ControllerActionInterface {
     return $product;
   }
 
-  /**
-   * @param array<Product> $products
-   *
-   * @return array<Product>
-   */
   protected function putAllProductsAction(array $products): array {
     $query = new AllQuery();
     $result = ($this->putAllProductInteractor)(
@@ -126,11 +108,6 @@ class ProductAction implements ControllerActionInterface {
     return $products;
   }
 
-  /**
-   * @param int $id_product
-   *
-   * @return string
-   */
   protected function deleteProductAction(int $id_product): string {
     $query = new KeyQuery((string) $id_product);
     ($this->deleteProductInteractor)($query, new DefaultOperation());
