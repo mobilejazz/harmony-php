@@ -12,11 +12,15 @@ trait GenericsHelper {
    *
    * @return bool
    */
-  protected function isReceivedObjectLikeExpected(
+  protected function isReceivedObjectLikeExpectedOrFail(
     object $received,
-    string $expected
+    string $expected,
   ): bool {
-    return $received instanceof $expected;
+    if (!$this->isReceivedObjectLikeExpected($received, $expected)) {
+      throw new InvalidObjectException($expected, get_class($received));
+    }
+
+    return true;
   }
 
   /**
@@ -25,12 +29,25 @@ trait GenericsHelper {
    *
    * @return bool
    */
-  protected function isReceivedObjectLikeExpectedOrFail(
+  protected function isReceivedObjectLikeExpected(
     object $received,
-    string $expected
+    string $expected,
   ): bool {
-    if (!$this->isReceivedObjectLikeExpected($received, $expected)) {
-      throw new InvalidObjectException($expected, get_class($received));
+    return $received instanceof $expected;
+  }
+
+  /**
+   * @param string $received
+   * @param string $expected
+   *
+   * @return bool
+   */
+  protected function isReceivedClassLikeExpectedOrFail(
+    string $received,
+    string $expected,
+  ): bool {
+    if (!$this->isReceivedClassLikeExpected($received, $expected)) {
+      throw new InvalidObjectException($expected, $received);
     }
 
     return true;
@@ -44,26 +61,9 @@ trait GenericsHelper {
    */
   protected function isReceivedClassLikeExpected(
     string $received,
-    string $expected
+    string $expected,
   ): bool {
     return is_subclass_of($received, $expected);
-  }
-
-  /**
-   * @param string $received
-   * @param string $expected
-   *
-   * @return bool
-   */
-  protected function isReceivedClassLikeExpectedOrFail(
-    string $received,
-    string $expected
-  ): bool {
-    if (!$this->isReceivedClassLikeExpected($received, $expected)) {
-      throw new InvalidObjectException($expected, $received);
-    }
-
-    return true;
   }
 
   /**

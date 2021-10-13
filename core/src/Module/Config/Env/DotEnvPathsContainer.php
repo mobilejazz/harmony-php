@@ -9,6 +9,11 @@ class DotEnvPathsContainer implements DotEnvPathsContainerInterface {
   /** @var ValidFilePath[] */
   protected array $paths = [];
 
+  /**
+   * @param string[] $paths
+   *
+   * @throws FileNotExistException
+   */
   public function __construct(array $paths = []) {
     foreach ($paths as $path) {
       $this->add($path);

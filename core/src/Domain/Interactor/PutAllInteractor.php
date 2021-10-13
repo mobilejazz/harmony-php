@@ -13,9 +13,7 @@ class PutAllInteractor {
   /**
    * @param PutRepository<T> $putRepository
    */
-  public function __construct(
-    protected PutRepository $putRepository
-  ) {
+  public function __construct(protected PutRepository $putRepository) {
   }
 
   /**
@@ -25,7 +23,11 @@ class PutAllInteractor {
    *
    * @return array<T>
    */
-  public function __invoke(Query $query, Operation $operation, array $models = null): array {
+  public function __invoke(
+    Query $query,
+    Operation $operation,
+    array $models = null,
+  ): array {
     return $this->putRepository->putAll($query, $operation, $models);
   }
 }

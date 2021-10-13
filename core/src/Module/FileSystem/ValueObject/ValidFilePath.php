@@ -4,9 +4,6 @@ namespace Harmony\Core\Module\FileSystem\ValueObject;
 
 use Harmony\Core\Module\FileSystem\Error\FileNotExistException;
 
-/**
- * @psalm-immutable
- */
 class ValidFilePath {
   /**
    * @throws FileNotExistException

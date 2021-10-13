@@ -3,13 +3,13 @@
 namespace Harmony\Core\Module\Sql\DataSource;
 
 use Harmony\Core\Module\Sql\Helper\SqlBuilder;
+use Harmony\Core\Module\Sql\Query\ComposedSqlQuery;
 use Harmony\Core\Repository\DataSource\DeleteDataSource;
 use Harmony\Core\Repository\DataSource\GetDataSource;
 use Harmony\Core\Repository\DataSource\PutDataSource;
 use Harmony\Core\Repository\Error\DataNotFoundException;
 use Harmony\Core\Repository\Error\QueryNotSupportedException;
 use Harmony\Core\Repository\Query\AllQuery;
-use Harmony\Core\Module\Sql\Query\ComposedSqlQuery;
 use Harmony\Core\Repository\Query\IdQuery;
 use Harmony\Core\Repository\Query\KeyQuery;
 use Harmony\Core\Repository\Query\Query;
@@ -19,20 +19,25 @@ use InvalidArgumentException;
 /**
  * @implements GetDataSource<object>
  * @implements PutDataSource<object>
+ * @implements DeleteDataSource<object>
  */
-class RawSqlDataSource implements GetDataSource, PutDataSource, DeleteDataSource {
+class RawSqlDataSource implements
+  GetDataSource,
+  PutDataSource,
+  DeleteDataSource {
   /**
-   * @param SqlInterface            $pdo
-   * @param SqlBuilder            $sqlBuilder
+   * @param SqlInterface $pdo
+   * @param SqlBuilder   $sqlBuilder
    */
   public function __construct(
     protected SqlInterface $pdo,
-    protected SqlBuilder $sqlBuilder
+    protected SqlBuilder $sqlBuilder,
   ) {
   }
 
   /**
    * @psalm-suppress ImplementedReturnTypeMismatch
+   *
    * @param Query $query
    *
    * @return object
@@ -41,8 +46,12 @@ class RawSqlDataSource implements GetDataSource, PutDataSource, DeleteDataSource
    */
   public function get(Query $query): object {
     $sql = match (true) {
-      $query instanceof IdQuery => $this->sqlBuilder->selectById($query->getId()),
-      $query instanceof KeyQuery => $this->sqlBuilder->selectByKey($query->geKey()),
+      $query instanceof IdQuery => $this->sqlBuilder->selectById(
+        $query->getId(),
+      ),
+      $query instanceof KeyQuery => $this->sqlBuilder->selectByKey(
+        $query->geKey(),
+      ),
       default => throw new QueryNotSupportedException()
     };
 
@@ -57,6 +66,7 @@ class RawSqlDataSource implements GetDataSource, PutDataSource, DeleteDataSource
 
   /**
    * @psalm-suppress ImplementedReturnTypeMismatch
+   *
    * @param Query $query
    *
    * @return object[]
@@ -66,7 +76,8 @@ class RawSqlDataSource implements GetDataSource, PutDataSource, DeleteDataSource
   public function getAll(Query $query): array {
     $sql = match (true) {
       $query instanceof AllQuery => $this->sqlBuilder->selectAll(),
-      $query instanceof ComposedSqlQuery => $this->sqlBuilder->selectAllComposed($query),
+      $query instanceof
+        ComposedSqlQuery => $this->sqlBuilder->selectAllComposed($query),
       default => throw new QueryNotSupportedException()
     };
 
@@ -81,6 +92,7 @@ class RawSqlDataSource implements GetDataSource, PutDataSource, DeleteDataSource
 
   /**
    * @psalm-suppress LessSpecificImplementedReturnType
+   *
    * @param Query      $query
    * @param mixed|null $entity
    *
@@ -94,7 +106,10 @@ class RawSqlDataSource implements GetDataSource, PutDataSource, DeleteDataSource
 
     $sql = match (true) {
       $query instanceof VoidQuery => $this->sqlBuilder->insert($entity),
-      $query instanceof IdQuery => $this->sqlBuilder->updateById($query->getId(), $entity),
+      $query instanceof IdQuery => $this->sqlBuilder->updateById(
+        $query->getId(),
+        $entity,
+      ),
       default => throw new QueryNotSupportedException()
     };
 
@@ -105,7 +120,8 @@ class RawSqlDataSource implements GetDataSource, PutDataSource, DeleteDataSource
 
   /**
    * @psalm-suppress MoreSpecificImplementedParamType
-   * @param Query      $query
+   *
+   * @param Query         $query
    * @param object[]|null $entities
    *
    * @return object[]
@@ -133,7 +149,9 @@ class RawSqlDataSource implements GetDataSource, PutDataSource, DeleteDataSource
    */
   public function delete(Query $query): void {
     $sql = match (true) {
-      $query instanceof IdQuery => $this->sqlBuilder->deleteById($query->getId()),
+      $query instanceof IdQuery => $this->sqlBuilder->deleteById(
+        $query->getId(),
+      ),
       default => throw new QueryNotSupportedException()
     };
 

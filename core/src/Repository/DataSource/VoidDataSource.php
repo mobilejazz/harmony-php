@@ -9,6 +9,7 @@ use Harmony\Core\Shared\Error\MethodNotImplementedException;
  * @template   T
  * @implements GetDataSource<T>
  * @implements PutDataSource<T>
+ * @implements DeleteDataSource<T>
  */
 class VoidDataSource implements GetDataSource, PutDataSource, DeleteDataSource {
   /**

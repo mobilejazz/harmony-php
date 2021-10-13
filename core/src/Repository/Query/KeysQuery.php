@@ -6,9 +6,7 @@ class KeysQuery implements Query {
   /**
    * @param array<string> $keys
    */
-  public function __construct(
-    protected array $keys
-  ) {
+  public function __construct(protected array $keys) {
   }
 
   /**

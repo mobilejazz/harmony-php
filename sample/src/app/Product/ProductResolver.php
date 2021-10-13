@@ -2,6 +2,7 @@
 
 namespace Sample\Product;
 
+use Closure;
 use DI\ContainerBuilder;
 use Harmony\Core\Domain\Interactor\DeleteInteractor;
 use Harmony\Core\Domain\Interactor\GetAllInteractor;
@@ -59,6 +60,9 @@ class ProductResolver implements ResolverInterface {
     ]);
   }
 
+  /**
+   * @return Closure[]
+   */
   public function factoryRepository(): array {
     return [
       self::KEY_PRODUCT_REPOSITORY => function () {

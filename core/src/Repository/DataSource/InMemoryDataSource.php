@@ -13,8 +13,12 @@ use InvalidArgumentException;
  * @template   T
  * @implements GetDataSource<T>
  * @implements PutDataSource<T>
+ * @implements DeleteDataSource<T>
  */
-class InMemoryDataSource implements GetDataSource, PutDataSource, DeleteDataSource {
+class InMemoryDataSource implements
+  GetDataSource,
+  PutDataSource,
+  DeleteDataSource {
   /** @var array<mixed, T> */
   protected $entities = [];
 
@@ -23,9 +27,7 @@ class InMemoryDataSource implements GetDataSource, PutDataSource, DeleteDataSour
    *
    * @param string                $genericClass
    */
-  public function __construct(
-    protected string $genericClass
-  ) {
+  public function __construct(protected string $genericClass) {
   }
 
   /**

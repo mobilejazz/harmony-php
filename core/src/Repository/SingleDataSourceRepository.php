@@ -12,17 +12,21 @@ use Harmony\Core\Repository\Query\Query;
  * @template   T
  * @implements GetRepository<T>
  * @implements PutRepository<T>
+ * @implements DeleteRepository<T>
  */
-class SingleDataSourceRepository implements GetRepository, PutRepository, DeleteRepository {
+class SingleDataSourceRepository implements
+  GetRepository,
+  PutRepository,
+  DeleteRepository {
   /**
    * @param GetDataSource<T> $getDataSource
    * @param PutDataSource<T> $putDataSource
-   * @param DeleteDataSource $deleteDataSource
+   * @param DeleteDataSource<T> $deleteDataSource
    */
   public function __construct(
     protected GetDataSource $getDataSource,
     protected PutDataSource $putDataSource,
-    protected DeleteDataSource $deleteDataSource
+    protected DeleteDataSource $deleteDataSource,
   ) {
   }
 
@@ -50,7 +54,11 @@ class SingleDataSourceRepository implements GetRepository, PutRepository, Delete
   /**
    * @inheritdoc
    */
-  public function putAll(Query $query, Operation $operation, array $models = null): array {
+  public function putAll(
+    Query $query,
+    Operation $operation,
+    array $models = null,
+  ): array {
     return $this->putDataSource->putAll($query, $models);
   }
 

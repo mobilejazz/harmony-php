@@ -2,7 +2,5 @@
 
 namespace Harmony\Core\Module\Console;
 
-interface ControllerCommandInterface
-{
-
+interface ControllerCommandInterface {
 }

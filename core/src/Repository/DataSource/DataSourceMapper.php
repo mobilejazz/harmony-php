@@ -10,21 +10,25 @@ use Harmony\Core\Repository\Query\Query;
  * @template   TData
  * @implements GetDataSource<TEntity>
  * @implements PutDataSource<TEntity>
+ * @implements DeleteDataSource<TEntity>
  */
-class DataSourceMapper implements GetDataSource, PutDataSource, DeleteDataSource {
+class DataSourceMapper implements
+  GetDataSource,
+  PutDataSource,
+  DeleteDataSource {
   /**
-   * @param GetDataSource<TData>   $getDataSource
-   * @param PutDataSource<TData>   $putDataSource
-   * @param DeleteDataSource       $deleteDataSource
-   * @param Mapper<TEntity, TData> $entityToDataMapper
-   * @param Mapper<TData, TEntity> $dataToEntityMapper
+   * @param GetDataSource<TData>    $getDataSource
+   * @param PutDataSource<TData>    $putDataSource
+   * @param DeleteDataSource<TData> $deleteDataSource
+   * @param Mapper<TEntity, TData>  $entityToDataMapper
+   * @param Mapper<TData, TEntity>  $dataToEntityMapper
    */
   public function __construct(
     protected GetDataSource $getDataSource,
     protected PutDataSource $putDataSource,
     protected DeleteDataSource $deleteDataSource,
     protected Mapper $entityToDataMapper,
-    protected Mapper $dataToEntityMapper
+    protected Mapper $dataToEntityMapper,
   ) {
   }
 

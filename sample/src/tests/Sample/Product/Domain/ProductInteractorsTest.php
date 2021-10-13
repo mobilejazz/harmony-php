@@ -2,6 +2,7 @@
 
 namespace App\Tests\Sample\Product\Domain;
 
+use Harmony\Core\Repository\Error\DataNotFoundException;
 use Harmony\Core\Repository\Operation\DefaultOperation;
 use Harmony\Core\Repository\Query\AllQuery;
 use Harmony\Core\Repository\Query\KeyQuery;
@@ -20,6 +21,13 @@ class ProductInteractorsTest extends TestCase {
     $this->productProvider = new ProductModule();
   }
 
+  function testPutProductInteractor() {
+    $product = $this->getProductOne();
+    $productSaved = $this->putProduct($product);
+
+    $this->assertEquals($productSaved->getName(), $product->getName());
+  }
+
   #[Pure]
   function getProductOne(): Product {
     return new Product(
@@ -30,33 +38,10 @@ class ProductInteractorsTest extends TestCase {
     );
   }
 
-  #[Pure]
-  function getProductTwo(): Product {
-    return new Product(2, "XBox X", "VideoGames Console from Microsoft", 450.5);
-  }
-
-  #[Pure]
-  function getListOfProducts(): array {
-    return [$this->getProductOne(), $this->getProductTwo()];
-  }
-
   function putProduct(Product $product): Product {
     $query = new KeyQuery((string) $product->getId());
 
     return $this->productProvider->getPutInteractor()($query, new DefaultOperation(), $product);
-  }
-
-  function putProducts(array $products): array {
-    $query = new AllQuery();
-
-    return $this->productProvider->getPutAllInteractor()($query, new DefaultOperation(), $products);
-  }
-
-  function testPutProductInteractor() {
-    $product = $this->getProductOne();
-    $productSaved = $this->putProduct($product);
-
-    $this->assertEquals($productSaved->getName(), $product->getName());
   }
 
   function testGetProductInteractor() {
@@ -80,6 +65,22 @@ class ProductInteractorsTest extends TestCase {
     $this->assertEquals($products, $productsSaved);
   }
 
+  #[Pure]
+  function getListOfProducts(): array {
+    return [$this->getProductOne(), $this->getProductTwo()];
+  }
+
+  #[Pure]
+  function getProductTwo(): Product {
+    return new Product(2, "XBox X", "VideoGames Console from Microsoft", 450.5);
+  }
+
+  function putProducts(array $products): array {
+    $query = new AllQuery();
+
+    return $this->productProvider->getPutAllInteractor()($query, new DefaultOperation(), $products);
+  }
+
   function testGetAllProductsInteractor() {
     $products = $this->getListOfProducts();
     $productsSaved = $this->putProducts($products);
@@ -94,9 +95,7 @@ class ProductInteractorsTest extends TestCase {
   }
 
   function testDeleteProductInteractor() {
-    $this->expectException(
-      \Harmony\Core\Repository\Error\DataNotFoundException::class,
-    );
+    $this->expectException(DataNotFoundException::class);
 
     $product = $this->getProductOne();
     $productSaved = $this->putProduct($product);
