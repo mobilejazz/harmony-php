@@ -16,7 +16,7 @@ use function Latitude\QueryBuilder\field;
 class SqlBuilder {
   public function __construct(
     protected SqlSchema $schema,
-    protected QueryFactory $factory
+    protected QueryFactory $factory,
   ) {
   }
 
@@ -32,10 +32,6 @@ class SqlBuilder {
     return $this->selectOneWhere($this->schema->getKeyColumn(), $value);
   }
 
-  public function selectById(mixed $value): Query {
-    return $this->selectOneWhere($this->schema->getIdColumn(), $value);
-  }
-
   public function selectOneWhere(string $column, mixed $value): Query {
     $query = $this->factory
       ->select()
@@ -47,18 +43,14 @@ class SqlBuilder {
     return $query;
   }
 
-  public function selectAll(
-    ?int $offset = null,
-    ?int $limit = null
-  ): Query {
-    $factory = $this->factory
-      ->select()
-      ->from($this->schema->getTableName());
+  public function selectById(mixed $value): Query {
+    return $this->selectOneWhere($this->schema->getIdColumn(), $value);
+  }
 
-    if (
-      $offset !== null
-      && $limit !== null
-    ) {
+  public function selectAll(?int $offset = null, ?int $limit = null): Query {
+    $factory = $this->factory->select()->from($this->schema->getTableName());
+
+    if ($offset !== null && $limit !== null) {
       $factory->offset($offset);
       $factory->limit($limit);
     }
@@ -100,10 +92,7 @@ class SqlBuilder {
     $values = (array) $entity;
 
     $query = $this->factory
-      ->update(
-        $this->schema->getTableName(),
-        $values
-      )
+      ->update($this->schema->getTableName(), $values)
       ->where(field($this->schema->getIdColumn())->eq($id))
       ->compile();
 
@@ -126,8 +115,7 @@ class SqlBuilder {
    * @return Query
    */
   public function multiInsert(array $entities): Query {
-    $factory = $this->factory
-      ->insert($this->schema->getTableName());
+    $factory = $this->factory->insert($this->schema->getTableName());
 
     foreach ($entities as $entity) {
       $values = (array) $entity;

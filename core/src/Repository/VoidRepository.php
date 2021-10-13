@@ -10,6 +10,7 @@ use Harmony\Core\Shared\Error\MethodNotImplementedException;
  * @template   T
  * @implements GetRepository<T>
  * @implements PutRepository<T>
+ * @implements DeleteRepository<T>
  */
 class VoidRepository implements GetRepository, PutRepository, DeleteRepository {
   /**
@@ -39,7 +40,7 @@ class VoidRepository implements GetRepository, PutRepository, DeleteRepository {
   public function putAll(
     Query $query,
     Operation $operation,
-    array $models = null
+    array $models = null,
   ): array {
     throw new MethodNotImplementedException();
   }

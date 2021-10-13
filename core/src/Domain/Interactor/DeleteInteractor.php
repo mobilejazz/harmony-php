@@ -7,6 +7,9 @@ use Harmony\Core\Repository\Operation\DefaultOperation;
 use Harmony\Core\Repository\Operation\Operation;
 use Harmony\Core\Repository\Query\Query;
 
+/**
+ * @template T
+ */
 class DeleteInteractor {
   public function __construct(protected DeleteRepository $deleteRepository) {
   }

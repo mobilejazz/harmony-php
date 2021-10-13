@@ -24,7 +24,7 @@ class VoidPutRepository implements PutRepository {
   public function putAll(
     Query $query,
     Operation $operation,
-    array $models = null
+    array $models = null,
   ): array {
     throw new MethodNotImplementedException();
   }

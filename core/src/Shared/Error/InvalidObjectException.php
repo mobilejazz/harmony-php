@@ -18,7 +18,7 @@ class InvalidObjectException extends InvalidArgumentException {
     string $received,
     string $message = "",
     int $code = 0,
-    Throwable $previous = null
+    Throwable $previous = null,
   ) {
     if (empty($message)) {
       $message =

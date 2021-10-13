@@ -17,14 +17,6 @@ class ProductEntity {
     public float $price,
     Carbon $created_at = null,
   ) {
-    $this->setCreatedAt($created_at);
-  }
-
-  protected function setCreatedAt(Carbon $created_at = null): void {
-    if ($created_at === null) {
-      $created_at = new Carbon();
-    }
-
-    $this->created_at = $created_at;
+    $this->created_at = $created_at ?? new Carbon();
   }
 }

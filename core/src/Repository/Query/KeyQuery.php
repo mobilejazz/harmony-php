@@ -6,9 +6,7 @@ class KeyQuery implements Query {
   /**
    * @param string $key
    */
-  public function __construct(
-    protected string $key
-  ) {
+  public function __construct(protected string $key) {
   }
 
   /**

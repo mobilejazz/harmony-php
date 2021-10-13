@@ -13,14 +13,24 @@ use PDO;
  * @link https://phpdelusions.net/pdo_examples
  */
 class PdoWrapper implements SqlInterface {
-  public function __construct(
-    protected PDO $pdoConnection
-  ) {
+  public function __construct(protected PDO $pdoConnection) {
   }
 
   public function findOne(string $sql, array $params): ?object {
     $query = $this->execute($sql, $params);
     return $query->fetch();
+  }
+
+  public function execute(string $sql, array $params): mixed {
+    $query = $this->pdoConnection->prepare($sql);
+
+    if (empty($query)) {
+      throw new PdoConnectionNotReadyException();
+    }
+
+    $query->execute($params);
+
+    return $query;
   }
 
   public function findAll(string $sql, array $params): array {
@@ -57,17 +67,5 @@ class PdoWrapper implements SqlInterface {
 
   public function rollbackTransaction(): void {
     $this->pdoConnection->rollBack();
-  }
-
-  public function execute(string $sql, array $params): mixed {
-    $query = $this->pdoConnection->prepare($sql);
-
-    if (empty($query)) {
-      throw new PdoConnectionNotReadyException();
-    }
-
-    $query->execute($params);
-
-    return $query;
   }
 }

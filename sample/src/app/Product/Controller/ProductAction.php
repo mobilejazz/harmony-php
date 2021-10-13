@@ -16,6 +16,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProductAction implements ControllerActionInterface {
+  /**
+   * @param GetInteractor<Product>    $getProductInteractor
+   * @param GetAllInteractor<Product> $getAllProductInteractor
+   * @param PutInteractor<Product>    $putProductInteractor
+   * @param PutAllInteractor<Product> $putAllProductInteractor
+   * @param DeleteInteractor<Product> $deleteProductInteractor
+   */
   public function __construct(
     protected GetInteractor $getProductInteractor,
     protected GetAllInteractor $getAllProductInteractor,
@@ -33,7 +40,7 @@ class ProductAction implements ControllerActionInterface {
     return $response;
   }
 
-  public function render(): bool|string {
+  public function render(): ?string {
     $productOne = new Product(
       1,
       "PlayStation 5",
@@ -80,6 +87,11 @@ class ProductAction implements ControllerActionInterface {
     return $product;
   }
 
+  /**
+   * @param Product[] $products
+   *
+   * @return Product[]
+   */
   protected function putAllProductsAction(array $products): array {
     $query = new AllQuery();
     $result = ($this->putAllProductInteractor)($products, $query);
@@ -108,12 +120,9 @@ class ProductAction implements ControllerActionInterface {
    * @param array<string, mixed> $variables
    * @param string               $template
    *
-   * @return false|string
+   * @return string|null
    */
-  protected function renderView(
-    array $variables,
-    string $template,
-  ): bool|string {
+  protected function renderView(array $variables, string $template): ?string {
     ob_start();
 
     extract($variables, EXTR_OVERWRITE);
@@ -126,6 +135,6 @@ class ProductAction implements ControllerActionInterface {
 
     $result = ob_get_clean();
 
-    return $result;
+    return !empty($result) ? $result : null;
   }
 }

@@ -28,6 +28,6 @@ interface PutRepository extends Repository {
   public function putAll(
     Query $query,
     Operation $operation,
-    array $models = null
+    array $models = null,
   ): array;
 }

@@ -20,6 +20,13 @@ class ProductInteractorsTest extends TestCase {
     $this->productProvider = new ProductModule();
   }
 
+  function testPutProductInteractor() {
+    $product = $this->getProductOne();
+    $productSaved = $this->putProduct($product);
+
+    $this->assertEquals($productSaved->getName(), $product->getName());
+  }
+
   #[Pure]
   function getProductOne(): Product {
     return new Product(
@@ -28,16 +35,6 @@ class ProductInteractorsTest extends TestCase {
       "VideoGames Console from Sony.",
       599.99,
     );
-  }
-
-  #[Pure]
-  function getProductTwo(): Product {
-    return new Product(2, "XBox X", "VideoGames Console from Microsoft", 450.5);
-  }
-
-  #[Pure]
-  function getListOfProducts(): array {
-    return [$this->getProductOne(), $this->getProductTwo()];
   }
 
   function putProduct(Product $product): Product {
@@ -79,6 +76,22 @@ class ProductInteractorsTest extends TestCase {
     $this->assertEquals($products, $productsSaved);
   }
 
+  #[Pure]
+  function getListOfProducts(): array {
+    return [$this->getProductOne(), $this->getProductTwo()];
+  }
+
+  #[Pure]
+  function getProductTwo(): Product {
+    return new Product(2, "XBox X", "VideoGames Console from Microsoft", 450.5);
+  }
+
+  function putProducts(array $products): array {
+    $query = new AllQuery();
+
+    return $this->productProvider->getPutAllInteractor()($query, new DefaultOperation(), $products);
+  }
+
   function testGetAllProductsInteractor() {
     $products = $this->getListOfProducts();
     $productsSaved = $this->putProducts($products);
@@ -92,9 +105,7 @@ class ProductInteractorsTest extends TestCase {
   }
 
   function testDeleteProductInteractor() {
-    $this->expectException(
-      DataNotFoundException::class,
-    );
+    $this->expectException(DataNotFoundException::class);
 
     $product = $this->getProductOne();
     $productSaved = $this->putProduct($product);

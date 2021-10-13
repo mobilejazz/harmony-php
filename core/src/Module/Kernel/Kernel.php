@@ -7,20 +7,19 @@ use DI\ContainerBuilder;
 use Harmony\Core\Module\Config\Env\DotEnvPathsContainerInterface;
 use Harmony\Core\Module\Config\ModuleInterface;
 use Harmony\Core\Module\Config\ModulesToLoadInterface;
+use Harmony\Core\Module\Router\RouterConfiguratorInterface;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RouteCollection;
 
-// use Symfony\Component\DependencyInjection\ContainerBuilder;
-
 class Kernel {
   /** @var ModuleInterface[] */
-  protected array $modules;
+  protected array $modules = [];
   /** @var string[] */
   protected array $moduleCommands = [];
-  /** @var string[] */
+  /** @var RouterConfiguratorInterface[] */
   protected array $moduleRoutes = [];
 
   protected Container $diContainer;
@@ -47,6 +46,21 @@ class Kernel {
     $this->loadCommands();
     $this->loadRoutes();
     $this->loadRouting();
+  }
+
+  protected function loadEnv(): void {
+    if ($this->dotEnvs === null) {
+      return;
+    }
+
+    $dotenv = new Dotenv();
+    $dotEnvPaths = $this->dotEnvs->getEnvPaths();
+
+    foreach ($dotEnvPaths as $path) {
+      $dotenv->load($path->value);
+
+      unset($path);
+    }
   }
 
   protected function loadModules(): void {
@@ -86,7 +100,10 @@ class Kernel {
   protected function loadRoutes(): void {
     foreach ($this->modules as $module) {
       $moduleRoutes = $module->getRouterConfig();
-      $this->moduleRoutes[] = $moduleRoutes;
+
+      if ($moduleRoutes !== null) {
+        $this->moduleRoutes[] = $moduleRoutes;
+      }
 
       unset($moduleRoutes);
     }
@@ -106,20 +123,5 @@ class Kernel {
     }
 
     $this->urlGenerator = new UrlGenerator($this->routes, $this->context);
-  }
-
-  protected function loadEnv(): void {
-    if ($this->dotEnvs === null) {
-      return;
-    }
-
-    $dotenv = new Dotenv();
-    $dotEnvPaths = $this->dotEnvs->getEnvPaths();
-
-    foreach ($dotEnvPaths as $path) {
-      $dotenv->load($path->value);
-
-      unset($path);
-    }
   }
 }
