@@ -20,9 +20,6 @@ class ProductEntity {
     $this->setCreatedAt($created_at);
   }
 
-  /**
-   * @param Carbon|null $created_at
-   */
   protected function setCreatedAt(Carbon $created_at = null): void {
     if ($created_at === null) {
       $created_at = new Carbon();

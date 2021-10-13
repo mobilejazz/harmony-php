@@ -2,85 +2,86 @@
 
 namespace Sample\Product;
 
+use DI\ContainerBuilder;
+use Harmony\Core\Domain\Interactor\DeleteInteractor;
+use Harmony\Core\Domain\Interactor\GetAllInteractor;
+use Harmony\Core\Domain\Interactor\GetInteractor;
+use Harmony\Core\Domain\Interactor\PutAllInteractor;
+use Harmony\Core\Domain\Interactor\PutInteractor;
 use Harmony\Core\Module\DI\ResolverInterface;
 use Harmony\Core\Repository\DataSource\InMemoryDataSource;
 use Harmony\Core\Repository\RepositoryMapper;
 use Harmony\Core\Repository\SingleDataSourceRepository;
+use Psr\Container\ContainerInterface;
+use Sample\Product\Controller\ProductAction;
 use Sample\Product\Data\Entity\ProductEntity;
 use Sample\Product\Data\Mapper\ProductEntityToProductMapper;
 use Sample\Product\Data\Mapper\ProductToProductEntityMapper;
-use Sample\Product\Domain\Interactor\DeleteProductInteractor;
-use Sample\Product\Domain\Interactor\GetAllProductInteractor;
-use Sample\Product\Domain\Interactor\GetProductInteractor;
-use Sample\Product\Domain\Interactor\PutAllProductInteractor;
-use Sample\Product\Domain\Interactor\PutProductInteractor;
-use Sample\Product\Domain\Model\Product;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class ProductResolver implements ResolverInterface {
-  /** @var string */
-  protected const KEY_PRODUCT_REPOSITORY = "ProductRepository";
+  protected const KEY_PRODUCT_REPOSITORY = "Repository<Product>";
+  protected const KEY_PRODUCT_GET = "GetInteractor<Product>";
+  protected const KEY_PRODUCT_GET_ALL = "GetAllInteractor<Product>";
+  protected const KEY_PRODUCT_PUT = "PutInteractor<Product>";
+  protected const KEY_PRODUCT_PUT_ALL = "PutAllInteractor<Product>";
+  protected const KEY_PRODUCT_DELETE = "DeleteInteractor<Product>";
 
   /** @var array<string, mixed> */
   protected array $di_container = [];
 
   public function register(ContainerBuilder $containerBuilder): void {
-    $containerBuilder->register(self::KEY_PRODUCT_REPOSITORY);
+    $containerBuilder->addDefinitions($this->factoryRepository());
+    $containerBuilder->addDefinitions([
+      self::KEY_PRODUCT_GET => function (ContainerInterface $di) {
+        return new GetInteractor($di->get(self::KEY_PRODUCT_REPOSITORY));
+      },
+      self::KEY_PRODUCT_GET_ALL => function (ContainerInterface $di) {
+        return new GetAllInteractor($di->get(self::KEY_PRODUCT_REPOSITORY));
+      },
+      self::KEY_PRODUCT_PUT => function (ContainerInterface $di) {
+        return new PutInteractor($di->get(self::KEY_PRODUCT_REPOSITORY));
+      },
+      self::KEY_PRODUCT_PUT_ALL => function (ContainerInterface $di) {
+        return new PutAllInteractor($di->get(self::KEY_PRODUCT_REPOSITORY));
+      },
+      self::KEY_PRODUCT_DELETE => function (ContainerInterface $di) {
+        return new DeleteInteractor($di->get(self::KEY_PRODUCT_REPOSITORY));
+      },
+      ProductAction::class => function (ContainerInterface $di) {
+        return new ProductAction(
+          $di->get(self::KEY_PRODUCT_GET),
+          $di->get(self::KEY_PRODUCT_GET_ALL),
+          $di->get(self::KEY_PRODUCT_PUT),
+          $di->get(self::KEY_PRODUCT_PUT_ALL),
+          $di->get(self::KEY_PRODUCT_DELETE),
+        );
+      },
+    ]);
   }
 
-  /**
-   * @return RepositoryMapper<Product, ProductEntity>
-   */
-  protected function registerRepository(): RepositoryMapper {
-    $productInMemoryDataSource = new InMemoryDataSource(ProductEntity::class);
+  public function factoryRepository(): array {
+    return [
+      self::KEY_PRODUCT_REPOSITORY => function () {
+        $productInMemoryDataSource = new InMemoryDataSource(
+          ProductEntity::class,
+        );
 
-    $productRepository = new SingleDataSourceRepository(
-      $productInMemoryDataSource,
-      $productInMemoryDataSource,
-      $productInMemoryDataSource,
-    );
+        $productRepository = new SingleDataSourceRepository(
+          $productInMemoryDataSource,
+          $productInMemoryDataSource,
+          $productInMemoryDataSource,
+        );
 
-    $productRepositoryMapper = new RepositoryMapper(
-      $productRepository,
-      $productRepository,
-      $productRepository,
-      new ProductToProductEntityMapper(),
-      new ProductEntityToProductMapper(),
-    );
+        $productRepositoryMapper = new RepositoryMapper(
+          $productRepository,
+          $productRepository,
+          $productRepository,
+          new ProductToProductEntityMapper(),
+          new ProductEntityToProductMapper(),
+        );
 
-    return $productRepositoryMapper;
-  }
-
-  /**
-   * @return RepositoryMapper<Product, ProductEntity>
-   */
-  public function getProductRepository(): RepositoryMapper {
-    if (empty($this->di_container[self::KEY_PRODUCT_REPOSITORY])) {
-      $this->di_container[
-        self::KEY_PRODUCT_REPOSITORY
-      ] = $this->registerRepository();
-    }
-
-    return $this->di_container[self::KEY_PRODUCT_REPOSITORY];
-  }
-
-  public function getGetInteractor(): GetProductInteractor {
-    return new GetProductInteractor($this->getProductRepository());
-  }
-
-  public function getGetAllInteractor(): GetAllProductInteractor {
-    return new GetAllProductInteractor($this->getProductRepository());
-  }
-
-  public function getPutInteractor(): PutProductInteractor {
-    return new PutProductInteractor($this->getProductRepository());
-  }
-
-  public function getPutAllInteractor(): PutAllProductInteractor {
-    return new PutAllProductInteractor($this->getProductRepository());
-  }
-
-  public function getDeleteInteractor(): DeleteProductInteractor {
-    return new DeleteProductInteractor($this->getProductRepository());
+        return $productRepositoryMapper;
+      },
+    ];
   }
 }
