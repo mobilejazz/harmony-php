@@ -4,6 +4,8 @@ namespace Harmony\Core\Module\Kernel;
 
 use Exception;
 use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\CommandLoader\FactoryCommandLoader;
 
 class ConsoleKernel extends Kernel {
   /**
@@ -11,11 +13,20 @@ class ConsoleKernel extends Kernel {
    * @throws Exception
    */
   public function handleCommand(): int {
-    $application = new Application();
+    $commands = [];
 
     foreach ($this->moduleCommands as $command) {
-      $application->add(new $command());
+      $commands[$command::$consoleCommand] = function () use (
+        $command,
+      ): Command {
+        return new $command();
+      };
     }
+
+    $commandLoader = new FactoryCommandLoader($commands);
+
+    $application = new Application();
+    $application->setCommandLoader($commandLoader);
 
     return $application->run();
   }

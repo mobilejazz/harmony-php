@@ -2,15 +2,15 @@
 
 namespace Harmony\Core\Module\Config;
 
-use Harmony\Core\Module\Console\ControllerCommandInterface;
 use Harmony\Core\Module\DI\ResolverInterface;
 use Harmony\Core\Module\Router\RouterConfiguratorInterface;
+use Symfony\Component\Console\Command\Command;
 
 interface ModuleInterface {
-  public function getResolver(): ?ResolverInterface;
-
   public function getRouterConfig(): ?RouterConfiguratorInterface;
 
-  /** @return string-class<ControllerCommandInterface>[] */
+  /** @return class-string<Command>[] */
   public function getCommands(): array;
+
+  public function getResolver(): ?ResolverInterface;
 }

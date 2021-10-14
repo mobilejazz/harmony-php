@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <psalm
+  cacheDirectory="var/psalm"
   totallyTyped="false"
   errorLevel="7"
   resolveFromConfigFile="true"

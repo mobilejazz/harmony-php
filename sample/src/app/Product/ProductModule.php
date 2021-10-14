@@ -3,17 +3,17 @@
 namespace Sample\Product;
 
 use Harmony\Core\Module\Config\ModuleInterface;
-use Harmony\Core\Module\Console\ControllerCommandInterface;
 use Harmony\Core\Module\DI\ResolverInterface;
 use Harmony\Core\Module\Router\RouterConfiguratorInterface;
 use Sample\Product\Command\TestCommand;
+use Symfony\Component\Console\Command\Command;
 
 class ProductModule implements ModuleInterface {
   public function getRouterConfig(): RouterConfiguratorInterface {
     return new ProductRoutes();
   }
 
-  /** @return string-class<ControllerCommandInterface>[] */
+  /** @return class-string<Command>[] */
   public function getCommands(): array {
     return [TestCommand::class];
   }
