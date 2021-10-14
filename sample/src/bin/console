@@ -12,5 +12,4 @@ $kernel = new ConsoleKernel(
   $dotEnvPaths,
   new SampleModules()
 );
-$kernel->bootstrap();
 $kernel->handleCommand();

@@ -11,7 +11,5 @@ $dotEnvPaths = new DotEnvPathsContainer([__DIR__ . "/../.env"]);
 $kernel = new HttpKernel($dotEnvPaths, new SampleModules());
 
 $request = Request::createFromGlobals();
-$kernel->bootstrap($request);
-$response = $kernel->handleRequest();
-
+$response = $kernel->handleRequest($request);
 $response->send();

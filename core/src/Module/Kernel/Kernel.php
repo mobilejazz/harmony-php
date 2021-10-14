@@ -8,8 +8,8 @@ use Harmony\Core\Module\Config\Env\DotEnvPathsContainerInterface;
 use Harmony\Core\Module\Config\ModuleInterface;
 use Harmony\Core\Module\Config\ModulesToLoadInterface;
 use Harmony\Core\Module\Router\RouterConfiguratorInterface;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Dotenv\Dotenv;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RouteCollection;
@@ -17,14 +17,12 @@ use Symfony\Component\Routing\RouteCollection;
 class Kernel {
   /** @var ModuleInterface[] */
   protected array $modules = [];
-  /** @var string[] */
+  /** @var class-string<Command>[] */
   protected array $moduleCommands = [];
   /** @var RouterConfiguratorInterface[] */
   protected array $moduleRoutes = [];
 
   protected Container $diContainer;
-
-  protected Request $request;
   protected RequestContext $context;
   protected RouteCollection $routes;
   protected UrlGenerator $urlGenerator;
@@ -33,13 +31,6 @@ class Kernel {
     protected ?DotEnvPathsContainerInterface $dotEnvs = null,
     protected ?ModulesToLoadInterface $modulesToLoad = null,
   ) {
-  }
-
-  public function bootstrap(?Request $request = null): void {
-    if ($request !== null) {
-      $this->request = $request;
-    }
-
     $this->loadEnv();
     $this->loadModules();
     $this->loadDI();
@@ -91,7 +82,7 @@ class Kernel {
   protected function loadCommands(): void {
     foreach ($this->modules as $module) {
       $commands = $module->getCommands();
-      $this->moduleCommands = [...$this->moduleCommands, ...$commands];
+      $this->moduleCommands += $commands;
 
       unset($commands);
     }
@@ -117,10 +108,6 @@ class Kernel {
     }
 
     $this->context = new RequestContext();
-
-    if (!empty($this->request)) {
-      $this->context->fromRequest($this->request);
-    }
 
     $this->urlGenerator = new UrlGenerator($this->routes, $this->context);
   }
