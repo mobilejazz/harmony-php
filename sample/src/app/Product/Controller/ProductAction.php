@@ -134,18 +134,15 @@ class ProductAction implements ControllerActionInterface {
    * @return string|null
    */
   protected function renderView(array $variables, string $template): ?string {
-    ob_start();
-
-    extract($variables, EXTR_OVERWRITE);
-
     $template_path = __DIR__ . "/../views/" . $template . ".template.view";
 
     if (file_exists($template_path)) {
+      ob_start();
+      extract($variables, EXTR_OVERWRITE);
       include $template_path;
+      $result = ob_get_clean();
     }
 
-    $result = ob_get_clean();
-
-    return !empty($result) ? $result : null;
+    return isset($result) && is_string($result) ? $result : null;
   }
 }

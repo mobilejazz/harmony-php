@@ -18,6 +18,7 @@ use Sample\Product\Controller\ProductAction;
 use Sample\Product\Data\Entity\ProductEntity;
 use Sample\Product\Data\Mapper\ProductEntityToProductMapper;
 use Sample\Product\Data\Mapper\ProductToProductEntityMapper;
+use Sample\Product\Domain\Model\Product;
 
 class ProductResolver implements ResolverInterface {
   protected const KEY_PRODUCT_REPOSITORY = "Repository<Product>";
@@ -34,27 +35,48 @@ class ProductResolver implements ResolverInterface {
     $containerBuilder->addDefinitions($this->factoryRepository());
     $containerBuilder->addDefinitions([
       self::KEY_PRODUCT_GET => function (ContainerInterface $di) {
-        return new GetInteractor($di->get(self::KEY_PRODUCT_REPOSITORY));
+        /** @var RepositoryMapper<Product, ProductEntity> $repository */
+        $repository = $di->get(self::KEY_PRODUCT_REPOSITORY);
+        return new GetInteractor($repository);
       },
       self::KEY_PRODUCT_GET_ALL => function (ContainerInterface $di) {
-        return new GetAllInteractor($di->get(self::KEY_PRODUCT_REPOSITORY));
+        /** @var RepositoryMapper<Product, ProductEntity> $repository */
+        $repository = $di->get(self::KEY_PRODUCT_REPOSITORY);
+        return new GetAllInteractor($repository);
       },
       self::KEY_PRODUCT_PUT => function (ContainerInterface $di) {
-        return new PutInteractor($di->get(self::KEY_PRODUCT_REPOSITORY));
+        /** @var RepositoryMapper<Product, ProductEntity> $repository */
+        $repository = $di->get(self::KEY_PRODUCT_REPOSITORY);
+        return new PutInteractor($repository);
       },
       self::KEY_PRODUCT_PUT_ALL => function (ContainerInterface $di) {
-        return new PutAllInteractor($di->get(self::KEY_PRODUCT_REPOSITORY));
+        /** @var RepositoryMapper<Product, ProductEntity> $repository */
+        $repository = $di->get(self::KEY_PRODUCT_REPOSITORY);
+        return new PutAllInteractor($repository);
       },
       self::KEY_PRODUCT_DELETE => function (ContainerInterface $di) {
-        return new DeleteInteractor($di->get(self::KEY_PRODUCT_REPOSITORY));
+        /** @var RepositoryMapper<Product, ProductEntity> $repository */
+        $repository = $di->get(self::KEY_PRODUCT_REPOSITORY);
+        return new DeleteInteractor($repository);
       },
       ProductAction::class => function (ContainerInterface $di) {
+        /** @var GetInteractor<Product> $getInteractor */
+        $getInteractor = $di->get(self::KEY_PRODUCT_GET);
+        /** @var GetAllInteractor<Product> $getAllInteractor */
+        $getAllInteractor = $di->get(self::KEY_PRODUCT_GET_ALL);
+        /** @var PutInteractor<Product> $putInteractor */
+        $putInteractor = $di->get(self::KEY_PRODUCT_PUT);
+        /** @var PutAllInteractor<Product> $putAllInteractor */
+        $putAllInteractor = $di->get(self::KEY_PRODUCT_PUT_ALL);
+        /** @var DeleteInteractor<Product> $deleteInteractor */
+        $deleteInteractor = $di->get(self::KEY_PRODUCT_DELETE);
+
         return new ProductAction(
-          $di->get(self::KEY_PRODUCT_GET),
-          $di->get(self::KEY_PRODUCT_GET_ALL),
-          $di->get(self::KEY_PRODUCT_PUT),
-          $di->get(self::KEY_PRODUCT_PUT_ALL),
-          $di->get(self::KEY_PRODUCT_DELETE),
+          $getInteractor,
+          $getAllInteractor,
+          $putInteractor,
+          $putAllInteractor,
+          $deleteInteractor,
         );
       },
     ]);

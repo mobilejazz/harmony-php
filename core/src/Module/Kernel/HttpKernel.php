@@ -15,6 +15,7 @@ class HttpKernel extends Kernel {
 
     $matcher = new UrlMatcher($this->routes, $this->context);
     $parameters = $matcher->match($this->request->getPathInfo());
+    /** @var class-string $controllerActionClass */
     $controllerActionClass = $parameters["_controller"];
 
     /** @var ControllerActionInterface $controllerAction */

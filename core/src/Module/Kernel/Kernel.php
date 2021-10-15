@@ -8,7 +8,7 @@ use Harmony\Core\Module\Config\Env\DotEnvPathsContainerInterface;
 use Harmony\Core\Module\Config\ModuleInterface;
 use Harmony\Core\Module\Config\ModulesToLoadInterface;
 use Harmony\Core\Module\Router\RouterConfiguratorInterface;
-use Symfony\Component\Console\Command\Command;
+use Harmony\Core\Module\Symfony\Console\HarmonyCommand;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\RequestContext;
@@ -17,7 +17,7 @@ use Symfony\Component\Routing\RouteCollection;
 class Kernel {
   /** @var ModuleInterface[] */
   protected array $modules = [];
-  /** @var class-string<Command>[] */
+  /** @var class-string<HarmonyCommand>[] */
   protected array $moduleCommands = [];
   /** @var RouterConfiguratorInterface[] */
   protected array $moduleRoutes = [];

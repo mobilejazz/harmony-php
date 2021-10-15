@@ -7,9 +7,9 @@ interface SqlInterface {
    * @param string               $sql
    * @param array<string, mixed> $params
    *
-   * @return object|null
+   * @return mixed
    */
-  public function findOne(string $sql, array $params): ?object;
+  public function findOne(string $sql, array $params): mixed;
 
   /**
    * @param string               $sql
