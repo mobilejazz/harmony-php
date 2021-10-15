@@ -9,16 +9,13 @@ use Harmony\Core\Module\Sql\DataSource\SqlInterface;
 use PDO;
 
 /**
- * @link https://phpdelusions.net/pdo
- * @link https://phpdelusions.net/pdo_examples
+ * @link     https://phpdelusions.net/pdo
+ * @link     https://phpdelusions.net/pdo_examples
+ *
+ * @template T
  */
 class PdoWrapper implements SqlInterface {
   public function __construct(protected PDO $pdoConnection) {
-  }
-
-  public function findOne(string $sql, array $params): ?object {
-    $query = $this->execute($sql, $params);
-    return $query->fetch();
   }
 
   public function execute(string $sql, array $params): mixed {
@@ -33,6 +30,26 @@ class PdoWrapper implements SqlInterface {
     return $query;
   }
 
+  /**
+   * @param string $sql
+   * @param array  $params
+   *
+   * @return T
+   * @throws PdoConnectionNotReadyException
+   */
+  public function findOne(string $sql, array $params): mixed {
+    $query = $this->execute($sql, $params);
+    return $query->fetch();
+  }
+
+  /**
+   * @param string $sql
+   * @param array  $params
+   *
+   * @return T[]
+   * @throws PdoConnectionNotReadyException
+   * @throws PdoFetchAllException
+   */
   public function findAll(string $sql, array $params): array {
     $query = $this->execute($sql, $params);
     $items = $query->fetchAll();
