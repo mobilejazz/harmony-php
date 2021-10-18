@@ -7,18 +7,25 @@ use Harmony\Core\Module\Pdo\Error\PdoConnectionNotReadyException;
 use Harmony\Core\Module\Pdo\Error\PdoFetchAllException;
 use Harmony\Core\Module\Sql\DataSource\SqlInterface;
 use PDO;
+use PDOStatement;
+use stdClass;
 
 /**
  * @link     https://phpdelusions.net/pdo
  * @link     https://phpdelusions.net/pdo_examples
- *
- * @template T
  */
 class PdoWrapper implements SqlInterface {
   public function __construct(protected PDO $pdoConnection) {
   }
 
-  public function execute(string $sql, array $params): mixed {
+  /**
+   * @param string $sql
+   * @param mixed[]  $params
+   *
+   * @return PDOStatement
+   * @throws PdoConnectionNotReadyException
+   */
+  public function execute(string $sql, array $params): PDOStatement {
     $query = $this->pdoConnection->prepare($sql);
 
     if (empty($query)) {
@@ -32,9 +39,9 @@ class PdoWrapper implements SqlInterface {
 
   /**
    * @param string $sql
-   * @param array  $params
+   * @param mixed[]  $params
    *
-   * @return T
+   * @return mixed
    * @throws PdoConnectionNotReadyException
    */
   public function findOne(string $sql, array $params): mixed {
@@ -44,9 +51,9 @@ class PdoWrapper implements SqlInterface {
 
   /**
    * @param string $sql
-   * @param array  $params
+   * @param mixed[]  $params
    *
-   * @return T[]
+   * @return object[]
    * @throws PdoConnectionNotReadyException
    * @throws PdoFetchAllException
    */
@@ -58,9 +65,17 @@ class PdoWrapper implements SqlInterface {
       throw new PdoFetchAllException();
     }
 
+    /** @var array<array-key, object> $items */
     return $items;
   }
 
+  /**
+   * @param string $sql
+   * @param mixed[]  $params
+   *
+   * @return bool
+   * @throws PdoConnectionNotReadyException
+   */
   public function transaction(string $sql, array $params): bool {
     try {
       $this->startTransaction();

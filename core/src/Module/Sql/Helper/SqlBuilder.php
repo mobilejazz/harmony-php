@@ -77,6 +77,7 @@ class SqlBuilder {
     if ($composed instanceof WhereSqlQuery) {
       $wheres = $composed->where();
 
+      /** @var mixed $value */
       foreach ($wheres as $column => $value) {
         $factory->where(field($column)->eq($value));
       }
