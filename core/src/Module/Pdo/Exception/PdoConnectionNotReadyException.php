@@ -1,6 +1,6 @@
 <?php
 
-namespace Harmony\Core\Module\Pdo\Error;
+namespace Harmony\Core\Module\Pdo\Exception;
 
 use Exception;
 

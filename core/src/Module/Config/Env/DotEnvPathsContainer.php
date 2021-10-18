@@ -2,7 +2,7 @@
 
 namespace Harmony\Core\Module\Config\Env;
 
-use Harmony\Core\Module\FileSystem\Error\FileNotExistException;
+use Harmony\Core\Module\FileSystem\Exception\FileNotExistException;
 use Harmony\Core\Module\FileSystem\ValueObject\ValidFilePath;
 
 class DotEnvPathsContainer implements DotEnvPathsContainerInterface {

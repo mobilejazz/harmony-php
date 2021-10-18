@@ -2,7 +2,7 @@
 
 namespace Harmony\Core\Module\FileSystem\ValueObject;
 
-use Harmony\Core\Module\FileSystem\Error\FileNotExistException;
+use Harmony\Core\Module\FileSystem\Exception\FileNotExistException;
 
 class ValidFilePath {
   /**
