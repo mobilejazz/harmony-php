@@ -2,18 +2,18 @@
 
 namespace Harmony\Core\Module\Sql\DataSource;
 
+use Harmony\Core\Data\DataSource\DeleteDataSource;
+use Harmony\Core\Data\DataSource\GetDataSource;
+use Harmony\Core\Data\DataSource\PutDataSource;
+use Harmony\Core\Data\Exception\DataNotFoundException;
+use Harmony\Core\Data\Exception\QueryNotSupportedException;
+use Harmony\Core\Data\Query\AllQuery;
+use Harmony\Core\Data\Query\IdQuery;
+use Harmony\Core\Data\Query\KeyQuery;
+use Harmony\Core\Data\Query\Query;
+use Harmony\Core\Data\Query\VoidQuery;
 use Harmony\Core\Module\Sql\Helper\SqlBuilder;
 use Harmony\Core\Module\Sql\Query\ComposedSqlQuery;
-use Harmony\Core\Repository\DataSource\DeleteDataSource;
-use Harmony\Core\Repository\DataSource\GetDataSource;
-use Harmony\Core\Repository\DataSource\PutDataSource;
-use Harmony\Core\Repository\Error\DataNotFoundException;
-use Harmony\Core\Repository\Error\QueryNotSupportedException;
-use Harmony\Core\Repository\Query\AllQuery;
-use Harmony\Core\Repository\Query\IdQuery;
-use Harmony\Core\Repository\Query\KeyQuery;
-use Harmony\Core\Repository\Query\Query;
-use Harmony\Core\Repository\Query\VoidQuery;
 use InvalidArgumentException;
 
 /**

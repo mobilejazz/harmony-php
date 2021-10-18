@@ -5,7 +5,7 @@ namespace Harmony\Core\Module\Kernel;
 use DI\Container;
 use DI\ContainerBuilder;
 use Harmony\Core\Module\Config\Env\DotEnvPathsContainerInterface;
-use Harmony\Core\Module\Config\ModuleInterface;
+use Harmony\Core\Module\Config\ProviderInterface;
 use Harmony\Core\Module\Config\ModulesToLoadInterface;
 use Harmony\Core\Module\Router\RouterConfiguratorInterface;
 use Harmony\Core\Module\Symfony\Console\HarmonyCommand;
@@ -15,7 +15,7 @@ use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RouteCollection;
 
 class Kernel {
-  /** @var ModuleInterface[] */
+  /** @var ProviderInterface[] */
   protected array $modules = [];
   /** @var class-string<HarmonyCommand>[] */
   protected array $moduleCommands = [];
@@ -59,7 +59,7 @@ class Kernel {
       return;
     }
 
-    foreach ($this->modulesToLoad->getModules() as $module) {
+    foreach ($this->modulesToLoad->getProviders() as $module) {
       $this->modules[] = new $module();
 
       unset($module);

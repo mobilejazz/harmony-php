@@ -2,23 +2,23 @@
 
 namespace App\Tests\Sample\Product\Domain;
 
-use Harmony\Core\Repository\Error\DataNotFoundException;
-use Harmony\Core\Repository\Operation\DefaultOperation;
-use Harmony\Core\Repository\Query\AllQuery;
-use Harmony\Core\Repository\Query\KeyQuery;
+use Harmony\Core\Data\Exception\DataNotFoundException;
+use Harmony\Core\Data\Operation\DefaultOperation;
+use Harmony\Core\Data\Query\AllQuery;
+use Harmony\Core\Data\Query\KeyQuery;
 use JetBrains\PhpStorm\Pure;
 use PHPUnit\Framework\TestCase;
 use Sample\Product\Domain\Model\Product;
-use Sample\Product\ProductModule;
+use Sample\Product\ProductProvider;
 
 class ProductInteractorsTest extends TestCase {
   /**
-   * @var ProductModule
+   * @var ProductProvider
    */
-  private ProductModule $productProvider;
+  private ProductProvider $productProvider;
 
   function setUp(): void {
-    $this->productProvider = new ProductModule();
+    $this->productProvider = new ProductProvider();
   }
 
   function testPutProductInteractor() {
