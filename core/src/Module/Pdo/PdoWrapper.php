@@ -3,12 +3,11 @@
 namespace Harmony\Core\Module\Pdo;
 
 use Exception;
-use Harmony\Core\Module\Pdo\Error\PdoConnectionNotReadyException;
-use Harmony\Core\Module\Pdo\Error\PdoFetchAllException;
+use Harmony\Core\Module\Pdo\Exception\PdoConnectionNotReadyException;
+use Harmony\Core\Module\Pdo\Exception\PdoFetchAllException;
 use Harmony\Core\Module\Sql\DataSource\SqlInterface;
 use PDO;
 use PDOStatement;
-use stdClass;
 
 /**
  * @link     https://phpdelusions.net/pdo

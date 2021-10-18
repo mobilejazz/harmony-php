@@ -1,6 +1,6 @@
 <?php
 
-namespace Harmony\Core\Module\FileSystem\Error;
+namespace Harmony\Core\Module\FileSystem\Exception;
 
 use Harmony\Core\Domain\Exception\HarmonyException;
 
