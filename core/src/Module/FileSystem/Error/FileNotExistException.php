@@ -2,7 +2,7 @@
 
 namespace Harmony\Core\Module\FileSystem\Error;
 
-use Harmony\Core\Shared\Error\HarmonyException;
+use Harmony\Core\Domain\Exception\HarmonyException;
 
 class FileNotExistException extends HarmonyException {
   public function __construct(string $filePath) {

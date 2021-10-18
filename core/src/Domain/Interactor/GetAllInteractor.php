@@ -2,11 +2,9 @@
 
 namespace Harmony\Core\Domain\Interactor;
 
-use Harmony\Core\Repository\GetRepository;
-use Harmony\Core\Repository\Operation\DefaultOperation;
-use Harmony\Core\Repository\Operation\Operation;
-use Harmony\Core\Repository\Query\Query;
-use Harmony\Core\Repository\Query\VoidQuery;
+use Harmony\Core\Data\GetRepository;
+use Harmony\Core\Data\Operation\Operation;
+use Harmony\Core\Data\Query\Query;
 
 /**
  * @template T

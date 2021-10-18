@@ -3,13 +3,13 @@
 
 use Harmony\Core\Module\Config\Env\DotEnvPathsContainer;
 use Harmony\Core\Module\Kernel\ConsoleKernel;
-use Sample\SampleModules;
+use Sample\AppProvider;
 
 require_once __DIR__ . "/../vendor/autoload.php";
 
 $dotEnvPaths = new DotEnvPathsContainer([__DIR__ . "/../.env"]);
 $kernel = new ConsoleKernel(
   $dotEnvPaths,
-  new SampleModules()
+  new AppProvider()
 );
 $kernel->handleCommand();

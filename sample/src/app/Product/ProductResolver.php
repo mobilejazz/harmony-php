@@ -4,15 +4,15 @@ namespace Sample\Product;
 
 use Closure;
 use DI\ContainerBuilder;
+use Harmony\Core\Data\DataSource\InMemoryDataSource;
+use Harmony\Core\Data\RepositoryMapper;
+use Harmony\Core\Data\SingleDataSourceRepository;
 use Harmony\Core\Domain\Interactor\DeleteInteractor;
 use Harmony\Core\Domain\Interactor\GetAllInteractor;
 use Harmony\Core\Domain\Interactor\GetInteractor;
 use Harmony\Core\Domain\Interactor\PutAllInteractor;
 use Harmony\Core\Domain\Interactor\PutInteractor;
 use Harmony\Core\Module\DI\ResolverInterface;
-use Harmony\Core\Repository\DataSource\InMemoryDataSource;
-use Harmony\Core\Repository\RepositoryMapper;
-use Harmony\Core\Repository\SingleDataSourceRepository;
 use Psr\Container\ContainerInterface;
 use Sample\Product\Controller\ProductAction;
 use Sample\Product\Data\Entity\ProductEntity;
