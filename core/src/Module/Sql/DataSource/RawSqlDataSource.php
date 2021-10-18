@@ -58,7 +58,7 @@ class RawSqlDataSource implements
 
     $item = $this->pdo->findOne($sql->sql(), $sql->params());
 
-    if (!isset($item)) {
+    if (!isset($item) || !is_object($item)) {
       throw new DataNotFoundException();
     }
 
