@@ -9,7 +9,7 @@ use Harmony\Core\Repository\DataSource\PutDataSource;
 use Harmony\Core\Repository\Error\DataNotFoundException;
 use Harmony\Core\Repository\Error\QueryNotSupportedException;
 use Harmony\Core\Repository\Query\AllQuery;
-use Harmony\Core\Module\Sql\Query\ComposedSqlQuery;
+use Harmony\Core\Repository\Query\Composed\ComposedQuery;
 use Harmony\Core\Repository\Query\IdQuery;
 use Harmony\Core\Repository\Query\KeyQuery;
 use Harmony\Core\Repository\Query\Query;
@@ -66,7 +66,7 @@ class RawSqlDataSource implements GetDataSource, PutDataSource, DeleteDataSource
   public function getAll(Query $query): array {
     $sql = match (true) {
       $query instanceof AllQuery => $this->sqlBuilder->selectAll(),
-      $query instanceof ComposedSqlQuery => $this->sqlBuilder->selectAllComposed($query),
+      $query instanceof ComposedQuery => $this->sqlBuilder->selectAllComposed($query),
       default => throw new QueryNotSupportedException()
     };
 
