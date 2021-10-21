@@ -2,6 +2,21 @@
 version: '3.7'
 
 services:
+  mysql-sample:
+    image: mysql:8
+    container_name: mysql-sample-docker
+    restart: unless-stopped
+    volumes:
+      - ../data/mysql/lib:/var/lib/mysql
+      - ../data/mysql/log:/var/log/mysql
+      - ./mysql/init:/docker-entrypoint-initdb.d
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 'jgjsF2jwMUSP'
+      MYSQL_DATABASE: 'sampledb'
+      MYSQL_USER: 'sampleuser'
+      MYSQL_PASSWORD: 'JhDdULdg4CgK'
   nginx-sample:
     image: nginx:1.14-alpine
     container_name: nginx-sample-docker
