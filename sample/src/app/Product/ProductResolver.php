@@ -2,7 +2,6 @@
 
 namespace Sample\Product;
 
-use Closure;
 use DI\ContainerBuilder;
 use Harmony\Core\Data\DataSource\DataSourceMapper;
 use Harmony\Core\Data\DataSource\InMemoryDataSource;
@@ -27,6 +26,7 @@ use Sample\Product\Data\Entity\ProductEntity;
 use Sample\Product\Data\Mapper\ProductEntityToProductMapper;
 use Sample\Product\Data\Mapper\ProductToProductEntityMapper;
 use Sample\Product\Domain\Model\Product;
+use function DI\factory;
 
 class ProductResolver implements ResolverInterface {
   protected const KEY_PRODUCT_REPOSITORY = "Repository<Product>";
@@ -36,11 +36,13 @@ class ProductResolver implements ResolverInterface {
   protected const KEY_PRODUCT_PUT_ALL = "PutAllInteractor<Product>";
   protected const KEY_PRODUCT_DELETE = "DeleteInteractor<Product>";
 
-  /** @var array<string, mixed> */
-  protected array $di_container = [];
-
   public function register(ContainerBuilder $containerBuilder): void {
-    $containerBuilder->addDefinitions($this->factoryRepositoryInMemory());
+    $containerBuilder->addDefinitions([
+      self::KEY_PRODUCT_REPOSITORY => factory([
+        self::class,
+        "factoryRepositoryInMemory",
+      ]),
+    ]);
     $containerBuilder->addDefinitions([
       self::KEY_PRODUCT_GET => function (ContainerInterface $di) {
         /** @var RepositoryMapper<Product, ProductEntity> $repository */
@@ -90,69 +92,59 @@ class ProductResolver implements ResolverInterface {
     ]);
   }
 
-  /**
-   * @return Closure[]
-   */
-  public function factoryRepositoryInMemory(): array {
-    return [
-      self::KEY_PRODUCT_REPOSITORY => function () {
-        $productInMemoryDataSource = new InMemoryDataSource(
-          ProductEntity::class,
-        );
+  public function factoryRepositoryInMemory(): RepositoryMapper {
+    $productInMemoryDataSource = new InMemoryDataSource(ProductEntity::class);
 
-        $productRepository = new SingleDataSourceRepository(
-          $productInMemoryDataSource,
-          $productInMemoryDataSource,
-          $productInMemoryDataSource,
-        );
+    $productRepository = new SingleDataSourceRepository(
+      $productInMemoryDataSource,
+      $productInMemoryDataSource,
+      $productInMemoryDataSource,
+    );
 
-        $productRepositoryMapper = new RepositoryMapper(
-          $productRepository,
-          $productRepository,
-          $productRepository,
-          new ProductToProductEntityMapper(),
-          new ProductEntityToProductMapper(),
-        );
+    $productRepositoryMapper = new RepositoryMapper(
+      $productRepository,
+      $productRepository,
+      $productRepository,
+      new ProductToProductEntityMapper(),
+      new ProductEntityToProductMapper(),
+    );
 
-        return $productRepositoryMapper;
-      },
-    ];
+    return $productRepositoryMapper;
   }
 
+  /**
+   * @todo
+   */
   public function factoryRepositorySql(
     PdoWrapper $pdo,
     QueryFactory $queryFactory,
-  ): array {
-    return [
-      self::KEY_PRODUCT_REPOSITORY => function () use ($pdo, $queryFactory) {
-        $sqlBuilder = new SqlBuilder(new ProductSqlSchema(), $queryFactory);
+  ): RepositoryMapper {
+    $sqlBuilder = new SqlBuilder(new ProductSqlSchema(), $queryFactory);
 
-        $dataSource = new RawSqlDataSource($pdo, $sqlBuilder);
+    $dataSource = new RawSqlDataSource($pdo, $sqlBuilder);
 
-        $dataSourceMapper = new DataSourceMapper(
-          $dataSource,
-          $dataSource,
-          $dataSource,
-          new ProductEntityToSqlDataMapper(),
-          new ProductSqlDataToEntityMapper(),
-        );
+    $dataSourceMapper = new DataSourceMapper(
+      $dataSource,
+      $dataSource,
+      $dataSource,
+      new ProductEntityToSqlDataMapper(),
+      new ProductSqlDataToEntityMapper(),
+    );
 
-        $productRepository = new SingleDataSourceRepository(
-          $dataSourceMapper,
-          $dataSourceMapper,
-          $dataSourceMapper,
-        );
+    $productRepository = new SingleDataSourceRepository(
+      $dataSourceMapper,
+      $dataSourceMapper,
+      $dataSourceMapper,
+    );
 
-        $productRepositoryMapper = new RepositoryMapper(
-          $productRepository,
-          $productRepository,
-          $productRepository,
-          new ProductToProductEntityMapper(),
-          new ProductEntityToProductMapper(),
-        );
+    $productRepositoryMapper = new RepositoryMapper(
+      $productRepository,
+      $productRepository,
+      $productRepository,
+      new ProductToProductEntityMapper(),
+      new ProductEntityToProductMapper(),
+    );
 
-        return $productRepositoryMapper;
-      },
-    ];
+    return $productRepositoryMapper;
   }
 }

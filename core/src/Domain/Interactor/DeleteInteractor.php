@@ -3,6 +3,7 @@
 namespace Harmony\Core\Domain\Interactor;
 
 use Harmony\Core\Data\DeleteRepository;
+use Harmony\Core\Data\Operation\DefaultOperation;
 use Harmony\Core\Data\Operation\Operation;
 use Harmony\Core\Data\Query\Query;
 
@@ -17,7 +18,7 @@ class DeleteInteractor {
   }
 
   /**
-   * @param Query $query
+   * @param Query          $query
    * @param Operation|null $operation
    *
    * @return void

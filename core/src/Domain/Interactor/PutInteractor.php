@@ -2,9 +2,11 @@
 
 namespace Harmony\Core\Domain\Interactor;
 
+use Harmony\Core\Data\Operation\DefaultOperation;
 use Harmony\Core\Data\Operation\Operation;
 use Harmony\Core\Data\PutRepository;
 use Harmony\Core\Data\Query\Query;
+use Harmony\Core\Data\Query\VoidQuery;
 
 /**
  * @template T
@@ -17,7 +19,7 @@ class PutInteractor {
   }
 
   /**
-   * @param T $model
+   * @param T              $model
    * @param Query|null     $query
    * @param Operation|null $operation
    *
@@ -27,7 +29,7 @@ class PutInteractor {
   public function __invoke(
     mixed $model = null,
     ?Query $query = null,
-    ?Operation $operation = null
+    ?Operation $operation = null,
   ): mixed {
     $query = $query ?? new VoidQuery();
     $operation = $operation ?? new DefaultOperation();

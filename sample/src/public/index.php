@@ -7,9 +7,17 @@ use Symfony\Component\HttpFoundation\Request;
 
 require_once __DIR__ . "/../vendor/autoload.php";
 
-$dotEnvPaths = new DotEnvPathsContainer([__DIR__ . "/../.env"]);
-$kernel = new HttpKernel($dotEnvPaths, new AppProvider());
+try {
+  $dotEnvPaths = new DotEnvPathsContainer([__DIR__ . "/../.env"]);
+  $kernel = new HttpKernel($dotEnvPaths, new AppProvider());
 
-$request = Request::createFromGlobals();
-$response = $kernel->handleRequest($request);
-$response->send();
+  $request = Request::createFromGlobals();
+  $response = $kernel->handleRequest($request);
+  $response->send();
+} catch (Exception $error) {
+  if (function_exists("dump")) {
+    dump($error->getMessage(), $error);
+  } else {
+    var_dump($error->getMessage(), $error);
+  }
+}

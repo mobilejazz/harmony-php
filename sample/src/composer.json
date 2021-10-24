@@ -41,7 +41,8 @@
     "phpstan/phpstan": "0.12.*",
     "phpunit/phpunit": "9.5.*",
     "roave/security-advisories": "dev-latest",
-    "vimeo/psalm": "4.10.*"
+    "vimeo/psalm": "4.10.*",
+    "symfony/var-dumper": "5.3.*"
   },
   "type": "project"
 }

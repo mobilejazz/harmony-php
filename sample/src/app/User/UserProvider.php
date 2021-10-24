@@ -8,7 +8,7 @@ use Harmony\Core\Module\Router\RouterConfiguratorInterface;
 
 class UserProvider implements ProviderInterface {
   public function getRouterConfig(): ?RouterConfiguratorInterface {
-    return null;
+    return new UserRoutes();
   }
 
   public function getCommands(): array {
