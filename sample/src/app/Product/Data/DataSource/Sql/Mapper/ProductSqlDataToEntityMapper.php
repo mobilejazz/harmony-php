@@ -10,11 +10,11 @@ use Sample\Product\Data\Entity\ProductEntity;
 class ProductSqlDataToEntityMapper implements Mapper {
   public function map(mixed $from): ProductEntity {
     return new ProductEntity(
-      id: $from->{ProductSqlSchema::COLUMN_ID},
-      name: $from->{ProductSqlSchema::COLUMN_NAME},
-      description: $from->{ProductSqlSchema::COLUMN_DESCRIPTION},
-      price: $from->{ProductSqlSchema::COLUMN_PRICE},
-      created_at: new Carbon($from->{ProductSqlSchema::COLUMN_CREATED_AT}),
+      $from->{ProductSqlSchema::COLUMN_ID},
+      $from->{ProductSqlSchema::COLUMN_NAME},
+      $from->{ProductSqlSchema::COLUMN_DESCRIPTION},
+      $from->{ProductSqlSchema::COLUMN_PRICE},
+      new Carbon($from->{ProductSqlSchema::COLUMN_CREATED_AT}),
     );
   }
 }

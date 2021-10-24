@@ -4,6 +4,7 @@ namespace Sample\Product;
 
 use Closure;
 use DI\ContainerBuilder;
+use Harmony\Core\Data\DataSource\DataSourceMapper;
 use Harmony\Core\Data\DataSource\InMemoryDataSource;
 use Harmony\Core\Data\RepositoryMapper;
 use Harmony\Core\Data\SingleDataSourceRepository;
@@ -13,8 +14,15 @@ use Harmony\Core\Domain\Interactor\GetInteractor;
 use Harmony\Core\Domain\Interactor\PutAllInteractor;
 use Harmony\Core\Domain\Interactor\PutInteractor;
 use Harmony\Core\Module\DI\ResolverInterface;
+use Harmony\Core\Module\Pdo\PdoWrapper;
+use Harmony\Core\Module\Sql\DataSource\RawSqlDataSource;
+use Harmony\Core\Module\Sql\Helper\SqlBuilder;
+use Latitude\QueryBuilder\QueryFactory;
 use Psr\Container\ContainerInterface;
 use Sample\Product\Controller\ProductAction;
+use Sample\Product\Data\DataSource\Sql\Mapper\ProductEntityToSqlDataMapper;
+use Sample\Product\Data\DataSource\Sql\Mapper\ProductSqlDataToEntityMapper;
+use Sample\Product\Data\DataSource\Sql\ProductSqlSchema;
 use Sample\Product\Data\Entity\ProductEntity;
 use Sample\Product\Data\Mapper\ProductEntityToProductMapper;
 use Sample\Product\Data\Mapper\ProductToProductEntityMapper;
@@ -32,7 +40,7 @@ class ProductResolver implements ResolverInterface {
   protected array $di_container = [];
 
   public function register(ContainerBuilder $containerBuilder): void {
-    $containerBuilder->addDefinitions($this->factoryRepository());
+    $containerBuilder->addDefinitions($this->factoryRepositoryInMemory());
     $containerBuilder->addDefinitions([
       self::KEY_PRODUCT_GET => function (ContainerInterface $di) {
         /** @var RepositoryMapper<Product, ProductEntity> $repository */
@@ -85,7 +93,7 @@ class ProductResolver implements ResolverInterface {
   /**
    * @return Closure[]
    */
-  public function factoryRepository(): array {
+  public function factoryRepositoryInMemory(): array {
     return [
       self::KEY_PRODUCT_REPOSITORY => function () {
         $productInMemoryDataSource = new InMemoryDataSource(
@@ -96,6 +104,43 @@ class ProductResolver implements ResolverInterface {
           $productInMemoryDataSource,
           $productInMemoryDataSource,
           $productInMemoryDataSource,
+        );
+
+        $productRepositoryMapper = new RepositoryMapper(
+          $productRepository,
+          $productRepository,
+          $productRepository,
+          new ProductToProductEntityMapper(),
+          new ProductEntityToProductMapper(),
+        );
+
+        return $productRepositoryMapper;
+      },
+    ];
+  }
+
+  public function factoryRepositorySql(
+    PdoWrapper $pdo,
+    QueryFactory $queryFactory,
+  ): array {
+    return [
+      self::KEY_PRODUCT_REPOSITORY => function () use ($pdo, $queryFactory) {
+        $sqlBuilder = new SqlBuilder(new ProductSqlSchema(), $queryFactory);
+
+        $dataSource = new RawSqlDataSource($pdo, $sqlBuilder);
+
+        $dataSourceMapper = new DataSourceMapper(
+          $dataSource,
+          $dataSource,
+          $dataSource,
+          new ProductEntityToSqlDataMapper(),
+          new ProductSqlDataToEntityMapper(),
+        );
+
+        $productRepository = new SingleDataSourceRepository(
+          $dataSourceMapper,
+          $dataSourceMapper,
+          $dataSourceMapper,
         );
 
         $productRepositoryMapper = new RepositoryMapper(
