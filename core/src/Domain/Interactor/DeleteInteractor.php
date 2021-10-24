@@ -10,6 +10,9 @@ use Harmony\Core\Data\Query\Query;
  * @template T
  */
 class DeleteInteractor {
+  /**
+   * @param DeleteRepository<T> $deleteRepository
+   */
   public function __construct(protected DeleteRepository $deleteRepository) {
   }
 
