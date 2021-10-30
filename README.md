@@ -1,9 +1,28 @@
-# ![Mobile Jazz Badge](https://raw.githubusercontent.com/mobilejazz/metadata/master/images/icons/mj-40x40.png) Harmony PHP
+<p align="center">
+  <a href="https://harmony.mobilejazz.com">
+    <img src="https://raw.githubusercontent.com/mobilejazz/metadata/master/images/icons/harmony.svg" alt="MJ Harmony logo" width="80" height="80">
+  </a>
 
-This repository contains the core structure for PHP of the [Mobile Jazz Harmony](https://harmony.mobilejazz.com/docs/introduction) project.
+  <h3 align="center">Harmony PHP</h3>
 
-![](https://github.com/mobilejazz/harmony-php/workflows/Static%20Analysis/badge.svg?branch=master)
-![](https://github.com/mobilejazz/harmony-php/workflows/Tests/badge.svg?branch=master)
+  <p align="center">
+    Harmony is a <em>framework</em> developed by <a href="https://mobilejazz.com">Mobile Jazz</a> that specifies best practices, software architectural patterns and other software development related guidelines.
+    <br />
+    <br />
+    <a href="https://harmony.mobilejazz.com">Documentation</a>
+    ·
+    <a href="https://github.com/mobilejazz/harmony-kotlin">Kotlin</a>
+    ·
+    <a href="https://github.com/mobilejazz/harmony-swift">Swift</a>
+    ·
+    <a href="https://github.com/mobilejazz/harmony-typescript">TypeScript</a>
+  </p>
+  
+  <p align="center">
+    <img src="https://github.com/mobilejazz/harmony-php/workflows/Static%20Analysis/badge.svg?branch=master">
+    <img src="https://github.com/mobilejazz/harmony-php/workflows/Tests/badge.svg?branch=master">
+  </p>
+</p>
 
 ## Production Installation
 
