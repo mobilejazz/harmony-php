@@ -76,7 +76,9 @@ class RawSqlDataSource implements
   public function getAll(Query $query): array {
     $sql = match (true) {
       $query instanceof AllQuery => $this->sqlBuilder->selectAll(),
-      $query instanceof ComposedQuery => $this->sqlBuilder->selectAllComposed($query),
+      $query instanceof ComposedQuery => $this->sqlBuilder->selectAllComposed(
+        $query,
+      ),
       default => throw new QueryNotSupportedException()
     };
 

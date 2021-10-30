@@ -61,9 +61,7 @@ class SqlBuilder {
   }
 
   public function selectAllComposed(ComposedQuery $composed): Query {
-    $factory = $this->factory
-      ->select()
-      ->from($this->schema->getTableName());
+    $factory = $this->factory->select()->from($this->schema->getTableName());
 
     if ($composed instanceof PaginationOffsetLimitQuery) {
       $factory->offset($composed->offset());
@@ -71,7 +69,7 @@ class SqlBuilder {
     }
 
     if ($composed instanceof OrderByQuery) {
-      $ascending = $composed->ascending() ? 'ASC' : 'DESC';
+      $ascending = $composed->ascending() ? "ASC" : "DESC";
       $factory->orderBy($composed->orderBy(), $ascending);
       unset($ascending);
     }
