@@ -16,6 +16,6 @@ class UserProvider implements ProviderInterface {
   }
 
   public function getResolver(): ?ResolverInterface {
-    return null;
+    return new UserResolver();
   }
 }

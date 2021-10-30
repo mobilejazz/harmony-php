@@ -19,7 +19,6 @@ use Sample\User\Data\DataSource\Sql\UserSqlSchema;
 use Sample\User\Data\Mapper\UserEntityToModelMapper;
 use Sample\User\Data\Mapper\UserModelToEntityMapper;
 use Sample\User\Domain\Interactor\GetAllUsersWithNameInteractor;
-use function DI\factory;
 
 class UserResolver implements ResolverInterface {
   protected const KEY_USER_REPOSITORY = "Repository<User>";
@@ -27,10 +26,37 @@ class UserResolver implements ResolverInterface {
 
   public function register(ContainerBuilder $containerBuilder): void {
     $containerBuilder->addDefinitions([
-      self::KEY_USER_REPOSITORY => factory([
-        self::class,
-        "factoryRepositorySql",
-      ]),
+      self::KEY_USER_REPOSITORY => function (ContainerInterface $di) {
+        $pdo = $di->get(PdoWrapper::class);
+        $queryFactory = $di->get(QueryFactory::class);
+
+        $sqlBuilder = new SqlBuilder(new UserSqlSchema(), $queryFactory);
+        $dataSource = new RawSqlDataSource($pdo, $sqlBuilder);
+
+        $dataSourceMapper = new DataSourceMapper(
+          $dataSource,
+          $dataSource,
+          $dataSource,
+          new UserEntityToSqlDataMapper(),
+          new UserSqlDataToEntityMapper(),
+        );
+
+        $productRepository = new SingleDataSourceRepository(
+          $dataSourceMapper,
+          $dataSourceMapper,
+          $dataSourceMapper,
+        );
+
+        $productRepositoryMapper = new RepositoryMapper(
+          $productRepository,
+          $productRepository,
+          $productRepository,
+          new UserModelToEntityMapper(),
+          new UserEntityToModelMapper(),
+        );
+
+        return $productRepositoryMapper;
+      },
       self::KEY_USER_GET_ALL => function (ContainerInterface $di) {
         return new GetAllInteractor($di->get(self::KEY_USER_REPOSITORY));
       },
@@ -42,37 +68,5 @@ class UserResolver implements ResolverInterface {
         );
       },
     ]);
-  }
-
-  public function factoryRepositorySql(
-    PdoWrapper $pdo,
-    QueryFactory $queryFactory,
-  ): RepositoryMapper {
-    $sqlBuilder = new SqlBuilder(new UserSqlSchema(), $queryFactory);
-    $dataSource = new RawSqlDataSource($pdo, $sqlBuilder);
-
-    $dataSourceMapper = new DataSourceMapper(
-      $dataSource,
-      $dataSource,
-      $dataSource,
-      new UserEntityToSqlDataMapper(),
-      new UserSqlDataToEntityMapper(),
-    );
-
-    $productRepository = new SingleDataSourceRepository(
-      $dataSourceMapper,
-      $dataSourceMapper,
-      $dataSourceMapper,
-    );
-
-    $productRepositoryMapper = new RepositoryMapper(
-      $productRepository,
-      $productRepository,
-      $productRepository,
-      new UserModelToEntityMapper(),
-      new UserEntityToModelMapper(),
-    );
-
-    return $productRepositoryMapper;
   }
 }
