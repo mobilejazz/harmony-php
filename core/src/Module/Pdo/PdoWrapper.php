@@ -13,16 +13,21 @@ use PDO;
  * @link https://phpdelusions.net/pdo_examples
  */
 class PdoWrapper implements SqlInterface {
-  public function __construct(
-    protected PDO $pdoConnection
-  ) {
+  public function __construct(protected PDO $pdoConnection) {
   }
 
+  /**
+   * @throws PdoConnectionNotReadyException
+   */
   public function findOne(string $sql, array $params): ?object {
     $query = $this->execute($sql, $params);
     return $query->fetch();
   }
 
+  /**
+   * @throws PdoConnectionNotReadyException
+   * @throws PdoFetchAllException
+   */
   public function findAll(string $sql, array $params): array {
     $query = $this->execute($sql, $params);
     $items = $query->fetchAll();
@@ -34,6 +39,17 @@ class PdoWrapper implements SqlInterface {
     return $items;
   }
 
+  /**
+   * @throws PdoConnectionNotReadyException
+   */
+  public function insert(string $sql, array $params): int|string {
+    $this->execute($sql, $params);
+    return $this->pdoConnection->lastInsertId();
+  }
+
+  /**
+   * @throws PdoConnectionNotReadyException
+   */
   public function transaction(string $sql, array $params): bool {
     try {
       $this->startTransaction();
@@ -59,6 +75,9 @@ class PdoWrapper implements SqlInterface {
     $this->pdoConnection->rollBack();
   }
 
+  /**
+   * @throws PdoConnectionNotReadyException
+   */
   public function execute(string $sql, array $params): mixed {
     $query = $this->pdoConnection->prepare($sql);
 
