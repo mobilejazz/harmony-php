@@ -20,7 +20,10 @@ use InvalidArgumentException;
  * @implements GetDataSource<object>
  * @implements PutDataSource<object>
  */
-class RawSqlDataSource implements GetDataSource, PutDataSource, DeleteDataSource {
+class RawSqlDataSource implements
+  GetDataSource,
+  PutDataSource,
+  DeleteDataSource {
   /**
    * @param SqlInterface            $pdo
    * @param SqlBuilder            $sqlBuilder
@@ -41,8 +44,15 @@ class RawSqlDataSource implements GetDataSource, PutDataSource, DeleteDataSource
    */
   public function get(Query $query): object {
     $sql = match (true) {
-      $query instanceof IdQuery => $this->sqlBuilder->selectById($query->getId()),
-      $query instanceof KeyQuery => $this->sqlBuilder->selectByKey($query->geKey()),
+      $query instanceof IdQuery => $this->sqlBuilder->selectById(
+        $query->getId(),
+      ),
+      $query instanceof KeyQuery => $this->sqlBuilder->selectByKey(
+        $query->geKey(),
+      ),
+      $query instanceof ComposedQuery => $this->sqlBuilder->selectComposed(
+        $query,
+      ),
       default => throw new QueryNotSupportedException()
     };
 
@@ -66,7 +76,9 @@ class RawSqlDataSource implements GetDataSource, PutDataSource, DeleteDataSource
   public function getAll(Query $query): array {
     $sql = match (true) {
       $query instanceof AllQuery => $this->sqlBuilder->selectAll(),
-      $query instanceof ComposedQuery => $this->sqlBuilder->selectAllComposed($query),
+      $query instanceof ComposedQuery => $this->sqlBuilder->selectAllComposed(
+        $query,
+      ),
       default => throw new QueryNotSupportedException()
     };
 
@@ -88,13 +100,12 @@ class RawSqlDataSource implements GetDataSource, PutDataSource, DeleteDataSource
    * @throws QueryNotSupportedException
    */
   public function put(Query $query, mixed $entity = null): mixed {
-    if ($entity === null) {
-      throw new InvalidArgumentException();
-    }
-
     $sql = match (true) {
       $query instanceof VoidQuery => $this->sqlBuilder->insert($entity),
-      $query instanceof IdQuery => $this->sqlBuilder->updateById($query->getId(), $entity),
+      $query instanceof IdQuery => $this->sqlBuilder->updateById(
+        $query->getId(),
+        $entity,
+      ),
       default => throw new QueryNotSupportedException()
     };
 
@@ -133,7 +144,9 @@ class RawSqlDataSource implements GetDataSource, PutDataSource, DeleteDataSource
    */
   public function delete(Query $query): void {
     $sql = match (true) {
-      $query instanceof IdQuery => $this->sqlBuilder->deleteById($query->getId()),
+      $query instanceof IdQuery => $this->sqlBuilder->deleteById(
+        $query->getId(),
+      ),
       default => throw new QueryNotSupportedException()
     };
 
