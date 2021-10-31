@@ -5,6 +5,7 @@ namespace Harmony\Core\Module\Pdo;
 use Exception;
 use Harmony\Core\Module\Pdo\Error\PdoConnectionNotReadyException;
 use Harmony\Core\Module\Pdo\Error\PdoFetchAllException;
+use Harmony\Core\Module\Pdo\Error\PdoFetchException;
 use Harmony\Core\Module\Sql\DataSource\SqlInterface;
 use PDO;
 
@@ -18,10 +19,17 @@ class PdoWrapper implements SqlInterface {
 
   /**
    * @throws PdoConnectionNotReadyException
+   * @throws PdoFetchException
    */
   public function findOne(string $sql, array $params): ?object {
     $query = $this->execute($sql, $params);
-    return $query->fetch();
+    $item = $query->fetch();
+
+    if ($item === false) {
+      throw new PdoFetchException();
+    }
+
+    return $item;
   }
 
   /**

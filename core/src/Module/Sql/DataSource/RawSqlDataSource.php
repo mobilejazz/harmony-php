@@ -15,6 +15,7 @@ use Harmony\Core\Repository\Query\KeyQuery;
 use Harmony\Core\Repository\Query\Query;
 use Harmony\Core\Repository\Query\VoidQuery;
 use InvalidArgumentException;
+use socialPALS\System\Data\DataSource\SocialPalsSqlSchema;
 
 /**
  * @implements GetDataSource<object>
@@ -100,18 +101,28 @@ class RawSqlDataSource implements
    * @throws QueryNotSupportedException
    */
   public function put(Query $query, mixed $entity = null): mixed {
+    $id = $this->getId($query, $entity);
     $sql = match (true) {
+      !is_null($id) => $this->sqlBuilder->updateById($id, $entity),
       $query instanceof VoidQuery => $this->sqlBuilder->insert($entity),
-      $query instanceof IdQuery => $this->sqlBuilder->updateById(
-        $query->getId(),
-        $entity,
-      ),
+      // TODO add composed query!
       default => throw new QueryNotSupportedException()
     };
 
     $this->pdo->execute($sql->sql(), $sql->params());
 
     return $entity;
+  }
+
+  public function getId(Query $query, mixed $entity = null): mixed {
+    $id = null;
+    $idCol = SocialPalsSqlSchema::DEFAULT_COLUMN_ID;
+    if ($query instanceof IdQuery) {
+      $id = $query->getId();
+    } elseif ($entity->$idCol) {
+      $id = $entity->$idCol;
+    }
+    return $id;
   }
 
   /**
