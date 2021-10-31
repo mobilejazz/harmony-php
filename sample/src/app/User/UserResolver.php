@@ -18,7 +18,7 @@ use Sample\User\Data\DataSource\Sql\Mapper\UserSqlDataToEntityMapper;
 use Sample\User\Data\DataSource\Sql\UserSqlSchema;
 use Sample\User\Data\Mapper\UserEntityToModelMapper;
 use Sample\User\Data\Mapper\UserModelToEntityMapper;
-use Sample\User\Domain\Interactor\GetAllUsersWithNameInteractor;
+use Sample\User\Domain\Interactor\GetAllUsersByNameInteractor;
 
 class UserResolver implements ResolverInterface {
   protected const KEY_USER_REPOSITORY = "Repository<User>";
@@ -60,10 +60,8 @@ class UserResolver implements ResolverInterface {
       self::KEY_USER_GET_ALL => function (ContainerInterface $di) {
         return new GetAllInteractor($di->get(self::KEY_USER_REPOSITORY));
       },
-      GetAllUsersWithNameInteractor::class => function (
-        ContainerInterface $di,
-      ) {
-        return new GetAllUsersWithNameInteractor(
+      GetAllUsersByNameInteractor::class => function (ContainerInterface $di) {
+        return new GetAllUsersByNameInteractor(
           $di->get(self::KEY_USER_GET_ALL),
         );
       },

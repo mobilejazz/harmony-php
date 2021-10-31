@@ -2,15 +2,10 @@
 
 namespace Sample\User\Data\Query;
 
-use Harmony\Core\Module\Sql\Query\OrderBySqlQuery;
-use Harmony\Core\Module\Sql\Query\PaginationSqlQuery;
-use Harmony\Core\Module\Sql\Query\WhereSqlQuery;
+use Harmony\Core\Data\Query\Query;
 use Sample\User\Data\DataSource\Sql\UserSqlSchema;
 
-class UserPaginationSqlQuery implements
-  PaginationSqlQuery,
-  WhereSqlQuery,
-  OrderBySqlQuery {
+class UserPaginationSqlQuery implements Query {
   public function __construct(
     protected int $offset,
     protected int $limit,

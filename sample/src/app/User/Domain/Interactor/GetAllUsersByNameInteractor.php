@@ -6,7 +6,7 @@ use Harmony\Core\Domain\Interactor\GetAllInteractor;
 use Sample\User\Data\Query\UserPaginationSqlQuery;
 use Sample\User\Domain\Model\User;
 
-class GetAllUsersWithNameInteractor {
+class GetAllUsersByNameInteractor {
   /**
    * @param GetAllInteractor<User> $getAllInteractor
    */

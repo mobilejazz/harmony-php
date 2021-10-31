@@ -3,14 +3,14 @@
 namespace Sample\User\Api;
 
 use Harmony\Core\Module\Router\ControllerActionInterface;
-use Sample\User\Domain\Interactor\GetAllUsersWithNameInteractor;
+use Sample\User\Domain\Interactor\GetAllUsersByNameInteractor;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserAction implements ControllerActionInterface {
   public function __construct(
-    protected GetAllUsersWithNameInteractor $getAllInteractor,
+    protected GetAllUsersByNameInteractor $getAllInteractor,
   ) {
   }
 
