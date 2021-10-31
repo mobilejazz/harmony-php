@@ -18,41 +18,14 @@ class PdoWrapper implements SqlInterface {
   }
 
   /**
-   * @param string $sql
-   * @param mixed[]  $params
-   *
-   * @return PDOStatement
    * @throws PdoConnectionNotReadyException
    */
-  public function execute(string $sql, array $params): PDOStatement {
-    $query = $this->pdoConnection->prepare($sql);
-
-    if (empty($query)) {
-      throw new PdoConnectionNotReadyException();
-    }
-
-    $query->execute($params);
-
-    return $query;
-  }
-
-  /**
-   * @param string $sql
-   * @param mixed[]  $params
-   *
-   * @return mixed
-   * @throws PdoConnectionNotReadyException
-   */
-  public function findOne(string $sql, array $params): mixed {
+  public function findOne(string $sql, array $params): ?object {
     $query = $this->execute($sql, $params);
     return $query->fetch();
   }
 
   /**
-   * @param string $sql
-   * @param mixed[]  $params
-   *
-   * @return object[]
    * @throws PdoConnectionNotReadyException
    * @throws PdoFetchAllException
    */
@@ -69,10 +42,14 @@ class PdoWrapper implements SqlInterface {
   }
 
   /**
-   * @param string $sql
-   * @param mixed[]  $params
-   *
-   * @return bool
+   * @throws PdoConnectionNotReadyException
+   */
+  public function insert(string $sql, array $params): int|string {
+    $this->execute($sql, $params);
+    return $this->pdoConnection->lastInsertId();
+  }
+
+  /**
    * @throws PdoConnectionNotReadyException
    */
   public function transaction(string $sql, array $params): bool {
@@ -98,5 +75,20 @@ class PdoWrapper implements SqlInterface {
 
   public function rollbackTransaction(): void {
     $this->pdoConnection->rollBack();
+  }
+
+  /**
+   * @throws PdoConnectionNotReadyException
+   */
+  public function execute(string $sql, array $params): mixed {
+    $query = $this->pdoConnection->prepare($sql);
+
+    if (empty($query)) {
+      throw new PdoConnectionNotReadyException();
+    }
+
+    $query->execute($params);
+
+    return $query;
   }
 }

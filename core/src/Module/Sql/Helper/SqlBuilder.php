@@ -43,10 +43,6 @@ class SqlBuilder {
     return $query;
   }
 
-  public function selectById(mixed $value): Query {
-    return $this->selectOneWhere($this->schema->getIdColumn(), $value);
-  }
-
   public function selectAll(?int $offset = null, ?int $limit = null): Query {
     $factory = $this->factory->select()->from($this->schema->getTableName());
 
@@ -56,7 +52,21 @@ class SqlBuilder {
     }
 
     $query = $factory->compile();
+    return $query;
+  }
 
+  public function selectComposed(ComposedQuery $composed): Query {
+    $factory = $this->factory->select()->from($this->schema->getTableName());
+
+    if ($composed instanceof WhereQuery) {
+      $wheres = $composed->where();
+
+      foreach ($wheres as $column => $value) {
+        $factory->andWhere(field($column)->eq($value));
+      }
+    }
+
+    $query = $factory->compile();
     return $query;
   }
 
@@ -79,7 +89,7 @@ class SqlBuilder {
 
       /** @var mixed $value */
       foreach ($wheres as $column => $value) {
-        $factory->where(field($column)->eq($value));
+        $factory->andWhere(field($column)->eq($value));
       }
     }
 
@@ -122,7 +132,6 @@ class SqlBuilder {
     }
 
     $query = $factory->compile();
-
     return $query;
   }
 

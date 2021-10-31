@@ -52,6 +52,9 @@ class RawSqlDataSource implements
       $query instanceof KeyQuery => $this->sqlBuilder->selectByKey(
         $query->geKey(),
       ),
+      $query instanceof ComposedQuery => $this->sqlBuilder->selectComposed(
+        $query,
+      ),
       default => throw new QueryNotSupportedException()
     };
 
@@ -101,10 +104,6 @@ class RawSqlDataSource implements
    * @throws QueryNotSupportedException
    */
   public function put(Query $query, mixed $entity = null): mixed {
-    if ($entity === null) {
-      throw new InvalidArgumentException();
-    }
-
     $sql = match (true) {
       $query instanceof VoidQuery => $this->sqlBuilder->insert($entity),
       $query instanceof IdQuery => $this->sqlBuilder->updateById(
