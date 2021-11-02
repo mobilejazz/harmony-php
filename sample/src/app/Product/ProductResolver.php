@@ -2,7 +2,6 @@
 
 namespace Sample\Product;
 
-use DI\ContainerBuilder;
 use Harmony\Core\Data\DataSource\DataSourceMapper;
 use Harmony\Core\Data\DataSource\InMemoryDataSource;
 use Harmony\Core\Data\RepositoryMapper;
@@ -12,7 +11,7 @@ use Harmony\Core\Domain\Interactor\GetAllInteractor;
 use Harmony\Core\Domain\Interactor\GetInteractor;
 use Harmony\Core\Domain\Interactor\PutAllInteractor;
 use Harmony\Core\Domain\Interactor\PutInteractor;
-use Harmony\Core\Module\DI\ResolverInterface;
+use Harmony\Core\Module\Config\ResolverInterface;
 use Harmony\Core\Module\Pdo\PdoWrapper;
 use Harmony\Core\Module\Sql\DataSource\RawSqlDataSource;
 use Harmony\Core\Module\Sql\Helper\SqlBuilder;
@@ -36,14 +35,15 @@ class ProductResolver implements ResolverInterface {
   protected const KEY_PRODUCT_PUT_ALL = "PutAllInteractor<Product>";
   protected const KEY_PRODUCT_DELETE = "DeleteInteractor<Product>";
 
-  public function register(ContainerBuilder $containerBuilder): void {
-    $containerBuilder->addDefinitions([
+  /**
+   * @inheritDoc
+   */
+  public function getDefinitions(): array {
+    return [
       self::KEY_PRODUCT_REPOSITORY => factory([
         self::class,
         "factoryRepositoryInMemory",
       ]),
-    ]);
-    $containerBuilder->addDefinitions([
       self::KEY_PRODUCT_GET => function (ContainerInterface $di) {
         /** @var RepositoryMapper<Product, ProductEntity> $repository */
         $repository = $di->get(self::KEY_PRODUCT_REPOSITORY);
@@ -89,7 +89,7 @@ class ProductResolver implements ResolverInterface {
           $deleteInteractor,
         );
       },
-    ]);
+    ];
   }
 
   public function factoryRepositoryInMemory(): RepositoryMapper {

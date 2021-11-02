@@ -2,29 +2,18 @@
 
 namespace Sample\System;
 
-use DI\ContainerBuilder;
-use Harmony\Core\Module\DI\ResolverInterface;
+use Harmony\Core\Module\Config\ResolverInterface;
 use Harmony\Core\Module\Pdo\PdoFactory;
 use Harmony\Core\Module\Pdo\PdoWrapper;
 use Latitude\QueryBuilder\Engine\MySqlEngine;
 use Latitude\QueryBuilder\QueryFactory;
 
 class SystemResolver implements ResolverInterface {
-  public function register(ContainerBuilder $containerBuilder): void {
-    $containerBuilder->addDefinitions($this->registerQueryFactory());
-    $containerBuilder->addDefinitions($this->registerPdoWrapper());
-  }
-
-  public function registerQueryFactory(): array {
+  public function getDefinitions(): array {
     return [
       QueryFactory::class => function () {
         return new QueryFactory(new MySqlEngine());
       },
-    ];
-  }
-
-  public function registerPdoWrapper(): array {
-    return [
       PdoWrapper::class => function () {
         return (new PdoFactory())(
           (string) getenv("MYSQL_USER"),

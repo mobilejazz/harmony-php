@@ -3,8 +3,8 @@
 namespace Harmony\Core\Module\Kernel;
 
 use Exception;
-use Harmony\Core\Module\Symfony\Console\HarmonyCommand;
 use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\CommandLoader\FactoryCommandLoader;
 
 class ConsoleKernel extends Kernel {
@@ -19,7 +19,7 @@ class ConsoleKernel extends Kernel {
       $commandName = $command::getDefaultName();
 
       if (is_string($commandName)) {
-        $commands[$commandName] = function () use ($command): HarmonyCommand {
+        $commands[$commandName] = function () use ($command): Command {
           return new $command();
         };
       }

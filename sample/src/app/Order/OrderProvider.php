@@ -3,11 +3,11 @@
 namespace Sample\Order;
 
 use Harmony\Core\Module\Config\ProviderInterface;
-use Harmony\Core\Module\DI\ResolverInterface;
-use Harmony\Core\Module\Router\RouterConfiguratorInterface;
+use Harmony\Core\Module\Config\ResolverInterface;
+use Harmony\Core\Module\Router\RoutesInterface;
 
 class OrderProvider implements ProviderInterface {
-  public function getRouterConfig(): ?RouterConfiguratorInterface {
+  public function getRoutes(): ?RoutesInterface {
     return null;
   }
 

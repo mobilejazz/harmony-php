@@ -2,12 +2,11 @@
 
 namespace Sample\User;
 
-use DI\ContainerBuilder;
 use Harmony\Core\Data\DataSource\DataSourceMapper;
 use Harmony\Core\Data\RepositoryMapper;
 use Harmony\Core\Data\SingleDataSourceRepository;
 use Harmony\Core\Domain\Interactor\GetAllInteractor;
-use Harmony\Core\Module\DI\ResolverInterface;
+use Harmony\Core\Module\Config\ResolverInterface;
 use Harmony\Core\Module\Pdo\PdoWrapper;
 use Harmony\Core\Module\Sql\DataSource\RawSqlDataSource;
 use Harmony\Core\Module\Sql\Helper\SqlBuilder;
@@ -24,8 +23,8 @@ class UserResolver implements ResolverInterface {
   protected const KEY_USER_REPOSITORY = "Repository<User>";
   protected const KEY_USER_GET_ALL = "GetAllInteractor<User>";
 
-  public function register(ContainerBuilder $containerBuilder): void {
-    $containerBuilder->addDefinitions([
+  public function getDefinitions(): array {
+    return [
       self::KEY_USER_REPOSITORY => function (ContainerInterface $di) {
         $pdo = $di->get(PdoWrapper::class);
         $queryFactory = $di->get(QueryFactory::class);
@@ -65,6 +64,6 @@ class UserResolver implements ResolverInterface {
           $di->get(self::KEY_USER_GET_ALL),
         );
       },
-    ]);
+    ];
   }
 }

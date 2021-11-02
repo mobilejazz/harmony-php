@@ -2,11 +2,11 @@
 
 namespace Sample\Product\Command;
 
-use Harmony\Core\Module\Symfony\Console\HarmonyCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class TestCommand extends HarmonyCommand {
+class TestCommand extends Command {
   protected static $defaultName = "api:test";
 
   protected function execute(
@@ -14,6 +14,6 @@ class TestCommand extends HarmonyCommand {
     OutputInterface $output,
   ): int {
     $output->write("\nSome text output...\n");
-    return HarmonyCommand::SUCCESS;
+    return Command::SUCCESS;
   }
 }

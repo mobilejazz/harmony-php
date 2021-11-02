@@ -4,22 +4,24 @@ namespace Harmony\Core\Module\Kernel;
 
 use DI\Container;
 use DI\ContainerBuilder;
+use Exception;
 use Harmony\Core\Module\Config\Env\DotEnvPathsContainerInterface;
-use Harmony\Core\Module\Config\ProviderInterface;
 use Harmony\Core\Module\Config\ModulesToLoadInterface;
-use Harmony\Core\Module\Router\RouterConfiguratorInterface;
-use Harmony\Core\Module\Symfony\Console\HarmonyCommand;
+use Harmony\Core\Module\Config\ProviderInterface;
+use Harmony\Core\Module\Router\RoutesInterface;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\RequestContext;
+use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 
 class Kernel {
   /** @var ProviderInterface[] */
   protected array $modules = [];
-  /** @var class-string<HarmonyCommand>[] */
+  /** @var class-string<Command>[] */
   protected array $moduleCommands = [];
-  /** @var RouterConfiguratorInterface[] */
+  /** @var RoutesInterface[] */
   protected array $moduleRoutes = [];
 
   protected Container $diContainer;
@@ -66,14 +68,21 @@ class Kernel {
     }
   }
 
+  /**
+   * @throws Exception
+   */
   protected function loadDI(): void {
     $diBuilder = new ContainerBuilder();
 
     foreach ($this->modules as $module) {
       $resolver = $module->getResolver();
-      $resolver?->register($diBuilder);
+      $definitions = $resolver?->getDefinitions();
 
-      unset($resolver);
+      if ($definitions !== null) {
+        $diBuilder->addDefinitions($definitions);
+      }
+
+      unset($resolver, $definitions);
     }
 
     $this->diContainer = $diBuilder->build();
@@ -90,7 +99,7 @@ class Kernel {
 
   protected function loadRoutes(): void {
     foreach ($this->modules as $module) {
-      $moduleRoutes = $module->getRouterConfig();
+      $moduleRoutes = $module->getRouterConfigurator();
 
       if ($moduleRoutes !== null) {
         $this->moduleRoutes[] = $moduleRoutes;
@@ -104,11 +113,17 @@ class Kernel {
     $this->routes = new RouteCollection();
 
     foreach ($this->moduleRoutes as $moduleRouter) {
-      $moduleRouter($this->routes);
+      $routes = $moduleRouter->getRoutes();
+
+      foreach ($routes as $route) {
+        $symfonyRoute = new Route($route->uri, [
+          "_controller" => $route->controllerAction,
+        ]);
+        $this->routes->add($route->name, $symfonyRoute);
+      }
     }
 
     $this->context = new RequestContext();
-
     $this->urlGenerator = new UrlGenerator($this->routes, $this->context);
   }
 }

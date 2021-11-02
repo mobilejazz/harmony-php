@@ -2,16 +2,15 @@
 
 namespace Sample\Product;
 
-use Harmony\Core\Module\Router\RouterConfiguratorInterface;
+use Harmony\Core\Module\Router\Route;
+use Harmony\Core\Module\Router\RoutesInterface;
 use Sample\Product\Controller\ProductAction;
-use Symfony\Component\Routing\Route;
-use Symfony\Component\Routing\RouteCollection;
 
-class ProductRoutes implements RouterConfiguratorInterface {
-  public function __invoke(RouteCollection $router): void {
-    $route = new Route("/", [
-      "_controller" => ProductAction::class,
-    ]);
-    $router->add("product_index", $route);
+class ProductRoutes implements RoutesInterface {
+  /**
+   * @return Route[]
+   */
+  public function getRoutes(): array {
+    return [new Route("product_index", "/", ProductAction::class)];
   }
 }
