@@ -2,6 +2,7 @@
 
 namespace Harmony\Core\Module\Sql\DataSource;
 
+use Harmony\Core\Module\Pdo\Error\PdoConnectionNotReadyException;
 use Harmony\Core\Module\Sql\Helper\SqlBuilder;
 use Harmony\Core\Repository\DataSource\DeleteDataSource;
 use Harmony\Core\Repository\DataSource\GetDataSource;
@@ -94,24 +95,43 @@ class RawSqlDataSource implements
 
   /**
    * @psalm-suppress LessSpecificImplementedReturnType
+   *
    * @param Query      $query
    * @param mixed|null $entity
    *
    * @return mixed
-   * @throws QueryNotSupportedException
    */
   public function put(Query $query, mixed $entity = null): mixed {
     $id = $this->getId($query, $entity);
-    $sql = match (true) {
-      !is_null($id) => $this->sqlBuilder->updateById($id, $entity),
-      $query instanceof VoidQuery => $this->sqlBuilder->insert($entity),
-      // TODO add composed query!
-      default => throw new QueryNotSupportedException()
-    };
+    return $this->pdo->transaction([$this, "executePutQuery"], [$entity, $id]);
+  }
 
-    $this->pdo->execute($sql->sql(), $sql->params());
+  /**
+   * Method used as a callback
+   * $params = { entity, id }
+   *
+   * @param mixed $params
+   *
+   * @return object
+   * @throws DataNotFoundException
+   * @throws PdoConnectionNotReadyException
+   * @throws QueryNotSupportedException
+   */
+  public function executePutQuery(mixed $params): object {
+    $entity = $params[0];
+    $id = $params[1];
 
-    return $entity;
+    $isInsertion = empty($id);
+
+    if ($isInsertion) {
+      $sql = $this->sqlBuilder->insert($entity);
+      $id = $this->pdo->insert($sql->sql(), $sql->params());
+    } else {
+      $sql = $this->sqlBuilder->updateById($id, $entity);
+      $this->pdo->execute($sql->sql(), $sql->params());
+    }
+
+    return $this->get(new IdQuery($id));
   }
 
   public function getId(Query $query, mixed $entity = null): mixed {

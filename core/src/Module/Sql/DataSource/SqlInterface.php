@@ -20,12 +20,12 @@ interface SqlInterface {
   public function findAll(string $sql, array $params): array;
 
   /**
-   * @param string               $sql
-   * @param array<string, mixed> $params
+   * @param Callable $callback
+   * @param mixed    $params
    *
-   * @return bool
+   * @return mixed
    */
-  public function transaction(string $sql, array $params): bool;
+  public function transaction(callable $callback, mixed $params): mixed;
 
   /**
    * @param string               $sql

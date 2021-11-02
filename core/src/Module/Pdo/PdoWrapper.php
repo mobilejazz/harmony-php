@@ -56,19 +56,19 @@ class PdoWrapper implements SqlInterface {
   }
 
   /**
-   * @throws PdoConnectionNotReadyException
+   * @throws PdoConnectionNotReadyException|Exception
    */
-  public function transaction(string $sql, array $params): bool {
+  public function transaction(callable|array $callback, mixed $params): mixed {
     try {
       $this->startTransaction();
-      $result = $this->execute($sql, $params);
+      $result = call_user_func($callback, $params);
       $this->endTransaction();
     } catch (Exception $error) {
       $this->rollbackTransaction();
       throw $error;
     }
 
-    return (bool) $result;
+    return $result;
   }
 
   public function startTransaction(): void {
