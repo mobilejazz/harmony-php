@@ -8,12 +8,12 @@ use Harmony\Core\Data\DataSource\PutDataSource;
 use Harmony\Core\Data\Exception\DataNotFoundException;
 use Harmony\Core\Data\Exception\QueryNotSupportedException;
 use Harmony\Core\Data\Query\AllQuery;
+use Harmony\Core\Data\Query\Composed\ComposedQuery;
 use Harmony\Core\Data\Query\IdQuery;
 use Harmony\Core\Data\Query\KeyQuery;
 use Harmony\Core\Data\Query\Query;
 use Harmony\Core\Data\Query\VoidQuery;
 use Harmony\Core\Module\Sql\Helper\SqlBuilder;
-use Harmony\Core\Module\Sql\Query\ComposedSqlQuery;
 use InvalidArgumentException;
 
 /**
