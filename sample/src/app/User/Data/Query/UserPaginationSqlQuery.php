@@ -2,10 +2,10 @@
 
 namespace Sample\User\Data\Query;
 
-use Harmony\Core\Data\Query\Query;
+use Harmony\Core\Data\Query\Composed\PaginationOffsetLimitQuery;
 use Sample\User\Data\DataSource\Sql\UserSqlSchema;
 
-class UserPaginationSqlQuery implements Query {
+class UserPaginationSqlQuery implements PaginationOffsetLimitQuery {
   public function __construct(
     protected int $offset,
     protected int $limit,
