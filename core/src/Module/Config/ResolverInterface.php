@@ -6,5 +6,5 @@ interface ResolverInterface {
   /**
    * @return array<string, callable>
    */
-  public function getDefinitions(): array;
+  public function __invoke(): array;
 }

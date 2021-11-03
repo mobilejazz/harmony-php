@@ -8,7 +8,6 @@ use Exception;
 use Harmony\Core\Module\Config\Env\DotEnvPathsContainerInterface;
 use Harmony\Core\Module\Config\ModulesToLoadInterface;
 use Harmony\Core\Module\Config\ProviderInterface;
-use Harmony\Core\Module\Router\RoutesInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\Routing\Generator\UrlGenerator;
@@ -19,15 +18,16 @@ use Symfony\Component\Routing\RouteCollection;
 class Kernel {
   /** @var ProviderInterface[] */
   protected array $modules = [];
-  /** @var class-string<Command>[] */
-  protected array $moduleCommands = [];
-  /** @var RoutesInterface[] */
-  protected array $moduleRoutes = [];
 
   protected Container $diContainer;
-  protected RequestContext $context;
+
+  /** @var class-string<Command>[] */
+  protected array $commands = [];
+
   protected RouteCollection $routes;
   protected UrlGenerator $urlGenerator;
+
+  protected RequestContext $context;
 
   public function __construct(
     protected ?DotEnvPathsContainerInterface $dotEnvs = null,
@@ -37,7 +37,6 @@ class Kernel {
     $this->loadModules();
     $this->loadDI();
     $this->loadCommands();
-    $this->loadRoutes();
     $this->loadRouting();
   }
 
@@ -75,14 +74,10 @@ class Kernel {
     $diBuilder = new ContainerBuilder();
 
     foreach ($this->modules as $module) {
-      $resolver = $module->getResolver();
-      $definitions = $resolver?->getDefinitions();
+      $definitions = $module->getResolverDefinitions();
+      $diBuilder->addDefinitions($definitions);
 
-      if ($definitions !== null) {
-        $diBuilder->addDefinitions($definitions);
-      }
-
-      unset($resolver, $definitions);
+      unset($definitions);
     }
 
     $this->diContainer = $diBuilder->build();
@@ -91,29 +86,17 @@ class Kernel {
   protected function loadCommands(): void {
     foreach ($this->modules as $module) {
       $commands = $module->getCommands();
-      $this->moduleCommands += $commands;
+      $this->commands += $commands;
 
       unset($commands);
-    }
-  }
-
-  protected function loadRoutes(): void {
-    foreach ($this->modules as $module) {
-      $moduleRoutes = $module->getRouterConfigurator();
-
-      if ($moduleRoutes !== null) {
-        $this->moduleRoutes[] = $moduleRoutes;
-      }
-
-      unset($moduleRoutes);
     }
   }
 
   protected function loadRouting(): void {
     $this->routes = new RouteCollection();
 
-    foreach ($this->moduleRoutes as $moduleRouter) {
-      $routes = $moduleRouter->getRoutes();
+    foreach ($this->modules as $module) {
+      $routes = $module->getRoutes();
 
       foreach ($routes as $route) {
         $symfonyRoute = new Route($route->uri, [

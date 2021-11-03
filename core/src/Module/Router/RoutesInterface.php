@@ -6,5 +6,5 @@ interface RoutesInterface {
   /**
    * @return Route[]
    */
-  public function getRoutes(): array;
+  public function __invoke(): array;
 }

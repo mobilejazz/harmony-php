@@ -15,7 +15,7 @@ class ConsoleKernel extends Kernel {
   public function handleCommand(): int {
     $commands = [];
 
-    foreach ($this->moduleCommands as $command) {
+    foreach ($this->commands as $command) {
       $commandName = $command::getDefaultName();
 
       if (is_string($commandName)) {

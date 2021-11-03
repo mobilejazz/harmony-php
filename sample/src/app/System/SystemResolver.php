@@ -9,7 +9,7 @@ use Latitude\QueryBuilder\Engine\MySqlEngine;
 use Latitude\QueryBuilder\QueryFactory;
 
 class SystemResolver implements ResolverInterface {
-  public function getDefinitions(): array {
+  public function __invoke(): array {
     return [
       QueryFactory::class => function () {
         return new QueryFactory(new MySqlEngine());

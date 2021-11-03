@@ -38,7 +38,7 @@ class ProductResolver implements ResolverInterface {
   /**
    * @inheritDoc
    */
-  public function getDefinitions(): array {
+  public function __invoke(): array {
     return [
       self::KEY_PRODUCT_REPOSITORY => factory([
         self::class,

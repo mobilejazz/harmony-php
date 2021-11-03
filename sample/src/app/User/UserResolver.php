@@ -23,7 +23,7 @@ class UserResolver implements ResolverInterface {
   protected const KEY_USER_REPOSITORY = "Repository<User>";
   protected const KEY_USER_GET_ALL = "GetAllInteractor<User>";
 
-  public function getDefinitions(): array {
+  public function __invoke(): array {
     return [
       self::KEY_USER_REPOSITORY => function (ContainerInterface $di) {
         $pdo = $di->get(PdoWrapper::class);
