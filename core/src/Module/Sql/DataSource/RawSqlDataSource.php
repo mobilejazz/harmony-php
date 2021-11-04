@@ -27,8 +27,8 @@ class RawSqlDataSource implements
   PutDataSource,
   DeleteDataSource {
   /**
-   * @param SqlInterface            $pdo
-   * @param SqlBuilder            $sqlBuilder
+   * @param SqlInterface $pdo
+   * @param SqlBuilder   $sqlBuilder
    */
   public function __construct(
     protected SqlInterface $pdo,
@@ -38,6 +38,7 @@ class RawSqlDataSource implements
 
   /**
    * @psalm-suppress ImplementedReturnTypeMismatch
+   *
    * @param Query $query
    *
    * @return object
@@ -60,7 +61,7 @@ class RawSqlDataSource implements
 
     $item = $this->pdo->findOne($sql->sql(), $sql->params());
 
-    if (!isset($item)) {
+    if ($item === null) {
       throw new DataNotFoundException();
     }
 
@@ -69,6 +70,7 @@ class RawSqlDataSource implements
 
   /**
    * @psalm-suppress ImplementedReturnTypeMismatch
+   *
    * @param Query $query
    *
    * @return object[]
@@ -147,7 +149,8 @@ class RawSqlDataSource implements
 
   /**
    * @psalm-suppress MoreSpecificImplementedParamType
-   * @param Query      $query
+   *
+   * @param Query         $query
    * @param object[]|null $entities
    *
    * @return object[]
