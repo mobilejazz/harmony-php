@@ -5,7 +5,7 @@ namespace Harmony\Core\Module\Sql\DataSource;
 interface SqlInterface {
   /**
    * @param string               $sql
-   * @param array<string, mixed> $params
+   * @param array $params
    *
    * @return object|null
    */
@@ -13,11 +13,19 @@ interface SqlInterface {
 
   /**
    * @param string               $sql
-   * @param array<string, mixed> $params
+   * @param array $params
    *
    * @return object[]
    */
   public function findAll(string $sql, array $params): array;
+
+  /**
+   * @param string               $sql
+   * @param array<string, mixed> $params
+   *
+   * @return int|string
+   */
+  public function insert(string $sql, array $params): int|string;
 
   /**
    * @param Callable $callback
