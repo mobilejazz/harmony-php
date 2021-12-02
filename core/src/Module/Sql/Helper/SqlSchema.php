@@ -8,4 +8,6 @@ interface SqlSchema {
   public function getIdColumn(): string;
 
   public function getKeyColumn(): string;
+
+  public function getReturnClass(): ?string;
 }

@@ -30,7 +30,11 @@ class UserResolver implements ResolverInterface {
         $queryFactory = $di->get(QueryFactory::class);
 
         $sqlBuilder = new SqlBuilder(new UserSqlSchema(), $queryFactory);
-        $dataSource = new RawSqlDataSource($pdo, $sqlBuilder);
+        $dataSource = new RawSqlDataSource(
+          $pdo,
+          $sqlBuilder,
+          (new UserSqlSchema())->getReturnClass(),
+        );
 
         $dataSourceMapper = new DataSourceMapper(
           $dataSource,

@@ -24,4 +24,8 @@ class UserSqlSchema implements SqlSchema {
   public function getKeyColumn(): string {
     throw new MethodNotImplementedException();
   }
+
+  public function getReturnClass(): string {
+    return UserSqlData::class;
+  }
 }

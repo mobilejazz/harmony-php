@@ -22,7 +22,6 @@ class GetAllUsersByNameInteractor {
    */
   public function __invoke(int $offset, int $limit, string $userName): array {
     $query = new UserPaginationSqlQuery($offset, $limit, $userName);
-
     $items = ($this->getAllInteractor)($query);
 
     return $items;

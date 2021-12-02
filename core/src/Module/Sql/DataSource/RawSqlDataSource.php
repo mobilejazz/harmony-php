@@ -17,34 +17,29 @@ use Harmony\Core\Module\Sql\Helper\SqlBuilder;
 use InvalidArgumentException;
 
 /**
- * @implements GetDataSource<object>
- * @implements PutDataSource<object>
- * @implements DeleteDataSource<object>
+ * @template T
+ * @implements GetDataSource<T>
+ * @implements PutDataSource<T>
+ * @implements DeleteDataSource<T>
  */
 class RawSqlDataSource implements
   GetDataSource,
   PutDataSource,
   DeleteDataSource {
-  /**
-   * @param SqlInterface $pdo
-   * @param SqlBuilder   $sqlBuilder
-   */
   public function __construct(
     protected SqlInterface $pdo,
     protected SqlBuilder $sqlBuilder,
+    /** @var class-string<T> */
+    protected string $returnClass,
   ) {
   }
 
   /**
-   * @psalm-suppress ImplementedReturnTypeMismatch
-   *
-   * @param Query $query
-   *
-   * @return object
+   * @return T
    * @throws DataNotFoundException
    * @throws QueryNotSupportedException
    */
-  public function get(Query $query): object {
+  public function get(Query $query): mixed {
     $sql = match (true) {
       $query instanceof IdQuery => $this->sqlBuilder->selectById(
         $query->getId(),
@@ -58,7 +53,11 @@ class RawSqlDataSource implements
       default => throw new QueryNotSupportedException()
     };
 
-    $item = $this->pdo->findOne($sql->sql(), $sql->params());
+    $item = $this->pdo->findOne(
+      $sql->sql(),
+      $sql->params(),
+      $this->returnClass,
+    );
 
     if (!isset($item) || !is_object($item)) {
       throw new DataNotFoundException();
@@ -68,11 +67,7 @@ class RawSqlDataSource implements
   }
 
   /**
-   * @psalm-suppress ImplementedReturnTypeMismatch
-   *
-   * @param Query $query
-   *
-   * @return object[]
+   * @return T[]
    * @throws DataNotFoundException
    * @throws QueryNotSupportedException
    */
@@ -85,7 +80,11 @@ class RawSqlDataSource implements
       default => throw new QueryNotSupportedException()
     };
 
-    $items = $this->pdo->findAll($sql->sql(), $sql->params());
+    $items = $this->pdo->findAll(
+      $sql->sql(),
+      $sql->params(),
+      $this->returnClass,
+    );
 
     if (empty($items)) {
       throw new DataNotFoundException();
@@ -95,12 +94,10 @@ class RawSqlDataSource implements
   }
 
   /**
-   * @psalm-suppress LessSpecificImplementedReturnType
+   * @param Query  $query
+   * @param T|null $entity
    *
-   * @param Query      $query
-   * @param mixed|null $entity
-   *
-   * @return mixed
+   * @return T
    * @throws QueryNotSupportedException
    */
   public function put(Query $query, mixed $entity = null): mixed {
@@ -119,12 +116,10 @@ class RawSqlDataSource implements
   }
 
   /**
-   * @psalm-suppress MoreSpecificImplementedParamType
+   * @param Query    $query
+   * @param T[]|null $entities
    *
-   * @param Query         $query
-   * @param object[]|null $entities
-   *
-   * @return object[]
+   * @return T[]
    * @throws QueryNotSupportedException
    */
   public function putAll(Query $query, array $entities = null): array {

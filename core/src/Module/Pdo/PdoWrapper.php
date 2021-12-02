@@ -7,7 +7,6 @@ use Harmony\Core\Module\Pdo\Exception\PdoConnectionNotReadyException;
 use Harmony\Core\Module\Pdo\Exception\PdoFetchAllException;
 use Harmony\Core\Module\Sql\DataSource\SqlInterface;
 use PDO;
-use PDOStatement;
 
 /**
  * @link     https://phpdelusions.net/pdo
@@ -20,8 +19,12 @@ class PdoWrapper implements SqlInterface {
   /**
    * @throws PdoConnectionNotReadyException
    */
-  public function findOne(string $sql, array $params): ?object {
-    $query = $this->execute($sql, $params);
+  public function findOne(
+    string $sql,
+    array $params,
+    string $returnClass = null,
+  ): ?object {
+    $query = $this->execute($sql, $params, $returnClass);
     return $query->fetch();
   }
 
@@ -29,9 +32,21 @@ class PdoWrapper implements SqlInterface {
    * @throws PdoConnectionNotReadyException
    * @throws PdoFetchAllException
    */
-  public function findAll(string $sql, array $params): array {
+  public function findAll(
+    string $sql,
+    array $params,
+    string $returnClass = null,
+  ): array {
     $query = $this->execute($sql, $params);
-    $items = $query->fetchAll();
+
+    if ($returnClass) {
+      $items = $query->fetchAll(
+        PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE,
+        $returnClass,
+      );
+    } else {
+      $items = $query->fetchAll();
+    }
 
     if ($items === false) {
       throw new PdoFetchAllException();
@@ -80,8 +95,19 @@ class PdoWrapper implements SqlInterface {
   /**
    * @throws PdoConnectionNotReadyException
    */
-  public function execute(string $sql, array $params): mixed {
+  public function execute(
+    string $sql,
+    array $params,
+    string $returnClass = null,
+  ): mixed {
     $query = $this->pdoConnection->prepare($sql);
+
+    if ($returnClass) {
+      $query->setFetchMode(
+        PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE,
+        $returnClass,
+      );
+    }
 
     if (empty($query)) {
       throw new PdoConnectionNotReadyException();
