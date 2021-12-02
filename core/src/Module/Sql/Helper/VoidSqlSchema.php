@@ -2,7 +2,7 @@
 
 namespace Harmony\Core\Module\Sql\Helper;
 
-use Harmony\Core\Shared\Error\MethodNotImplementedException;
+use Harmony\Core\Domain\Exception\MethodNotImplementedException;
 
 class VoidSqlSchema implements SqlSchema {
   /**
@@ -23,6 +23,13 @@ class VoidSqlSchema implements SqlSchema {
    * @throws MethodNotImplementedException
    */
   public function getKeyColumn(): string {
+    throw new MethodNotImplementedException();
+  }
+
+  /**
+   * @throws MethodNotImplementedException
+   */
+  public function getReturnClass(): ?string {
     throw new MethodNotImplementedException();
   }
 }
