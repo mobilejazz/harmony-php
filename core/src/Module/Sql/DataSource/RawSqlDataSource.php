@@ -30,7 +30,7 @@ class RawSqlDataSource implements
     protected SqlInterface $pdo,
     protected SqlBuilder $sqlBuilder,
     /** @var class-string<T> */
-    protected string $returnClass,
+    protected string $genericClass,
   ) {
   }
 
@@ -56,7 +56,7 @@ class RawSqlDataSource implements
     $item = $this->pdo->findOne(
       $sql->sql(),
       $sql->params(),
-      $this->returnClass,
+      $this->genericClass,
     );
 
     if (!isset($item) || !is_object($item)) {
@@ -83,7 +83,7 @@ class RawSqlDataSource implements
     $items = $this->pdo->findAll(
       $sql->sql(),
       $sql->params(),
-      $this->returnClass,
+      $this->genericClass,
     );
 
     if (empty($items)) {

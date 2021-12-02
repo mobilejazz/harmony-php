@@ -23,9 +23,7 @@ class InMemoryDataSource implements
   protected $entities = [];
 
   /**
-   * @psalm-param class-string<T> $genericClass
-   *
-   * @param string                $genericClass
+   * @param class-string<T> $genericClass
    */
   public function __construct(protected string $genericClass) {
   }

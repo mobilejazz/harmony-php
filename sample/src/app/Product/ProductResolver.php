@@ -2,7 +2,6 @@
 
 namespace Sample\Product;
 
-use Harmony\Core\Data\DataSource\DataSourceMapper;
 use Harmony\Core\Data\DataSource\InMemoryDataSource;
 use Harmony\Core\Data\RepositoryMapper;
 use Harmony\Core\Data\SingleDataSourceRepository;
@@ -12,15 +11,8 @@ use Harmony\Core\Domain\Interactor\GetInteractor;
 use Harmony\Core\Domain\Interactor\PutAllInteractor;
 use Harmony\Core\Domain\Interactor\PutInteractor;
 use Harmony\Core\Module\Config\ResolverInterface;
-use Harmony\Core\Module\Pdo\PdoWrapper;
-use Harmony\Core\Module\Sql\DataSource\RawSqlDataSource;
-use Harmony\Core\Module\Sql\Helper\SqlBuilder;
-use Latitude\QueryBuilder\QueryFactory;
 use Psr\Container\ContainerInterface;
 use Sample\Product\Controller\ProductAction;
-use Sample\Product\Data\DataSource\Sql\Mapper\ProductEntityToSqlDataMapper;
-use Sample\Product\Data\DataSource\Sql\Mapper\ProductSqlDataToEntityMapper;
-use Sample\Product\Data\DataSource\Sql\ProductSqlSchema;
 use Sample\Product\Data\Entity\ProductEntity;
 use Sample\Product\Data\Mapper\ProductEntityToProductMapper;
 use Sample\Product\Data\Mapper\ProductToProductEntityMapper;
@@ -99,42 +91,6 @@ class ProductResolver implements ResolverInterface {
       $productInMemoryDataSource,
       $productInMemoryDataSource,
       $productInMemoryDataSource,
-    );
-
-    $productRepositoryMapper = new RepositoryMapper(
-      $productRepository,
-      $productRepository,
-      $productRepository,
-      new ProductToProductEntityMapper(),
-      new ProductEntityToProductMapper(),
-    );
-
-    return $productRepositoryMapper;
-  }
-
-  /**
-   * @todo
-   */
-  public function factoryRepositorySql(
-    PdoWrapper $pdo,
-    QueryFactory $queryFactory,
-  ): RepositoryMapper {
-    $sqlBuilder = new SqlBuilder(new ProductSqlSchema(), $queryFactory);
-
-    $dataSource = new RawSqlDataSource($pdo, $sqlBuilder);
-
-    $dataSourceMapper = new DataSourceMapper(
-      $dataSource,
-      $dataSource,
-      $dataSource,
-      new ProductEntityToSqlDataMapper(),
-      new ProductSqlDataToEntityMapper(),
-    );
-
-    $productRepository = new SingleDataSourceRepository(
-      $dataSourceMapper,
-      $dataSourceMapper,
-      $dataSourceMapper,
     );
 
     $productRepositoryMapper = new RepositoryMapper(
