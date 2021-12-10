@@ -166,7 +166,7 @@ class RawSqlDataSource implements
       default => throw new QueryNotSupportedException()
     };
 
-    $this->pdo->transaction($sql->sql(), $sql->params());
+    $this->pdo->execute($sql->sql(), $sql->params());
 
     return $entities;
   }
@@ -184,6 +184,6 @@ class RawSqlDataSource implements
       default => throw new QueryNotSupportedException()
     };
 
-    $this->pdo->transaction($sql->sql(), $sql->params());
+    $this->pdo->execute($sql->sql(), $sql->params());
   }
 }
