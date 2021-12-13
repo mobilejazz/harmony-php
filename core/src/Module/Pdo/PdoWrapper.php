@@ -2,6 +2,7 @@
 
 namespace Harmony\Core\Module\Pdo;
 
+use DateTime;
 use Exception;
 use Harmony\Core\Module\Pdo\Error\PdoConnectionNotReadyException;
 use Harmony\Core\Module\Pdo\Error\PdoFetchAllException;
@@ -39,7 +40,7 @@ class PdoWrapper implements SqlInterface {
    * @param string $sql
    * @param array<string, mixed> $params
    *
-   * @return array
+   * @return array<object>
    * @throws PdoConnectionNotReadyException
    * @throws PdoFetchAllException
    */
@@ -101,7 +102,7 @@ class PdoWrapper implements SqlInterface {
    * @return PDOStatement
    * @throws PdoConnectionNotReadyException
    */
-  public function execute(string $sql, array $params): PDOStatement {
+  public function execute(string $sql, array $params): mixed {
     $query = $this->pdoConnection->prepare($sql);
 
     if (empty($query)) {
@@ -116,17 +117,21 @@ class PdoWrapper implements SqlInterface {
   }
 
   /**
-   * @param string $sql_string
+   * @param string                    $sql_template
    * @param array<string, mixed>|null $params
    *
-   * @return string
+   * @return string|null
    */
-  public function sql_debug(string $sql_string, array $params = null): string {
+  public function sql_debug(
+    string $sql_template,
+    array $params = null
+  ): ?string {
+    $new_sql_string = $sql_template;
     if (!empty($params)) {
       $indexed = $params == array_values($params);
       foreach ($params as $k => $v) {
         if (is_object($v)) {
-          if ($v instanceof \DateTime) {
+          if ($v instanceof DateTime) {
             $v = $v->format("Y-m-d H:i:s");
           } else {
             continue;
@@ -140,15 +145,15 @@ class PdoWrapper implements SqlInterface {
         }
 
         if ($indexed) {
-          $sql_string = preg_replace("/\?/", $v, $sql_string, 1);
+          $new_sql_string = preg_replace("/\?/", $v, $sql_template, 1);
         } else {
           if ($k[0] != ":") {
             $k = ":" . $k;
           } //add leading colon if it was left out
-          $sql_string = str_replace($k, $v, $sql_string);
+          $new_sql_string = str_replace($k, $v, $sql_template);
         }
       }
     }
-    return $sql_string;
+    return $new_sql_string;
   }
 }
