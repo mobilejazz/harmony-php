@@ -7,6 +7,7 @@ use Harmony\Core\Module\Pdo\Error\PdoConnectionNotReadyException;
 use Harmony\Core\Module\Pdo\Error\PdoFetchAllException;
 use Harmony\Core\Module\Sql\DataSource\SqlInterface;
 use PDO;
+use PDOStatement;
 
 /**
  * @link https://phpdelusions.net/pdo
@@ -17,6 +18,10 @@ class PdoWrapper implements SqlInterface {
   }
 
   /**
+   * @param string $sql
+   * @param array<string, mixed> $params
+   *
+   * @return object|null
    * @throws PdoConnectionNotReadyException
    */
   public function findOne(string $sql, array $params): ?object {
@@ -31,6 +36,10 @@ class PdoWrapper implements SqlInterface {
   }
 
   /**
+   * @param string $sql
+   * @param array<string, mixed> $params
+   *
+   * @return array
    * @throws PdoConnectionNotReadyException
    * @throws PdoFetchAllException
    */
@@ -46,6 +55,10 @@ class PdoWrapper implements SqlInterface {
   }
 
   /**
+   * @param string $sql
+   * @param array<string, mixed> $params
+   *
+   * @return int|string
    * @throws PdoConnectionNotReadyException
    */
   public function insert(string $sql, array $params): int|string {
@@ -82,9 +95,13 @@ class PdoWrapper implements SqlInterface {
   }
 
   /**
+   * @param string $sql
+   * @param array<string, mixed>  $params
+   *
+   * @return PDOStatement
    * @throws PdoConnectionNotReadyException
    */
-  public function execute(string $sql, array $params): mixed {
+  public function execute(string $sql, array $params): PDOStatement {
     $query = $this->pdoConnection->prepare($sql);
 
     if (empty($query)) {
@@ -98,7 +115,13 @@ class PdoWrapper implements SqlInterface {
     return $query;
   }
 
-  public function sql_debug($sql_string, array $params = null) {
+  /**
+   * @param string $sql_string
+   * @param array<string, mixed>|null $params
+   *
+   * @return string
+   */
+  public function sql_debug(string $sql_string, array $params = null): string {
     if (!empty($params)) {
       $indexed = $params == array_values($params);
       foreach ($params as $k => $v) {

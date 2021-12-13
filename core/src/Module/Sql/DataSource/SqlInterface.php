@@ -5,7 +5,7 @@ namespace Harmony\Core\Module\Sql\DataSource;
 interface SqlInterface {
   /**
    * @param string               $sql
-   * @param array $params
+   * @param array<string, mixed> $params
    *
    * @return object|null
    */
@@ -13,7 +13,7 @@ interface SqlInterface {
 
   /**
    * @param string               $sql
-   * @param array $params
+   * @param array<string, mixed> $params
    *
    * @return object[]
    */

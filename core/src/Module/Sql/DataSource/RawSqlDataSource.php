@@ -136,13 +136,18 @@ class RawSqlDataSource implements
     return $this->get(new IdQuery($id));
   }
 
+  /**
+   * @param Query      $query
+   * @param mixed|null $entity
+   *
+   * @return mixed
+   */
   public function getId(Query $query, mixed $entity = null): mixed {
     $id = null;
-    $idCol = SocialPalsSqlSchema::DEFAULT_COLUMN_ID;
     if ($query instanceof IdQuery) {
       $id = $query->getId();
-    } elseif ($entity->$idCol) {
-      $id = $entity->$idCol;
+    } elseif ($query instanceof KeyQuery) {
+      $id = $entity->getKey();
     }
     return $id;
   }
