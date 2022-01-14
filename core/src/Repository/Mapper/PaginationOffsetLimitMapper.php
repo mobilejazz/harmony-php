@@ -21,7 +21,7 @@ class PaginationOffsetLimitMapper implements Mapper {
    * @return PaginationOffsetLimit<TTo>
    */
   public function map(mixed $from): PaginationOffsetLimit {
-    return new PaginationOffsetLimit(
+    $pagination = new PaginationOffsetLimit(
       array_map(function ($value) {
         return $this->mapper->map($value);
       }, $from->values),
@@ -29,5 +29,7 @@ class PaginationOffsetLimitMapper implements Mapper {
       $from->limit,
       $from->size,
     );
+
+    return $pagination;
   }
 }
