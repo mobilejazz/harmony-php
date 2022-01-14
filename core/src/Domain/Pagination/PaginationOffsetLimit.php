@@ -3,6 +3,7 @@
 namespace Harmony\Core\Domain\Pagination;
 
 /**
+ * @psalm-immutable
  * @template T
  * @extends Pagination<T>
  */
