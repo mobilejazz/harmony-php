@@ -16,7 +16,6 @@ use Harmony\Core\Repository\Query\KeyQuery;
 use Harmony\Core\Repository\Query\Query;
 use Harmony\Core\Repository\Query\VoidQuery;
 use InvalidArgumentException;
-use socialPALS\System\Data\DataSource\SocialPalsSqlSchema;
 
 /**
  * @implements GetDataSource<object>
@@ -116,7 +115,6 @@ class RawSqlDataSource implements
    *
    * @return object
    * @throws DataNotFoundException
-   * @throws PdoConnectionNotReadyException
    * @throws QueryNotSupportedException
    */
   public function executePutQuery(mixed $params): object {

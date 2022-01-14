@@ -115,45 +115,4 @@ class PdoWrapper implements SqlInterface {
 
     return $query;
   }
-
-  /**
-   * @param string                    $sql_template
-   * @param array<string, mixed>|null $params
-   *
-   * @return string|null
-   */
-  public function sql_debug(
-    string $sql_template,
-    array $params = null
-  ): ?string {
-    $new_sql_string = $sql_template;
-    if (!empty($params)) {
-      $indexed = $params == array_values($params);
-      foreach ($params as $k => $v) {
-        if (is_object($v)) {
-          if ($v instanceof DateTime) {
-            $v = $v->format("Y-m-d H:i:s");
-          } else {
-            continue;
-          }
-        } elseif (is_string($v)) {
-          $v = "'$v'";
-        } elseif ($v === null) {
-          $v = "NULL";
-        } elseif (is_array($v)) {
-          $v = implode(",", $v);
-        }
-
-        if ($indexed) {
-          $new_sql_string = preg_replace("/\?/", $v, $sql_template, 1);
-        } else {
-          if ($k[0] != ":") {
-            $k = ":" . $k;
-          } //add leading colon if it was left out
-          $new_sql_string = str_replace($k, $v, $sql_template);
-        }
-      }
-    }
-    return $new_sql_string;
-  }
 }
