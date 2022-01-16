@@ -28,12 +28,12 @@ interface SqlInterface {
   public function insert(string $sql, array $params): int|string;
 
   /**
-   * @param Callable $callback
-   * @param mixed    $params
+   * @param string $sql
+   * @param mixed  $params
    *
    * @return mixed
    */
-  public function transaction(callable $callback, mixed $params): mixed;
+  public function transaction(string $sql, array $params): bool;
 
   /**
    * @param string               $sql

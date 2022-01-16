@@ -2,7 +2,6 @@
 
 namespace Harmony\Core\Module\Sql\DataSource;
 
-use Harmony\Core\Module\Pdo\Error\PdoConnectionNotReadyException;
 use Harmony\Core\Module\Sql\Helper\SqlBuilder;
 use Harmony\Core\Repository\DataSource\DeleteDataSource;
 use Harmony\Core\Repository\DataSource\GetDataSource;
@@ -101,26 +100,11 @@ class RawSqlDataSource implements
    * @param mixed|null $entity
    *
    * @return mixed
-   */
-  public function put(Query $query, mixed $entity = null): mixed {
-    $id = $this->getId($query, $entity);
-    return $this->pdo->transaction([$this, "executePutQuery"], [$entity, $id]);
-  }
-
-  /**
-   * Method used as a callback
-   * $params = { entity, id }
-   *
-   * @param mixed $params
-   *
-   * @return object
    * @throws DataNotFoundException
    * @throws QueryNotSupportedException
    */
-  public function executePutQuery(mixed $params): object {
-    $entity = $params[0];
-    $id = $params[1];
-
+  public function put(Query $query, mixed $entity = null): mixed {
+    $id = $this->getId($query, $entity);
     $isInsertion = empty($id);
 
     if ($isInsertion) {
@@ -144,8 +128,8 @@ class RawSqlDataSource implements
     $id = null;
     if ($query instanceof IdQuery) {
       $id = $query->getId();
-    } elseif ($query instanceof KeyQuery) {
-      $id = $entity->getKey();
+    } elseif ($entity->id) {
+      $id = $entity->id;
     }
     return $id;
   }
