@@ -29,9 +29,9 @@ interface SqlInterface {
 
   /**
    * @param string $sql
-   * @param mixed  $params
+   * @param array<string, mixed> $params
    *
-   * @return mixed
+   * @return bool
    */
   public function transaction(string $sql, array $params): bool;
 

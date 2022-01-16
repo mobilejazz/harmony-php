@@ -2,7 +2,6 @@
 
 namespace Harmony\Core\Module\Pdo;
 
-use DateTime;
 use Exception;
 use Harmony\Core\Module\Pdo\Error\PdoConnectionNotReadyException;
 use Harmony\Core\Module\Pdo\Error\PdoFetchAllException;
@@ -68,6 +67,10 @@ class PdoWrapper implements SqlInterface {
   }
 
   /**
+   * @param string $sql
+   * @param array<string, mixed> $params
+   *
+   * @return bool
    * @throws PdoConnectionNotReadyException
    */
   public function transaction(string $sql, array $params): bool {
@@ -80,7 +83,7 @@ class PdoWrapper implements SqlInterface {
       throw $error;
     }
 
-    return $result;
+    return (bool) $result;
   }
 
   public function startTransaction(): void {
@@ -102,7 +105,7 @@ class PdoWrapper implements SqlInterface {
    * @return PDOStatement
    * @throws PdoConnectionNotReadyException
    */
-  public function execute(string $sql, array $params): mixed {
+  public function execute(string $sql, array $params): PDOStatement {
     $query = $this->pdoConnection->prepare($sql);
 
     if (empty($query)) {
