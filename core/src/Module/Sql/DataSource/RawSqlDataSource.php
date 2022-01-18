@@ -128,7 +128,7 @@ class RawSqlDataSource implements
     $id = null;
     if ($query instanceof IdQuery) {
       $id = $query->getId();
-    } elseif ($entity->id) {
+    } elseif ($entity?->id) {
       $id = $entity->id;
     }
     return $id;
