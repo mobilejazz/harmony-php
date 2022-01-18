@@ -7,11 +7,15 @@ source "${HELPERS_DIR}"/functions.sh
 
 logo
 
-# Host User and Group Id to avoid permissions problems
-DOCKER_PHP_USER_ID=$(id -u)
-#DOCKER_PHP_GROUP_ID=1000
-# We can't use the Group ID on Mac OS
-DOCKER_PHP_GROUP_ID=$(id -g)
+# Mac OS
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    DOCKER_PHP_GROUP_ID=1000
+    DOCKER_PHP_USER_ID=1000
+else
+    # Host User and Group Id to avoid permissions problems
+    DOCKER_PHP_GROUP_ID=$(id -g)
+    DOCKER_PHP_USER_ID=$(id -u)
+fi
 
 # Re-Build Dockerfile
 docker_compose down
