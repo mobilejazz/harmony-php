@@ -20,7 +20,7 @@ class ProductModule {
   protected const KEY_PRODUCT_REPOSITORY = "ProductRepository";
 
   /** @var array<string, mixed> */
-  protected $di_container = [];
+  protected array $di_container = [];
 
   /**
    * @return RepositoryMapper<Product, ProductEntity>

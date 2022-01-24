@@ -47,31 +47,35 @@ class SqlBuilder {
     return $query;
   }
 
-  public function selectAll(
-    ?int $offset = null,
-    ?int $limit = null
-  ): Query {
-    $factory = $this->factory
-      ->select()
-      ->from($this->schema->getTableName());
+  public function selectAll(?int $offset = null, ?int $limit = null): Query {
+    $factory = $this->factory->select()->from($this->schema->getTableName());
 
-    if (
-      $offset !== null
-      && $limit !== null
-    ) {
+    if ($offset !== null && $limit !== null) {
       $factory->offset($offset);
       $factory->limit($limit);
     }
 
     $query = $factory->compile();
+    return $query;
+  }
 
+  public function selectComposed(ComposedQuery $composed): Query {
+    $factory = $this->factory->select()->from($this->schema->getTableName());
+
+    if ($composed instanceof WhereQuery) {
+      $wheres = $composed->where();
+
+      foreach ($wheres as $column => $value) {
+        $factory->andWhere(field($column)->eq($value));
+      }
+    }
+
+    $query = $factory->compile();
     return $query;
   }
 
   public function selectAllComposed(ComposedQuery $composed): Query {
-    $factory = $this->factory
-      ->select()
-      ->from($this->schema->getTableName());
+    $factory = $this->factory->select()->from($this->schema->getTableName());
 
     if ($composed instanceof PaginationOffsetLimitQuery) {
       $factory->offset($composed->offset());
@@ -79,7 +83,7 @@ class SqlBuilder {
     }
 
     if ($composed instanceof OrderByQuery) {
-      $ascending = $composed->ascending() ? 'ASC' : 'DESC';
+      $ascending = $composed->ascending() ? "ASC" : "DESC";
       $factory->orderBy($composed->orderBy(), $ascending);
       unset($ascending);
     }
@@ -88,7 +92,7 @@ class SqlBuilder {
       $wheres = $composed->where();
 
       foreach ($wheres as $column => $value) {
-        $factory->where(field($column)->eq($value));
+        $factory->andWhere(field($column)->eq($value));
       }
     }
 
@@ -100,10 +104,7 @@ class SqlBuilder {
     $values = (array) $entity;
 
     $query = $this->factory
-      ->update(
-        $this->schema->getTableName(),
-        $values
-      )
+      ->update($this->schema->getTableName(), $values)
       ->where(field($this->schema->getIdColumn())->eq($id))
       ->compile();
 
@@ -126,8 +127,7 @@ class SqlBuilder {
    * @return Query
    */
   public function multiInsert(array $entities): Query {
-    $factory = $this->factory
-      ->insert($this->schema->getTableName());
+    $factory = $this->factory->insert($this->schema->getTableName());
 
     foreach ($entities as $entity) {
       $values = (array) $entity;
@@ -135,7 +135,6 @@ class SqlBuilder {
     }
 
     $query = $factory->compile();
-
     return $query;
   }
 

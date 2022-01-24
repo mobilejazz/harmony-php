@@ -23,6 +23,14 @@ interface SqlInterface {
    * @param string               $sql
    * @param array<string, mixed> $params
    *
+   * @return int|string
+   */
+  public function insert(string $sql, array $params): int|string;
+
+  /**
+   * @param string $sql
+   * @param array<string, mixed> $params
+   *
    * @return bool
    */
   public function transaction(string $sql, array $params): bool;
