@@ -2,7 +2,7 @@
 
 namespace App\Tests\Sample\Product\Domain;
 
-use Harmony\Core\Repository\Operation\DefaultOperation;
+use Harmony\Core\Repository\Error\DataNotFoundException;
 use Harmony\Core\Repository\Query\AllQuery;
 use Harmony\Core\Repository\Query\KeyQuery;
 use JetBrains\PhpStorm\Pure;
@@ -43,13 +43,13 @@ class ProductInteractorsTest extends TestCase {
   function putProduct(Product $product): Product {
     $query = new KeyQuery((string) $product->getId());
 
-    return $this->productProvider->getPutInteractor()($query, new DefaultOperation(), $product);
+    return $this->productProvider->getPutInteractor()($product, $query);
   }
 
   function putProducts(array $products): array {
     $query = new AllQuery();
 
-    return $this->productProvider->getPutAllInteractor()($query, new DefaultOperation(), $products);
+    return $this->productProvider->getPutAllInteractor()($products, $query);
   }
 
   function testPutProductInteractor() {
@@ -65,9 +65,8 @@ class ProductInteractorsTest extends TestCase {
 
     $queryGet = new KeyQuery((string) $productSaved->getId());
 
-    $productGetted = $this->productProvider->getGetInteractor()(
+    $this->productProvider->getGetInteractor()(
       $queryGet,
-      new DefaultOperation(),
     );
 
     $this->assertEquals($productSaved->getName(), $product->getName());
@@ -85,17 +84,16 @@ class ProductInteractorsTest extends TestCase {
     $productsSaved = $this->putProducts($products);
 
     $getQuery = new AllQuery();
-    $productsGetted = $this->productProvider->getGetAllInteractor()(
+    $allProducts = $this->productProvider->getGetAllInteractor()(
       $getQuery,
-      new DefaultOperation(),
     );
 
-    $this->assertEquals($productsSaved, $productsGetted);
+    $this->assertEquals($productsSaved, $allProducts);
   }
 
   function testDeleteProductInteractor() {
     $this->expectException(
-      \Harmony\Core\Repository\Error\DataNotFoundException::class,
+      DataNotFoundException::class,
     );
 
     $product = $this->getProductOne();
@@ -104,13 +102,11 @@ class ProductInteractorsTest extends TestCase {
     $queryDelete = new KeyQuery((string) $productSaved->getId());
     $this->productProvider->getDeleteInteractor()(
       $queryDelete,
-      new DefaultOperation(),
     );
 
     $queryGet = new KeyQuery((string) $productSaved->getId());
     $this->productProvider->getGetInteractor()(
       $queryGet,
-      new DefaultOperation(),
     );
   }
 }

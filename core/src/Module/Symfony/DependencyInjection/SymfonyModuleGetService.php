@@ -6,9 +6,6 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ReferenceConfigura
 // @phpstan-ignore-next-line
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
-/**
- * @psalm-suppress UndefinedFunction
- */
 trait SymfonyModuleGetService {
   protected function getService(string $serviceName): ReferenceConfigurator {
     return service($serviceName);

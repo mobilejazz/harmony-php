@@ -9,11 +9,12 @@ use Harmony\Core\Shared\Error\MethodNotImplementedException;
  * @template TTo
  * @implements Mapper<TFrom, TTo>
  */
-Class VoidMapper implements Mapper {
-    /**
-     * @inheritdoc
-     */
-    public function map(mixed $from) {
-        throw new MethodNotImplementedException();
-    }
+class VoidMapper implements Mapper {
+  /**
+   * @inheritdoc
+   * @throws MethodNotImplementedException
+   */
+  public function map(mixed $from) {
+    throw new MethodNotImplementedException();
+  }
 }

@@ -2,10 +2,10 @@
 
 namespace Harmony\Core\Module\Sql\Helper;
 
-use Harmony\Core\Module\Sql\Query\ComposedSqlQuery;
-use Harmony\Core\Module\Sql\Query\OrderBySqlQuery;
-use Harmony\Core\Module\Sql\Query\PaginationSqlQuery;
-use Harmony\Core\Module\Sql\Query\WhereSqlQuery;
+use Harmony\Core\Repository\Query\Composed\ComposedQuery;
+use Harmony\Core\Repository\Query\Composed\OrderByQuery;
+use Harmony\Core\Repository\Query\Composed\PaginationOffsetLimitQuery;
+use Harmony\Core\Repository\Query\Composed\WhereQuery;
 use Latitude\QueryBuilder\Query;
 use Latitude\QueryBuilder\QueryFactory;
 use function Latitude\QueryBuilder\field;
@@ -47,64 +47,64 @@ class SqlBuilder {
     return $query;
   }
 
-  public function selectAll(
-    ?int $offset = null,
-    ?int $limit = null
-  ): Query {
-    $factory = $this->factory
-      ->select()
-      ->from($this->schema->getTableName());
+  public function selectAll(?int $offset = null, ?int $limit = null): Query {
+    $factory = $this->factory->select()->from($this->schema->getTableName());
 
-    if (
-      $offset !== null
-      && $limit !== null
-    ) {
+    if ($offset !== null && $limit !== null) {
       $factory->offset($offset);
       $factory->limit($limit);
     }
 
     $query = $factory->compile();
-
     return $query;
   }
 
-  public function selectAllComposed(ComposedSqlQuery $composed): Query {
-    $factory = $this->factory
-      ->select()
-      ->from($this->schema->getTableName());
+  public function selectComposed(ComposedQuery $composed): Query {
+    $factory = $this->factory->select()->from($this->schema->getTableName());
 
-    if ($composed instanceof PaginationSqlQuery) {
+    if ($composed instanceof WhereQuery) {
+      $wheres = $composed->where();
+
+      foreach ($wheres as $column => $value) {
+        $factory->andWhere(field($column)->eq($value));
+      }
+    }
+
+    $query = $factory->compile();
+    return $query;
+  }
+
+  public function selectAllComposed(ComposedQuery $composed): Query {
+    $factory = $this->factory->select()->from($this->schema->getTableName());
+
+    if ($composed instanceof PaginationOffsetLimitQuery) {
       $factory->offset($composed->offset());
       $factory->limit($composed->limit());
     }
 
-    if ($composed instanceof OrderBySqlQuery) {
-      $ascending = $composed->ascending() ? 'ASC' : 'DESC';
+    if ($composed instanceof OrderByQuery) {
+      $ascending = $composed->ascending() ? "ASC" : "DESC";
       $factory->orderBy($composed->orderBy(), $ascending);
       unset($ascending);
     }
 
-    if ($composed instanceof WhereSqlQuery) {
+    if ($composed instanceof WhereQuery) {
       $wheres = $composed->where();
 
       foreach ($wheres as $column => $value) {
-        $factory->where(field($column)->eq($value));
+        $factory->andWhere(field($column)->eq($value));
       }
     }
 
-    $composed = $factory->compile();
-
-    return $composed;
+    $query = $factory->compile();
+    return $query;
   }
 
   public function updateById(mixed $id, mixed $entity): Query {
     $values = (array) $entity;
 
     $query = $this->factory
-      ->update(
-        $this->schema->getTableName(),
-        $values
-      )
+      ->update($this->schema->getTableName(), $values)
       ->where(field($this->schema->getIdColumn())->eq($id))
       ->compile();
 
@@ -127,8 +127,7 @@ class SqlBuilder {
    * @return Query
    */
   public function multiInsert(array $entities): Query {
-    $factory = $this->factory
-      ->insert($this->schema->getTableName());
+    $factory = $this->factory->insert($this->schema->getTableName());
 
     foreach ($entities as $entity) {
       $values = (array) $entity;
@@ -136,7 +135,6 @@ class SqlBuilder {
     }
 
     $query = $factory->compile();
-
     return $query;
   }
 

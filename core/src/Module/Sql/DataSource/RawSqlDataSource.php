@@ -9,7 +9,7 @@ use Harmony\Core\Repository\DataSource\PutDataSource;
 use Harmony\Core\Repository\Error\DataNotFoundException;
 use Harmony\Core\Repository\Error\QueryNotSupportedException;
 use Harmony\Core\Repository\Query\AllQuery;
-use Harmony\Core\Module\Sql\Query\ComposedSqlQuery;
+use Harmony\Core\Repository\Query\Composed\ComposedQuery;
 use Harmony\Core\Repository\Query\IdQuery;
 use Harmony\Core\Repository\Query\KeyQuery;
 use Harmony\Core\Repository\Query\Query;
@@ -20,10 +20,13 @@ use InvalidArgumentException;
  * @implements GetDataSource<object>
  * @implements PutDataSource<object>
  */
-class RawSqlDataSource implements GetDataSource, PutDataSource, DeleteDataSource {
+class RawSqlDataSource implements
+  GetDataSource,
+  PutDataSource,
+  DeleteDataSource {
   /**
-   * @param SqlInterface            $pdo
-   * @param SqlBuilder            $sqlBuilder
+   * @param SqlInterface $pdo
+   * @param SqlBuilder   $sqlBuilder
    */
   public function __construct(
     protected SqlInterface $pdo,
@@ -33,6 +36,7 @@ class RawSqlDataSource implements GetDataSource, PutDataSource, DeleteDataSource
 
   /**
    * @psalm-suppress ImplementedReturnTypeMismatch
+   *
    * @param Query $query
    *
    * @return object
@@ -41,14 +45,21 @@ class RawSqlDataSource implements GetDataSource, PutDataSource, DeleteDataSource
    */
   public function get(Query $query): object {
     $sql = match (true) {
-      $query instanceof IdQuery => $this->sqlBuilder->selectById($query->getId()),
-      $query instanceof KeyQuery => $this->sqlBuilder->selectByKey($query->geKey()),
+      $query instanceof IdQuery => $this->sqlBuilder->selectById(
+        $query->getId(),
+      ),
+      $query instanceof KeyQuery => $this->sqlBuilder->selectByKey(
+        $query->geKey(),
+      ),
+      $query instanceof ComposedQuery => $this->sqlBuilder->selectComposed(
+        $query,
+      ),
       default => throw new QueryNotSupportedException()
     };
 
     $item = $this->pdo->findOne($sql->sql(), $sql->params());
 
-    if (!isset($item)) {
+    if ($item === null) {
       throw new DataNotFoundException();
     }
 
@@ -57,6 +68,7 @@ class RawSqlDataSource implements GetDataSource, PutDataSource, DeleteDataSource
 
   /**
    * @psalm-suppress ImplementedReturnTypeMismatch
+   *
    * @param Query $query
    *
    * @return object[]
@@ -66,7 +78,9 @@ class RawSqlDataSource implements GetDataSource, PutDataSource, DeleteDataSource
   public function getAll(Query $query): array {
     $sql = match (true) {
       $query instanceof AllQuery => $this->sqlBuilder->selectAll(),
-      $query instanceof ComposedSqlQuery => $this->sqlBuilder->selectAllComposed($query),
+      $query instanceof ComposedQuery => $this->sqlBuilder->selectAllComposed(
+        $query,
+      ),
       default => throw new QueryNotSupportedException()
     };
 
@@ -81,31 +95,49 @@ class RawSqlDataSource implements GetDataSource, PutDataSource, DeleteDataSource
 
   /**
    * @psalm-suppress LessSpecificImplementedReturnType
+   *
    * @param Query      $query
    * @param mixed|null $entity
    *
    * @return mixed
+   * @throws DataNotFoundException
    * @throws QueryNotSupportedException
    */
   public function put(Query $query, mixed $entity = null): mixed {
-    if ($entity === null) {
-      throw new InvalidArgumentException();
+    $id = $this->getId($query, $entity);
+    $isInsertion = empty($id);
+
+    if ($isInsertion) {
+      $sql = $this->sqlBuilder->insert($entity);
+      $id = $this->pdo->insert($sql->sql(), $sql->params());
+    } else {
+      $sql = $this->sqlBuilder->updateById($id, $entity);
+      $this->pdo->execute($sql->sql(), $sql->params());
     }
 
-    $sql = match (true) {
-      $query instanceof VoidQuery => $this->sqlBuilder->insert($entity),
-      $query instanceof IdQuery => $this->sqlBuilder->updateById($query->getId(), $entity),
-      default => throw new QueryNotSupportedException()
-    };
+    return $this->get(new IdQuery($id));
+  }
 
-    $this->pdo->execute($sql->sql(), $sql->params());
-
-    return $entity;
+  /**
+   * @param Query      $query
+   * @param mixed|null $entity
+   *
+   * @return mixed
+   */
+  public function getId(Query $query, mixed $entity = null): mixed {
+    $id = null;
+    if ($query instanceof IdQuery) {
+      $id = $query->getId();
+    } elseif ($entity?->id) {
+      $id = $entity->id;
+    }
+    return $id;
   }
 
   /**
    * @psalm-suppress MoreSpecificImplementedParamType
-   * @param Query      $query
+   *
+   * @param Query         $query
    * @param object[]|null $entities
    *
    * @return object[]
@@ -121,7 +153,7 @@ class RawSqlDataSource implements GetDataSource, PutDataSource, DeleteDataSource
       default => throw new QueryNotSupportedException()
     };
 
-    $this->pdo->transaction($sql->sql(), $sql->params());
+    $this->pdo->execute($sql->sql(), $sql->params());
 
     return $entities;
   }
@@ -133,10 +165,12 @@ class RawSqlDataSource implements GetDataSource, PutDataSource, DeleteDataSource
    */
   public function delete(Query $query): void {
     $sql = match (true) {
-      $query instanceof IdQuery => $this->sqlBuilder->deleteById($query->getId()),
+      $query instanceof IdQuery => $this->sqlBuilder->deleteById(
+        $query->getId(),
+      ),
       default => throw new QueryNotSupportedException()
     };
 
-    $this->pdo->transaction($sql->sql(), $sql->params());
+    $this->pdo->execute($sql->sql(), $sql->params());
   }
 }
