@@ -19,7 +19,7 @@ class PdoWrapper implements SqlInterface {
 
   /**
    * @param string $sql
-   * @param array<mixed> $params
+   * @param array<string, mixed> $params
    *
    * @return object|null
    * @throws PdoConnectionNotReadyException
