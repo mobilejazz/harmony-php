@@ -96,14 +96,6 @@ class SqlBuilder {
     return $query;
   }
 
-  public function update(Query $query, array $values): SqlQuery {
-    $sql = $this->factory->update($this->schema->getTableName(), $values);
-
-    $query = $this->addWhereConditions($query, $sql)->compile();
-
-    return $query;
-  }
-
   public function updateById(mixed $id, mixed $entity): SqlQuery {
     $values = (array) $entity;
 
