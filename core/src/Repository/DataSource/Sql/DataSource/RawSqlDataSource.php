@@ -1,11 +1,12 @@
 <?php
 
-namespace Harmony\Core\Module\Sql\DataSource;
+namespace Harmony\Core\Repository\DataSource\Sql\DataSource;
 
-use Harmony\Core\Module\Sql\Helper\SqlBuilder;
 use Harmony\Core\Repository\DataSource\DeleteDataSource;
 use Harmony\Core\Repository\DataSource\GetDataSource;
 use Harmony\Core\Repository\DataSource\PutDataSource;
+use Harmony\Core\Repository\DataSource\Sql\Helper\SqlBuilder;
+use Harmony\Core\Repository\DataSource\Sql\SqlBaseColumn;
 use Harmony\Core\Repository\Error\DataNotFoundException;
 use Harmony\Core\Repository\Error\QueryNotSupportedException;
 use Harmony\Core\Repository\Query\AllQuery;
@@ -126,10 +127,11 @@ class RawSqlDataSource implements
    */
   public function getId(Query $query, mixed $entity = null): mixed {
     $id = null;
+    $idCol = SqlBaseColumn::ID;
     if ($query instanceof IdQuery) {
       $id = $query->getId();
-    } elseif ($entity?->id) {
-      $id = $entity->id;
+    } elseif ($entity?->$idCol) {
+      $id = $entity->$idCol;
     }
     return $id;
   }

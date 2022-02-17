@@ -1,6 +1,6 @@
 <?php
 
-namespace Harmony\Core\Module\Sql\DataSource;
+namespace Harmony\Core\Repository\DataSource\Sql\DataSource;
 
 interface SqlInterface {
   /**
@@ -34,6 +34,21 @@ interface SqlInterface {
    * @return bool
    */
   public function transaction(string $sql, array $params): bool;
+
+  /**
+   * @return void
+   */
+  public function startTransaction(): void;
+
+  /**
+   * @return void
+   */
+  public function endTransaction(): void;
+
+  /**
+   * @return void
+   */
+  public function rollbackTransaction();
 
   /**
    * @param string               $sql
