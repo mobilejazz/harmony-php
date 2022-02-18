@@ -39,7 +39,7 @@ interface SqlInterface {
 
   public function endTransaction(): void;
 
-  public function rollbackTransaction();
+  public function rollbackTransaction(): void;
 
   /**
    * @param string               $sql
