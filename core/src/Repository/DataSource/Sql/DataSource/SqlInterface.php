@@ -35,19 +35,10 @@ interface SqlInterface {
    */
   public function transaction(string $sql, array $params): bool;
 
-  /**
-   * @return void
-   */
   public function startTransaction(): void;
 
-  /**
-   * @return void
-   */
   public function endTransaction(): void;
 
-  /**
-   * @return void
-   */
   public function rollbackTransaction();
 
   /**
