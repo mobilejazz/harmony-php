@@ -13,6 +13,7 @@ use Latitude\QueryBuilder\Query as SqlQuery;
 use Latitude\QueryBuilder\Query\UpdateQuery;
 use Latitude\QueryBuilder\QueryFactory;
 use function Latitude\QueryBuilder\field;
+use function Latitude\QueryBuilder\func;
 
 /**
  * @link https://latitude.shadowhand.com/
@@ -136,10 +137,9 @@ class SqlBuilder {
 
   public function deleteById(mixed $value): SqlQuery {
     if ($this->schema->softDeleteEnabled()) {
-      $now = date("Y-m-d H:i:s");
       $factory = $this->factory
         ->update($this->schema->getTableName(), [
-          SqlBaseColumn::DELETED_AT => $now,
+          SqlBaseColumn::DELETED_AT => func("NOW"),
         ])
         ->where(field($this->schema->getIdColumn())->eq($value));
     } else {
