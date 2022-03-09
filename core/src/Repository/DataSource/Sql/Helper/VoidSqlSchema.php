@@ -1,6 +1,6 @@
 <?php
 
-namespace Harmony\Core\Module\Sql\Helper;
+namespace Harmony\Core\Repository\DataSource\Sql\Helper;
 
 use Harmony\Core\Shared\Error\MethodNotImplementedException;
 
@@ -23,6 +23,13 @@ class VoidSqlSchema implements SqlSchema {
    * @throws MethodNotImplementedException
    */
   public function getKeyColumn(): string {
+    throw new MethodNotImplementedException();
+  }
+
+  /**
+   * @throws MethodNotImplementedException
+   */
+  public function softDeleteEnabled(): bool {
     throw new MethodNotImplementedException();
   }
 }

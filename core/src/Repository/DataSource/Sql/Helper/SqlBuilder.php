@@ -1,14 +1,19 @@
 <?php
 
-namespace Harmony\Core\Module\Sql\Helper;
+namespace Harmony\Core\Repository\DataSource\Sql\Helper;
 
+use Harmony\Core\Repository\Query\Query;
+use Harmony\Core\Repository\DataSource\Sql\SqlBaseColumn;
 use Harmony\Core\Repository\Query\Composed\ComposedQuery;
 use Harmony\Core\Repository\Query\Composed\OrderByQuery;
 use Harmony\Core\Repository\Query\Composed\PaginationOffsetLimitQuery;
 use Harmony\Core\Repository\Query\Composed\WhereQuery;
-use Latitude\QueryBuilder\Query;
+use Latitude\QueryBuilder\Query\SelectQuery;
+use Latitude\QueryBuilder\Query as SqlQuery;
+use Latitude\QueryBuilder\Query\UpdateQuery;
 use Latitude\QueryBuilder\QueryFactory;
 use function Latitude\QueryBuilder\field;
+use function Latitude\QueryBuilder\func;
 
 /**
  * @link https://latitude.shadowhand.com/
@@ -28,15 +33,15 @@ class SqlBuilder {
     return $this->factory;
   }
 
-  public function selectByKey(mixed $value): Query {
+  public function selectByKey(mixed $value): SqlQuery {
     return $this->selectOneWhere($this->schema->getKeyColumn(), $value);
   }
 
-  public function selectById(mixed $value): Query {
+  public function selectById(mixed $value): SqlQuery {
     return $this->selectOneWhere($this->schema->getIdColumn(), $value);
   }
 
-  public function selectOneWhere(string $column, mixed $value): Query {
+  public function selectOneWhere(string $column, mixed $value): SqlQuery {
     $query = $this->factory
       ->select()
       ->from($this->schema->getTableName())
@@ -47,7 +52,7 @@ class SqlBuilder {
     return $query;
   }
 
-  public function selectAll(?int $offset = null, ?int $limit = null): Query {
+  public function selectAll(?int $offset = null, ?int $limit = null): SqlQuery {
     $factory = $this->factory->select()->from($this->schema->getTableName());
 
     if ($offset !== null && $limit !== null) {
@@ -55,26 +60,24 @@ class SqlBuilder {
       $factory->limit($limit);
     }
 
-    $query = $factory->compile();
-    return $query;
-  }
-
-  public function selectComposed(ComposedQuery $composed): Query {
-    $factory = $this->factory->select()->from($this->schema->getTableName());
-
-    if ($composed instanceof WhereQuery) {
-      $wheres = $composed->where();
-
-      foreach ($wheres as $column => $value) {
-        $factory->andWhere(field($column)->eq($value));
-      }
+    if ($this->schema->softDeleteEnabled()) {
+      $factory->andWhere(field(SqlBaseColumn::DELETED_AT)->eq(null));
     }
 
     $query = $factory->compile();
     return $query;
   }
 
-  public function selectAllComposed(ComposedQuery $composed): Query {
+  public function selectComposed(ComposedQuery $composed): SqlQuery {
+    $factory = $this->factory->select()->from($this->schema->getTableName());
+
+    $factory = $this->addWhereConditions($composed, $factory);
+
+    $query = $factory->compile();
+    return $query;
+  }
+
+  public function selectAllComposed(ComposedQuery $composed): SqlQuery {
     $factory = $this->factory->select()->from($this->schema->getTableName());
 
     if ($composed instanceof PaginationOffsetLimitQuery) {
@@ -88,19 +91,13 @@ class SqlBuilder {
       unset($ascending);
     }
 
-    if ($composed instanceof WhereQuery) {
-      $wheres = $composed->where();
-
-      foreach ($wheres as $column => $value) {
-        $factory->andWhere(field($column)->eq($value));
-      }
-    }
+    $factory = $this->addWhereConditions($composed, $factory);
 
     $query = $factory->compile();
     return $query;
   }
 
-  public function updateById(mixed $id, mixed $entity): Query {
+  public function updateById(mixed $id, mixed $entity): SqlQuery {
     $values = (array) $entity;
 
     $query = $this->factory
@@ -111,7 +108,7 @@ class SqlBuilder {
     return $query;
   }
 
-  public function insert(mixed $entity): Query {
+  public function insert(mixed $entity): SqlQuery {
     $values = (array) $entity;
 
     $query = $this->factory
@@ -124,9 +121,9 @@ class SqlBuilder {
   /**
    * @param object[] $entities
    *
-   * @return Query
+   * @return SqlQuery
    */
-  public function multiInsert(array $entities): Query {
+  public function multiInsert(array $entities): SqlQuery {
     $factory = $this->factory->insert($this->schema->getTableName());
 
     foreach ($entities as $entity) {
@@ -138,12 +135,46 @@ class SqlBuilder {
     return $query;
   }
 
-  public function deleteById(mixed $value): Query {
-    $query = $this->factory
-      ->delete($this->schema->getTableName())
-      ->where(field($this->schema->getIdColumn())->eq($value))
-      ->compile();
+  public function deleteById(mixed $value): SqlQuery {
+    if ($this->schema->softDeleteEnabled()) {
+      $factory = $this->factory
+        ->update($this->schema->getTableName(), [
+          SqlBaseColumn::DELETED_AT => func("NOW"),
+        ])
+        ->where(field($this->schema->getIdColumn())->eq($value));
+    } else {
+      $factory = $this->factory
+        ->delete($this->schema->getTableName())
+        ->where(field($this->schema->getIdColumn())->eq($value));
+    }
+
+    $query = $factory->compile();
 
     return $query;
+  }
+
+  /**
+   * @param Query $query
+   * @param SelectQuery|UpdateQuery $factory
+   *
+   * @return SelectQuery|UpdateQuery
+   */
+  public function addWhereConditions(
+    Query $query,
+    SelectQuery|UpdateQuery $factory
+  ): SelectQuery|UpdateQuery {
+    if ($query instanceof WhereQuery) {
+      $wheres = $query->where();
+
+      foreach ($wheres as $column => $value) {
+        $factory->andWhere(field($column)->eq($value));
+      }
+    }
+
+    if ($this->schema->softDeleteEnabled()) {
+      $factory->andWhere(field(SqlBaseColumn::DELETED_AT)->eq(null));
+    }
+
+    return $factory;
   }
 }

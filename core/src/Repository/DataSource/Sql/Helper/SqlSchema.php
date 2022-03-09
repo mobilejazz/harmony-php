@@ -1,6 +1,6 @@
 <?php
 
-namespace Harmony\Core\Module\Sql\Helper;
+namespace Harmony\Core\Repository\DataSource\Sql\Helper;
 
 interface SqlSchema {
   public function getTableName(): string;
@@ -8,4 +8,6 @@ interface SqlSchema {
   public function getIdColumn(): string;
 
   public function getKeyColumn(): string;
+
+  public function softDeleteEnabled(): bool;
 }
