@@ -1,5 +1,5 @@
 # Base stack
-version: '3.7'
+version: "3.7"
 
 services:
   nginx-sample:
@@ -14,7 +14,7 @@ services:
     links:
       - php-sample
     ports:
-      - '80:80'
+      - "80:80"
   php-sample:
     build:
       context: .

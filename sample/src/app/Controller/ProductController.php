@@ -26,21 +26,37 @@ class ProductController {
    * @return false|string
    */
   public function actionIndex() {
-    $productOne = new Product(1, 'PlayStation 5', 'VideoGames Console from Sony.', 599.99);
+    $productOne = new Product(
+      1,
+      "PlayStation 5",
+      "VideoGames Console from Sony.",
+      599.99,
+    );
 
-    $productTwo = new Product(2, 'XBox X', 'VideoGames Console from Microsoft', 450.5);
+    $productTwo = new Product(
+      2,
+      "XBox X",
+      "VideoGames Console from Microsoft",
+      450.5,
+    );
 
     $listProducts = [$productOne, $productTwo];
 
     $variables = [];
 
-    $variables['resultPutProductAction'] = $this->putProductAction($productOne);
-    $variables['resultGetProductAction'] = $this->getProductAction($productOne->getId());
-    $variables['resultPutAllProductAction'] = $this->putAllProductsAction($listProducts);
-    $variables['resultGetAllProductAction'] = $this->getAllProductsAction();
-    $variables['resultDeleteProductAction'] = $this->deleteProductAction($productOne->getId());
+    $variables["resultPutProductAction"] = $this->putProductAction($productOne);
+    $variables["resultGetProductAction"] = $this->getProductAction(
+      $productOne->getId(),
+    );
+    $variables["resultPutAllProductAction"] = $this->putAllProductsAction(
+      $listProducts,
+    );
+    $variables["resultGetAllProductAction"] = $this->getAllProductsAction();
+    $variables["resultDeleteProductAction"] = $this->deleteProductAction(
+      $productOne->getId(),
+    );
 
-    return $this->renderView($variables, 'index');
+    return $this->renderView($variables, "index");
   }
 
   /**
@@ -97,7 +113,7 @@ class ProductController {
     $query = new KeyQuery((string) $id_product);
     ($this->deleteProductInteractor)($query);
 
-    return 'deleted';
+    return "deleted";
   }
 
   /**
@@ -111,7 +127,7 @@ class ProductController {
 
     extract($variables, EXTR_OVERWRITE);
 
-    $template_path = __DIR__ . '/../views/' . $template . '.template.view';
+    $template_path = __DIR__ . "/../views/" . $template . ".template.view";
 
     if (file_exists($template_path)) {
       include $template_path;

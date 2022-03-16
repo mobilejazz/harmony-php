@@ -65,9 +65,7 @@ class ProductInteractorsTest extends TestCase {
 
     $queryGet = new KeyQuery((string) $productSaved->getId());
 
-    $this->productProvider->getGetInteractor()(
-      $queryGet,
-    );
+    $this->productProvider->getGetInteractor()($queryGet);
 
     $this->assertEquals($productSaved->getName(), $product->getName());
   }
@@ -84,29 +82,21 @@ class ProductInteractorsTest extends TestCase {
     $productsSaved = $this->putProducts($products);
 
     $getQuery = new AllQuery();
-    $allProducts = $this->productProvider->getGetAllInteractor()(
-      $getQuery,
-    );
+    $allProducts = $this->productProvider->getGetAllInteractor()($getQuery);
 
     $this->assertEquals($productsSaved, $allProducts);
   }
 
   function testDeleteProductInteractor() {
-    $this->expectException(
-      DataNotFoundException::class,
-    );
+    $this->expectException(DataNotFoundException::class);
 
     $product = $this->getProductOne();
     $productSaved = $this->putProduct($product);
 
     $queryDelete = new KeyQuery((string) $productSaved->getId());
-    $this->productProvider->getDeleteInteractor()(
-      $queryDelete,
-    );
+    $this->productProvider->getDeleteInteractor()($queryDelete);
 
     $queryGet = new KeyQuery((string) $productSaved->getId());
-    $this->productProvider->getGetInteractor()(
-      $queryGet,
-    );
+    $this->productProvider->getGetInteractor()($queryGet);
   }
 }
