@@ -2,8 +2,9 @@
 
 namespace Harmony\Core\Module\Api\Response;
 
-use Symfony\Component\HttpFoundation\JsonResponse;
-
+/**
+ * @psalm-suppress PropertyNotSetInConstructor
+ */
 class JsonResponse403 extends JsonResponse {
   public function __construct() {
     parent::__construct(

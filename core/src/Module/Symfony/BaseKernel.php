@@ -17,12 +17,22 @@ abstract class BaseKernel extends Kernel {
   /** @var \Harmony\Core\Module\Routing\Route[] */
   protected array $routes = [];
 
+  /**
+   * @return SymfonyModule[]
+   */
   abstract protected function getModules(): array;
 
+  /**
+   * @return \Harmony\Core\Module\Routing\Route[]
+   */
   abstract protected function getRouters(): array;
 
   abstract protected function getRootFolder(): string;
 
+  /**
+   * @psalm-suppress UndefinedClass
+   * @return \Harmony\Core\Module\Routing\Route[]
+   */
   protected function getRoutersModule(): array {
     if (!empty($this->routes)) {
       return $this->routes;
@@ -42,6 +52,9 @@ abstract class BaseKernel extends Kernel {
     return $this->routes;
   }
 
+  /**
+   * @psalm-suppress UndefinedClass
+   */
   protected function configureContainer(
     ContainerConfigurator $container
   ): void {
@@ -49,7 +62,6 @@ abstract class BaseKernel extends Kernel {
 
     $registerModules = $this->getModules();
 
-    /** @var SymfonyModule $moduleProvider */
     foreach ($registerModules as $moduleProvider) {
       $module = new $moduleProvider();
       $module->register($container->services());
@@ -110,6 +122,9 @@ abstract class BaseKernel extends Kernel {
     }
   }
 
+  /**
+   * @psalm-suppress UnresolvableInclude
+   */
   protected function configureSymfonyContainer(
     ContainerConfigurator $container
   ): void {
@@ -126,10 +141,14 @@ abstract class BaseKernel extends Kernel {
         "../config/{services}_" . $this->environment . ".yaml",
       );
     } elseif (is_file($path = $rootFolder . "/config/services.php")) {
+      // @phpstan-ignore-next-line
       require $path($container->withPath($path), $this);
     }
   }
 
+  /**
+   * @psalm-suppress UnresolvableInclude
+   */
   protected function configureSymfonyRoutes(RoutingConfigurator $routes): void {
     $rootFolder = $this->getRootFolder();
 
@@ -139,6 +158,7 @@ abstract class BaseKernel extends Kernel {
     if (is_file($rootFolder . "/config/routes.yaml")) {
       $routes->import("../config/routes.yaml");
     } elseif (is_file($path = $rootFolder . "/config/routes.php")) {
+      // @phpstan-ignore-next-line
       require $path($routes->withPath($path), $this);
     }
   }

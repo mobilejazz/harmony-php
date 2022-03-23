@@ -55,7 +55,10 @@ class ProductModule {
       ] = $this->registerRepository();
     }
 
-    return $this->di_container[self::KEY_PRODUCT_REPOSITORY];
+    /** @var RepositoryMapper<Product, ProductEntity> $repository */
+    $repository = $this->di_container[self::KEY_PRODUCT_REPOSITORY];
+
+    return $repository;
   }
 
   /**

@@ -3,7 +3,7 @@ HELPERS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/helpers" >/dev/null 2>&1 && pw
 source "${HELPERS_DIR}"/functions.sh
 
 # See Sample Readme
-exec_wwwdata ./vendor/bin/psalm --show-info=true --php-version=8.0
+exec_wwwdata ./vendor/bin/psalm --show-info=true --php-version=8.1
 exec_wwwdata ./vendor/bin/phpstan analyse -l max app core
 # @todo PHP Mess Detector is not 100% with PHP 8.0 yet
 #exec_wwwdata ./vendor/bin/phpmd /var/www/html/app,/var/www/html/core text codesize,design,cleancode

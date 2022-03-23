@@ -1,4 +1,4 @@
-FROM php:8.0-fpm-alpine
+FROM php:8.1-fpm-alpine
 
 # Update system
 RUN apk --update --no-cache add \
@@ -26,7 +26,7 @@ RUN curl -sS \
 
 # Xdebug
 RUN apk add --no-cache $PHPIZE_DEPS \
-    && pecl install xdebug-3.0.4 \
+    && pecl install xdebug-3.1.3 \
     && docker-php-ext-enable xdebug \
     && echo "xdebug.log_level = 0" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
     && echo "xdebug.mode=debug" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \

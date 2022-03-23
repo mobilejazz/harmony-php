@@ -128,11 +128,14 @@ class RawSqlDataSource implements
   public function getId(Query $query, mixed $entity = null): mixed {
     $id = null;
     $idCol = SqlBaseColumn::ID;
+
     if ($query instanceof IdQuery) {
       $id = $query->getId();
-    } elseif ($entity?->$idCol) {
+    } elseif (isset($entity?->$idCol)) {
+      // @phpstan-ignore-next-line
       $id = $entity->$idCol;
     }
+
     return $id;
   }
 
