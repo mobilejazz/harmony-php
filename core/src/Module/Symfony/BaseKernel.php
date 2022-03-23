@@ -2,14 +2,20 @@
 
 namespace Harmony\Core\Module\Symfony;
 
+use Harmony\Core\Module\Api\Request\RequestDTOFactory;
+use Harmony\Core\Module\Routing\RoutesInterface;
 use Harmony\Core\Module\Symfony\DependencyInjection\SymfonyModule;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 abstract class BaseKernel extends Kernel {
   use MicroKernelTrait;
+
+  /** @var \Harmony\Core\Module\Routing\Route[] */
+  protected array $routes = [];
 
   abstract protected function getModules(): array;
 
@@ -17,10 +23,29 @@ abstract class BaseKernel extends Kernel {
 
   abstract protected function getRootFolder(): string;
 
+  protected function getRoutersModule(): array {
+    if (!empty($this->routes)) {
+      return $this->routes;
+    }
+
+    $registerRoutes = $this->getRouters();
+
+    foreach ($registerRoutes as $classWithRoutes) {
+      /** @var RoutesInterface $routesContainer */
+      $routesContainer = new $classWithRoutes();
+      $routes = $routesContainer->getRoutes();
+      array_push($this->routes, ...$routes);
+
+      unset($routesContainer, $routes);
+    }
+
+    return $this->routes;
+  }
+
   protected function configureContainer(
     ContainerConfigurator $container
   ): void {
-    $this->configureContainerBase($container);
+    $this->configureSymfonyContainer($container);
 
     $registerModules = $this->getModules();
 
@@ -30,23 +55,62 @@ abstract class BaseKernel extends Kernel {
       $module->register($container->services());
       unset($module);
     }
+
+    $this->registerControllerActions($container);
+    $this->registerRequestDTOs($container);
   }
 
-  protected function configureRoutes(RoutingConfigurator $routes): void {
-    $this->configureRoutesBase($routes);
-
-    $registerRoutes = $this->getRouters();
-
-    foreach ($registerRoutes as $classWithRoutes) {
-      /** @var Route $route */
-      $route = new $classWithRoutes($routes);
-      $route->register();
+  protected function registerControllerActions(
+    ContainerConfigurator $container
+  ): void {
+    foreach ($this->getRoutersModule() as $route) {
+      $container
+        ->services()
+        ->set($route->controllerAction)
+        ->autowire()
+        ->tag("controller.service_arguments");
 
       unset($route);
     }
   }
 
-  protected function configureContainerBase(
+  protected function registerRequestDTOs(
+    ContainerConfigurator $container
+  ): void {
+    $container
+      ->services()
+      ->set(RequestDTOFactory::class)
+      ->autowire();
+
+    foreach ($this->getRoutersModule() as $route) {
+      if (empty($route->requestDTO)) {
+        continue;
+      }
+
+      $container
+        ->services()
+        ->set($route->requestDTO)
+        ->factory(service(RequestDTOFactory::class))
+        ->args([$route->requestDTO]);
+
+      unset($route);
+    }
+  }
+
+  protected function configureRoutes(RoutingConfigurator $routes): void {
+    $this->configureSymfonyRoutes($routes);
+
+    foreach ($this->getRoutersModule() as $route) {
+      $routes
+        ->add($route->name, $route->path)
+        ->controller($route->controllerAction)
+        ->methods($route->methods);
+
+      unset($route);
+    }
+  }
+
+  protected function configureSymfonyContainer(
     ContainerConfigurator $container
   ): void {
     $rootFolder = $this->getRootFolder();
@@ -66,7 +130,7 @@ abstract class BaseKernel extends Kernel {
     }
   }
 
-  protected function configureRoutesBase(RoutingConfigurator $routes): void {
+  protected function configureSymfonyRoutes(RoutingConfigurator $routes): void {
     $rootFolder = $this->getRootFolder();
 
     $routes->import("../config/{routes}/" . $this->environment . "/*.yaml");
