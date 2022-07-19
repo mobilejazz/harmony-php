@@ -24,4 +24,11 @@ class VoidGetRepository implements GetRepository {
   public function getAll(Query $query, Operation $operation): array {
     throw new MethodNotImplementedException();
   }
+
+  /**
+   * @inheritdoc
+   */
+  public function getCount(Query $query, Operation $operation): int {
+    throw new MethodNotImplementedException();
+  }
 }

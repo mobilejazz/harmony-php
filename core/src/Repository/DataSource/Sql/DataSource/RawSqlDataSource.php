@@ -11,6 +11,7 @@ use Harmony\Core\Repository\Error\DataNotFoundException;
 use Harmony\Core\Repository\Error\QueryNotSupportedException;
 use Harmony\Core\Repository\Query\AllQuery;
 use Harmony\Core\Repository\Query\Composed\ComposedQuery;
+use Harmony\Core\Repository\Query\Composed\CountQuery;
 use Harmony\Core\Repository\Query\IdQuery;
 use Harmony\Core\Repository\Query\KeyQuery;
 use Harmony\Core\Repository\Query\Query;
@@ -92,6 +93,21 @@ class RawSqlDataSource implements
     }
 
     return $items;
+  }
+
+  /**
+   * @throws QueryNotSupportedException
+   */
+  public function getCount(Query $query): int {
+    $sql = match (true) {
+      $query instanceof CountQuery => $this->sqlBuilder->selectComposed(
+        $query,
+      ),
+      default => throw new QueryNotSupportedException()
+    };
+
+    $item = $this->pdo->findOne($sql->sql(), $sql->params());
+    return $item->count;
   }
 
   /**

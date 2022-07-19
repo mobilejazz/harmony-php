@@ -58,6 +58,13 @@ class RepositoryMapper implements GetRepository, PutRepository, DeleteRepository
   /**
    * @inheritdoc
    */
+  public function getCount(Query $query, Operation $operation): int {
+    return $this->getRepository->getCount($query, $operation);
+  }
+
+  /**
+   * @inheritdoc
+   */
   public function put(Query $query, Operation $operation, $model = null) {
     $entity = null;
 

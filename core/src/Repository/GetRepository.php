@@ -24,4 +24,12 @@ interface GetRepository extends Repository {
    * @return array<T>
    */
   public function getAll(Query $query, Operation $operation): array;
+
+  /**
+   * @param Query     $query     query
+   * @param Operation $operation operation
+   *
+   * @return int
+   */
+  public function getCount(Query $query, Operation $operation): int;
 }
