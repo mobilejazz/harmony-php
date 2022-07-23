@@ -10,17 +10,13 @@ use Harmony\Core\Repository\Query\Query;
  */
 interface PutRepository extends Repository {
   /**
-   * @param Query     $query
-   * @param Operation $operation
    * @param T|null    $model
    *
    * @return T
    */
-  public function put(Query $query, Operation $operation, $model = null);
+  public function put(Query $query, Operation $operation, mixed $model = null);
 
   /**
-   * @param Query         $query
-   * @param Operation     $operation
    * @param array<T>|null $models
    *
    * @return array<T>

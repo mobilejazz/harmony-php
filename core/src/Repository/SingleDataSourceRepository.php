@@ -13,7 +13,10 @@ use Harmony\Core\Repository\Query\Query;
  * @implements GetRepository<T>
  * @implements PutRepository<T>
  */
-class SingleDataSourceRepository implements GetRepository, PutRepository, DeleteRepository {
+class SingleDataSourceRepository implements
+  GetRepository,
+  PutRepository,
+  DeleteRepository {
   /**
    * @param GetDataSource<T> $getDataSource
    * @param PutDataSource<T> $putDataSource
@@ -40,9 +43,6 @@ class SingleDataSourceRepository implements GetRepository, PutRepository, Delete
     return $this->getDataSource->getAll($query);
   }
 
-  /**
-   * @inheritdoc
-   */
   public function getCount(Query $query, Operation $operation): int {
     return $this->getDataSource->getCount($query);
   }
@@ -57,13 +57,14 @@ class SingleDataSourceRepository implements GetRepository, PutRepository, Delete
   /**
    * @inheritdoc
    */
-  public function putAll(Query $query, Operation $operation, array $models = null): array {
+  public function putAll(
+    Query $query,
+    Operation $operation,
+    array $models = null
+  ): array {
     return $this->putDataSource->putAll($query, $models);
   }
 
-  /**
-   * @inheritdoc
-   */
   public function delete(Query $query, Operation $operation): void {
     $this->deleteDataSource->delete($query);
   }

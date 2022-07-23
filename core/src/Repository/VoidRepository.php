@@ -14,6 +14,7 @@ use Harmony\Core\Shared\Error\MethodNotImplementedException;
 class VoidRepository implements GetRepository, PutRepository, DeleteRepository {
   /**
    * @inheritdoc
+   * @throws MethodNotImplementedException
    */
   public function get(Query $query, Operation $operation) {
     throw new MethodNotImplementedException();
@@ -21,13 +22,14 @@ class VoidRepository implements GetRepository, PutRepository, DeleteRepository {
 
   /**
    * @inheritdoc
+   * @throws MethodNotImplementedException
    */
   public function getAll(Query $query, Operation $operation): array {
     throw new MethodNotImplementedException();
   }
 
   /**
-   * @inheritdoc
+   * @throws MethodNotImplementedException
    */
   public function getCount(Query $query, Operation $operation): int {
     throw new MethodNotImplementedException();
@@ -35,6 +37,7 @@ class VoidRepository implements GetRepository, PutRepository, DeleteRepository {
 
   /**
    * @inheritdoc
+   * @throws MethodNotImplementedException
    */
   public function put(Query $query, Operation $operation, $model = null) {
     throw new MethodNotImplementedException();
@@ -42,6 +45,7 @@ class VoidRepository implements GetRepository, PutRepository, DeleteRepository {
 
   /**
    * @inheritdoc
+   * @throws MethodNotImplementedException
    */
   public function putAll(
     Query $query,
@@ -52,7 +56,7 @@ class VoidRepository implements GetRepository, PutRepository, DeleteRepository {
   }
 
   /**
-   * @inheritdoc
+   * @throws MethodNotImplementedException
    */
   public function delete(Query $query, Operation $operation): void {
     throw new MethodNotImplementedException();

@@ -12,7 +12,10 @@ use Harmony\Core\Repository\Query\Query;
  * @implements GetRepository<TModel>
  * @implements PutRepository<TModel>
  */
-class RepositoryMapper implements GetRepository, PutRepository, DeleteRepository {
+class RepositoryMapper implements
+  GetRepository,
+  PutRepository,
+  DeleteRepository {
   /**
    * RepositoryMapper constructor.
    *
@@ -55,9 +58,6 @@ class RepositoryMapper implements GetRepository, PutRepository, DeleteRepository
     return $models;
   }
 
-  /**
-   * @inheritdoc
-   */
   public function getCount(Query $query, Operation $operation): int {
     return $this->getRepository->getCount($query, $operation);
   }
@@ -81,7 +81,11 @@ class RepositoryMapper implements GetRepository, PutRepository, DeleteRepository
   /**
    * @inheritdoc
    */
-  public function putAll(Query $query, Operation $operation, array $models = null): array {
+  public function putAll(
+    Query $query,
+    Operation $operation,
+    array $models = null
+  ): array {
     $entities = null;
 
     if ($models !== null) {
@@ -92,7 +96,11 @@ class RepositoryMapper implements GetRepository, PutRepository, DeleteRepository
       }
     }
 
-    $entitiesPutted = $this->putRepository->putAll($query, $operation, $entities);
+    $entitiesPutted = $this->putRepository->putAll(
+      $query,
+      $operation,
+      $entities,
+    );
     $modelsPutted = [];
 
     foreach ($entitiesPutted as $entityPutted) {
@@ -102,9 +110,6 @@ class RepositoryMapper implements GetRepository, PutRepository, DeleteRepository
     return $modelsPutted;
   }
 
-  /**
-   * @inheritdoc
-   */
   public function delete(Query $query, Operation $operation): void {
     $this->deleteRepository->delete($query, $operation);
   }
