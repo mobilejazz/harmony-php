@@ -5,6 +5,7 @@ namespace Harmony\Core\Repository\DataSource;
 use Harmony\Core\Repository\Error\DataNotFoundException;
 use Harmony\Core\Repository\Error\QueryNotSupportedException;
 use Harmony\Core\Repository\Query\AllQuery;
+use Harmony\Core\Repository\Query\Composed\CountQuery;
 use Harmony\Core\Repository\Query\KeyQuery;
 use Harmony\Core\Repository\Query\Query;
 use InvalidArgumentException;
@@ -14,7 +15,10 @@ use InvalidArgumentException;
  * @implements GetDataSource<T>
  * @implements PutDataSource<T>
  */
-class InMemoryDataSource implements GetDataSource, PutDataSource, DeleteDataSource {
+class InMemoryDataSource implements
+  GetDataSource,
+  PutDataSource,
+  DeleteDataSource {
   /** @var array<mixed, T> */
   protected $entities = [];
 
@@ -23,9 +27,7 @@ class InMemoryDataSource implements GetDataSource, PutDataSource, DeleteDataSour
    *
    * @param string                $genericClass
    */
-  public function __construct(
-    protected string $genericClass
-  ) {
+  public function __construct(protected string $genericClass) {
   }
 
   /**
@@ -56,6 +58,19 @@ class InMemoryDataSource implements GetDataSource, PutDataSource, DeleteDataSour
     }
 
     throw new QueryNotSupportedException();
+  }
+
+  /**
+   * @inheritdoc
+   */
+  public function getCount(Query $query): int {
+    if (!$query instanceof CountQuery) {
+      throw new QueryNotSupportedException();
+    }
+
+    $count = count($this->entities);
+
+    return $count;
   }
 
   /**
@@ -104,6 +119,7 @@ class InMemoryDataSource implements GetDataSource, PutDataSource, DeleteDataSour
       }
 
       unset($this->entities[$query->geKey()]);
+
       return;
     }
 

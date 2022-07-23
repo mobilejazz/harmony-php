@@ -107,7 +107,8 @@ class RawSqlDataSource implements
     };
 
     $item = $this->pdo->findOne($sql->sql(), $sql->params());
-    return $item->count;
+
+    return $item?->count;
   }
 
   /**
