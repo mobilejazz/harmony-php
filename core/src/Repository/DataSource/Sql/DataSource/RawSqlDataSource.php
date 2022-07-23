@@ -97,6 +97,7 @@ class RawSqlDataSource implements
 
   /**
    * @throws QueryNotSupportedException
+   * @throws DataNotFoundException
    */
   public function getCount(Query $query): int {
     $sql = match (true) {
@@ -106,9 +107,14 @@ class RawSqlDataSource implements
       default => throw new QueryNotSupportedException()
     };
 
-    $item = $this->pdo->findOne($sql->sql(), $sql->params());
+    $result = $this->pdo->findOne($sql->sql(), $sql->params());
 
-    return $item?->count;
+    if ($result === null) {
+      throw new DataNotFoundException();
+    }
+
+    // @phpstan-ignore-next-line
+    return $result->count;
   }
 
   /**
@@ -150,6 +156,7 @@ class RawSqlDataSource implements
     } elseif ($entity?->$idCol) {
       $id = $entity->$idCol;
     }
+
     return $id;
   }
 
