@@ -12,6 +12,7 @@ use Harmony\Core\Shared\Error\MethodNotImplementedException;
 class VoidGetDataSource implements GetDataSource {
   /**
    * @inheritdoc
+   * @throws MethodNotImplementedException
    */
   public function get(Query $query): mixed {
     throw new MethodNotImplementedException();
@@ -19,13 +20,14 @@ class VoidGetDataSource implements GetDataSource {
 
   /**
    * @inheritdoc
+   * @throws MethodNotImplementedException
    */
   public function getAll(Query $query): array {
     throw new MethodNotImplementedException();
   }
 
   /**
-   * @inheritdoc
+   * @throws MethodNotImplementedException
    */
   public function getCount(Query $query): int {
     throw new MethodNotImplementedException();

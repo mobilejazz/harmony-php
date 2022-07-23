@@ -20,7 +20,7 @@ class InMemoryDataSource implements
   PutDataSource,
   DeleteDataSource {
   /** @var array<mixed, T> */
-  protected $entities = [];
+  protected array $entities = [];
 
   /**
    * @psalm-param class-string<T> $genericClass
@@ -32,6 +32,8 @@ class InMemoryDataSource implements
 
   /**
    * @inheritdoc
+   * @throws DataNotFoundException
+   * @throws QueryNotSupportedException
    */
   public function get(Query $query): mixed {
     if ($query instanceof KeyQuery) {
@@ -47,6 +49,8 @@ class InMemoryDataSource implements
 
   /**
    * @inheritdoc
+   * @throws DataNotFoundException
+   * @throws QueryNotSupportedException
    */
   public function getAll(Query $query): array {
     if ($query instanceof AllQuery) {
@@ -61,7 +65,7 @@ class InMemoryDataSource implements
   }
 
   /**
-   * @inheritdoc
+   * @throws QueryNotSupportedException
    */
   public function getCount(Query $query): int {
     if (!$query instanceof CountQuery) {
@@ -75,6 +79,7 @@ class InMemoryDataSource implements
 
   /**
    * @inheritdoc
+   * @throws QueryNotSupportedException
    */
   public function put(Query $query, mixed $entity = null): mixed {
     if ($entity === null) {
@@ -92,6 +97,7 @@ class InMemoryDataSource implements
 
   /**
    * @inheritdoc
+   * @throws QueryNotSupportedException
    */
   public function putAll(Query $query, array $entities = null): array {
     if ($entities === null) {
@@ -110,7 +116,8 @@ class InMemoryDataSource implements
   }
 
   /**
-   * @inheritdoc
+   * @throws DataNotFoundException
+   * @throws QueryNotSupportedException
    */
   public function delete(Query $query): void {
     if ($query instanceof KeyQuery) {

@@ -55,9 +55,6 @@ class DataSourceMapper implements
     return $entities;
   }
 
-  /**
-   * @inheritdoc
-   */
   public function getCount(Query $query): int {
     $count = $this->getDataSource->getCount($query);
 
@@ -110,9 +107,6 @@ class DataSourceMapper implements
     return $entitiesPutted;
   }
 
-  /**
-   * @inheritdoc
-   */
   public function delete(Query $query): void {
     $this->deleteDataSource->delete($query);
   }
