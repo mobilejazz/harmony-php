@@ -8,9 +8,12 @@ use Harmony\Core\Repository\Operation\Operation;
 use Harmony\Core\Repository\Query\CountAllQuery;
 use Harmony\Core\Repository\Query\Query;
 
+/**
+ * @template T
+ */
 class GetCountInteractor {
   /**
-   * @param GetRepository<int> $getRepository
+   * @param GetRepository<T> $getRepository
    */
   public function __construct(protected GetRepository $getRepository) {
   }
