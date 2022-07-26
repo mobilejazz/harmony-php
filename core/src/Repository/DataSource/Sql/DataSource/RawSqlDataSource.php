@@ -38,6 +38,7 @@ class RawSqlDataSource implements
 
   /**
    * @psalm-suppress ImplementedReturnTypeMismatch
+   * @psalm-suppress LessSpecificImplementedReturnType
    *
    * @param Query $query
    *
@@ -70,10 +71,11 @@ class RawSqlDataSource implements
 
   /**
    * @psalm-suppress ImplementedReturnTypeMismatch
+   * @psalm-suppress LessSpecificImplementedReturnType
    *
    * @param Query $query
    *
-   * @return array
+   * @return mixed[]
    * @throws DataNotFoundException
    * @throws QueryNotSupportedException
    */
@@ -140,11 +142,12 @@ class RawSqlDataSource implements
 
   /**
    * @psalm-suppress MoreSpecificImplementedParamType
+   * @psalm-suppress LessSpecificImplementedReturnType
    *
    * @param Query         $query
    * @param object[]|null $entities
    *
-   * @return array
+   * @return mixed[]
    * @throws QueryNotSupportedException
    */
   public function putAll(Query $query, array $entities = null): array {

@@ -16,19 +16,12 @@ class SqlRepositoryFactory {
     QueryFactory $queryFactory,
     SqlSchema $schema
   ): GetCountInteractor {
-    $sqlBuilder = new SqlBuilder(
-      $schema,
-      $queryFactory,
-    );
+    $sqlBuilder = new SqlBuilder($schema, $queryFactory);
 
-    $dataSource = new RawSqlDataSource(
-      $pdo,
-      $sqlBuilder
-    );
+    $dataSource = new RawSqlDataSource($pdo, $sqlBuilder);
 
-    $countRepository = new SingleGetDataSourceRepository(
-      $dataSource,
-    );
+    /** @var SingleGetDataSourceRepository<int> $countRepository */
+    $countRepository = new SingleGetDataSourceRepository($dataSource);
 
     return new GetCountInteractor($countRepository);
   }
