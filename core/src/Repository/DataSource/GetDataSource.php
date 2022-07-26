@@ -17,6 +17,4 @@ interface GetDataSource {
    * @return array<T>
    */
   public function getAll(Query $query): array;
-
-  public function getCount(Query $query): int;
 }

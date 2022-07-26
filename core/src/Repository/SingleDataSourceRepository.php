@@ -43,10 +43,6 @@ class SingleDataSourceRepository implements
     return $this->getDataSource->getAll($query);
   }
 
-  public function getCount(Query $query, Operation $operation): int {
-    return $this->getDataSource->getCount($query);
-  }
-
   /**
    * @inheritdoc
    */

@@ -29,13 +29,6 @@ class VoidRepository implements GetRepository, PutRepository, DeleteRepository {
   }
 
   /**
-   * @throws MethodNotImplementedException
-   */
-  public function getCount(Query $query, Operation $operation): int {
-    throw new MethodNotImplementedException();
-  }
-
-  /**
    * @inheritdoc
    * @throws MethodNotImplementedException
    */

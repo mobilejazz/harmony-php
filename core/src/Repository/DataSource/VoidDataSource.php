@@ -28,13 +28,6 @@ class VoidDataSource implements GetDataSource, PutDataSource, DeleteDataSource {
   }
 
   /**
-   * @throws MethodNotImplementedException
-   */
-  public function getCount(Query $query): int {
-    throw new MethodNotImplementedException();
-  }
-
-  /**
    * @inheritdoc
    * @throws MethodNotImplementedException
    */

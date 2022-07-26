@@ -65,19 +65,6 @@ class InMemoryDataSource implements
   }
 
   /**
-   * @throws QueryNotSupportedException
-   */
-  public function getCount(Query $query): int {
-    if (!$query instanceof CountQuery) {
-      throw new QueryNotSupportedException();
-    }
-
-    $count = count($this->entities);
-
-    return $count;
-  }
-
-  /**
    * @inheritdoc
    * @throws QueryNotSupportedException
    */

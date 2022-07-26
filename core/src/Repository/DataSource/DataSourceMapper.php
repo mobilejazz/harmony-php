@@ -55,12 +55,6 @@ class DataSourceMapper implements
     return $entities;
   }
 
-  public function getCount(Query $query): int {
-    $count = $this->getDataSource->getCount($query);
-
-    return $count;
-  }
-
   /**
    * @param Query        $query
    * @param TEntity|null $entity

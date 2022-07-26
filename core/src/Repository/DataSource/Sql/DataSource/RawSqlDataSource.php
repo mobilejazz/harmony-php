@@ -41,11 +41,11 @@ class RawSqlDataSource implements
    *
    * @param Query $query
    *
-   * @return object
+   * @return mixed
    * @throws DataNotFoundException
    * @throws QueryNotSupportedException
    */
-  public function get(Query $query): object {
+  public function get(Query $query): mixed {
     $sql = match (true) {
       $query instanceof IdQuery => $this->sqlBuilder->selectById(
         $query->getId(),
@@ -73,7 +73,7 @@ class RawSqlDataSource implements
    *
    * @param Query $query
    *
-   * @return object[]
+   * @return array
    * @throws DataNotFoundException
    * @throws QueryNotSupportedException
    */
@@ -93,28 +93,6 @@ class RawSqlDataSource implements
     }
 
     return $items;
-  }
-
-  /**
-   * @throws QueryNotSupportedException
-   * @throws DataNotFoundException
-   */
-  public function getCount(Query $query): int {
-    $sql = match (true) {
-      $query instanceof CountQuery => $this->sqlBuilder->selectComposed(
-        $query,
-      ),
-      default => throw new QueryNotSupportedException()
-    };
-
-    $result = $this->pdo->findOne($sql->sql(), $sql->params());
-
-    if ($result === null) {
-      throw new DataNotFoundException();
-    }
-
-    // @phpstan-ignore-next-line
-    return $result->count;
   }
 
   /**
@@ -166,7 +144,7 @@ class RawSqlDataSource implements
    * @param Query         $query
    * @param object[]|null $entities
    *
-   * @return object[]
+   * @return array
    * @throws QueryNotSupportedException
    */
   public function putAll(Query $query, array $entities = null): array {

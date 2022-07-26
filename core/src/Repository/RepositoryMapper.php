@@ -58,10 +58,6 @@ class RepositoryMapper implements
     return $models;
   }
 
-  public function getCount(Query $query, Operation $operation): int {
-    return $this->getRepository->getCount($query, $operation);
-  }
-
   /**
    * @inheritdoc
    */

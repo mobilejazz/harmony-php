@@ -25,11 +25,4 @@ class VoidGetDataSource implements GetDataSource {
   public function getAll(Query $query): array {
     throw new MethodNotImplementedException();
   }
-
-  /**
-   * @throws MethodNotImplementedException
-   */
-  public function getCount(Query $query): int {
-    throw new MethodNotImplementedException();
-  }
 }

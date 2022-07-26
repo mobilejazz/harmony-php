@@ -30,8 +30,4 @@ class SingleGetDataSourceRepository implements GetRepository {
   public function getAll(Query $query, Operation $operation): array {
     return $this->getDataSource->getAll($query);
   }
-
-  public function getCount(Query $query, Operation $operation): int {
-    return $this->getDataSource->getCount($query);
-  }
 }
