@@ -66,6 +66,10 @@ class RawSqlDataSource implements
       throw new DataNotFoundException();
     }
 
+    if ($query instanceof CountQuery) {
+      $item = $item->count;
+    }
+
     return $item;
   }
 

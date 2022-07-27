@@ -22,6 +22,8 @@ class GetCountInteractor {
     $query = $query ?? new CountAllQuery();
     $operation = $operation ?? new DefaultOperation();
 
-    return $this->getRepository->get($query, $operation);
+    $result = $this->getRepository->get($query, $operation);
+
+    return $result;
   }
 }
