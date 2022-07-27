@@ -67,6 +67,7 @@ class RawSqlDataSource implements
     }
 
     if ($query instanceof CountQuery) {
+      // @phpstan-ignore-next-line
       $item = $item->count;
     }
 
