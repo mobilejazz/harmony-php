@@ -3,6 +3,6 @@
 namespace Harmony\Core\Repository\DataSource\Sql;
 
 class SqlOrderDirection {
-  const ASC = "asc";
-  const DESC = "desc";
+  public const ASC = "asc";
+  public const DESC = "desc";
 }

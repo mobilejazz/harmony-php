@@ -11,7 +11,10 @@ use Harmony\Core\Repository\Query\Query;
  * @implements GetDataSource<TEntity>
  * @implements PutDataSource<TEntity>
  */
-class DataSourceMapper implements GetDataSource, PutDataSource, DeleteDataSource {
+class DataSourceMapper implements
+  GetDataSource,
+  PutDataSource,
+  DeleteDataSource {
   /**
    * @param GetDataSource<TData>   $getDataSource
    * @param PutDataSource<TData>   $putDataSource
@@ -98,9 +101,6 @@ class DataSourceMapper implements GetDataSource, PutDataSource, DeleteDataSource
     return $entitiesPutted;
   }
 
-  /**
-   * @inheritdoc
-   */
   public function delete(Query $query): void {
     $this->deleteDataSource->delete($query);
   }

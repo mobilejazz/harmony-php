@@ -4,8 +4,8 @@ namespace Harmony\Core\Repository\DataSource\Sql\DataSource;
 
 interface SqlInterface {
   /**
-   * @param string               $sql
-   * @param array<mixed>         $params
+   * @param string                  $sql
+   * @param array<string, mixed> $params
    *
    * @return object|null
    */
@@ -28,7 +28,7 @@ interface SqlInterface {
   public function insert(string $sql, array $params): int|string;
 
   /**
-   * @param string $sql
+   * @param string               $sql
    * @param array<string, mixed> $params
    *
    * @return bool
