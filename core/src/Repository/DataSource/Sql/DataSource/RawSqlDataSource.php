@@ -11,6 +11,7 @@ use Harmony\Core\Repository\Error\DataNotFoundException;
 use Harmony\Core\Repository\Error\QueryNotSupportedException;
 use Harmony\Core\Repository\Query\AllQuery;
 use Harmony\Core\Repository\Query\Composed\ComposedQuery;
+use Harmony\Core\Repository\Query\Composed\CountQuery;
 use Harmony\Core\Repository\Query\IdQuery;
 use Harmony\Core\Repository\Query\KeyQuery;
 use Harmony\Core\Repository\Query\Query;
@@ -37,14 +38,15 @@ class RawSqlDataSource implements
 
   /**
    * @psalm-suppress ImplementedReturnTypeMismatch
+   * @psalm-suppress LessSpecificImplementedReturnType
    *
    * @param Query $query
    *
-   * @return object
+   * @return mixed
    * @throws DataNotFoundException
    * @throws QueryNotSupportedException
    */
-  public function get(Query $query): object {
+  public function get(Query $query): mixed {
     $sql = match (true) {
       $query instanceof IdQuery => $this->sqlBuilder->selectById(
         $query->getId(),
@@ -64,15 +66,21 @@ class RawSqlDataSource implements
       throw new DataNotFoundException();
     }
 
+    if ($query instanceof CountQuery) {
+      // @phpstan-ignore-next-line
+      $item = $item->count;
+    }
+
     return $item;
   }
 
   /**
    * @psalm-suppress ImplementedReturnTypeMismatch
+   * @psalm-suppress LessSpecificImplementedReturnType
    *
    * @param Query $query
    *
-   * @return object[]
+   * @return mixed[]
    * @throws DataNotFoundException
    * @throws QueryNotSupportedException
    */
@@ -141,11 +149,12 @@ class RawSqlDataSource implements
 
   /**
    * @psalm-suppress MoreSpecificImplementedParamType
+   * @psalm-suppress LessSpecificImplementedReturnType
    *
    * @param Query         $query
    * @param object[]|null $entities
    *
-   * @return object[]
+   * @return mixed[]
    * @throws QueryNotSupportedException
    */
   public function putAll(Query $query, array $entities = null): array {

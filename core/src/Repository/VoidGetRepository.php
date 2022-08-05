@@ -13,6 +13,7 @@ use Harmony\Core\Shared\Error\MethodNotImplementedException;
 class VoidGetRepository implements GetRepository {
   /**
    * @inheritdoc
+   * @throws MethodNotImplementedException
    */
   public function get(Query $query, Operation $operation) {
     throw new MethodNotImplementedException();
@@ -20,6 +21,7 @@ class VoidGetRepository implements GetRepository {
 
   /**
    * @inheritdoc
+   * @throws MethodNotImplementedException
    */
   public function getAll(Query $query, Operation $operation): array {
     throw new MethodNotImplementedException();

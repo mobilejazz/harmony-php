@@ -2,16 +2,18 @@
 
 namespace Harmony\Core\Repository\DataSource\Sql\Helper;
 
-use Harmony\Core\Repository\Query\Query;
 use Harmony\Core\Repository\DataSource\Sql\SqlBaseColumn;
 use Harmony\Core\Repository\Query\Composed\ComposedQuery;
+use Harmony\Core\Repository\Query\Composed\CountQuery;
 use Harmony\Core\Repository\Query\Composed\OrderByQuery;
 use Harmony\Core\Repository\Query\Composed\PaginationOffsetLimitQuery;
 use Harmony\Core\Repository\Query\Composed\WhereQuery;
-use Latitude\QueryBuilder\Query\SelectQuery;
+use Harmony\Core\Repository\Query\Query;
 use Latitude\QueryBuilder\Query as SqlQuery;
+use Latitude\QueryBuilder\Query\SelectQuery;
 use Latitude\QueryBuilder\Query\UpdateQuery;
 use Latitude\QueryBuilder\QueryFactory;
+use function Latitude\QueryBuilder\alias;
 use function Latitude\QueryBuilder\field;
 use function Latitude\QueryBuilder\func;
 
@@ -65,6 +67,7 @@ class SqlBuilder {
     }
 
     $query = $factory->compile();
+
     return $query;
   }
 
@@ -73,7 +76,12 @@ class SqlBuilder {
 
     $factory = $this->addWhereConditions($composed, $factory);
 
+    if ($composed instanceof CountQuery) {
+      $factory = $this->factory->select(alias(func("COUNT", "*"), "count"));
+    }
+
     $query = $factory->compile();
+
     return $query;
   }
 
@@ -94,6 +102,7 @@ class SqlBuilder {
     $factory = $this->addWhereConditions($composed, $factory);
 
     $query = $factory->compile();
+
     return $query;
   }
 
@@ -132,6 +141,7 @@ class SqlBuilder {
     }
 
     $query = $factory->compile();
+
     return $query;
   }
 
@@ -154,7 +164,7 @@ class SqlBuilder {
   }
 
   /**
-   * @param Query $query
+   * @param Query                   $query
    * @param SelectQuery|UpdateQuery $factory
    *
    * @return SelectQuery|UpdateQuery

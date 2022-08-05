@@ -7,7 +7,7 @@ use Harmony\Core\Shared\Error\MethodNotImplementedException;
 
 class VoidDeleteDataSource implements DeleteDataSource {
   /**
-   * @inheritdoc
+   * @throws MethodNotImplementedException
    */
   public function delete(Query $query): void {
     throw new MethodNotImplementedException();

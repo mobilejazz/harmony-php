@@ -106,9 +106,6 @@ class RepositoryMapper implements
     return $modelsPutted;
   }
 
-  /**
-   * @inheritdoc
-   */
   public function delete(Query $query, Operation $operation): void {
     $this->deleteRepository->delete($query, $operation);
   }

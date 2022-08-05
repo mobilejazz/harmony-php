@@ -61,9 +61,6 @@ class SingleDataSourceRepository implements
     return $this->putDataSource->putAll($query, $models);
   }
 
-  /**
-   * @inheritdoc
-   */
   public function delete(Query $query, Operation $operation): void {
     $this->deleteDataSource->delete($query);
   }

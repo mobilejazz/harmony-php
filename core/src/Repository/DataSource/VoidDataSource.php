@@ -13,6 +13,7 @@ use Harmony\Core\Shared\Error\MethodNotImplementedException;
 class VoidDataSource implements GetDataSource, PutDataSource, DeleteDataSource {
   /**
    * @inheritdoc
+   * @throws MethodNotImplementedException
    */
   public function get(Query $query): mixed {
     throw new MethodNotImplementedException();
@@ -20,6 +21,7 @@ class VoidDataSource implements GetDataSource, PutDataSource, DeleteDataSource {
 
   /**
    * @inheritdoc
+   * @throws MethodNotImplementedException
    */
   public function getAll(Query $query): array {
     throw new MethodNotImplementedException();
@@ -27,6 +29,7 @@ class VoidDataSource implements GetDataSource, PutDataSource, DeleteDataSource {
 
   /**
    * @inheritdoc
+   * @throws MethodNotImplementedException
    */
   public function put(Query $query, mixed $entity = null): mixed {
     throw new MethodNotImplementedException();
@@ -34,13 +37,14 @@ class VoidDataSource implements GetDataSource, PutDataSource, DeleteDataSource {
 
   /**
    * @inheritdoc
+   * @throws MethodNotImplementedException
    */
   public function putAll(Query $query, array $entities = null): array {
     throw new MethodNotImplementedException();
   }
 
   /**
-   * @inheritdoc
+   * @throws MethodNotImplementedException
    */
   public function delete(Query $query): void {
     throw new MethodNotImplementedException();

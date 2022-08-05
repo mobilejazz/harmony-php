@@ -11,12 +11,6 @@ class DeleteInteractor {
   public function __construct(protected DeleteRepository $deleteRepository) {
   }
 
-  /**
-   * @param Query $query
-   * @param Operation|null $operation
-   *
-   * @return void
-   */
   public function __invoke(Query $query, ?Operation $operation = null): void {
     $operation = $operation ?? new DefaultOperation();
     $this->deleteRepository->delete($query, $operation);

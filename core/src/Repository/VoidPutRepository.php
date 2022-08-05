@@ -13,6 +13,7 @@ use Harmony\Core\Shared\Error\MethodNotImplementedException;
 class VoidPutRepository implements PutRepository {
   /**
    * @inheritdoc
+   * @throws MethodNotImplementedException
    */
   public function put(Query $query, Operation $operation, $model = null) {
     throw new MethodNotImplementedException();
@@ -20,6 +21,7 @@ class VoidPutRepository implements PutRepository {
 
   /**
    * @inheritdoc
+   * @throws MethodNotImplementedException
    */
   public function putAll(
     Query $query,

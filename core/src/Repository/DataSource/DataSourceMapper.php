@@ -101,9 +101,6 @@ class DataSourceMapper implements
     return $entitiesPutted;
   }
 
-  /**
-   * @inheritdoc
-   */
   public function delete(Query $query): void {
     $this->deleteDataSource->delete($query);
   }
