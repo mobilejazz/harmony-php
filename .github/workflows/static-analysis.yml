@@ -27,14 +27,13 @@ jobs:
         run: composer install --prefer-dist --no-progress
         working-directory: ./sample/src
       - name: PHPStan
-        run: ./vendor/bin/phpstan analyse -l max app core
+        run: ./vendor/bin/phpstan analyse -c phpstan.neon
         working-directory: ./sample/src
-        # @todo PHP Mess Detector is not 100% with PHP 8.0 yet
-      #      - name: PHP Mess Detector
-      #        run: phpmd app,core text codesize,design,cleancode
-      #        working-directory: ./sample/src
+      - name: PHP Mess Detector
+        run: phpmd /var/www/html/app,/var/www/html/core text codesize,design,cleancode
+        working-directory: ./sample/src
       - name: Psalm
-        run: ./vendor/bin/psalm --show-info=true --php-version=8.0
+        run: ./vendor/bin/psalm --diff --show-info=true
         working-directory: ./sample/src
       - name: PHP Lint
         run: find . -path ./vendor -prune -o -type f -name '*.php' -print0 | xargs -0 -n1 -P4 php -l -n | (! grep -v 'No syntax errors detected' )

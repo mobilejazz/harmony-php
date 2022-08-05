@@ -5,15 +5,25 @@
   bootstrap="vendor/autoload.php"
   colors="true"
 >
+  <php>
+    <env name="ENV_NAME" value="TEST" force="true" />
+    <env name="APP_ENV" value="test" force="true" />
+    <env name="SYMFONY_ENV" value="test" force="true" />
+  </php>
+
   <testsuites>
     <testsuite name="unit">
-      <directory suffix="Test.php">./tests</directory>
+      <directory suffix="Test.php">./tests/unit</directory>
+    </testsuite>
+    <testsuite name="integration">
+      <directory suffix="Test.php">./tests/integration</directory>
     </testsuite>
   </testsuites>
+
   <coverage processUncoveredFiles="true">
     <include>
-      <directory suffix=".php">./app</directory>
-      <directory suffix=".php">./core</directory>
+      <directory suffix=".php">app</directory>
+      <directory suffix=".php">core</directory>
     </include>
   </coverage>
 </phpunit>

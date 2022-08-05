@@ -26,7 +26,4 @@ docker_compose build \
     --memory 1GB \
     --build-arg HOST_USER_ID="${DOCKER_PHP_USER_ID}" \
     --build-arg HOST_GROUP_ID="${DOCKER_PHP_GROUP_ID}"
-
-docker_compose up -d php-sample
-docker_compose exec php-sample composer install
 docker_compose down

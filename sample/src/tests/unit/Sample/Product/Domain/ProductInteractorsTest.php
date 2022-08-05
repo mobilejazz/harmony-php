@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Sample\Product\Domain;
+namespace App\Tests\unit\Sample\Product\Domain;
 
 use Harmony\Core\Repository\Error\DataNotFoundException;
 use Harmony\Core\Repository\Query\AllQuery;

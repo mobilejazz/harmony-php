@@ -1,0 +1,8 @@
+parameters:
+  level: max
+  paths:
+    - app
+    - core
+    - tests
+  scanDirectories:
+    - vendor

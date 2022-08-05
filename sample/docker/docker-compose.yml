@@ -1,9 +1,9 @@
 # Base stack
-version: "3.7"
+version: "3.9"
 
 services:
   nginx-sample:
-    image: nginx:1.14-alpine
+    image: nginx:1.23-alpine
     container_name: nginx-sample-docker
     restart: unless-stopped
     volumes:
