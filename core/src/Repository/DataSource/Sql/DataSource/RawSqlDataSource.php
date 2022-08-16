@@ -182,6 +182,12 @@ class RawSqlDataSource implements
       $query instanceof IdQuery => $this->sqlBuilder->deleteById(
         $query->getId(),
       ),
+      $query instanceof KeyQuery => $this->sqlBuilder->deleteByKey(
+        $query->geKey(),
+      ),
+      $query instanceof ComposedQuery => $this->sqlBuilder->deleteComposed(
+        $query,
+      ),
       default => throw new QueryNotSupportedException()
     };
 

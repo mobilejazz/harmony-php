@@ -163,6 +163,42 @@ class SqlBuilder {
     return $query;
   }
 
+  public function deleteByKey(mixed $value): SqlQuery {
+    if ($this->schema->softDeleteEnabled()) {
+      $factory = $this->factory
+        ->update($this->schema->getTableName(), [
+          SqlBaseColumn::DELETED_AT => func("NOW"),
+        ])
+        ->where(field($this->schema->getKeyColumn())->eq($value));
+    } else {
+      $factory = $this->factory
+        ->delete($this->schema->getTableName())
+        ->where(field($this->schema->getKeyColumn())->eq($value));
+    }
+
+    $query = $factory->compile();
+
+    return $query;
+  }
+
+  public function deleteComposed(ComposedQuery $composed): SqlQuery {
+    if ($this->schema->softDeleteEnabled()) {
+      $factory = $this->factory
+        ->update($this->schema->getTableName(), [
+          SqlBaseColumn::DELETED_AT => func("NOW"),
+        ]);
+    } else {
+      $factory = $this->factory
+        ->delete($this->schema->getTableName());
+    }
+
+    $factory = $this->addWhereConditions($composed, $factory);
+
+    $query = $factory->compile();
+
+    return $query;
+  }
+
   /**
    * @param Query                   $query
    * @param SelectQuery|UpdateQuery $factory
