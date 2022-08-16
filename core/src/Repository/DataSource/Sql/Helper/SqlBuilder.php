@@ -145,58 +145,32 @@ class SqlBuilder {
     return $query;
   }
 
-  public function deleteById(mixed $value): SqlQuery {
+  protected function getDeleteFactory(): QueryFactory {
     if ($this->schema->softDeleteEnabled()) {
-      $factory = $this->factory
-        ->update($this->schema->getTableName(), [
-          SqlBaseColumn::DELETED_AT => func("NOW"),
-        ])
-        ->where(field($this->schema->getIdColumn())->eq($value));
-    } else {
-      $factory = $this->factory
-        ->delete($this->schema->getTableName())
-        ->where(field($this->schema->getIdColumn())->eq($value));
+      return $this->factory->update($this->schema->getTableName(), [
+        SqlBaseColumn::DELETED_AT => func("NOW"),
+      ]);
     }
 
-    $query = $factory->compile();
+    return $this->factory->delete($this->schema->getTableName());
+  }
 
-    return $query;
+  public function deleteById(mixed $value): SqlQuery {
+    return $this->getDeleteFactory()
+      ->where(field($this->schema->getIdColumn())->eq($value))
+      ->compile();
   }
 
   public function deleteByKey(mixed $value): SqlQuery {
-    if ($this->schema->softDeleteEnabled()) {
-      $factory = $this->factory
-        ->update($this->schema->getTableName(), [
-          SqlBaseColumn::DELETED_AT => func("NOW"),
-        ])
-        ->where(field($this->schema->getKeyColumn())->eq($value));
-    } else {
-      $factory = $this->factory
-        ->delete($this->schema->getTableName())
-        ->where(field($this->schema->getKeyColumn())->eq($value));
-    }
-
-    $query = $factory->compile();
-
-    return $query;
+    return $this->getDeleteFactory()
+      ->where(field($this->schema->getKeyColumn())->eq($value))
+      ->compile();
   }
 
   public function deleteComposed(ComposedQuery $composed): SqlQuery {
-    if ($this->schema->softDeleteEnabled()) {
-      $factory = $this->factory
-        ->update($this->schema->getTableName(), [
-          SqlBaseColumn::DELETED_AT => func("NOW"),
-        ]);
-    } else {
-      $factory = $this->factory
-        ->delete($this->schema->getTableName());
-    }
+    $factory = $this->getDeleteFactory();
 
-    $factory = $this->addWhereConditions($composed, $factory);
-
-    $query = $factory->compile();
-
-    return $query;
+    return $factory->addWhereConditions($composed, $factory)->compile();
   }
 
   /**
