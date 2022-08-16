@@ -52,7 +52,7 @@ class RawSqlDataSource implements
         $query->getId(),
       ),
       $query instanceof KeyQuery => $this->sqlBuilder->selectByKey(
-        $query->geKey(),
+        $query->getKey(),
       ),
       $query instanceof ComposedQuery => $this->sqlBuilder->selectComposed(
         $query,
@@ -183,7 +183,7 @@ class RawSqlDataSource implements
         $query->getId(),
       ),
       $query instanceof KeyQuery => $this->sqlBuilder->deleteByKey(
-        $query->geKey(),
+        $query->getKey(),
       ),
       $query instanceof ComposedQuery => $this->sqlBuilder->deleteComposed(
         $query,
