@@ -37,11 +37,11 @@ class InMemoryDataSource implements
    */
   public function get(Query $query): mixed {
     if ($query instanceof KeyQuery) {
-      if (!isset($this->entities[$query->geKey()])) {
+      if (!isset($this->entities[$query->getKey()])) {
         throw new DataNotFoundException();
       }
 
-      return $this->entities[$query->geKey()];
+      return $this->entities[$query->getKey()];
     }
 
     throw new QueryNotSupportedException();
@@ -74,7 +74,7 @@ class InMemoryDataSource implements
     }
 
     if ($query instanceof KeyQuery) {
-      $this->entities[$query->geKey()] = $entity;
+      $this->entities[$query->getKey()] = $entity;
 
       return $entity;
     }
@@ -108,11 +108,11 @@ class InMemoryDataSource implements
    */
   public function delete(Query $query): void {
     if ($query instanceof KeyQuery) {
-      if (!isset($this->entities[$query->geKey()])) {
+      if (!isset($this->entities[$query->getKey()])) {
         throw new DataNotFoundException();
       }
 
-      unset($this->entities[$query->geKey()]);
+      unset($this->entities[$query->getKey()]);
 
       return;
     }

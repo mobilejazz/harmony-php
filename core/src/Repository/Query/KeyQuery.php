@@ -14,7 +14,7 @@ class KeyQuery implements Query {
   /**
    * @return string
    */
-  public function geKey(): string {
+  public function getKey(): string {
     return $this->key;
   }
 }
