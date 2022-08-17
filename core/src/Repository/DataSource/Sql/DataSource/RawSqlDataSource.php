@@ -52,7 +52,7 @@ class RawSqlDataSource implements
         $query->getId(),
       ),
       $query instanceof KeyQuery => $this->sqlBuilder->selectByKey(
-        $query->geKey(),
+        $query->getKey(),
       ),
       $query instanceof ComposedQuery => $this->sqlBuilder->selectComposed(
         $query,
@@ -179,6 +179,12 @@ class RawSqlDataSource implements
     $sql = match (true) {
       $query instanceof IdQuery => $this->sqlBuilder->deleteById(
         $query->getId(),
+      ),
+      $query instanceof KeyQuery => $this->sqlBuilder->deleteByKey(
+        $query->getKey(),
+      ),
+      $query instanceof ComposedQuery => $this->sqlBuilder->deleteComposed(
+        $query,
       ),
       default => throw new QueryNotSupportedException()
     };
