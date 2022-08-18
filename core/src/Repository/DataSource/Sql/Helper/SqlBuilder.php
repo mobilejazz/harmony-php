@@ -12,6 +12,7 @@ use Harmony\Core\Repository\Query\Query;
 use Latitude\QueryBuilder\Query as SqlQuery;
 use Latitude\QueryBuilder\Query\SelectQuery;
 use Latitude\QueryBuilder\Query\UpdateQuery;
+use Latitude\QueryBuilder\Query\DeleteQuery;
 use Latitude\QueryBuilder\QueryFactory;
 use function Latitude\QueryBuilder\alias;
 use function Latitude\QueryBuilder\field;
@@ -145,7 +146,7 @@ class SqlBuilder {
     return $query;
   }
 
-  protected function getDeleteFactory(): QueryFactory {
+  protected function getDeleteQuery(): UpdateQuery|DeleteQuery {
     if ($this->schema->softDeleteEnabled()) {
       return $this->factory->update($this->schema->getTableName(), [
         SqlBaseColumn::DELETED_AT => func("NOW"),
@@ -156,33 +157,33 @@ class SqlBuilder {
   }
 
   public function deleteById(mixed $value): SqlQuery {
-    return $this->getDeleteFactory()
+    return $this->getDeleteQuery()
       ->where(field($this->schema->getIdColumn())->eq($value))
       ->compile();
   }
 
   public function deleteByKey(mixed $value): SqlQuery {
-    return $this->getDeleteFactory()
+    return $this->getDeleteQuery()
       ->where(field($this->schema->getKeyColumn())->eq($value))
       ->compile();
   }
 
   public function deleteComposed(ComposedQuery $composed): SqlQuery {
-    $factory = $this->getDeleteFactory();
+    $deleteQuery = $this->getDeleteQuery();
 
-    return $factory->addWhereConditions($composed, $factory)->compile();
+    return $this->addWhereConditions($composed, $deleteQuery)->compile();
   }
 
   /**
    * @param Query                   $query
-   * @param SelectQuery|UpdateQuery $factory
+   * @param SelectQuery|UpdateQuery|DeleteQuery $factory
    *
-   * @return SelectQuery|UpdateQuery
+   * @return SelectQuery|UpdateQuery|DeleteQuery
    */
-  public function addWhereConditions(
+  protected function addWhereConditions(
     Query $query,
-    SelectQuery|UpdateQuery $factory
-  ): SelectQuery|UpdateQuery {
+    SelectQuery|UpdateQuery|DeleteQuery $factory
+  ): SelectQuery|UpdateQuery|DeleteQuery {
     if ($query instanceof WhereQuery) {
       $wheres = $query->where();
 
