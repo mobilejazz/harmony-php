@@ -4,6 +4,7 @@ namespace Harmony\Core\Repository\DataSource\Sql\Helper;
 
 use Harmony\Core\Repository\DataSource\Sql\SqlBaseColumn;
 use Harmony\Core\Repository\Query\Composed\ComposedQuery;
+use Harmony\Core\Repository\Query\Composed\CountQuery;
 use Harmony\Core\Repository\Query\Composed\IncludeSoftDeletedQuery;
 use Harmony\Core\Repository\Query\Composed\OrderByQuery;
 use Harmony\Core\Repository\Query\Composed\PaginationOffsetLimitQuery;
@@ -12,7 +13,9 @@ use Harmony\Core\Repository\Query\Query;
 use Latitude\QueryBuilder\Query as SqlQuery;
 use Latitude\QueryBuilder\Query\SelectQuery;
 use Latitude\QueryBuilder\Query\UpdateQuery;
+use Latitude\QueryBuilder\Query\DeleteQuery;
 use Latitude\QueryBuilder\QueryFactory;
+use function Latitude\QueryBuilder\alias;
 use function Latitude\QueryBuilder\field;
 use function Latitude\QueryBuilder\func;
 
@@ -74,6 +77,10 @@ class SqlBuilder {
     $factory = $this->factory->select()->from($this->schema->getTableName());
 
     $factory = $this->addWhereConditions($composed, $factory);
+
+    if ($composed instanceof CountQuery) {
+      $factory = $this->factory->select(alias(func("COUNT", "*"), "count"));
+    }
 
     $query = $factory->compile();
 
@@ -140,34 +147,44 @@ class SqlBuilder {
     return $query;
   }
 
-  public function deleteById(mixed $value): SqlQuery {
+  protected function getDeleteQuery(): UpdateQuery|DeleteQuery {
     if ($this->schema->softDeleteEnabled()) {
-      $factory = $this->factory
-        ->update($this->schema->getTableName(), [
-          SqlBaseColumn::DELETED_AT => func("NOW"),
-        ])
-        ->where(field($this->schema->getIdColumn())->eq($value));
-    } else {
-      $factory = $this->factory
-        ->delete($this->schema->getTableName())
-        ->where(field($this->schema->getIdColumn())->eq($value));
+      return $this->factory->update($this->schema->getTableName(), [
+        SqlBaseColumn::DELETED_AT => func("NOW"),
+      ]);
     }
 
-    $query = $factory->compile();
+    return $this->factory->delete($this->schema->getTableName());
+  }
 
-    return $query;
+  public function deleteById(mixed $value): SqlQuery {
+    return $this->getDeleteQuery()
+      ->where(field($this->schema->getIdColumn())->eq($value))
+      ->compile();
+  }
+
+  public function deleteByKey(mixed $value): SqlQuery {
+    return $this->getDeleteQuery()
+      ->where(field($this->schema->getKeyColumn())->eq($value))
+      ->compile();
+  }
+
+  public function deleteComposed(ComposedQuery $composed): SqlQuery {
+    $deleteQuery = $this->getDeleteQuery();
+
+    return $this->addWhereConditions($composed, $deleteQuery)->compile();
   }
 
   /**
    * @param Query                   $query
-   * @param SelectQuery|UpdateQuery $factory
+   * @param SelectQuery|UpdateQuery|DeleteQuery $factory
    *
-   * @return SelectQuery|UpdateQuery
+   * @return SelectQuery|UpdateQuery|DeleteQuery
    */
-  public function addWhereConditions(
+  protected function addWhereConditions(
     Query $query,
-    SelectQuery|UpdateQuery $factory
-  ): SelectQuery|UpdateQuery {
+    SelectQuery|UpdateQuery|DeleteQuery $factory
+  ): SelectQuery|UpdateQuery|DeleteQuery {
     if ($query instanceof WhereQuery) {
       $wheres = $query->where();
 

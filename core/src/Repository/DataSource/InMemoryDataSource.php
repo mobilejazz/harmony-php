@@ -5,6 +5,7 @@ namespace Harmony\Core\Repository\DataSource;
 use Harmony\Core\Repository\Error\DataNotFoundException;
 use Harmony\Core\Repository\Error\QueryNotSupportedException;
 use Harmony\Core\Repository\Query\AllQuery;
+use Harmony\Core\Repository\Query\Composed\CountQuery;
 use Harmony\Core\Repository\Query\KeyQuery;
 use Harmony\Core\Repository\Query\Query;
 use InvalidArgumentException;
@@ -14,30 +15,33 @@ use InvalidArgumentException;
  * @implements GetDataSource<T>
  * @implements PutDataSource<T>
  */
-class InMemoryDataSource implements GetDataSource, PutDataSource, DeleteDataSource {
+class InMemoryDataSource implements
+  GetDataSource,
+  PutDataSource,
+  DeleteDataSource {
   /** @var array<mixed, T> */
-  protected $entities = [];
+  protected array $entities = [];
 
   /**
    * @psalm-param class-string<T> $genericClass
    *
    * @param string                $genericClass
    */
-  public function __construct(
-    protected string $genericClass
-  ) {
+  public function __construct(protected string $genericClass) {
   }
 
   /**
    * @inheritdoc
+   * @throws DataNotFoundException
+   * @throws QueryNotSupportedException
    */
   public function get(Query $query): mixed {
     if ($query instanceof KeyQuery) {
-      if (!isset($this->entities[$query->geKey()])) {
+      if (!isset($this->entities[$query->getKey()])) {
         throw new DataNotFoundException();
       }
 
-      return $this->entities[$query->geKey()];
+      return $this->entities[$query->getKey()];
     }
 
     throw new QueryNotSupportedException();
@@ -45,6 +49,8 @@ class InMemoryDataSource implements GetDataSource, PutDataSource, DeleteDataSour
 
   /**
    * @inheritdoc
+   * @throws DataNotFoundException
+   * @throws QueryNotSupportedException
    */
   public function getAll(Query $query): array {
     if ($query instanceof AllQuery) {
@@ -60,6 +66,7 @@ class InMemoryDataSource implements GetDataSource, PutDataSource, DeleteDataSour
 
   /**
    * @inheritdoc
+   * @throws QueryNotSupportedException
    */
   public function put(Query $query, mixed $entity = null): mixed {
     if ($entity === null) {
@@ -67,7 +74,7 @@ class InMemoryDataSource implements GetDataSource, PutDataSource, DeleteDataSour
     }
 
     if ($query instanceof KeyQuery) {
-      $this->entities[$query->geKey()] = $entity;
+      $this->entities[$query->getKey()] = $entity;
 
       return $entity;
     }
@@ -77,6 +84,7 @@ class InMemoryDataSource implements GetDataSource, PutDataSource, DeleteDataSour
 
   /**
    * @inheritdoc
+   * @throws QueryNotSupportedException
    */
   public function putAll(Query $query, array $entities = null): array {
     if ($entities === null) {
@@ -95,15 +103,17 @@ class InMemoryDataSource implements GetDataSource, PutDataSource, DeleteDataSour
   }
 
   /**
-   * @inheritdoc
+   * @throws DataNotFoundException
+   * @throws QueryNotSupportedException
    */
   public function delete(Query $query): void {
     if ($query instanceof KeyQuery) {
-      if (!isset($this->entities[$query->geKey()])) {
+      if (!isset($this->entities[$query->getKey()])) {
         throw new DataNotFoundException();
       }
 
-      unset($this->entities[$query->geKey()]);
+      unset($this->entities[$query->getKey()]);
+
       return;
     }
 

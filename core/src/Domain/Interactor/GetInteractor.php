@@ -19,10 +19,6 @@ class GetInteractor {
   }
 
   /**
-   * @param Query|null $query
-   * @param Operation|null $operation
-   *
-   * @return mixed
    * @phpstan-return T
    */
   public function __invoke(

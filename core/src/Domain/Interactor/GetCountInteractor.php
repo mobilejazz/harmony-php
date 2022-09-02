@@ -5,28 +5,25 @@ namespace Harmony\Core\Domain\Interactor;
 use Harmony\Core\Repository\GetRepository;
 use Harmony\Core\Repository\Operation\DefaultOperation;
 use Harmony\Core\Repository\Operation\Operation;
-use Harmony\Core\Repository\Query\AllQuery;
+use Harmony\Core\Repository\Query\CountAllQuery;
 use Harmony\Core\Repository\Query\Query;
 
-/**
- * @template T
- */
-class GetAllInteractor {
+class GetCountInteractor {
   /**
-   * @param GetRepository<T> $getRepository
+   * @param GetRepository<int> $getRepository
    */
   public function __construct(protected GetRepository $getRepository) {
   }
 
-  /**
-   * @return array<T>
-   */
   public function __invoke(
     ?Query $query = null,
     ?Operation $operation = null
-  ): array {
-    $query = $query ?? new AllQuery();
+  ): int {
+    $query = $query ?? new CountAllQuery();
     $operation = $operation ?? new DefaultOperation();
-    return $this->getRepository->getAll($query, $operation);
+
+    $result = $this->getRepository->get($query, $operation);
+
+    return $result;
   }
 }
