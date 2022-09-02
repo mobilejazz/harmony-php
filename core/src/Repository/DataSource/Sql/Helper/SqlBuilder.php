@@ -180,7 +180,7 @@ class SqlBuilder {
       !$query instanceof IncludeSoftDeletedQuery &&
       $this->schema->softDeleteEnabled()
     ) {
-      $factory->andWhere(field(SqlBaseColumn::DELETED_AT)->eq(null));
+      $factory->andWhere(field(SqlBaseColumn::DELETED_AT)->isNull());
     }
 
     return $factory;
