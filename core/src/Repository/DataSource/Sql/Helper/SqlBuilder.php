@@ -5,6 +5,7 @@ namespace Harmony\Core\Repository\DataSource\Sql\Helper;
 use Harmony\Core\Repository\DataSource\Sql\SqlBaseColumn;
 use Harmony\Core\Repository\Query\Composed\ComposedQuery;
 use Harmony\Core\Repository\Query\Composed\CountQuery;
+use Harmony\Core\Repository\Query\Composed\IncludeSoftDeletedQuery;
 use Harmony\Core\Repository\Query\Composed\OrderByQuery;
 use Harmony\Core\Repository\Query\Composed\PaginationOffsetLimitQuery;
 use Harmony\Core\Repository\Query\Composed\WhereQuery;
@@ -192,8 +193,11 @@ class SqlBuilder {
       }
     }
 
-    if ($this->schema->softDeleteEnabled()) {
-      $factory->andWhere(field(SqlBaseColumn::DELETED_AT)->eq(null));
+    if (
+      !$query instanceof IncludeSoftDeletedQuery &&
+      $this->schema->softDeleteEnabled()
+    ) {
+      $factory->andWhere(field(SqlBaseColumn::DELETED_AT)->isNull());
     }
 
     return $factory;
