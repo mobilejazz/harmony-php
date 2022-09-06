@@ -74,13 +74,15 @@ class SqlBuilder {
   }
 
   public function selectComposed(ComposedQuery $composed): SqlQuery {
-    $factory = $this->factory->select()->from($this->schema->getTableName());
+    if ($composed instanceof CountQuery) {
+      $factory = $this->factory
+        ->select(alias(func("COUNT", "*"), "count"))
+        ->from($this->schema->getTableName());
+    } else {
+      $factory = $this->factory->select()->from($this->schema->getTableName());
+    }
 
     $factory = $this->addWhereConditions($composed, $factory);
-
-    if ($composed instanceof CountQuery) {
-      $factory = $this->factory->select(alias(func("COUNT", "*"), "count"));
-    }
 
     $query = $factory->compile();
 
