@@ -29,9 +29,6 @@ jobs:
       - name: PHPStan
         run: ./vendor/bin/phpstan analyse -c phpstan.neon
         working-directory: ./sample/src
-      - name: PHP Mess Detector
-        run: phpmd /var/www/html/app,/var/www/html/core text codesize,design,cleancode
-        working-directory: ./sample/src
       - name: Psalm
         run: ./vendor/bin/psalm --diff --show-info=true
         working-directory: ./sample/src

@@ -5,23 +5,21 @@ namespace App\Tests\unit\Sample\Product\Domain;
 use Harmony\Core\Repository\Error\DataNotFoundException;
 use Harmony\Core\Repository\Query\AllQuery;
 use Harmony\Core\Repository\Query\KeyQuery;
-use JetBrains\PhpStorm\Pure;
 use PHPUnit\Framework\TestCase;
 use Sample\Product\Domain\Model\Product;
 use Sample\Product\ProductModule;
 
+/**
+ * @psalm-suppress PropertyNotSetInConstructor
+ */
 class ProductInteractorsTest extends TestCase {
-  /**
-   * @var ProductModule
-   */
   private ProductModule $productProvider;
 
-  function setUp(): void {
+  public function setUp(): void {
     $this->productProvider = new ProductModule();
   }
 
-  #[Pure]
-  function getProductOne(): Product {
+  public function getProductOne(): Product {
     return new Product(
       1,
       "PlayStation 5",
@@ -30,36 +28,42 @@ class ProductInteractorsTest extends TestCase {
     );
   }
 
-  #[Pure]
-  function getProductTwo(): Product {
+  public function getProductTwo(): Product {
     return new Product(2, "XBox X", "VideoGames Console from Microsoft", 450.5);
   }
 
-  #[Pure]
-  function getListOfProducts(): array {
+  /**
+   * @return Product[]
+   */
+  public function getListOfProducts(): array {
     return [$this->getProductOne(), $this->getProductTwo()];
   }
 
-  function putProduct(Product $product): Product {
+  public function putProduct(Product $product): Product {
     $query = new KeyQuery((string) $product->getId());
 
     return $this->productProvider->getPutInteractor()($product, $query);
   }
 
-  function putProducts(array $products): array {
+  /**
+   * @param Product[] $products
+   *
+   * @return Product[]
+   */
+  public function putProducts(array $products): array {
     $query = new AllQuery();
 
     return $this->productProvider->getPutAllInteractor()($products, $query);
   }
 
-  function testPutProductInteractor() {
+  public function testPutProductInteractor(): void {
     $product = $this->getProductOne();
     $productSaved = $this->putProduct($product);
 
     $this->assertEquals($productSaved->getName(), $product->getName());
   }
 
-  function testGetProductInteractor() {
+  public function testGetProductInteractor(): void {
     $product = $this->getProductOne();
     $productSaved = $this->putProduct($product);
 
@@ -70,14 +74,14 @@ class ProductInteractorsTest extends TestCase {
     $this->assertEquals($productSaved->getName(), $product->getName());
   }
 
-  function testPutAllProductsInteractor() {
+  public function testPutAllProductsInteractor(): void {
     $products = $this->getListOfProducts();
     $productsSaved = $this->putProducts($products);
 
     $this->assertEquals($products, $productsSaved);
   }
 
-  function testGetAllProductsInteractor() {
+  public function testGetAllProductsInteractor(): void {
     $products = $this->getListOfProducts();
     $productsSaved = $this->putProducts($products);
 
@@ -87,7 +91,7 @@ class ProductInteractorsTest extends TestCase {
     $this->assertEquals($productsSaved, $allProducts);
   }
 
-  function testDeleteProductInteractor() {
+  public function testDeleteProductInteractor(): void {
     $this->expectException(DataNotFoundException::class);
 
     $product = $this->getProductOne();

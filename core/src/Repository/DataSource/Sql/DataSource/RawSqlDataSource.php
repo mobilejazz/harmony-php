@@ -37,8 +37,8 @@ class RawSqlDataSource implements
   }
 
   /**
-   * @psalm-suppress ImplementedReturnTypeMismatch
    * @psalm-suppress LessSpecificImplementedReturnType
+   * @psalm-suppress RedundantIdentityWithTrue
    *
    * @param Query $query
    *
@@ -75,8 +75,8 @@ class RawSqlDataSource implements
   }
 
   /**
-   * @psalm-suppress ImplementedReturnTypeMismatch
    * @psalm-suppress LessSpecificImplementedReturnType
+   * @psalm-suppress RedundantIdentityWithTrue
    *
    * @param Query $query
    *
@@ -139,6 +139,7 @@ class RawSqlDataSource implements
 
     if ($query instanceof IdQuery) {
       $id = $query->getId();
+      // @phpstan-ignore-next-line
     } elseif (isset($entity?->$idCol)) {
       // @phpstan-ignore-next-line
       $id = $entity->$idCol;
@@ -148,8 +149,8 @@ class RawSqlDataSource implements
   }
 
   /**
-   * @psalm-suppress MoreSpecificImplementedParamType
    * @psalm-suppress LessSpecificImplementedReturnType
+   * @psalm-suppress RedundantIdentityWithTrue
    *
    * @param Query         $query
    * @param object[]|null $entities
@@ -173,6 +174,8 @@ class RawSqlDataSource implements
   }
 
   /**
+   * @psalm-suppress RedundantIdentityWithTrue
+   *
    * @param Query $query
    *
    * @throws QueryNotSupportedException

@@ -3,10 +3,8 @@ FROM php:8.1-fpm-alpine
 # Update system
 RUN apk --update --no-cache add \
     git \
-    shadow
-
-# Install PHP extensions
-RUN docker-php-ext-install pdo_mysql
+    shadow \
+    && docker-php-ext-install pdo_mysql
 
 # Use the default development configuration
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
@@ -18,13 +16,11 @@ ARG HOST_GROUP_ID=1000
 RUN usermod -u $HOST_USER_ID www-data \
     && groupmod -g $HOST_GROUP_ID www-data
 
-RUN curl -sS https://getcomposer.org/installer | php -- \
-        --filename=composer \
-        --install-dir=/usr/local/bin && \
-    composer clear-cache
+# Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Xdebug
-RUN apk add --no-cache $PHPIZE_DEPS \
+RUN apk add --no-cache --update --virtual .xdebug-deps $PHPIZE_DEPS \
     && pecl install xdebug-3.1.5 \
     && docker-php-ext-enable xdebug \
     && echo "xdebug.log_level = 0" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
@@ -37,4 +33,9 @@ RUN apk add --no-cache $PHPIZE_DEPS \
     && touch /var/log/xdebug/xdebug.log \
     && chmod 664 /var/log/xdebug/xdebug.log \
     && chown www-data:www-data /var/log/xdebug/xdebug.log \
-    && rm -rf /tmp/pear
+    && rm -rf /tmp/pear \
+    && apk del .xdebug-deps
+
+USER www-data
+
+WORKDIR /var/www/html
