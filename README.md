@@ -19,8 +19,13 @@
   </p>
   
   <p align="center">
-    <img src="https://github.com/mobilejazz/harmony-php/workflows/Static%20Analysis/badge.svg?branch=master">
-    <img src="https://github.com/mobilejazz/harmony-php/workflows/Tests/badge.svg?branch=master">
+    <img src="https://github.
+com/mobilejazz/harmony-php/workflows/Static%20Analysis/badge.svg?
+branch=master" />
+    <img src="https://github.
+com/mobilejazz/harmony-php/workflows/Tests/badge.svg?branch=master" />
+    <img src="https://github.com/mobilejazz/harmony-php/workflows/Code 
+Style/badge.svg?branch=master" />
   </p>
 </p>
 
