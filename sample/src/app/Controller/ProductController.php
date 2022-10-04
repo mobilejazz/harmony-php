@@ -2,7 +2,6 @@
 
 namespace Sample\Controller;
 
-use Harmony\Core\Repository\Operation\DefaultOperation;
 use Harmony\Core\Repository\Query\AllQuery;
 use Harmony\Core\Repository\Query\KeyQuery;
 use Sample\Product\Domain\Interactor\DeleteProductInteractor;

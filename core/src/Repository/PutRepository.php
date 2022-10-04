@@ -10,7 +10,7 @@ use Harmony\Core\Repository\Query\Query;
  */
 interface PutRepository extends Repository {
   /**
-   * @param T|null    $model
+   * @param T|null $model
    *
    * @return T
    */

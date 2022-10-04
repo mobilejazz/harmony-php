@@ -19,7 +19,7 @@ class PutInteractor {
   }
 
   /**
-   * @param T $model
+   * @param T              $model
    * @param Query|null     $query
    * @param Operation|null $operation
    *

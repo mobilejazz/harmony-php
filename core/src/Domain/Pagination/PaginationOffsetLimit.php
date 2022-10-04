@@ -10,9 +10,9 @@ namespace Harmony\Core\Domain\Pagination;
 class PaginationOffsetLimit extends Pagination {
   /**
    * @param array<T> $values
-   * @param int $offset
-   * @param int $limit
-   * @param int $size
+   * @param int      $offset
+   * @param int      $limit
+   * @param int      $size
    */
   public function __construct(
     array $values,

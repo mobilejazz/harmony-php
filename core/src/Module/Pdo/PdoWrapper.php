@@ -18,7 +18,7 @@ class PdoWrapper implements SqlInterface {
   }
 
   /**
-   * @param string $sql
+   * @param string               $sql
    * @param array<string, mixed> $params
    *
    * @return object|null

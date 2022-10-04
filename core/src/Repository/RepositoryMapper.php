@@ -19,9 +19,9 @@ class RepositoryMapper implements
   /**
    * RepositoryMapper constructor.
    *
-   * @param GetRepository<TEntity>         $getRepository
-   * @param PutRepository<TEntity>         $putRepository
-   * @param DeleteRepository               $deleteRepository
+   * @param GetRepository<TEntity>  $getRepository
+   * @param PutRepository<TEntity>  $putRepository
+   * @param DeleteRepository        $deleteRepository
    * @param Mapper<TModel, TEntity> $toInMapper
    * @param Mapper<TEntity, TModel> $toOutMapper
    */

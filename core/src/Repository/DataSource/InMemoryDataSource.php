@@ -5,7 +5,6 @@ namespace Harmony\Core\Repository\DataSource;
 use Harmony\Core\Repository\Error\DataNotFoundException;
 use Harmony\Core\Repository\Error\QueryNotSupportedException;
 use Harmony\Core\Repository\Query\AllQuery;
-use Harmony\Core\Repository\Query\Composed\CountQuery;
 use Harmony\Core\Repository\Query\KeyQuery;
 use Harmony\Core\Repository\Query\Query;
 use InvalidArgumentException;

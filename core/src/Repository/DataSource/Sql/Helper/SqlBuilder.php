@@ -11,9 +11,9 @@ use Harmony\Core\Repository\Query\Composed\PaginationOffsetLimitQuery;
 use Harmony\Core\Repository\Query\Composed\WhereQuery;
 use Harmony\Core\Repository\Query\Query;
 use Latitude\QueryBuilder\Query as SqlQuery;
+use Latitude\QueryBuilder\Query\DeleteQuery;
 use Latitude\QueryBuilder\Query\SelectQuery;
 use Latitude\QueryBuilder\Query\UpdateQuery;
-use Latitude\QueryBuilder\Query\DeleteQuery;
 use Latitude\QueryBuilder\QueryFactory;
 use function Latitude\QueryBuilder\alias;
 use function Latitude\QueryBuilder\field;
@@ -178,7 +178,7 @@ class SqlBuilder {
   }
 
   /**
-   * @param Query                   $query
+   * @param Query                               $query
    * @param SelectQuery|UpdateQuery|DeleteQuery $factory
    *
    * @return SelectQuery|UpdateQuery|DeleteQuery

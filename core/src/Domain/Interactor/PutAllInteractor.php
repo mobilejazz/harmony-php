@@ -19,8 +19,8 @@ class PutAllInteractor {
   }
 
   /**
-   * @param array<T>  $models
-   * @param Query|null $query
+   * @param array<T>       $models
+   * @param Query|null     $query
    * @param Operation|null $operation
    *
    * @return array<T>
