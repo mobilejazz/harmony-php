@@ -18,6 +18,8 @@ jobs:
         # run: ln -s core/src sample/src/core
         working-directory: .
       - name: Npm Install
-        run: npm install -g prettier && npm install --include=dev
+        run: npm install --include=dev
+        working-directory: .
       - name: Prettier Check
         run: npm run prettier-check
+        working-directory: .
