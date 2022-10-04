@@ -28,7 +28,7 @@ class PutAllInteractor {
   public function __invoke(
     array $models,
     ?Query $query = null,
-    ?Operation $operation = null
+    ?Operation $operation = null,
   ): array {
     $query = $query ?? new VoidQuery();
     $operation = $operation ?? new DefaultOperation();

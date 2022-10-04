@@ -18,7 +18,7 @@ class ProductController {
     protected GetAllProductInteractor $getAllProductInteractor,
     protected PutProductInteractor $putProductInteractor,
     protected PutAllProductInteractor $putAllProductInteractor,
-    protected DeleteProductInteractor $deleteProductInteractor
+    protected DeleteProductInteractor $deleteProductInteractor,
   ) {
   }
 

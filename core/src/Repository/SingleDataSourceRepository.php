@@ -25,7 +25,7 @@ class SingleDataSourceRepository implements
   public function __construct(
     protected GetDataSource $getDataSource,
     protected PutDataSource $putDataSource,
-    protected DeleteDataSource $deleteDataSource
+    protected DeleteDataSource $deleteDataSource,
   ) {
   }
 
@@ -56,7 +56,7 @@ class SingleDataSourceRepository implements
   public function putAll(
     Query $query,
     Operation $operation,
-    array $models = null
+    array $models = null,
   ): array {
     return $this->putDataSource->putAll($query, $models);
   }

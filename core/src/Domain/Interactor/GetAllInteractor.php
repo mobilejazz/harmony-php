@@ -23,7 +23,7 @@ class GetAllInteractor {
    */
   public function __invoke(
     ?Query $query = null,
-    ?Operation $operation = null
+    ?Operation $operation = null,
   ): array {
     $query = $query ?? new AllQuery();
     $operation = $operation ?? new DefaultOperation();

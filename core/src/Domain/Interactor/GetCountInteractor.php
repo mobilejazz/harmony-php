@@ -17,7 +17,7 @@ class GetCountInteractor {
 
   public function __invoke(
     ?Query $query = null,
-    ?Operation $operation = null
+    ?Operation $operation = null,
   ): int {
     $query = $query ?? new CountAllQuery();
     $operation = $operation ?? new DefaultOperation();

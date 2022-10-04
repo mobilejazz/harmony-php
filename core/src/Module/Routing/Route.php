@@ -9,7 +9,7 @@ class Route {
     public readonly string $controllerAction,
     public readonly ?string $requestDTO = null,
     /** @var string[] */
-    public readonly array $methods = [Method::GET]
+    public readonly array $methods = [Method::GET],
   ) {
   }
 }

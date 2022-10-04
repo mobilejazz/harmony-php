@@ -1,0 +1,22 @@
+name: Code Style
+on:
+  push:
+  pull_request:
+    branches:
+      - master
+jobs:
+  build:
+    name: Code Style
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "14.x"
+      - name: Link Harmony PHP
+        run: mv core/src sample/src/core
+        # @todo Try to use a symlink instead of mv a folder
+        # run: ln -s core/src sample/src/core
+        working-directory: .
+      - name: Prettier Check
+        run: npm run prettier-check

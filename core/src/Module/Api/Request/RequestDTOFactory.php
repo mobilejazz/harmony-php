@@ -23,7 +23,7 @@ class RequestDTOFactory {
 
   protected function deserializeJsonToRequestDTO(
     string $jsonData,
-    string $classNameRequest
+    string $classNameRequest,
   ): RequestDTOInterface {
     $encoders = [new JsonEncoder()];
     $normalizers = [new ObjectNormalizer()];

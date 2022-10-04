@@ -3,7 +3,7 @@
   "scripts": {
     "prepare": "husky install",
     "prettier": "prettier --ignore-unknown",
-    "prettier-check": "prettier --check core sample/src",
+    "prettier-check": "prettier --ignore-unknown --check core sample/src",
     "prettier-write": "prettier --ignore-unknown --write core sample/src"
   },
   "husky": {
@@ -12,10 +12,12 @@
     }
   },
   "lint-staged": {
-    "**/*.php": "php -l"
+    "**/*.php": "php -l",
+    "**/*": "prettier --write --ignore-unknown",
+    "*.{js,css,md,json}": "prettier --write"
   },
   "devDependencies": {
-    "@prettier/plugin-php": "0.18.*",
+    "@prettier/plugin-php": "0.19.*",
     "husky": "8.0.*",
     "lint-staged": "13.0.*"
   }

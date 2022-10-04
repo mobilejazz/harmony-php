@@ -23,7 +23,7 @@ class GetInteractor {
    */
   public function __invoke(
     ?Query $query = null,
-    ?Operation $operation = null
+    ?Operation $operation = null,
   ): mixed {
     $query = $query ?? new VoidQuery();
     $operation = $operation ?? new DefaultOperation();

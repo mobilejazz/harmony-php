@@ -14,7 +14,7 @@ class SqlRepositoryFactory {
   public static function getCountInteractor(
     PdoWrapper $pdo,
     QueryFactory $queryFactory,
-    SqlSchema $schema
+    SqlSchema $schema,
   ): GetCountInteractor {
     $sqlBuilder = new SqlBuilder($schema, $queryFactory);
 

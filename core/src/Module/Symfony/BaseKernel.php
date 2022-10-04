@@ -56,7 +56,7 @@ abstract class BaseKernel extends Kernel {
    * @psalm-suppress UndefinedClass
    */
   protected function configureContainer(
-    ContainerConfigurator $container
+    ContainerConfigurator $container,
   ): void {
     $this->configureSymfonyContainer($container);
 
@@ -73,7 +73,7 @@ abstract class BaseKernel extends Kernel {
   }
 
   protected function registerControllerActions(
-    ContainerConfigurator $container
+    ContainerConfigurator $container,
   ): void {
     foreach ($this->getRoutersModule() as $route) {
       $container
@@ -87,7 +87,7 @@ abstract class BaseKernel extends Kernel {
   }
 
   protected function registerRequestDTOs(
-    ContainerConfigurator $container
+    ContainerConfigurator $container,
   ): void {
     $container
       ->services()
@@ -126,7 +126,7 @@ abstract class BaseKernel extends Kernel {
    * @psalm-suppress UnresolvableInclude
    */
   protected function configureSymfonyContainer(
-    ContainerConfigurator $container
+    ContainerConfigurator $container,
   ): void {
     $rootFolder = $this->getRootFolder();
 

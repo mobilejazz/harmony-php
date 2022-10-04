@@ -18,7 +18,7 @@ class PaginationOffsetLimit extends Pagination {
     array $values,
     public int $offset,
     public int $limit,
-    public int $size
+    public int $size,
   ) {
     parent::__construct($values);
   }

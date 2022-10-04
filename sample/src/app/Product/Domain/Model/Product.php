@@ -7,7 +7,7 @@ class Product {
     protected int $id,
     protected string $name,
     protected string $description,
-    protected float $price
+    protected float $price,
   ) {
   }
 

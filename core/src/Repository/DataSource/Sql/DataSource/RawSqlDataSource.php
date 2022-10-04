@@ -32,7 +32,7 @@ class RawSqlDataSource implements
    */
   public function __construct(
     protected SqlInterface $pdo,
-    protected SqlBuilder $sqlBuilder
+    protected SqlBuilder $sqlBuilder,
   ) {
   }
 
@@ -57,7 +57,7 @@ class RawSqlDataSource implements
       $query instanceof ComposedQuery => $this->sqlBuilder->selectComposed(
         $query,
       ),
-      default => throw new QueryNotSupportedException()
+      default => throw new QueryNotSupportedException(),
     };
 
     $item = $this->pdo->findOne($sql->sql(), $sql->params());
@@ -90,7 +90,7 @@ class RawSqlDataSource implements
       $query instanceof ComposedQuery => $this->sqlBuilder->selectAllComposed(
         $query,
       ),
-      default => throw new QueryNotSupportedException()
+      default => throw new QueryNotSupportedException(),
     };
 
     $items = $this->pdo->findAll($sql->sql(), $sql->params());
@@ -164,7 +164,7 @@ class RawSqlDataSource implements
 
     $sql = match (true) {
       $query instanceof VoidQuery => $this->sqlBuilder->multiInsert($entities),
-      default => throw new QueryNotSupportedException()
+      default => throw new QueryNotSupportedException(),
     };
 
     $this->pdo->execute($sql->sql(), $sql->params());
@@ -188,7 +188,7 @@ class RawSqlDataSource implements
       $query instanceof ComposedQuery => $this->sqlBuilder->deleteComposed(
         $query,
       ),
-      default => throw new QueryNotSupportedException()
+      default => throw new QueryNotSupportedException(),
     };
 
     $this->pdo->execute($sql->sql(), $sql->params());

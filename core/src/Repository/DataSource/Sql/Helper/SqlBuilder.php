@@ -25,7 +25,7 @@ use function Latitude\QueryBuilder\func;
 class SqlBuilder {
   public function __construct(
     protected SqlSchema $schema,
-    protected QueryFactory $factory
+    protected QueryFactory $factory,
   ) {
   }
 
@@ -185,7 +185,7 @@ class SqlBuilder {
    */
   protected function addWhereConditions(
     Query $query,
-    SelectQuery|UpdateQuery|DeleteQuery $factory
+    SelectQuery|UpdateQuery|DeleteQuery $factory,
   ): SelectQuery|UpdateQuery|DeleteQuery {
     if ($query instanceof WhereQuery) {
       $wheres = $query->where();

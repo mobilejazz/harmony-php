@@ -12,7 +12,7 @@ class ProductEntity {
     protected string $name,
     protected string $description,
     protected float $price,
-    Carbon $created_at = null
+    Carbon $created_at = null,
   ) {
     $this->setCreatedAt($created_at);
   }

@@ -30,7 +30,7 @@ class RepositoryMapper implements
     protected PutRepository $putRepository,
     protected DeleteRepository $deleteRepository,
     protected Mapper $toInMapper,
-    protected Mapper $toOutMapper
+    protected Mapper $toOutMapper,
   ) {
   }
 
@@ -80,7 +80,7 @@ class RepositoryMapper implements
   public function putAll(
     Query $query,
     Operation $operation,
-    array $models = null
+    array $models = null,
   ): array {
     $entities = null;
 

@@ -27,7 +27,7 @@ class DataSourceMapper implements
     protected PutDataSource $putDataSource,
     protected DeleteDataSource $deleteDataSource,
     protected Mapper $entityToDataMapper,
-    protected Mapper $dataToEntityMapper
+    protected Mapper $dataToEntityMapper,
   ) {
   }
 
