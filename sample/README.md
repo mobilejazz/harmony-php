@@ -42,7 +42,7 @@ We are using this tools to add Static Analysis and Generics to our PHP code:
 
 ## Testing
 
-1. `bin/phpunit.sh`
+1. `bin/test_unit|test_integration.sh`
 
 We are using this tools for Unit Test and Coverage:
 

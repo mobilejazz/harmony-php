@@ -36,7 +36,7 @@ Style/badge.svg?branch=master" />
 ## Develop Installation
 
 1. `npm install`
-1. Setup [Sample](sample/README.md)
+2. Setup [Sample](sample/README.md)
 
 ## Author
 

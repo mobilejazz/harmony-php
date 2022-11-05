@@ -1,6 +1,3 @@
-# Base stack
-version: "3.9"
-
 services:
   nginx-sample:
     image: nginx:1.23-alpine
@@ -15,6 +12,22 @@ services:
       - php-sample
     ports:
       - "80:80"
+  db-sample:
+    image: mysql:8.0
+    platform: linux/x86_64
+    container_name: db-sample-docker
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: M6Yp5Tho4mT3mT7upGSY
+      MYSQL_DATABASE: sampledb
+      MYSQL_USER: acquire5171
+      MYSQL_PASSWORD: x9uiJujVNSUCxBZhSLiM
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 2s
+      retries: 20
   php-sample:
     build:
       context: .
@@ -22,6 +35,9 @@ services:
     image: php-sample-harmony
     container_name: php-sample-docker
     restart: unless-stopped
+    depends_on:
+      db-sample:
+        condition: service_healthy
     volumes:
       - ../src:/var/www/html
       - ../../core/src:/var/www/html/core
