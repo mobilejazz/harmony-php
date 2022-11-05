@@ -1,12 +1,12 @@
 <?php
 
-use Sample\Controller\ProductController;
+use Sample\Application\ProductIndexAction;
 use Sample\Product\ProductModule;
 
 require_once __DIR__ . "/../vendor/autoload.php";
 
 $productProvider = new ProductModule();
-$controller = new ProductController(
+$controllerAction = new ProductIndexAction(
   $productProvider->getGetInteractor(),
   $productProvider->getGetAllInteractor(),
   $productProvider->getPutInteractor(),
@@ -14,4 +14,4 @@ $controller = new ProductController(
   $productProvider->getDeleteInteractor(),
 );
 
-echo $controller->actionIndex();
+echo $controllerAction();

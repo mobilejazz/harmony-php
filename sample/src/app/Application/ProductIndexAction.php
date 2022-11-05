@@ -1,6 +1,6 @@
 <?php
 
-namespace Sample\Controller;
+namespace Sample\Application;
 
 use Harmony\Core\Repository\Query\AllQuery;
 use Harmony\Core\Repository\Query\KeyQuery;
@@ -11,7 +11,7 @@ use Sample\Product\Domain\Interactor\PutAllProductInteractor;
 use Sample\Product\Domain\Interactor\PutProductInteractor;
 use Sample\Product\Domain\Model\Product;
 
-class ProductController {
+class ProductIndexAction {
   public function __construct(
     protected GetProductInteractor $getProductInteractor,
     protected GetAllProductInteractor $getAllProductInteractor,
@@ -21,10 +21,7 @@ class ProductController {
   ) {
   }
 
-  /**
-   * @return false|string
-   */
-  public function actionIndex() {
+  public function __invoke(): bool|string {
     $productOne = new Product(
       1,
       "PlayStation 5",
@@ -45,35 +42,25 @@ class ProductController {
 
     $variables["resultPutProductAction"] = $this->putProductAction($productOne);
     $variables["resultGetProductAction"] = $this->getProductAction(
-      $productOne->getId(),
+      $productOne->id,
     );
     $variables["resultPutAllProductAction"] = $this->putAllProductsAction(
       $listProducts,
     );
     $variables["resultGetAllProductAction"] = $this->getAllProductsAction();
     $variables["resultDeleteProductAction"] = $this->deleteProductAction(
-      $productOne->getId(),
+      $productOne->id,
     );
 
     return $this->renderView($variables, "index");
   }
 
-  /**
-   * @param Product $product
-   *
-   * @return Product
-   */
   protected function putProductAction(Product $product): Product {
-    $query = new KeyQuery((string) $product->getId());
+    $query = new KeyQuery((string) $product->id);
 
     return ($this->putProductInteractor)($product, $query);
   }
 
-  /**
-   * @param int $id_product
-   *
-   * @return Product
-   */
   protected function getProductAction(int $id_product): Product {
     $query = new KeyQuery((string) $id_product);
     $product = ($this->getProductInteractor)($query);
@@ -82,9 +69,9 @@ class ProductController {
   }
 
   /**
-   * @param array<Product> $products
+   * @param Product[] $products
    *
-   * @return array<Product>
+   * @return Product[]
    */
   protected function putAllProductsAction(array $products): array {
     $query = new AllQuery();
@@ -103,11 +90,6 @@ class ProductController {
     return $products;
   }
 
-  /**
-   * @param int $id_product
-   *
-   * @return string
-   */
   protected function deleteProductAction(int $id_product): string {
     $query = new KeyQuery((string) $id_product);
     ($this->deleteProductInteractor)($query);
@@ -118,10 +100,11 @@ class ProductController {
   /**
    * @param array<string, mixed> $variables
    * @param string               $template
-   *
-   * @return false|string
    */
-  protected function renderView(array $variables, string $template) {
+  protected function renderView(
+    array $variables,
+    string $template,
+  ): bool|string {
     ob_start();
 
     extract($variables, EXTR_OVERWRITE);

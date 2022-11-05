@@ -1,0 +1,2 @@
+DROP DATABASE sampledb;
+CREATE DATABASE sampledb;

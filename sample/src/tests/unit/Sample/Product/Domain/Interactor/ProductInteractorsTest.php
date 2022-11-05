@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\unit\Sample\Product\Domain;
+namespace App\Tests\unit\Sample\Product\Domain\Interactor;
 
 use Harmony\Core\Repository\Error\DataNotFoundException;
 use Harmony\Core\Repository\Query\AllQuery;
@@ -9,9 +9,6 @@ use PHPUnit\Framework\TestCase;
 use Sample\Product\Domain\Model\Product;
 use Sample\Product\ProductModule;
 
-/**
- * @psalm-suppress PropertyNotSetInConstructor
- */
 class ProductInteractorsTest extends TestCase {
   private ProductModule $productProvider;
 
@@ -40,7 +37,7 @@ class ProductInteractorsTest extends TestCase {
   }
 
   public function putProduct(Product $product): Product {
-    $query = new KeyQuery((string) $product->getId());
+    $query = new KeyQuery((string) $product->id);
 
     return $this->productProvider->getPutInteractor()($product, $query);
   }
@@ -60,18 +57,18 @@ class ProductInteractorsTest extends TestCase {
     $product = $this->getProductOne();
     $productSaved = $this->putProduct($product);
 
-    $this->assertEquals($productSaved->getName(), $product->getName());
+    $this->assertEquals($productSaved->name, $product->name);
   }
 
   public function testGetProductInteractor(): void {
     $product = $this->getProductOne();
     $productSaved = $this->putProduct($product);
 
-    $queryGet = new KeyQuery((string) $productSaved->getId());
+    $queryGet = new KeyQuery((string) $productSaved->id);
 
     $this->productProvider->getGetInteractor()($queryGet);
 
-    $this->assertEquals($productSaved->getName(), $product->getName());
+    $this->assertEquals($productSaved->name, $product->name);
   }
 
   public function testPutAllProductsInteractor(): void {
@@ -97,10 +94,10 @@ class ProductInteractorsTest extends TestCase {
     $product = $this->getProductOne();
     $productSaved = $this->putProduct($product);
 
-    $queryDelete = new KeyQuery((string) $productSaved->getId());
+    $queryDelete = new KeyQuery((string) $productSaved->id);
     $this->productProvider->getDeleteInteractor()($queryDelete);
 
-    $queryGet = new KeyQuery((string) $productSaved->getId());
+    $queryGet = new KeyQuery((string) $productSaved->id);
     $this->productProvider->getGetInteractor()($queryGet);
   }
 }

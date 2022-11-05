@@ -39,9 +39,10 @@
   "require-dev": {
     "pestphp/pest": "1.22.*",
     "phpstan/phpstan": "1.8.*",
+    "psalm/plugin-phpunit": "0.18.*",
     "phpunit/phpunit": "9.5.*",
     "roave/security-advisories": "dev-latest",
-    "vimeo/psalm": "4.27.*"
+    "vimeo/psalm": "4.29.*"
   },
   "type": "project"
 }
