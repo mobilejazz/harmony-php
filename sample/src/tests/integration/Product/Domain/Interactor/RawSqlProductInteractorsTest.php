@@ -14,6 +14,10 @@ use Sample\Product\Data\Sql\Mapper\ProductSqlDataToEntityMapper;
 use Sample\Product\Data\Sql\ProductSqlSchema;
 use Sample\Product\ProductProvider;
 
+/**
+ * @todo Currently we are doing an update instead of an insert in this test,
+ * so,the data is not stored in the DB and the tests fails
+ */
 class RawSqlProductInteractorsTest extends ProductInteractors {
   use DatabaseTest;
 

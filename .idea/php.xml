@@ -87,6 +87,7 @@
       <path value="$PROJECT_DIR$/sample/src/vendor/sebastian/code-unit" />
       <path value="$PROJECT_DIR$/sample/src/vendor/symfony/polyfill-php73" />
       <path value="$PROJECT_DIR$/sample/src/vendor/symfony/polyfill-php81" />
+      <path value="$PROJECT_DIR$/sample/src/vendor/psalm/plugin-phpunit" />
     </include_path>
   </component>
   <component name="PhpInterpreters">
