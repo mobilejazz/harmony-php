@@ -20,7 +20,7 @@ class ProductSqlDataToEntityMapper implements Mapper {
       $from->name,
       $from->description,
       $from->price,
-      new CarbonImmutable($from->created_at),
+      $from->created_at ? new CarbonImmutable($from->created_at) : null,
     );
 
     return $entity;

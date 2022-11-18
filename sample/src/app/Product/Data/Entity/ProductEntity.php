@@ -2,7 +2,7 @@
 
 namespace Sample\Product\Data\Entity;
 
-use DateTimeImmutable;
+use Carbon\CarbonImmutable;
 
 class ProductEntity {
   public function __construct(
@@ -10,7 +10,7 @@ class ProductEntity {
     public readonly string $name,
     public readonly string $description,
     public readonly float $price,
-    public readonly DateTimeImmutable $createdAt,
+    public readonly ?CarbonImmutable $createdAt,
   ) {
   }
 }

@@ -17,20 +17,18 @@ class RepositoryMapper implements
   PutRepository,
   DeleteRepository {
   /**
-   * RepositoryMapper constructor.
-   *
    * @param GetRepository<TEntity>  $getRepository
    * @param PutRepository<TEntity>  $putRepository
    * @param DeleteRepository        $deleteRepository
-   * @param Mapper<TModel, TEntity> $toInMapper
-   * @param Mapper<TEntity, TModel> $toOutMapper
+   * @param Mapper<TModel, TEntity> $modelToEntityMapper
+   * @param Mapper<TEntity, TModel> $entityToModelMapper
    */
   public function __construct(
     protected GetRepository $getRepository,
     protected PutRepository $putRepository,
     protected DeleteRepository $deleteRepository,
-    protected Mapper $toInMapper,
-    protected Mapper $toOutMapper,
+    protected Mapper $modelToEntityMapper,
+    protected Mapper $entityToModelMapper,
   ) {
   }
 
@@ -39,7 +37,7 @@ class RepositoryMapper implements
    */
   public function get(Query $query, Operation $operation) {
     $entity = $this->getRepository->get($query, $operation);
-    $model = $this->toOutMapper->map($entity);
+    $model = $this->entityToModelMapper->map($entity);
 
     return $model;
   }
@@ -52,7 +50,7 @@ class RepositoryMapper implements
     $models = [];
 
     foreach ($entities as $entity) {
-      $models[] = $this->toOutMapper->map($entity);
+      $models[] = $this->entityToModelMapper->map($entity);
     }
 
     return $models;
@@ -65,11 +63,11 @@ class RepositoryMapper implements
     $entity = null;
 
     if ($model !== null) {
-      $entity = $this->toInMapper->map($model);
+      $entity = $this->modelToEntityMapper->map($model);
     }
 
     $entityPutted = $this->putRepository->put($query, $operation, $entity);
-    $modelPutted = $this->toOutMapper->map($entityPutted);
+    $modelPutted = $this->entityToModelMapper->map($entityPutted);
 
     return $modelPutted;
   }
@@ -88,7 +86,7 @@ class RepositoryMapper implements
       $entities = [];
 
       foreach ($models as $model) {
-        $entities[] = $this->toInMapper->map($model);
+        $entities[] = $this->modelToEntityMapper->map($model);
       }
     }
 
@@ -100,7 +98,7 @@ class RepositoryMapper implements
     $modelsPutted = [];
 
     foreach ($entitiesPutted as $entityPutted) {
-      $modelsPutted[] = $this->toOutMapper->map($entityPutted);
+      $modelsPutted[] = $this->entityToModelMapper->map($entityPutted);
     }
 
     return $modelsPutted;
