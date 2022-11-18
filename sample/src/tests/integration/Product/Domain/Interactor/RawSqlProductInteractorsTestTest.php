@@ -3,7 +3,7 @@
 namespace App\Tests\integration\Product\Domain\Interactor;
 
 use App\Tests\Helper\Pdo\DatabaseTest;
-use App\Tests\unit\Product\Domain\Interactor\ProductInteractors;
+use App\Tests\unit\Product\Domain\Interactor\ProductInteractorsTest;
 use Harmony\Core\Module\Pdo\PdoWrapper;
 use Harmony\Core\Repository\DataSource\DataSourceMapper;
 use Harmony\Core\Repository\DataSource\Sql\DataSource\RawSqlDataSource;
@@ -18,7 +18,7 @@ use Sample\Product\ProductProvider;
  * @todo Currently we are doing an update instead of an insert in this test,
  * so,the data is not stored in the DB and the tests fails
  */
-class RawSqlProductInteractorsTest extends ProductInteractors {
+class RawSqlProductInteractorsTestTest extends ProductInteractorsTest {
   use DatabaseTest;
 
   protected function getProvider(): ProductProvider {

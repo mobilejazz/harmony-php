@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Sample\Product\Domain\Model\Product;
 use Sample\Product\ProductProvider;
 
-abstract class ProductInteractors extends TestCase {
+abstract class ProductInteractorsTest extends TestCase {
   abstract protected function getProvider(): ProductProvider;
 
   public function testPutProductInteractor(): void {
