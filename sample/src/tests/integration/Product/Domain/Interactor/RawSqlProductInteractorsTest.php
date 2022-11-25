@@ -18,7 +18,7 @@ use Sample\Product\ProductProvider;
  * @todo Currently we are doing an update instead of an insert in this test,
  * so,the data is not stored in the DB and the tests fails
  */
-class RawSqlProductInteractorsTestTest extends ProductInteractorsTest {
+class RawSqlProductInteractorsTest extends ProductInteractorsTest {
   use DatabaseTest;
 
   protected function getProvider(): ProductProvider {

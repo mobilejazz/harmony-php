@@ -12,10 +12,20 @@ use Sample\Product\ProductProvider;
 abstract class ProductInteractorsTest extends TestCase {
   abstract protected function getProvider(): ProductProvider;
 
-  public function testPutProductInteractor(): void {
+  public function testInsertProductInteractor(): void {
     $productProvider = $this->getProvider();
     $product = $this->getProductOne();
     $productSaved = $this->putProduct($productProvider, $product);
+
+    $this->assertEquals($productSaved->name, $product->name);
+  }
+
+  public function testUpdateProductInteractor(): void {
+    $productProvider = $this->getProvider();
+    $product = $this->getProductOne();
+    $productSaved = $this->putProduct($productProvider, $product);
+
+    // @todo
 
     $this->assertEquals($productSaved->name, $product->name);
   }

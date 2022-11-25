@@ -4,7 +4,7 @@ namespace App\Tests\unit\Product\Domain\Interactor;
 
 use Sample\Product\ProductProvider;
 
-class InMemoryProductInteractorsTestTest extends ProductInteractorsTest {
+class InMemoryProductInteractorsTest extends ProductInteractorsTest {
   protected function getProvider(): ProductProvider {
     return new ProductProvider();
   }

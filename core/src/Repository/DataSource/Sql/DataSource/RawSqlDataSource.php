@@ -113,7 +113,16 @@ class RawSqlDataSource implements
    */
   public function put(Query $query, mixed $entity = null): mixed {
     $id = $this->getId($query, $entity);
-    $isInsertion = empty($id);
+
+    try {
+      if (!empty($id)) {
+        $currentData = $this->get(new IdQuery($id));
+      }
+    } catch (DataNotFoundException) {
+      $currentData = null;
+    }
+
+    $isInsertion = empty($id) || empty($currentData);
 
     if ($isInsertion) {
       $sql = $this->sqlBuilder->insert($entity);
@@ -155,11 +164,21 @@ class RawSqlDataSource implements
    * @param object[]|null $entities
    *
    * @return mixed[]
-   * @throws QueryNotSupportedException
+   * @throws QueryNotSupportedException|DataNotFoundException
    */
   public function putAll(Query $query, array $entities = null): array {
     if ($entities === null) {
       throw new InvalidArgumentException();
+    }
+
+    if ($query instanceof AllQuery) {
+      $insertedEntities = [];
+
+      foreach ($entities as $entity) {
+        $insertedEntities[] = $this->put(new VoidQuery(), $entity);
+      }
+
+      return $insertedEntities;
     }
 
     $sql = match (true) {
