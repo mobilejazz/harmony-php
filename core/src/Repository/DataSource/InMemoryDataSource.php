@@ -10,6 +10,8 @@ use Harmony\Core\Repository\Query\Query;
 use InvalidArgumentException;
 
 /**
+ * @see        InMemoryProductInteractorsTest
+ *
  * @template   T
  * @implements GetDataSource<T>
  * @implements PutDataSource<T>
@@ -92,7 +94,11 @@ class InMemoryDataSource implements
 
     if ($query instanceof AllQuery) {
       foreach ($entities as $entity) {
-        $this->entities[] = $entity;
+        if (!empty($entity->id)) {
+          $this->entities[$entity->id] = $entity;
+        } else {
+          $this->entities[] = $entity;
+        }
       }
 
       return $entities;

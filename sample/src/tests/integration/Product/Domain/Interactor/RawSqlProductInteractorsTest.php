@@ -14,6 +14,9 @@ use Sample\Product\Data\Sql\Mapper\ProductSqlDataToEntityMapper;
 use Sample\Product\Data\Sql\ProductSqlSchema;
 use Sample\Product\ProductProvider;
 
+/**
+ * @see RawSqlDataSource
+ */
 class RawSqlProductInteractorsTest extends ProductInteractorsTest {
   use DatabaseTest;
 

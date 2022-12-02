@@ -18,6 +18,8 @@ use Harmony\Core\Repository\Query\VoidQuery;
 use InvalidArgumentException;
 
 /**
+ * @see RawSqlProductInteractorsTest
+ *
  * @implements GetDataSource<object>
  * @implements PutDataSource<object>
  */
