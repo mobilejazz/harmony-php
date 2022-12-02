@@ -59,12 +59,20 @@ class SqlBuilder {
   public function selectAll(
     ?int $offset = null,
     ?int $limit = null,
+    ?string $orderBy = null,
+    ?bool $ascending = null,
   ): LatitudeQuery {
     $factory = $this->factory->select()->from($this->schema->getTableName());
 
-    if ($offset !== null && $limit !== null) {
+    if (
+      $offset !== null &&
+      $limit !== null &&
+      $orderBy !== null &&
+      $ascending !== null
+    ) {
       $factory->offset($offset);
       $factory->limit($limit);
+      $factory->orderBy($orderBy, $ascending ? "ASC" : "DESC");
     }
 
     if ($this->schema->softDeleteEnabled()) {
