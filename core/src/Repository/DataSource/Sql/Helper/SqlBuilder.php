@@ -24,8 +24,8 @@ use function Latitude\QueryBuilder\func;
  */
 class SqlBuilder {
   public function __construct(
-    protected SqlSchema $schema,
-    protected LatitudeQueryFactory $factory,
+    protected readonly SqlSchema $schema,
+    protected readonly LatitudeQueryFactory $factory,
   ) {
   }
 

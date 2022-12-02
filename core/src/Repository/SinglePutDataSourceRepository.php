@@ -14,7 +14,7 @@ class SinglePutDataSourceRepository implements PutRepository {
   /**
    * @param PutDataSource<T> $putDataSource
    */
-  public function __construct(protected PutDataSource $putDataSource) {
+  public function __construct(protected readonly PutDataSource $putDataSource) {
   }
 
   /**

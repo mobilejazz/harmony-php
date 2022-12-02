@@ -24,11 +24,11 @@ class RepositoryMapper implements
    * @param Mapper<TEntity, TModel> $entityToModelMapper
    */
   public function __construct(
-    protected GetRepository $getRepository,
-    protected PutRepository $putRepository,
-    protected DeleteRepository $deleteRepository,
-    protected Mapper $modelToEntityMapper,
-    protected Mapper $entityToModelMapper,
+    protected readonly GetRepository $getRepository,
+    protected readonly PutRepository $putRepository,
+    protected readonly DeleteRepository $deleteRepository,
+    protected readonly Mapper $modelToEntityMapper,
+    protected readonly Mapper $entityToModelMapper,
   ) {
   }
 

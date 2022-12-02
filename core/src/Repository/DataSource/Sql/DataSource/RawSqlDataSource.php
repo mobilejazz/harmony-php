@@ -32,8 +32,8 @@ class RawSqlDataSource implements
    * @param SqlBuilder   $sqlBuilder
    */
   public function __construct(
-    protected SqlInterface $pdo,
-    protected SqlBuilder $sqlBuilder,
+    protected readonly SqlInterface $pdo,
+    protected readonly SqlBuilder $sqlBuilder,
   ) {
   }
 
@@ -49,12 +49,8 @@ class RawSqlDataSource implements
    */
   public function get(Query $query): mixed {
     $sql = match (true) {
-      $query instanceof IdQuery => $this->sqlBuilder->selectById(
-        $query->getId(),
-      ),
-      $query instanceof KeyQuery => $this->sqlBuilder->selectByKey(
-        $query->getKey(),
-      ),
+      $query instanceof IdQuery => $this->sqlBuilder->selectById($query->id),
+      $query instanceof KeyQuery => $this->sqlBuilder->selectByKey($query->key),
       $query instanceof ComposedQuery => $this->sqlBuilder->selectComposed(
         $query,
       ),
@@ -148,7 +144,7 @@ class RawSqlDataSource implements
     $idColumnName = $this->sqlBuilder->getSchema()->getIdColumn();
 
     if ($query instanceof IdQuery) {
-      $id = $query->getId();
+      $id = $query->id;
     } elseif (!empty($entity?->$idColumnName)) {
       $id = $entity->$idColumnName;
     }
@@ -200,12 +196,8 @@ class RawSqlDataSource implements
    */
   public function delete(Query $query): void {
     $sql = match (true) {
-      $query instanceof IdQuery => $this->sqlBuilder->deleteById(
-        $query->getId(),
-      ),
-      $query instanceof KeyQuery => $this->sqlBuilder->deleteByKey(
-        $query->getKey(),
-      ),
+      $query instanceof IdQuery => $this->sqlBuilder->deleteById($query->id),
+      $query instanceof KeyQuery => $this->sqlBuilder->deleteByKey($query->key),
       $query instanceof ComposedQuery => $this->sqlBuilder->deleteComposed(
         $query,
       ),

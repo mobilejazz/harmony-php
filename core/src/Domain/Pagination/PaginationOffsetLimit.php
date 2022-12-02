@@ -3,22 +3,19 @@
 namespace Harmony\Core\Domain\Pagination;
 
 /**
- * @psalm-immutable
  * @template T
  * @extends Pagination<T>
  */
 class PaginationOffsetLimit extends Pagination {
   /**
    * @param array<T> $values
-   * @param int      $offset
-   * @param int      $limit
-   * @param int      $size
    */
   public function __construct(
-    array $values,
-    public int $offset,
-    public int $limit,
-    public int $size,
+    /** @var array<T> $values */
+    public readonly array $values,
+    public readonly int $offset,
+    public readonly int $limit,
+    public readonly int $size,
   ) {
     parent::__construct($values);
   }

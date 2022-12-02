@@ -12,7 +12,7 @@ class GetCountInteractor {
   /**
    * @param GetRepository<int> $getRepository
    */
-  public function __construct(protected GetRepository $getRepository) {
+  public function __construct(protected readonly GetRepository $getRepository) {
   }
 
   public function __invoke(

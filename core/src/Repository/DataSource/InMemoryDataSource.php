@@ -28,7 +28,7 @@ class InMemoryDataSource implements
    *
    * @param string                $genericClass
    */
-  public function __construct(protected string $genericClass) {
+  public function __construct(protected readonly string $genericClass) {
   }
 
   /**
@@ -38,11 +38,11 @@ class InMemoryDataSource implements
    */
   public function get(Query $query): mixed {
     if ($query instanceof KeyQuery) {
-      if (!isset($this->entities[$query->getKey()])) {
+      if (!isset($this->entities[$query->key])) {
         throw new DataNotFoundException();
       }
 
-      return $this->entities[$query->getKey()];
+      return $this->entities[$query->key];
     }
 
     throw new QueryNotSupportedException();
@@ -75,7 +75,7 @@ class InMemoryDataSource implements
     }
 
     if ($query instanceof KeyQuery) {
-      $this->entities[$query->getKey()] = $entity;
+      $this->entities[$query->key] = $entity;
 
       return $entity;
     }
@@ -113,11 +113,11 @@ class InMemoryDataSource implements
    */
   public function delete(Query $query): void {
     if ($query instanceof KeyQuery) {
-      if (!isset($this->entities[$query->getKey()])) {
+      if (!isset($this->entities[$query->key])) {
         throw new DataNotFoundException();
       }
 
-      unset($this->entities[$query->getKey()]);
+      unset($this->entities[$query->key]);
 
       return;
     }

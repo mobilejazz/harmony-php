@@ -13,7 +13,7 @@ class PaginationOffsetLimitMapper implements Mapper {
   /**
    * @param Mapper<TFrom, TTo> $mapper
    */
-  public function __construct(protected Mapper $mapper) {
+  public function __construct(protected readonly Mapper $mapper) {
   }
 
   /**

@@ -14,7 +14,7 @@ use PDOStatement;
  * @link https://phpdelusions.net/pdo_examples
  */
 class PdoWrapper implements SqlInterface {
-  public function __construct(protected PDO $pdoConnection) {
+  public function __construct(protected readonly PDO $pdoConnection) {
   }
 
   /**

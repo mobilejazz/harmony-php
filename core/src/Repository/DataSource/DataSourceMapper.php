@@ -23,11 +23,11 @@ class DataSourceMapper implements
    * @param Mapper<TData, TEntity> $dataToEntityMapper
    */
   public function __construct(
-    protected GetDataSource $getDataSource,
-    protected PutDataSource $putDataSource,
-    protected DeleteDataSource $deleteDataSource,
-    protected Mapper $entityToDataMapper,
-    protected Mapper $dataToEntityMapper,
+    protected readonly GetDataSource $getDataSource,
+    protected readonly PutDataSource $putDataSource,
+    protected readonly DeleteDataSource $deleteDataSource,
+    protected readonly Mapper $entityToDataMapper,
+    protected readonly Mapper $dataToEntityMapper,
   ) {
   }
 

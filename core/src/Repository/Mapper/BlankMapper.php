@@ -7,9 +7,6 @@ namespace Harmony\Core\Repository\Mapper;
  * @implements Mapper<T, T>
  */
 class BlankMapper implements Mapper {
-  public function __construct() {
-  }
-
   /**
    * @param T $from
    *

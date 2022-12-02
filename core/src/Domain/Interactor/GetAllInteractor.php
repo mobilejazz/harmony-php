@@ -15,7 +15,7 @@ class GetAllInteractor {
   /**
    * @param GetRepository<T> $getRepository
    */
-  public function __construct(protected GetRepository $getRepository) {
+  public function __construct(protected readonly GetRepository $getRepository) {
   }
 
   /**

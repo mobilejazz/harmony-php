@@ -15,7 +15,7 @@ class PutInteractor {
   /**
    * @param PutRepository<T> $putRepository
    */
-  public function __construct(protected PutRepository $putRepository) {
+  public function __construct(protected readonly PutRepository $putRepository) {
   }
 
   /**

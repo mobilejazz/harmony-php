@@ -23,9 +23,9 @@ class SingleDataSourceRepository implements
    * @param DeleteDataSource $deleteDataSource
    */
   public function __construct(
-    protected GetDataSource $getDataSource,
-    protected PutDataSource $putDataSource,
-    protected DeleteDataSource $deleteDataSource,
+    protected readonly GetDataSource $getDataSource,
+    protected readonly PutDataSource $putDataSource,
+    protected readonly DeleteDataSource $deleteDataSource,
   ) {
   }
 
