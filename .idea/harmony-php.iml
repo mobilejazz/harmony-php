@@ -5,6 +5,7 @@
       <sourceFolder url="file://$MODULE_DIR$/sample/src/app" isTestSource="false" packagePrefix="Sample\" />
       <sourceFolder url="file://$MODULE_DIR$/sample/src/core" isTestSource="false" packagePrefix="Harmony\Core\" />
       <sourceFolder url="file://$MODULE_DIR$/sample/src/tests" isTestSource="true" packagePrefix="App\Tests\" />
+      <sourceFolder url="file://$MODULE_DIR$/core/src" isTestSource="false" packagePrefix="Harmony\Core\" />
       <excludeFolder url="file://$MODULE_DIR$/sample/src/vendor/sebastian/type" />
       <excludeFolder url="file://$MODULE_DIR$/sample/src/vendor/sebastian/diff" />
       <excludeFolder url="file://$MODULE_DIR$/sample/src/vendor/sebastian/comparator" />

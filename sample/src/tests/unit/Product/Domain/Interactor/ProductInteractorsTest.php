@@ -2,6 +2,7 @@
 
 namespace App\Tests\unit\Product\Domain\Interactor;
 
+use Harmony\Core\Helper\Random;
 use Harmony\Core\Repository\Error\DataNotFoundException;
 use Harmony\Core\Repository\Query\AllQuery;
 use Harmony\Core\Repository\Query\KeyQuery;
@@ -25,9 +26,25 @@ abstract class ProductInteractorsTest extends TestCase {
     $product = $this->getProductOne();
     $productSaved = $this->putProduct($productProvider, $product);
 
-    // @todo
-
     $this->assertEquals($productSaved->name, $product->name);
+
+    $productName = Random::generateAlphaNumeric();
+
+    $productWithChange = new Product(
+      id: $productSaved->id,
+      name: $productName,
+      description: $productSaved->description,
+      price: $productSaved->price,
+    );
+
+    $productUpdated = $this->putProduct($productProvider, $productWithChange);
+
+    $this->assertEquals($productName, $productUpdated->name);
+
+    $queryGet = new KeyQuery((string) $productSaved->id);
+    $productGet = $productProvider->provideGetInteractor()($queryGet);
+
+    $this->assertEquals($productName, $productGet->name);
   }
 
   public function testGetProductInteractor(): void {
