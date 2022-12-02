@@ -19,7 +19,7 @@ class ProductEntityToSqlDataMapper implements Mapper {
       $from->name,
       $from->description,
       $from->price,
-      $from->createdAt,
+      $from->createdAt?->toDateTimeString(),
     );
 
     return $data;

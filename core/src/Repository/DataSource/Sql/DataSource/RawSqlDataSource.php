@@ -149,9 +149,7 @@ class RawSqlDataSource implements
 
     if ($query instanceof IdQuery) {
       $id = $query->getId();
-      // @phpstan-ignore-next-line
     } elseif (!empty($entity?->$idColumnName)) {
-      // @phpstan-ignore-next-line
       $id = $entity->$idColumnName;
     }
 

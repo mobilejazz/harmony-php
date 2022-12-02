@@ -21,7 +21,7 @@ class ProductIndexAction {
     protected readonly PutInteractor $putProduct,
     /** @var PutAllInteractor<Product> $putAllProduct */
     protected readonly PutAllInteractor $putAllProduct,
-    /** @var DeleteInteractor<Product> $deleteProduct */
+    /** @var DeleteInteractor $deleteProduct */
     protected readonly DeleteInteractor $deleteProduct,
   ) {
   }

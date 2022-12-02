@@ -30,6 +30,7 @@ class ProductProvider {
    *
    * @return RepositoryMapper<Product, ProductEntity>
    */
+  // @phpstan-ignore-next-line
   protected function provideRepository(
     mixed $dataSource = null,
   ): RepositoryMapper {
@@ -51,10 +52,13 @@ class ProductProvider {
       $singleRepository,
       $singleRepository,
       $singleRepository,
+      // @phpstan-ignore-next-line
       new ProductToProductEntityMapper(),
+      // @phpstan-ignore-next-line
       new ProductEntityToProductMapper(),
     );
 
+    // @phpstan-ignore-next-line
     return $repositoryMapper;
   }
 
@@ -75,6 +79,7 @@ class ProductProvider {
   /**
    * @param GetDataSource&PutDataSource&DeleteDataSource $dataSource
    */
+  // @phpstan-ignore-next-line
   public function registerRepository(mixed $dataSource = null): void {
     $this->diContainer[self::KEY_PRODUCT_REPOSITORY] = $this->provideRepository(
       $dataSource,

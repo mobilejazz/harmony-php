@@ -18,7 +18,7 @@ else
 fi
 
 # Re-Build Dockerfile
-docker_compose down
+docker_compose down --remove-orphans
 docker_compose rm -f
 docker_compose build \
     --compress \
@@ -26,4 +26,4 @@ docker_compose build \
     --memory 1GB \
     --build-arg HOST_USER_ID="${DOCKER_PHP_USER_ID}" \
     --build-arg HOST_GROUP_ID="${DOCKER_PHP_GROUP_ID}"
-docker_compose down
+docker_compose down --remove-orphans

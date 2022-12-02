@@ -20,6 +20,9 @@ use Sample\Product\ProductProvider;
 class RawSqlProductInteractorsTest extends ProductInteractorsTest {
   use DatabaseTest;
 
+  /**
+   * @psalm-suppress InvalidArgument
+   */
   protected function getProvider(): ProductProvider {
     $sqlBuilder = new SqlBuilder(new ProductSqlSchema(), new QueryFactory());
     $pdoWrapper = new PdoWrapper($this->getPdo());
@@ -29,7 +32,9 @@ class RawSqlProductInteractorsTest extends ProductInteractorsTest {
       $dataSource,
       $dataSource,
       $dataSource,
+      // @phpstan-ignore-next-line
       new ProductEntityToSqlDataMapper(),
+      // @phpstan-ignore-next-line
       new ProductSqlDataToEntityMapper(),
     );
 
