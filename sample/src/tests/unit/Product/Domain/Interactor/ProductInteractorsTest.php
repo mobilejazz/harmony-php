@@ -13,38 +13,12 @@ use Sample\Product\ProductProvider;
 abstract class ProductInteractorsTest extends TestCase {
   abstract protected function getProvider(): ProductProvider;
 
-  public function testInsertProductInteractor(): void {
+  public function testCreateProductInteractor(): void {
     $productProvider = $this->getProvider();
     $product = $this->getProductOne();
     $productSaved = $this->putProduct($productProvider, $product);
 
-    $this->assertEquals($productSaved->name, $product->name);
-  }
-
-  public function testUpdateProductInteractor(): void {
-    $productProvider = $this->getProvider();
-    $product = $this->getProductOne();
-    $productSaved = $this->putProduct($productProvider, $product);
-
-    $this->assertEquals($productSaved->name, $product->name);
-
-    $productName = Random::generateAlphaNumeric();
-
-    $productWithChange = new Product(
-      id: $productSaved->id,
-      name: $productName,
-      description: $productSaved->description,
-      price: $productSaved->price,
-    );
-
-    $productUpdated = $this->putProduct($productProvider, $productWithChange);
-
-    $this->assertEquals($productName, $productUpdated->name);
-
-    $queryGet = new KeyQuery((string) $productSaved->id);
-    $productGet = $productProvider->provideGetInteractor()($queryGet);
-
-    $this->assertEquals($productName, $productGet->name);
+    $this->assertEquals($product, $productSaved);
   }
 
   public function testGetProductInteractor(): void {
@@ -53,13 +27,34 @@ abstract class ProductInteractorsTest extends TestCase {
     $productSaved = $this->putProduct($productProvider, $product);
 
     $queryGet = new KeyQuery((string) $productSaved->id);
+    $productGot = $productProvider->provideGetInteractor()($queryGet);
 
-    $productProvider->provideGetInteractor()($queryGet);
-
-    $this->assertEquals($productSaved->name, $product->name);
+    $this->assertEquals($product, $productGot);
   }
 
-  public function testPutAllProductsInteractor(): void {
+  public function testUpdateProductInteractor(): void {
+    $productProvider = $this->getProvider();
+    $product = $this->getProductOne();
+    $productSaved = $this->putProduct($productProvider, $product);
+
+    $productWithChange = new Product(
+      id: $productSaved->id,
+      name: Random::generateAlphaNumeric(),
+      description: Random::generateAlphaNumeric(),
+      price: $productSaved->price,
+    );
+
+    $productUpdated = $this->putProduct($productProvider, $productWithChange);
+
+    $this->assertEquals($productWithChange, $productUpdated);
+
+    $queryGet = new KeyQuery((string) $productSaved->id);
+    $productGot = $productProvider->provideGetInteractor()($queryGet);
+
+    $this->assertEquals($productWithChange, $productGot);
+  }
+
+  public function testCreateAllProductsInteractor(): void {
     $productProvider = $this->getProvider();
     $products = $this->getListOfProducts();
     $productsSaved = $this->putProducts($productProvider, $products);
@@ -70,17 +65,43 @@ abstract class ProductInteractorsTest extends TestCase {
   public function testGetAllProductsInteractor(): void {
     $productProvider = $this->getProvider();
     $products = $this->getListOfProducts();
-    $productsSaved = $this->putProducts($productProvider, $products);
+    $this->putProducts($productProvider, $products);
 
     $getQuery = new AllQuery();
-    $allProducts = $productProvider->provideGetAllInteractor()($getQuery);
+    $allProductsGot = $productProvider->provideGetAllInteractor()($getQuery);
 
-    $this->assertEquals($productsSaved, $allProducts);
+    $this->assertEquals($products, $allProductsGot);
+  }
+
+  public function testUpdateAllProductsInteractor(): void {
+    $productProvider = $this->getProvider();
+    $products = $this->getListOfProducts();
+    $productsSaved = $this->putProducts($productProvider, $products);
+
+    $productsWithChanges = [];
+
+    foreach ($productsSaved as $productSaved) {
+      $productsWithChanges[] = new Product(
+        id: $productSaved->id,
+        name: Random::generateAlphaNumeric(),
+        description: Random::generateAlphaNumeric(),
+        price: $productSaved->price,
+      );
+    }
+
+    $productsUpdated = $this->putProducts(
+      $productProvider,
+      $productsWithChanges,
+    );
+    $this->assertEquals($productsWithChanges, $productsUpdated);
+
+    $getQuery = new AllQuery();
+    $allProductsGot = $productProvider->provideGetAllInteractor()($getQuery);
+
+    $this->assertEquals($productsWithChanges, $allProductsGot);
   }
 
   public function testDeleteProductInteractor(): void {
-    $this->expectException(DataNotFoundException::class);
-
     $productProvider = $this->getProvider();
     $product = $this->getProductOne();
     $productSaved = $this->putProduct($productProvider, $product);
@@ -89,6 +110,8 @@ abstract class ProductInteractorsTest extends TestCase {
     $productProvider->provideDeleteInteractor()($queryDelete);
 
     $queryGet = new KeyQuery((string) $productSaved->id);
+
+    $this->expectException(DataNotFoundException::class);
     $productProvider->provideGetInteractor()($queryGet);
   }
 
