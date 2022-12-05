@@ -6,4 +6,4 @@ source "${HELPERS_DIR}"/functions.sh
 # @todo Increase the % of coverage at same time that we add new test
 exec_wwwdata vendor/bin/pest \
     --no-interaction \
-    --coverage --min=47
+    --coverage --min=54
