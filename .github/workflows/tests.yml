@@ -4,7 +4,7 @@ on:
     branches:
       - master
 jobs:
-  build:
+  tests:
     name: Tests
     runs-on: ubuntu-latest
     services:
@@ -39,6 +39,5 @@ jobs:
         run: composer install --prefer-dist --no-progress
         working-directory: ./sample/src
       - name: PHPUnit Test
-        # @todo Increase the % of coverage at same time that we add new test
         run: ./vendor/bin/pest --no-interaction --coverage --min=47
         working-directory: ./sample/src
