@@ -7,14 +7,18 @@ jobs:
   tests:
     name: Tests
     runs-on: ubuntu-latest
+    env:
+      PHPUNIT_DB_HOST: localhost
+      PHPUNIT_DB_NAME: sampledb
+      PHPUNIT_DB_USER: root
+      PHPUNIT_DB_PASSWORD: M6Yp5Tho4mT3mT7upGSY
     services:
       db-sample:
         image: mysql:8.0
         env:
           MYSQL_ROOT_PASSWORD: M6Yp5Tho4mT3mT7upGSY
           MYSQL_DATABASE: sampledb
-          MYSQL_USER: acquire5171
-          MYSQL_PASSWORD: x9uiJujVNSUCxBZhSLiM
+          MYSQL_ALLOW_EMPTY_PASSWORD: false
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3

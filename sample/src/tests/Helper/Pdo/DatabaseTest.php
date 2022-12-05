@@ -54,9 +54,13 @@ trait DatabaseTest {
    * @see PdoFactory
    */
   protected static function createNewConnection(): void {
-    $dsn = "mysql:host=db-sample;dbname=sampledb;port=3306;";
+    $host = getenv("PHPUNIT_DB_HOST");
+    $name = getenv("PHPUNIT_DB_NAME");
+    $user = getenv("PHPUNIT_DB_USER");
+    $password = getenv("PHPUNIT_DB_PASSWORD");
+    $dsn = "mysql:host={$host};dbname={$name};port=3306;";
 
-    self::$dbh = new PDO($dsn, "root", "M6Yp5Tho4mT3mT7upGSY", [
+    self::$dbh = new PDO($dsn, $user, $password, [
       PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
       PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
     ]);

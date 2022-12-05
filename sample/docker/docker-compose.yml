@@ -45,9 +45,13 @@ services:
       - "host.docker.internal:host-gateway"
     environment:
       # The same name server like PHPSTORM
-      - PHP_IDE_CONFIG=serverName=localhost
+      PHP_IDE_CONFIG: serverName=localhost
       # https://xdebug.org/docs/all_settings#mode
-      - XDEBUG_MODE=debug,coverage
+      XDEBUG_MODE: debug,coverage
+      PHPUNIT_DB_HOST: db-sample
+      PHPUNIT_DB_NAME: sampledb
+      PHPUNIT_DB_USER: root
+      PHPUNIT_DB_PASSWORD: M6Yp5Tho4mT3mT7upGSY
 networks:
   default:
     name: sample-network
