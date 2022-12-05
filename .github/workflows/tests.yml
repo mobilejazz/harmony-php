@@ -8,8 +8,8 @@ jobs:
     name: Tests
     runs-on: ubuntu-latest
     services:
-      mysql:
-        image: mysql:8.0.*
+      db-sample:
+        image: mysql:8.0
         env:
           MYSQL_ROOT_PASSWORD: M6Yp5Tho4mT3mT7upGSY
           MYSQL_DATABASE: sampledb
