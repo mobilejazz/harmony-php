@@ -29,6 +29,9 @@ class ProductProvider {
    * @param GetDataSource&PutDataSource&DeleteDataSource $dataSource
    *
    * @return RepositoryMapper<Product, ProductEntity>
+   *
+   * @psalm-suppress PossiblyInvalidArgument
+   * @psalm-suppress DocblockTypeContradiction
    */
   // @phpstan-ignore-next-line
   protected function provideRepository(

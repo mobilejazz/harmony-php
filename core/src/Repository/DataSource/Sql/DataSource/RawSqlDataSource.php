@@ -39,7 +39,6 @@ class RawSqlDataSource implements
 
   /**
    * @psalm-suppress LessSpecificImplementedReturnType
-   * @psalm-suppress RedundantIdentityWithTrue
    *
    * @param Query $query
    *
@@ -73,7 +72,6 @@ class RawSqlDataSource implements
 
   /**
    * @psalm-suppress LessSpecificImplementedReturnType
-   * @psalm-suppress RedundantIdentityWithTrue
    *
    * @param Query $query
    *
@@ -154,7 +152,6 @@ class RawSqlDataSource implements
 
   /**
    * @psalm-suppress LessSpecificImplementedReturnType
-   * @psalm-suppress RedundantIdentityWithTrue
    *
    * @param Query         $query
    * @param object[]|null $entities
@@ -188,8 +185,6 @@ class RawSqlDataSource implements
   }
 
   /**
-   * @psalm-suppress RedundantIdentityWithTrue
-   *
    * @param Query $query
    *
    * @throws QueryNotSupportedException

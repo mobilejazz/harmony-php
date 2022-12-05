@@ -52,6 +52,7 @@ class SingleDataSourceRepository implements
 
   /**
    * @inheritdoc
+   * @psalm-suppress InvalidArgument
    */
   public function putAll(
     Query $query,

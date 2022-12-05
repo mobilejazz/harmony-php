@@ -5,15 +5,19 @@ namespace Harmony\Core\Repository\Mapper;
 use Harmony\Core\Domain\Pagination\PaginationOffsetLimit;
 
 /**
- * @template TFrom
- * @template TTo
+ * @template       TFrom
+ * @template       TTo
  * @implements Mapper<PaginationOffsetLimit<TFrom>, PaginationOffsetLimit<TTo>>
+ * @psalm-suppress InvalidArgument
+ * @psalm-suppress UndefinedDocblockClass
  */
 class PaginationOffsetLimitMapper implements Mapper {
-  /**
-   * @param Mapper<TFrom, TTo> $mapper
-   */
-  public function __construct(protected readonly Mapper $mapper) {
+  public function __construct(
+    /**
+     * @var Mapper<TFrom, TTo> $mapper
+     */
+    protected readonly Mapper $mapper,
+  ) {
   }
 
   /**

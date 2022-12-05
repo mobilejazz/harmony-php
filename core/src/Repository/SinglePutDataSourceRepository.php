@@ -26,6 +26,7 @@ class SinglePutDataSourceRepository implements PutRepository {
 
   /**
    * @inheritdoc
+   * @psalm-suppress InvalidArgument
    */
   public function putAll(
     Query $query,

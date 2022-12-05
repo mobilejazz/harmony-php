@@ -15,7 +15,6 @@
       <path value="$PROJECT_DIR$/sample/src/vendor/sebastian/recursion-context" />
       <path value="$PROJECT_DIR$/sample/src/vendor/sebastian/complexity" />
       <path value="$PROJECT_DIR$/sample/src/vendor/webmozart/assert" />
-      <path value="$PROJECT_DIR$/sample/src/vendor/webmozart/path-util" />
       <path value="$PROJECT_DIR$/sample/src/vendor/composer" />
       <path value="$PROJECT_DIR$/sample/src/vendor/nesbot/carbon" />
       <path value="$PROJECT_DIR$/sample/src/vendor/doctrine/instantiator" />

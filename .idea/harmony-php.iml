@@ -19,7 +19,6 @@
       <excludeFolder url="file://$MODULE_DIR$/sample/src/vendor/sebastian/recursion-context" />
       <excludeFolder url="file://$MODULE_DIR$/sample/src/vendor/sebastian/complexity" />
       <excludeFolder url="file://$MODULE_DIR$/sample/src/vendor/webmozart/assert" />
-      <excludeFolder url="file://$MODULE_DIR$/sample/src/vendor/webmozart/path-util" />
       <excludeFolder url="file://$MODULE_DIR$/sample/src/vendor/composer" />
       <excludeFolder url="file://$MODULE_DIR$/sample/src/vendor/nesbot/carbon" />
       <excludeFolder url="file://$MODULE_DIR$/sample/src/vendor/doctrine/instantiator" />
