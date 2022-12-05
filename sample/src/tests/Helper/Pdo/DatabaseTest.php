@@ -51,12 +51,13 @@ trait DatabaseTest {
   }
 
   /**
-   * @see PdoFactory
+   * @see            PdoFactory
+   * @psalm-suppress PossiblyFalseArgument
    */
   protected static function createNewConnection(): void {
     $host = !empty(getenv("PHPUNIT_DB_HOST"))
       ? getenv("PHPUNIT_DB_HOST")
-      : "localhost";
+      : "127.0.0.1";
     $name = !empty(getenv("PHPUNIT_DB_NAME"))
       ? getenv("PHPUNIT_DB_NAME")
       : "sampledb";

@@ -8,7 +8,7 @@ jobs:
     name: Tests
     runs-on: ubuntu-latest
     env:
-      PHPUNIT_DB_HOST: localhost
+      PHPUNIT_DB_HOST: 127.0.0.1
       PHPUNIT_DB_NAME: sampledb
       PHPUNIT_DB_USER: root
       PHPUNIT_DB_PASSWORD: M6Yp5Tho4mT3mT7upGSY
