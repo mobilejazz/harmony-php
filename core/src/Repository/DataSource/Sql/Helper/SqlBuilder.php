@@ -3,6 +3,7 @@
 namespace Harmony\Core\Repository\DataSource\Sql\Helper;
 
 use Harmony\Core\Repository\DataSource\Sql\SqlBaseColumn;
+use Harmony\Core\Repository\DataSource\Sql\SqlOrderDirection;
 use Harmony\Core\Repository\Query\Composed\ComposedQuery;
 use Harmony\Core\Repository\Query\Composed\CountQuery;
 use Harmony\Core\Repository\Query\Composed\IncludeSoftDeletedQuery;
@@ -72,7 +73,10 @@ class SqlBuilder {
     ) {
       $factory->offset($offset);
       $factory->limit($limit);
-      $factory->orderBy($orderBy, $ascending ? "ASC" : "DESC");
+      $factory->orderBy(
+        $orderBy,
+        $ascending ? SqlOrderDirection::ASC : SqlOrderDirection::DESC,
+      );
     }
 
     if ($this->schema->softDeleteEnabled()) {

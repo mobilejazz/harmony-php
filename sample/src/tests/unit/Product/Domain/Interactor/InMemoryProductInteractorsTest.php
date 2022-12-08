@@ -3,6 +3,7 @@
 namespace App\Tests\unit\Product\Domain\Interactor;
 
 use Harmony\Core\Repository\DataSource\InMemoryDataSource;
+use Sample\Product\Data\Entity\ProductEntity;
 use Sample\Product\ProductProvider;
 
 /**
@@ -10,6 +11,6 @@ use Sample\Product\ProductProvider;
  */
 class InMemoryProductInteractorsTest extends ProductInteractorsTest {
   protected function getProvider(): ProductProvider {
-    return new ProductProvider();
+    return new ProductProvider(new InMemoryDataSource(ProductEntity::class));
   }
 }

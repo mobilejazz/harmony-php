@@ -9,8 +9,8 @@ use Harmony\Core\Repository\DataSource\DataSourceMapper;
 use Harmony\Core\Repository\DataSource\Sql\DataSource\RawSqlDataSource;
 use Harmony\Core\Repository\DataSource\Sql\Helper\SqlBuilder;
 use Latitude\QueryBuilder\QueryFactory;
-use Sample\Product\Data\Sql\Mapper\ProductEntityToSqlDataMapper;
-use Sample\Product\Data\Sql\Mapper\ProductSqlDataToEntityMapper;
+use Sample\Product\Data\Sql\Mapper\ProductEntityToProductSqlDataMapper;
+use Sample\Product\Data\Sql\Mapper\ProductSqlDataToProductEntityMapper;
 use Sample\Product\Data\Sql\ProductSqlSchema;
 use Sample\Product\ProductProvider;
 
@@ -28,18 +28,17 @@ class RawSqlProductInteractorsTest extends ProductInteractorsTest {
     $pdoWrapper = new PdoWrapper($this->getPdo());
     $dataSource = new RawSqlDataSource($pdoWrapper, $sqlBuilder);
 
-    $dataSourceMapper = new DataSourceMapper(
+    $productDataSource = new DataSourceMapper(
       $dataSource,
       $dataSource,
       $dataSource,
       // @phpstan-ignore-next-line
-      new ProductEntityToSqlDataMapper(),
+      new ProductEntityToProductSqlDataMapper(),
       // @phpstan-ignore-next-line
-      new ProductSqlDataToEntityMapper(),
+      new ProductSqlDataToProductEntityMapper(),
     );
 
-    $productProvider = new ProductProvider();
-    $productProvider->registerRepository($dataSourceMapper);
+    $productProvider = new ProductProvider($productDataSource);
 
     return $productProvider;
   }

@@ -10,7 +10,7 @@ use Sample\Product\Data\Sql\ProductSqlData;
 /**
  * @implements Mapper<ProductSqlData, ProductEntity>
  */
-class ProductSqlDataToEntityMapper implements Mapper {
+class ProductSqlDataToProductEntityMapper implements Mapper {
   /**
    * @param ProductSqlData $from
    */

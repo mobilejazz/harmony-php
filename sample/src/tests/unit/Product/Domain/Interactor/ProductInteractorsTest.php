@@ -14,105 +14,116 @@ abstract class ProductInteractorsTest extends TestCase {
   abstract protected function getProvider(): ProductProvider;
 
   public function testCreateProductInteractor(): void {
-    $productProvider = $this->getProvider();
-    $product = $this->getProductOne();
-    $productSaved = $this->putProduct($productProvider, $product);
+    [
+      $productProvider,
+      $product,
+      $createdProduct,
+    ] = $this->createAndGetProduct();
 
-    $this->assertEquals($product, $productSaved);
+    $this->assertEquals($product, $createdProduct);
   }
 
   public function testGetProductInteractor(): void {
-    $productProvider = $this->getProvider();
-    $product = $this->getProductOne();
-    $productSaved = $this->putProduct($productProvider, $product);
+    [
+      $productProvider,
+      $product,
+      $createdProduct,
+    ] = $this->createAndGetProduct();
 
-    $queryGet = new KeyQuery((string) $productSaved->id);
-    $productGot = $productProvider->provideGetInteractor()($queryGet);
+    $getQuery = new KeyQuery((string) $createdProduct->id);
+    $resultingProduct = $productProvider->provideGetInteractor()($getQuery);
 
-    $this->assertEquals($product, $productGot);
+    $this->assertEquals($product, $resultingProduct);
   }
 
   public function testUpdateProductInteractor(): void {
-    $productProvider = $this->getProvider();
-    $product = $this->getProductOne();
-    $productSaved = $this->putProduct($productProvider, $product);
+    [
+      $productProvider,
+      $product,
+      $createdProduct,
+    ] = $this->createAndGetProduct();
 
-    $productWithChange = new Product(
-      id: $productSaved->id,
+    $editedProduct = new Product(
+      id: $createdProduct->id,
       name: Random::generateAlphaNumeric(),
       description: Random::generateAlphaNumeric(),
-      price: $productSaved->price,
+      price: $createdProduct->price,
     );
 
-    $productUpdated = $this->putProduct($productProvider, $productWithChange);
+    $updatedProduct = $this->putProduct($productProvider, $editedProduct);
 
-    $this->assertEquals($productWithChange, $productUpdated);
+    $this->assertEquals($editedProduct, $updatedProduct);
 
-    $queryGet = new KeyQuery((string) $productSaved->id);
-    $productGot = $productProvider->provideGetInteractor()($queryGet);
+    $getQuery = new KeyQuery((string) $createdProduct->id);
+    $resultingProduct = $productProvider->provideGetInteractor()($getQuery);
 
-    $this->assertEquals($productWithChange, $productGot);
+    $this->assertEquals($editedProduct, $resultingProduct);
   }
 
   public function testCreateAllProductsInteractor(): void {
-    $productProvider = $this->getProvider();
-    $products = $this->getListOfProducts();
-    $productsSaved = $this->putProducts($productProvider, $products);
+    [
+      $productProvider,
+      $products,
+      $createdProducts,
+    ] = $this->createAndGetProducts();
 
-    $this->assertEquals($products, $productsSaved);
+    $this->assertEquals($products, $createdProducts);
   }
 
   public function testGetAllProductsInteractor(): void {
-    $productProvider = $this->getProvider();
-    $products = $this->getListOfProducts();
-    $this->putProducts($productProvider, $products);
+    [
+      $productProvider,
+      $products,
+      $createdProducts,
+    ] = $this->createAndGetProducts();
 
     $getQuery = new AllQuery();
-    $allProductsGot = $productProvider->provideGetAllInteractor()($getQuery);
+    $resultingProducts = $productProvider->provideGetAllInteractor()($getQuery);
 
-    $this->assertEquals($products, $allProductsGot);
+    $this->assertEquals($products, $resultingProducts);
   }
 
   public function testUpdateAllProductsInteractor(): void {
-    $productProvider = $this->getProvider();
-    $products = $this->getListOfProducts();
-    $productsSaved = $this->putProducts($productProvider, $products);
+    [
+      $productProvider,
+      $products,
+      $createdProducts,
+    ] = $this->createAndGetProducts();
 
-    $productsWithChanges = [];
+    $editedProducts = [];
 
-    foreach ($productsSaved as $productSaved) {
-      $productsWithChanges[] = new Product(
-        id: $productSaved->id,
+    foreach ($createdProducts as $createdProduct) {
+      $editedProducts[] = new Product(
+        id: $createdProduct->id,
         name: Random::generateAlphaNumeric(),
         description: Random::generateAlphaNumeric(),
-        price: $productSaved->price,
+        price: $createdProduct->price,
       );
     }
 
-    $productsUpdated = $this->putProducts(
-      $productProvider,
-      $productsWithChanges,
-    );
-    $this->assertEquals($productsWithChanges, $productsUpdated);
+    $updatedProducts = $this->putProducts($productProvider, $editedProducts);
+    $this->assertEquals($editedProducts, $updatedProducts);
 
     $getQuery = new AllQuery();
-    $allProductsGot = $productProvider->provideGetAllInteractor()($getQuery);
+    $resultingProducts = $productProvider->provideGetAllInteractor()($getQuery);
 
-    $this->assertEquals($productsWithChanges, $allProductsGot);
+    $this->assertEquals($editedProducts, $resultingProducts);
   }
 
   public function testDeleteProductInteractor(): void {
-    $productProvider = $this->getProvider();
-    $product = $this->getProductOne();
-    $productSaved = $this->putProduct($productProvider, $product);
+    [
+      $productProvider,
+      $product,
+      $createdProduct,
+    ] = $this->createAndGetProduct();
 
-    $queryDelete = new KeyQuery((string) $productSaved->id);
-    $productProvider->provideDeleteInteractor()($queryDelete);
+    $deleteQuery = new KeyQuery((string) $createdProduct->id);
+    $productProvider->provideDeleteInteractor()($deleteQuery);
 
-    $queryGet = new KeyQuery((string) $productSaved->id);
+    $getQuery = new KeyQuery((string) $createdProduct->id);
 
     $this->expectException(DataNotFoundException::class);
-    $productProvider->provideGetInteractor()($queryGet);
+    $productProvider->provideGetInteractor()($getQuery);
   }
 
   public function getProductOne(): Product {
@@ -156,5 +167,25 @@ abstract class ProductInteractorsTest extends TestCase {
     $query = new AllQuery();
 
     return $productProvider->providePutAllInteractor()($products, $query);
+  }
+
+  /**
+   * @return array{ProductProvider, Product, Product}
+   */
+  protected function createAndGetProduct(): array {
+    $productProvider = $this->getProvider();
+    $product = $this->getProductOne();
+    $createdProduct = $this->putProduct($productProvider, $product);
+    return [$productProvider, $product, $createdProduct];
+  }
+
+  /**
+   * @return array{ProductProvider, Product[], Product[]}
+   */
+  protected function createAndGetProducts(): array {
+    $productProvider = $this->getProvider();
+    $products = $this->getListOfProducts();
+    $createdProducts = $this->putProducts($productProvider, $products);
+    return [$productProvider, $products, $createdProducts];
   }
 }

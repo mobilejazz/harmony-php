@@ -8,7 +8,7 @@ use Harmony\Core\Domain\Interactor\GetInteractor;
 use Harmony\Core\Domain\Interactor\PutAllInteractor;
 use Harmony\Core\Domain\Interactor\PutInteractor;
 use Harmony\Core\Repository\Query\AllQuery;
-use Harmony\Core\Repository\Query\KeyQuery;
+use Harmony\Core\Repository\Query\IdQuery;
 use Sample\Product\Domain\Model\Product;
 
 class ProductIndexAction {
@@ -61,13 +61,13 @@ class ProductIndexAction {
   }
 
   protected function putProductAction(Product $product): Product {
-    $query = new KeyQuery((string) $product->id);
+    $query = new IdQuery((string) $product->id);
 
     return ($this->putProduct)($product, $query);
   }
 
   protected function getProductAction(int $id): Product {
-    $query = new KeyQuery((string) $id);
+    $query = new IdQuery((string) $id);
     $product = ($this->getProduct)($query);
 
     return $product;
@@ -80,9 +80,9 @@ class ProductIndexAction {
    */
   protected function putAllProductsAction(array $products): array {
     $query = new AllQuery();
-    $result = ($this->putAllProduct)($products, $query);
+    $productsUpdated = ($this->putAllProduct)($products, $query);
 
-    return $result;
+    return $productsUpdated;
   }
 
   /**
@@ -96,7 +96,7 @@ class ProductIndexAction {
   }
 
   protected function deleteProductAction(int $id): string {
-    $query = new KeyQuery((string) $id);
+    $query = new IdQuery((string) $id);
     ($this->deleteProduct)($query);
 
     return "deleted";
