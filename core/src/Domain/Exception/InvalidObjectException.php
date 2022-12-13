@@ -1,6 +1,6 @@
 <?php
 
-namespace Harmony\Core\Shared\Error;
+namespace Harmony\Core\Domain\Exception;
 
 use InvalidArgumentException;
 use Throwable;

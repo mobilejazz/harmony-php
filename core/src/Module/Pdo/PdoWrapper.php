@@ -18,14 +18,18 @@ class PdoWrapper implements SqlInterface {
   }
 
   /**
-   * @param string               $sql
+   * @param string $sql
    * @param array<string, mixed> $params
    *
    * @return object|null
    * @throws PdoConnectionNotReadyException
    */
-  public function findOne(string $sql, array $params): ?object {
-    $query = $this->execute($sql, $params);
+  public function findOne(
+    string $sql,
+    array $params,
+    string $returnClass = null,
+  ): ?object {
+    $query = $this->execute($sql, $params, $returnClass);
     $item = $query->fetch();
 
     if ($item === false || !is_object($item)) {
@@ -36,16 +40,28 @@ class PdoWrapper implements SqlInterface {
   }
 
   /**
-   * @param string               $sql
+   * @param string $sql
    * @param array<string, mixed> $params
    *
    * @return array<object>
    * @throws PdoConnectionNotReadyException
    * @throws PdoFetchAllException
    */
-  public function findAll(string $sql, array $params): array {
-    $query = $this->execute($sql, $params);
-    $items = $query->fetchAll();
+  public function findAll(
+    string $sql,
+    array $params,
+    string $returnClass = null,
+  ): array {
+    $query = $this->execute($sql, $params, $returnClass);
+
+    if ($returnClass) {
+      $items = $query->fetchAll(
+        PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE,
+        $returnClass,
+      );
+    } else {
+      $items = $query->fetchAll();
+    }
 
     if (empty($items)) {
       throw new PdoFetchAllException();
@@ -55,7 +71,7 @@ class PdoWrapper implements SqlInterface {
   }
 
   /**
-   * @param string               $sql
+   * @param string $sql
    * @param array<string, mixed> $params
    *
    * @throws PdoConnectionNotReadyException
@@ -67,7 +83,7 @@ class PdoWrapper implements SqlInterface {
   }
 
   /**
-   * @param string               $sql
+   * @param string $sql
    * @param array<string, mixed> $params
    *
    * @return bool
@@ -99,14 +115,25 @@ class PdoWrapper implements SqlInterface {
   }
 
   /**
-   * @param string               $sql
+   * @param string $sql
    * @param array<string, mixed> $params
    *
    * @return PDOStatement<mixed>
    * @throws PdoConnectionNotReadyException
    */
-  public function execute(string $sql, array $params): PDOStatement {
+  public function execute(
+    string $sql,
+    array $params,
+    string $returnClass = null,
+  ): PDOStatement {
     $query = $this->pdoConnection->prepare($sql);
+
+    if ($returnClass) {
+      $query->setFetchMode(
+        PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE,
+        $returnClass,
+      );
+    }
 
     if (empty($query)) {
       throw new PdoConnectionNotReadyException();

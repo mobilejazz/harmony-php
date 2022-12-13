@@ -29,11 +29,13 @@ class RawSqlDataSource implements
   DeleteDataSource {
   /**
    * @param SqlInterface $pdo
-   * @param SqlBuilder   $sqlBuilder
+   * @param SqlBuilder $sqlBuilder
    */
   public function __construct(
     protected readonly SqlInterface $pdo,
     protected readonly SqlBuilder $sqlBuilder,
+    /** @var class-string<T> */
+    protected string $genericClass,
   ) {
   }
 
@@ -56,7 +58,11 @@ class RawSqlDataSource implements
       default => throw new QueryNotSupportedException(),
     };
 
-    $item = $this->pdo->findOne($sql->sql(), $sql->params());
+    $item = $this->pdo->findOne(
+      $sql->sql(),
+      $sql->params(),
+      $this->genericClass,
+    );
 
     if ($item === null) {
       throw new DataNotFoundException();
@@ -88,7 +94,11 @@ class RawSqlDataSource implements
       default => throw new QueryNotSupportedException(),
     };
 
-    $items = $this->pdo->findAll($sql->sql(), $sql->params());
+    $items = $this->pdo->findAll(
+      $sql->sql(),
+      $sql->params(),
+      $this->genericClass,
+    );
 
     if (empty($items)) {
       throw new DataNotFoundException();
@@ -100,7 +110,7 @@ class RawSqlDataSource implements
   /**
    * @psalm-suppress LessSpecificImplementedReturnType
    *
-   * @param Query      $query
+   * @param Query $query
    * @param mixed|null $entity
    *
    * @return mixed
@@ -132,7 +142,7 @@ class RawSqlDataSource implements
   }
 
   /**
-   * @param Query      $query
+   * @param Query $query
    * @param mixed|null $entity
    *
    * @return mixed
@@ -153,7 +163,7 @@ class RawSqlDataSource implements
   /**
    * @psalm-suppress LessSpecificImplementedReturnType
    *
-   * @param Query         $query
+   * @param Query $query
    * @param object[]|null $entities
    *
    * @return mixed[]

@@ -31,8 +31,10 @@
 
 ## Develop Installation
 
-1. `npm install`
-2. Setup [Sample](sample/README.md)
+1. `nvm install`
+2. `nvm use`
+3. `npm ci --also=dev`
+4. Setup [Sample](sample/README.md)
 
 ## Author
 
