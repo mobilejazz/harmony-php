@@ -2,11 +2,11 @@
 
 namespace Harmony\Core\Domain\Interactor;
 
-use Harmony\Core\Data\Operation\DefaultOperation;
-use Harmony\Core\Data\Operation\Operation;
-use Harmony\Core\Data\PutRepository;
-use Harmony\Core\Data\Query\Query;
-use Harmony\Core\Data\Query\VoidQuery;
+use Harmony\Core\Repository\Operation\DefaultOperation;
+use Harmony\Core\Repository\Operation\Operation;
+use Harmony\Core\Repository\PutRepository;
+use Harmony\Core\Repository\Query\Query;
+use Harmony\Core\Repository\Query\VoidQuery;
 
 /**
  * @template T

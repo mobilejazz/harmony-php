@@ -2,17 +2,17 @@
 
 namespace Harmony\Core\Module\Sql\DataSource;
 
-use Harmony\Core\Data\DataSource\DeleteDataSource;
-use Harmony\Core\Data\DataSource\GetDataSource;
-use Harmony\Core\Data\DataSource\PutDataSource;
-use Harmony\Core\Data\Exception\DataNotFoundException;
-use Harmony\Core\Data\Exception\QueryNotSupportedException;
-use Harmony\Core\Data\Query\AllQuery;
-use Harmony\Core\Data\Query\Composed\ComposedQuery;
-use Harmony\Core\Data\Query\IdQuery;
-use Harmony\Core\Data\Query\KeyQuery;
-use Harmony\Core\Data\Query\Query;
-use Harmony\Core\Data\Query\VoidQuery;
+use Harmony\Core\Repository\DataSource\DeleteDataSource;
+use Harmony\Core\Repository\DataSource\GetDataSource;
+use Harmony\Core\Repository\DataSource\PutDataSource;
+use Harmony\Core\Repository\Exception\DataNotFoundException;
+use Harmony\Core\Repository\Exception\QueryNotSupportedException;
+use Harmony\Core\Repository\Query\AllQuery;
+use Harmony\Core\Repository\Query\Composed\ComposedQuery;
+use Harmony\Core\Repository\Query\IdQuery;
+use Harmony\Core\Repository\Query\KeyQuery;
+use Harmony\Core\Repository\Query\Query;
+use Harmony\Core\Repository\Query\VoidQuery;
 use Harmony\Core\Module\Sql\Helper\SqlBuilder;
 use InvalidArgumentException;
 
@@ -50,7 +50,7 @@ class RawSqlDataSource implements
       $query instanceof ComposedQuery => $this->sqlBuilder->selectComposed(
         $query,
       ),
-      default => throw new QueryNotSupportedException()
+      default => throw new QueryNotSupportedException(),
     };
 
     $item = $this->pdo->findOne(
@@ -77,7 +77,7 @@ class RawSqlDataSource implements
       $query instanceof ComposedQuery => $this->sqlBuilder->selectAllComposed(
         $query,
       ),
-      default => throw new QueryNotSupportedException()
+      default => throw new QueryNotSupportedException(),
     };
 
     $items = $this->pdo->findAll(
@@ -107,7 +107,7 @@ class RawSqlDataSource implements
         $query->getId(),
         $entity,
       ),
-      default => throw new QueryNotSupportedException()
+      default => throw new QueryNotSupportedException(),
     };
 
     $this->pdo->execute($sql->sql(), $sql->params());
@@ -129,7 +129,7 @@ class RawSqlDataSource implements
 
     $sql = match (true) {
       $query instanceof VoidQuery => $this->sqlBuilder->multiInsert($entities),
-      default => throw new QueryNotSupportedException()
+      default => throw new QueryNotSupportedException(),
     };
 
     $this->pdo->transaction($sql->sql(), $sql->params());
@@ -147,7 +147,7 @@ class RawSqlDataSource implements
       $query instanceof IdQuery => $this->sqlBuilder->deleteById(
         $query->getId(),
       ),
-      default => throw new QueryNotSupportedException()
+      default => throw new QueryNotSupportedException(),
     };
 
     $this->pdo->transaction($sql->sql(), $sql->params());

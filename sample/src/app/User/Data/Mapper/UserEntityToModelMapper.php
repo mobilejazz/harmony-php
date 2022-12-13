@@ -2,7 +2,7 @@
 
 namespace Sample\User\Data\Mapper;
 
-use Harmony\Core\Data\Mapper\Mapper;
+use Harmony\Core\Repository\Mapper\Mapper;
 use Sample\User\Data\Entity\UserEntity;
 use Sample\User\Domain\Model\User;
 

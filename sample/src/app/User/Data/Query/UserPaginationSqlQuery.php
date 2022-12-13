@@ -2,7 +2,7 @@
 
 namespace Sample\User\Data\Query;
 
-use Harmony\Core\Data\Query\Composed\PaginationOffsetLimitQuery;
+use Harmony\Core\Repository\Query\Composed\PaginationOffsetLimitQuery;
 use Sample\User\Data\DataSource\Sql\UserSqlSchema;
 
 class UserPaginationSqlQuery implements PaginationOffsetLimitQuery {

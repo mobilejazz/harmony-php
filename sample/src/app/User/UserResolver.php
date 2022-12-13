@@ -2,9 +2,9 @@
 
 namespace Sample\User;
 
-use Harmony\Core\Data\DataSource\DataSourceMapper;
-use Harmony\Core\Data\RepositoryMapper;
-use Harmony\Core\Data\SingleDataSourceRepository;
+use Harmony\Core\Repository\DataSource\DataSourceMapper;
+use Harmony\Core\Repository\RepositoryMapper;
+use Harmony\Core\Repository\SingleDataSourceRepository;
 use Harmony\Core\Domain\Interactor\GetAllInteractor;
 use Harmony\Core\Module\Config\ResolverInterface;
 use Harmony\Core\Module\Pdo\PdoWrapper;

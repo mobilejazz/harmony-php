@@ -2,9 +2,9 @@
 
 namespace Sample\Product;
 
-use Harmony\Core\Data\DataSource\InMemoryDataSource;
-use Harmony\Core\Data\RepositoryMapper;
-use Harmony\Core\Data\SingleDataSourceRepository;
+use Harmony\Core\Repository\DataSource\InMemoryDataSource;
+use Harmony\Core\Repository\RepositoryMapper;
+use Harmony\Core\Repository\SingleDataSourceRepository;
 use Harmony\Core\Domain\Interactor\DeleteInteractor;
 use Harmony\Core\Domain\Interactor\GetAllInteractor;
 use Harmony\Core\Domain\Interactor\GetInteractor;
