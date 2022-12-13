@@ -1,21 +1,23 @@
 <?php
 
-use Harmony\Core\Repository\DataSource\InMemoryDataSource;
-use Sample\Application\ProductIndexAction;
-use Sample\Product\Data\Entity\ProductEntity;
-use Sample\Product\ProductProvider;
+use Harmony\Core\Module\Config\Env\DotEnvPathsContainer;
+use Harmony\Core\Module\Kernel\HttpKernel;
+use Sample\AppProvider;
+use Symfony\Component\HttpFoundation\Request;
 
 require_once __DIR__ . "/../vendor/autoload.php";
 
-$productProvider = new ProductProvider(
-  new InMemoryDataSource(ProductEntity::class),
-);
-$controllerAction = new ProductIndexAction(
-  $productProvider->provideGetInteractor(),
-  $productProvider->provideGetAllInteractor(),
-  $productProvider->providePutInteractor(),
-  $productProvider->providePutAllInteractor(),
-  $productProvider->provideDeleteInteractor(),
-);
+try {
+  $dotEnvPaths = new DotEnvPathsContainer([__DIR__ . "/../.env"]);
+  $kernel = new HttpKernel($dotEnvPaths, new AppProvider());
 
-echo $controllerAction();
+  $request = Request::createFromGlobals();
+  $response = $kernel->handleRequest($request);
+  $response->send();
+} catch (Exception $error) {
+  if (function_exists("dump")) {
+    dump($error->getMessage(), $error);
+  } else {
+    var_dump($error->getMessage(), $error);
+  }
+}

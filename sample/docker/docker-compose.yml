@@ -17,6 +17,8 @@ services:
     platform: linux/x86_64
     container_name: db-sample-docker
     restart: unless-stopped
+    volumes:
+      - ./mysql/init:/docker-entrypoint-initdb.d
     ports:
       - "3306:3306"
     environment:

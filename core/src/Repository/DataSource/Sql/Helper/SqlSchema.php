@@ -10,4 +10,6 @@ interface SqlSchema {
   public function getKeyColumn(): string;
 
   public function softDeleteEnabled(): bool;
+
+  public function getReturnClass(): ?string;
 }

@@ -7,17 +7,19 @@ use Harmony\Core\Domain\Interactor\GetAllInteractor;
 use Harmony\Core\Domain\Interactor\GetInteractor;
 use Harmony\Core\Domain\Interactor\PutAllInteractor;
 use Harmony\Core\Domain\Interactor\PutInteractor;
+use Harmony\Core\Module\Config\ProviderInterface;
 use Harmony\Core\Repository\DataSource\DeleteDataSource;
 use Harmony\Core\Repository\DataSource\GetDataSource;
 use Harmony\Core\Repository\DataSource\PutDataSource;
 use Harmony\Core\Repository\RepositoryMapper;
 use Harmony\Core\Repository\SingleDataSourceRepository;
+use Sample\Product\Command\TestCommand;
 use Sample\Product\Data\Entity\ProductEntity;
 use Sample\Product\Data\Mapper\ProductEntityToProductMapper;
 use Sample\Product\Data\Mapper\ProductToProductEntityMapper;
 use Sample\Product\Domain\Model\Product;
 
-class ProductProvider {
+class ProductProvider implements ProviderInterface {
   /** @var RepositoryMapper<Product, ProductEntity> */
   protected RepositoryMapper $productRepository;
 
@@ -91,5 +93,26 @@ class ProductProvider {
    */
   public function provideDeleteInteractor(): DeleteInteractor {
     return new DeleteInteractor($this->productRepository);
+  }
+
+  /**
+   * @inheritDoc
+   */
+  public function getRoutes(): array {
+    return (new ProductRoutes())();
+  }
+
+  /**
+   * @inheritDoc
+   */
+  public function getCommands(): array {
+    return [TestCommand::class];
+  }
+
+  /**
+   * @inheritDoc
+   */
+  public function getResolverDefinitions(): array {
+    return (new ProductResolver())();
   }
 }

@@ -1,0 +1,73 @@
+<?php
+
+namespace Sample\User;
+
+use Harmony\Core\Repository\DataSource\DataSourceMapper;
+use Harmony\Core\Repository\RepositoryMapper;
+use Harmony\Core\Repository\SingleDataSourceRepository;
+use Harmony\Core\Domain\Interactor\GetAllInteractor;
+use Harmony\Core\Module\Config\ResolverInterface;
+use Harmony\Core\Module\Pdo\PdoWrapper;
+use Harmony\Core\Module\Sql\DataSource\RawSqlDataSource;
+use Harmony\Core\Module\Sql\Helper\SqlBuilder;
+use Latitude\QueryBuilder\QueryFactory;
+use Psr\Container\ContainerInterface;
+use Sample\User\Data\DataSource\Sql\Mapper\UserEntityToSqlDataMapper;
+use Sample\User\Data\DataSource\Sql\Mapper\UserSqlDataToEntityMapper;
+use Sample\User\Data\DataSource\Sql\UserSqlSchema;
+use Sample\User\Data\Mapper\UserEntityToModelMapper;
+use Sample\User\Data\Mapper\UserModelToEntityMapper;
+use Sample\User\Domain\Interactor\GetAllUsersByNameInteractor;
+
+class UserResolver implements ResolverInterface {
+  protected const KEY_USER_REPOSITORY = "Repository<User>";
+  protected const KEY_USER_GET_ALL = "GetAllInteractor<User>";
+
+  public function __invoke(): array {
+    return [
+      self::KEY_USER_REPOSITORY => function (ContainerInterface $di) {
+        $pdo = $di->get(PdoWrapper::class);
+        $queryFactory = $di->get(QueryFactory::class);
+
+        $sqlBuilder = new SqlBuilder(new UserSqlSchema(), $queryFactory);
+        $dataSource = new RawSqlDataSource(
+          $pdo,
+          $sqlBuilder,
+          (new UserSqlSchema())->getReturnClass(),
+        );
+
+        $dataSourceMapper = new DataSourceMapper(
+          $dataSource,
+          $dataSource,
+          $dataSource,
+          new UserEntityToSqlDataMapper(),
+          new UserSqlDataToEntityMapper(),
+        );
+
+        $productRepository = new SingleDataSourceRepository(
+          $dataSourceMapper,
+          $dataSourceMapper,
+          $dataSourceMapper,
+        );
+
+        $productRepositoryMapper = new RepositoryMapper(
+          $productRepository,
+          $productRepository,
+          $productRepository,
+          new UserModelToEntityMapper(),
+          new UserEntityToModelMapper(),
+        );
+
+        return $productRepositoryMapper;
+      },
+      self::KEY_USER_GET_ALL => function (ContainerInterface $di) {
+        return new GetAllInteractor($di->get(self::KEY_USER_REPOSITORY));
+      },
+      GetAllUsersByNameInteractor::class => function (ContainerInterface $di) {
+        return new GetAllUsersByNameInteractor(
+          $di->get(self::KEY_USER_GET_ALL),
+        );
+      },
+    ];
+  }
+}
