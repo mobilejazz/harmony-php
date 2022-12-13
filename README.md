@@ -19,8 +19,9 @@
   </p>
   
   <p align="center">
-    <img src="https://github.com/mobilejazz/harmony-php/workflows/Static%20Analysis/badge.svg?branch=master">
-    <img src="https://github.com/mobilejazz/harmony-php/workflows/Tests/badge.svg?branch=master">
+    <img src="https://github.com/mobilejazz/harmony-php/workflows/Static%20Analysis/badge.svg?branch=master" />
+    <img src="https://github.com/mobilejazz/harmony-php/workflows/Code%20Style/badge.svg?branch=master" />
+    <img src="https://github.com/mobilejazz/harmony-php/workflows/Tests/badge.svg?branch=master" />
   </p>
 </p>
 
@@ -31,7 +32,7 @@
 ## Develop Installation
 
 1. `npm install`
-1. Setup [Sample](sample/README.md)
+2. Setup [Sample](sample/README.md)
 
 ## Author
 

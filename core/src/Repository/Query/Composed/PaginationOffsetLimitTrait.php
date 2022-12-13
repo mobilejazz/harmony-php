@@ -2,18 +2,12 @@
 
 namespace Harmony\Core\Repository\Query\Composed;
 
-trait PaginationOffsetLimitTrait
-{
-    protected int $offset;
-    protected int $limit;
-
-    public function offset(): int
-    {
-        return $this->offset;
-    }
-
-    public function limit(): int
-    {
-        return $this->limit;
-    }
+trait PaginationOffsetLimitTrait {
+  public function __construct(
+    public readonly int $offset,
+    public readonly int $limit,
+    public readonly string $orderBy,
+    public readonly bool $ascending,
+  ) {
+  }
 }

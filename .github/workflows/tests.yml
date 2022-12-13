@@ -1,19 +1,36 @@
 name: Tests
 on:
-  push:
   pull_request:
     branches:
       - master
 jobs:
-  build:
+  tests:
     name: Tests
     runs-on: ubuntu-latest
+    env:
+      PHPUNIT_DB_HOST: 127.0.0.1
+      PHPUNIT_DB_NAME: sampledb
+      PHPUNIT_DB_USER: root
+      PHPUNIT_DB_PASSWORD: M6Yp5Tho4mT3mT7upGSY
+    services:
+      db-sample:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: M6Yp5Tho4mT3mT7upGSY
+          MYSQL_DATABASE: sampledb
+          MYSQL_ALLOW_EMPTY_PASSWORD: false
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
       - uses: actions/checkout@v2
+        with:
+          # Make sure the actual branch is checked out when running on pull requests
+          ref: ${{ github.head_ref }}
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.0'
+          php-version: "8.1"
       - name: Link Harmony PHP
         run: mv core/src sample/src/core
         # @todo Try to use a symlink instead of mv a folder
@@ -26,6 +43,5 @@ jobs:
         run: composer install --prefer-dist --no-progress
         working-directory: ./sample/src
       - name: PHPUnit Test
-        # @todo Increase the % of coverage at same time that we add new test
-        run: ./vendor/bin/pest --no-interaction --coverage --min=25
+        run: ./vendor/bin/pest --no-interaction --coverage --min=54
         working-directory: ./sample/src

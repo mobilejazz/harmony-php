@@ -10,7 +10,7 @@ use Harmony\Core\Repository\Query\Query;
  */
 interface PutRepository extends Repository {
   /**
-   * @param T|null    $model
+   * @param T|null $model
    *
    * @return T
    */
@@ -24,6 +24,6 @@ interface PutRepository extends Repository {
   public function putAll(
     Query $query,
     Operation $operation,
-    array $models = null
+    array $models = null,
   ): array;
 }

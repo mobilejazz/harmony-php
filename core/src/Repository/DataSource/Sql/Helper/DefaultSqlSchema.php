@@ -12,7 +12,7 @@ abstract class DefaultSqlSchema implements SqlSchema {
   }
 
   public function getKeyColumn(): string {
-    return SqlBaseColumn::ID;
+    return $this->getIdColumn();
   }
 
   public function softDeleteEnabled(): bool {

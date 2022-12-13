@@ -15,11 +15,11 @@ class PutInteractor {
   /**
    * @param PutRepository<T> $putRepository
    */
-  public function __construct(protected PutRepository $putRepository) {
+  public function __construct(protected readonly PutRepository $putRepository) {
   }
 
   /**
-   * @param T $model
+   * @param T              $model
    * @param Query|null     $query
    * @param Operation|null $operation
    *
@@ -29,7 +29,7 @@ class PutInteractor {
   public function __invoke(
     mixed $model = null,
     ?Query $query = null,
-    ?Operation $operation = null
+    ?Operation $operation = null,
   ): mixed {
     $query = $query ?? new VoidQuery();
     $operation = $operation ?? new DefaultOperation();

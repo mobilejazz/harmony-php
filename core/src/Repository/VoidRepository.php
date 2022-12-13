@@ -43,7 +43,7 @@ class VoidRepository implements GetRepository, PutRepository, DeleteRepository {
   public function putAll(
     Query $query,
     Operation $operation,
-    array $models = null
+    array $models = null,
   ): array {
     throw new MethodNotImplementedException();
   }

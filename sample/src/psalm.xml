@@ -1,8 +1,11 @@
 <?xml version="1.0"?>
 <psalm
-  totallyTyped="false"
-  errorLevel="7"
-  resolveFromConfigFile="true"
+  errorLevel="1"
+  reportMixedIssues="false"
+  strictBinaryOperands="true"
+  findUnusedPsalmSuppress="true"
+  phpVersion="8.1"
+  cacheDirectory="./var/cache/psalm"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns="https://getpsalm.org/schema/config"
   xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
@@ -10,8 +13,12 @@
   <projectFiles>
     <directory name="core" />
     <directory name="app" />
+    <directory name="tests" />
     <ignoreFiles>
       <directory name="vendor" />
     </ignoreFiles>
   </projectFiles>
+  <plugins>
+    <pluginClass class="Psalm\PhpUnitPlugin\Plugin" />
+  </plugins>
 </psalm>

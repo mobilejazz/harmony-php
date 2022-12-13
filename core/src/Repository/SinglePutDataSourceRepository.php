@@ -14,9 +14,7 @@ class SinglePutDataSourceRepository implements PutRepository {
   /**
    * @param PutDataSource<T> $putDataSource
    */
-  public function __construct(
-    protected PutDataSource $putDataSource
-  ) {
+  public function __construct(protected readonly PutDataSource $putDataSource) {
   }
 
   /**
@@ -28,8 +26,13 @@ class SinglePutDataSourceRepository implements PutRepository {
 
   /**
    * @inheritdoc
+   * @psalm-suppress InvalidArgument
    */
-  public function putAll(Query $query, Operation $operation, array $models = null): array {
+  public function putAll(
+    Query $query,
+    Operation $operation,
+    array $models = null,
+  ): array {
     return $this->putDataSource->putAll($query, $models);
   }
 }

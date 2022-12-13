@@ -23,9 +23,9 @@ class SingleDataSourceRepository implements
    * @param DeleteDataSource $deleteDataSource
    */
   public function __construct(
-    protected GetDataSource $getDataSource,
-    protected PutDataSource $putDataSource,
-    protected DeleteDataSource $deleteDataSource
+    protected readonly GetDataSource $getDataSource,
+    protected readonly PutDataSource $putDataSource,
+    protected readonly DeleteDataSource $deleteDataSource,
   ) {
   }
 
@@ -52,11 +52,12 @@ class SingleDataSourceRepository implements
 
   /**
    * @inheritdoc
+   * @psalm-suppress InvalidArgument
    */
   public function putAll(
     Query $query,
     Operation $operation,
-    array $models = null
+    array $models = null,
   ): array {
     return $this->putDataSource->putAll($query, $models);
   }

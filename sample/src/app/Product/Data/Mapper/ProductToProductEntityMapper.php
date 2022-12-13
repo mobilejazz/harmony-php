@@ -2,6 +2,7 @@
 
 namespace Sample\Product\Data\Mapper;
 
+use Carbon\CarbonImmutable;
 use Harmony\Core\Repository\Mapper\Mapper;
 use Sample\Product\Data\Entity\ProductEntity;
 use Sample\Product\Domain\Model\Product;
@@ -12,15 +13,14 @@ use Sample\Product\Domain\Model\Product;
 class ProductToProductEntityMapper implements Mapper {
   /**
    * @param Product $from
-   *
-   * @return ProductEntity
    */
   public function map($from): ProductEntity {
     $entity = new ProductEntity(
-      $from->getId(),
-      $from->getName(),
-      $from->getDescription(),
-      $from->getPrice(),
+      $from->id,
+      $from->name,
+      $from->description,
+      $from->price,
+      new CarbonImmutable(),
     );
 
     return $entity;

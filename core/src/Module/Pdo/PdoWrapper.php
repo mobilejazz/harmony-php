@@ -14,13 +14,11 @@ use PDOStatement;
  * @link https://phpdelusions.net/pdo_examples
  */
 class PdoWrapper implements SqlInterface {
-  public function __construct(protected PDO $pdoConnection) {
+  public function __construct(protected readonly PDO $pdoConnection) {
   }
 
   /**
-   * @psalm-suppress MoreSpecificImplementedParamType
-   *
-   * @param string $sql
+   * @param string               $sql
    * @param array<string, mixed> $params
    *
    * @return object|null
@@ -30,7 +28,7 @@ class PdoWrapper implements SqlInterface {
     $query = $this->execute($sql, $params);
     $item = $query->fetch();
 
-    if ($item === false) {
+    if ($item === false || !is_object($item)) {
       return null;
     }
 
@@ -38,7 +36,7 @@ class PdoWrapper implements SqlInterface {
   }
 
   /**
-   * @param string $sql
+   * @param string               $sql
    * @param array<string, mixed> $params
    *
    * @return array<object>
@@ -49,7 +47,7 @@ class PdoWrapper implements SqlInterface {
     $query = $this->execute($sql, $params);
     $items = $query->fetchAll();
 
-    if ($items === false) {
+    if (empty($items)) {
       throw new PdoFetchAllException();
     }
 
@@ -57,19 +55,19 @@ class PdoWrapper implements SqlInterface {
   }
 
   /**
-   * @param string $sql
+   * @param string               $sql
    * @param array<string, mixed> $params
    *
-   * @return int|string
    * @throws PdoConnectionNotReadyException
    */
-  public function insert(string $sql, array $params): int|string {
+  public function insert(string $sql, array $params): int {
     $this->execute($sql, $params);
-    return $this->pdoConnection->lastInsertId();
+
+    return (int) $this->pdoConnection->lastInsertId();
   }
 
   /**
-   * @param string $sql
+   * @param string               $sql
    * @param array<string, mixed> $params
    *
    * @return bool
@@ -101,8 +99,8 @@ class PdoWrapper implements SqlInterface {
   }
 
   /**
-   * @param string $sql
-   * @param array<string, mixed>  $params
+   * @param string               $sql
+   * @param array<string, mixed> $params
    *
    * @return PDOStatement<mixed>
    * @throws PdoConnectionNotReadyException

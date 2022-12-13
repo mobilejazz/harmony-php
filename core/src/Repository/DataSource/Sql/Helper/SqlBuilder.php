@@ -3,6 +3,7 @@
 namespace Harmony\Core\Repository\DataSource\Sql\Helper;
 
 use Harmony\Core\Repository\DataSource\Sql\SqlBaseColumn;
+use Harmony\Core\Repository\DataSource\Sql\SqlOrderDirection;
 use Harmony\Core\Repository\Query\Composed\ComposedQuery;
 use Harmony\Core\Repository\Query\Composed\CountQuery;
 use Harmony\Core\Repository\Query\Composed\IncludeSoftDeletedQuery;
@@ -10,11 +11,11 @@ use Harmony\Core\Repository\Query\Composed\OrderByQuery;
 use Harmony\Core\Repository\Query\Composed\PaginationOffsetLimitQuery;
 use Harmony\Core\Repository\Query\Composed\WhereQuery;
 use Harmony\Core\Repository\Query\Query;
-use Latitude\QueryBuilder\Query as SqlQuery;
-use Latitude\QueryBuilder\Query\SelectQuery;
-use Latitude\QueryBuilder\Query\UpdateQuery;
-use Latitude\QueryBuilder\Query\DeleteQuery;
-use Latitude\QueryBuilder\QueryFactory;
+use Latitude\QueryBuilder\Query as LatitudeQuery;
+use Latitude\QueryBuilder\Query\DeleteQuery as LatitudeDeleteQuery;
+use Latitude\QueryBuilder\Query\SelectQuery as LatitudeSelectQuery;
+use Latitude\QueryBuilder\Query\UpdateQuery as LatitudeUpdateQuery;
+use Latitude\QueryBuilder\QueryFactory as LatitudeQueryFactory;
 use function Latitude\QueryBuilder\alias;
 use function Latitude\QueryBuilder\field;
 use function Latitude\QueryBuilder\func;
@@ -24,8 +25,8 @@ use function Latitude\QueryBuilder\func;
  */
 class SqlBuilder {
   public function __construct(
-    protected SqlSchema $schema,
-    protected QueryFactory $factory
+    protected readonly SqlSchema $schema,
+    protected readonly LatitudeQueryFactory $factory,
   ) {
   }
 
@@ -33,19 +34,19 @@ class SqlBuilder {
     return $this->schema;
   }
 
-  public function getFactory(): QueryFactory {
+  public function getFactory(): LatitudeQueryFactory {
     return $this->factory;
   }
 
-  public function selectByKey(mixed $value): SqlQuery {
+  public function selectByKey(mixed $value): LatitudeQuery {
     return $this->selectOneWhere($this->schema->getKeyColumn(), $value);
   }
 
-  public function selectById(mixed $value): SqlQuery {
+  public function selectById(mixed $value): LatitudeQuery {
     return $this->selectOneWhere($this->schema->getIdColumn(), $value);
   }
 
-  public function selectOneWhere(string $column, mixed $value): SqlQuery {
+  public function selectOneWhere(string $column, mixed $value): LatitudeQuery {
     $query = $this->factory
       ->select()
       ->from($this->schema->getTableName())
@@ -56,12 +57,26 @@ class SqlBuilder {
     return $query;
   }
 
-  public function selectAll(?int $offset = null, ?int $limit = null): SqlQuery {
+  public function selectAll(
+    ?int $offset = null,
+    ?int $limit = null,
+    ?string $orderBy = null,
+    ?bool $ascending = null,
+  ): LatitudeQuery {
     $factory = $this->factory->select()->from($this->schema->getTableName());
 
-    if ($offset !== null && $limit !== null) {
+    if (
+      $offset !== null &&
+      $limit !== null &&
+      $orderBy !== null &&
+      $ascending !== null
+    ) {
       $factory->offset($offset);
       $factory->limit($limit);
+      $factory->orderBy(
+        $orderBy,
+        $ascending ? SqlOrderDirection::ASC : SqlOrderDirection::DESC,
+      );
     }
 
     if ($this->schema->softDeleteEnabled()) {
@@ -73,7 +88,7 @@ class SqlBuilder {
     return $query;
   }
 
-  public function selectComposed(ComposedQuery $composed): SqlQuery {
+  public function selectComposed(ComposedQuery $composed): LatitudeQuery {
     if ($composed instanceof CountQuery) {
       $factory = $this->factory
         ->select(alias(func("COUNT", "*"), "count"))
@@ -89,7 +104,7 @@ class SqlBuilder {
     return $query;
   }
 
-  public function selectAllComposed(ComposedQuery $composed): SqlQuery {
+  public function selectAllComposed(ComposedQuery $composed): LatitudeQuery {
     $factory = $this->factory->select()->from($this->schema->getTableName());
 
     if ($composed instanceof PaginationOffsetLimitQuery) {
@@ -110,7 +125,7 @@ class SqlBuilder {
     return $query;
   }
 
-  public function updateById(mixed $id, mixed $entity): SqlQuery {
+  public function updateById(mixed $id, mixed $entity): LatitudeQuery {
     $values = (array) $entity;
 
     $query = $this->factory
@@ -121,7 +136,7 @@ class SqlBuilder {
     return $query;
   }
 
-  public function insert(mixed $entity): SqlQuery {
+  public function insert(mixed $entity): LatitudeQuery {
     $values = (array) $entity;
 
     $query = $this->factory
@@ -134,9 +149,9 @@ class SqlBuilder {
   /**
    * @param object[] $entities
    *
-   * @return SqlQuery
+   * @return LatitudeQuery
    */
-  public function multiInsert(array $entities): SqlQuery {
+  public function multiInsert(array $entities): LatitudeQuery {
     $factory = $this->factory->insert($this->schema->getTableName());
 
     foreach ($entities as $entity) {
@@ -149,7 +164,7 @@ class SqlBuilder {
     return $query;
   }
 
-  protected function getDeleteQuery(): UpdateQuery|DeleteQuery {
+  protected function getDeleteQuery(): LatitudeUpdateQuery|LatitudeDeleteQuery {
     if ($this->schema->softDeleteEnabled()) {
       return $this->factory->update($this->schema->getTableName(), [
         SqlBaseColumn::DELETED_AT => func("NOW"),
@@ -159,34 +174,34 @@ class SqlBuilder {
     return $this->factory->delete($this->schema->getTableName());
   }
 
-  public function deleteById(mixed $value): SqlQuery {
+  public function deleteById(mixed $value): LatitudeQuery {
     return $this->getDeleteQuery()
       ->where(field($this->schema->getIdColumn())->eq($value))
       ->compile();
   }
 
-  public function deleteByKey(mixed $value): SqlQuery {
+  public function deleteByKey(mixed $value): LatitudeQuery {
     return $this->getDeleteQuery()
       ->where(field($this->schema->getKeyColumn())->eq($value))
       ->compile();
   }
 
-  public function deleteComposed(ComposedQuery $composed): SqlQuery {
+  public function deleteComposed(ComposedQuery $composed): LatitudeQuery {
     $deleteQuery = $this->getDeleteQuery();
 
     return $this->addWhereConditions($composed, $deleteQuery)->compile();
   }
 
   /**
-   * @param Query                   $query
-   * @param SelectQuery|UpdateQuery|DeleteQuery $factory
+   * @param Query                                                       $query
+   * @param LatitudeSelectQuery|LatitudeUpdateQuery|LatitudeDeleteQuery $factory
    *
-   * @return SelectQuery|UpdateQuery|DeleteQuery
+   * @return LatitudeSelectQuery|LatitudeUpdateQuery|LatitudeDeleteQuery
    */
   protected function addWhereConditions(
     Query $query,
-    SelectQuery|UpdateQuery|DeleteQuery $factory
-  ): SelectQuery|UpdateQuery|DeleteQuery {
+    LatitudeSelectQuery|LatitudeUpdateQuery|LatitudeDeleteQuery $factory,
+  ): LatitudeSelectQuery|LatitudeUpdateQuery|LatitudeDeleteQuery {
     if ($query instanceof WhereQuery) {
       $wheres = $query->where();
 

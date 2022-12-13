@@ -1,34 +1,14 @@
 {
-  "name": "harmony/sample",
-  "description": "Harmony PHP Sample",
-  "type": "project",
-  "license": "MIT",
   "authors": [
     {
-      "name": "Mobile Jazz",
-      "email": "info@mobilejazz.com"
+      "email": "info@mobilejazz.com",
+      "name": "Mobile Jazz"
     }
   ],
-  "minimum-stability": "dev",
-  "prefer-stable": true,
-  "require": {
-    "latitude/latitude": "4.2.*",
-    "nesbot/carbon": "2.50.*",
-    "php": "8.0.*"
-  },
-  "require-dev": {
-    "pestphp/pest": "1.10.*",
-    "phpmd/phpmd": "2.10.*",
-    "phpstan/phpstan": "0.12.*",
-    "phpunit/phpunit": "9.5.*",
-    "roave/security-advisories": "dev-latest",
-    "squizlabs/php_codesniffer": "3.6.*",
-    "vimeo/psalm": "4.8.*"
-  },
   "autoload": {
     "psr-4": {
-      "Sample\\": "app/",
-      "Harmony\\Core\\": "core/"
+      "Harmony\\Core\\": "core/",
+      "Sample\\": "app/"
     }
   },
   "autoload-dev": {
@@ -40,5 +20,29 @@
     "allow-plugins": {
       "pestphp/pest-plugin": true
     }
-  }
+  },
+  "description": "Harmony PHP Sample",
+  "license": "MIT",
+  "minimum-stability": "dev",
+  "name": "harmony/sample",
+  "prefer-stable": true,
+  "require": {
+    "ext-pdo": "*",
+    "latitude/latitude": "4.2.*",
+    "nesbot/carbon": "2.64.*",
+    "php": "8.1.*",
+    "symfony/framework-bundle": "5.4.*",
+    "symfony/property-access": "5.4.*",
+    "symfony/serializer": "5.4.*",
+    "symfony/validator": "5.4.*"
+  },
+  "require-dev": {
+    "pestphp/pest": "1.22.*",
+    "phpstan/phpstan": "1.9.*",
+    "psalm/plugin-phpunit": "0.18.*",
+    "phpunit/phpunit": "9.5.*",
+    "roave/security-advisories": "dev-latest",
+    "vimeo/psalm": "5.1.*"
+  },
+  "type": "project"
 }

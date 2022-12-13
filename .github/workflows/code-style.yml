@@ -1,0 +1,25 @@
+name: Code Style
+on:
+  pull_request:
+    branches:
+      - master
+jobs:
+  code-style:
+    name: Code Style
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          # Make sure the actual branch is checked out when running on pull requests
+          ref: ${{ github.head_ref }}
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "18.10.0"
+      - name: Link Harmony PHP
+        run: mv core/src sample/src/core
+        # @todo Try to use a symlink instead of mv a folder
+        # run: ln -s core/src sample/src/core
+      - name: Npm Install
+        run: npm ci --include=dev
+      - name: Prettier Check
+        run: npm run prettier-check

@@ -4,17 +4,8 @@ namespace Harmony\Core\Repository\Query;
 
 class KeysQuery implements Query {
   /**
-   * @param array<string> $keys
+   * @param string[] $keys
    */
-  public function __construct(
-    protected array $keys
-  ) {
-  }
-
-  /**
-   * @return array<string>
-   */
-  public function getKeys(): array {
-    return $this->keys;
+  public function __construct(public readonly array $keys) {
   }
 }

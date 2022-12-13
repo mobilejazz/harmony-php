@@ -15,12 +15,12 @@ class PutAllInteractor {
   /**
    * @param PutRepository<T> $putRepository
    */
-  public function __construct(protected PutRepository $putRepository) {
+  public function __construct(protected readonly PutRepository $putRepository) {
   }
 
   /**
-   * @param array<T>  $models
-   * @param Query|null $query
+   * @param array<T>       $models
+   * @param Query|null     $query
    * @param Operation|null $operation
    *
    * @return array<T>
@@ -28,7 +28,7 @@ class PutAllInteractor {
   public function __invoke(
     array $models,
     ?Query $query = null,
-    ?Operation $operation = null
+    ?Operation $operation = null,
   ): array {
     $query = $query ?? new VoidQuery();
     $operation = $operation ?? new DefaultOperation();

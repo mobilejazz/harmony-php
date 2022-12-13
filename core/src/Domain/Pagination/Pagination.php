@@ -3,13 +3,15 @@
 namespace Harmony\Core\Domain\Pagination;
 
 /**
- * @psalm-immutable
- * @template T
+ * @template       T
+ * @psalm-suppress UndefinedDocblockClass
  */
 class Pagination {
-  /**
-   * @param array<T> $values
-   */
-  public function __construct(public array $values) {
+  public function __construct(
+    /**
+     * @var T[] $values
+     */
+    public readonly array $values,
+  ) {
   }
 }

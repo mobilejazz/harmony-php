@@ -14,7 +14,7 @@ class SingleGetDataSourceRepository implements GetRepository {
   /**
    * @param GetDataSource<T> $getDataSource
    */
-  public function __construct(protected GetDataSource $getDataSource) {
+  public function __construct(protected readonly GetDataSource $getDataSource) {
   }
 
   /**

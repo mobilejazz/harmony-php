@@ -8,7 +8,9 @@ use Harmony\Core\Repository\Operation\Operation;
 use Harmony\Core\Repository\Query\Query;
 
 class DeleteInteractor {
-  public function __construct(protected DeleteRepository $deleteRepository) {
+  public function __construct(
+    protected readonly DeleteRepository $deleteRepository,
+  ) {
   }
 
   public function __invoke(Query $query, ?Operation $operation = null): void {
