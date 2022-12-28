@@ -7,7 +7,7 @@ use Harmony\Core\Repository\Mapper\Mapper;
 /**
  * @template   TEntity
  * @template   TData
- * @implements PutDataSource<TEntity>
+ * @extends    DataSourceMapper<TEntity, TData>
  */
 class PutDataSourceMapper extends DataSourceMapper {
   /**

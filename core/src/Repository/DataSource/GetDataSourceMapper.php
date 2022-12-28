@@ -8,7 +8,7 @@ use Harmony\Core\Repository\Mapper\VoidMapper;
 /**
  * @template   TEntity
  * @template   TData
- * @implements GetDataSource<TEntity>
+ * @extends    DataSourceMapper<TEntity, TData>
  */
 class GetDataSourceMapper extends DataSourceMapper {
   /**
