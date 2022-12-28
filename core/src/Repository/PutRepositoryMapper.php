@@ -25,7 +25,7 @@ class PutRepositoryMapper extends RepositoryMapper {
       $this->putRepository,
       new VoidRepository(),
       $this->modelToEntityMapper,
-      $this->entityToModelMapper
+      $this->entityToModelMapper,
     );
   }
 }

@@ -24,7 +24,7 @@ class GetDataSourceMapper extends DataSourceMapper {
       new VoidDataSource(),
       new VoidDataSource(),
       new VoidMapper(),
-      $this->dataToEntityMapper
+      $this->dataToEntityMapper,
     );
   }
 }

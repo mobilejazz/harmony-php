@@ -23,7 +23,7 @@ class GetRepositoryMapper extends RepositoryMapper {
       new VoidRepository(),
       new VoidRepository(),
       new VoidMapper(),
-      $this->entityToModelMapper
+      $this->entityToModelMapper,
     );
   }
 }

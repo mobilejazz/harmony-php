@@ -25,7 +25,7 @@ class PutDataSourceMapper extends DataSourceMapper {
       $this->putDataSource,
       new VoidDataSource(),
       $this->entityToDataMapper,
-      $this->dataToEntityMapper
+      $this->dataToEntityMapper,
     );
   }
 }
