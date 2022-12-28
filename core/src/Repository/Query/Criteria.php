@@ -2,8 +2,7 @@
 
 namespace Harmony\Core\Repository\Query;
 
-enum Criteria
-{
+enum Criteria {
   case In;
   case NotIn;
   case Eq;

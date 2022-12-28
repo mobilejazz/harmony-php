@@ -209,7 +209,7 @@ class SqlBuilder {
       foreach ($wheres as $where) {
         $field = field($where->field);
         $value = $where->value;
-        $condition = match($where->condition) {
+        $condition = match ($where->condition) {
           Criteria::In => $field->in($value),
           Criteria::NotIn => $field->notIn($value),
           Criteria::Eq => $field->eq($value),

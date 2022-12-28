@@ -7,7 +7,7 @@ namespace Harmony\Core\Repository\Query;
  */
 class WhereCriteria {
   public function __construct(
-    public String $field,
+    public string $field,
     public Criteria $condition,
     public mixed $value = null,
   ) {
