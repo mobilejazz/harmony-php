@@ -8,21 +8,29 @@ use Harmony\Core\Repository\Mapper\VoidMapper;
 /**
  * @template   TModel
  * @template   TEntity
+ * @template-extends RepositoryMapper<TModel, TEntity>
  */
 class GetRepositoryMapper extends RepositoryMapper {
+
   /**
-   * @param GetRepository<TEntity>  $getRepository
+   * @param GetRepository<TEntity>   $getRepository
    * @param Mapper<TEntity, TModel> $entityToModelMapper
    */
   public function __construct(
     protected readonly GetRepository $getRepository,
     protected readonly Mapper $entityToModelMapper,
   ) {
+    /** @var VoidRepository<TEntity> $voidRepository */
+    $voidRepository = new VoidRepository();
+
+    /** @var VoidMapper<TModel, TEntity> $voidMapper */
+    $voidMapper = new VoidMapper();
+
     parent::__construct(
       $this->getRepository,
-      new VoidRepository(),
-      new VoidRepository(),
-      new VoidMapper(),
+      $voidRepository,
+      $voidRepository,
+      $voidMapper,
       $this->entityToModelMapper,
     );
   }

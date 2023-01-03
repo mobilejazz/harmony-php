@@ -7,11 +7,12 @@ use Harmony\Core\Repository\Mapper\Mapper;
 /**
  * @template   TModel
  * @template   TEntity
- * @implements PutRepository<TModel>
+ * @template-extends RepositoryMapper<TModel, TEntity>
  */
 class PutRepositoryMapper extends RepositoryMapper {
+
   /**
-   * @param PutRepository<TEntity>  $putRepository
+   * @inheritdoc $putRepository
    * @param Mapper<TModel, TEntity> $modelToEntityMapper
    * @param Mapper<TEntity, TModel> $entityToModelMapper
    */
@@ -20,10 +21,13 @@ class PutRepositoryMapper extends RepositoryMapper {
     protected readonly Mapper $modelToEntityMapper,
     protected readonly Mapper $entityToModelMapper,
   ) {
+    /** @var VoidRepository<TEntity> $voidRepository */
+    $voidRepository = new VoidRepository();
+
     parent::__construct(
-      new VoidRepository(),
+      $voidRepository,
       $this->putRepository,
-      new VoidRepository(),
+      $voidRepository,
       $this->modelToEntityMapper,
       $this->entityToModelMapper,
     );

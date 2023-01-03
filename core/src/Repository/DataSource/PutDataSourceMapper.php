@@ -7,9 +7,10 @@ use Harmony\Core\Repository\Mapper\Mapper;
 /**
  * @template   TEntity
  * @template   TData
- * @extends    DataSourceMapper<TEntity, TData>
+ * @template-extends DataSourceMapper<TEntity, TData>
  */
 class PutDataSourceMapper extends DataSourceMapper {
+
   /**
    * @param PutDataSource<TData>   $putDataSource
    * @param Mapper<TEntity, TData> $entityToDataMapper
@@ -20,10 +21,13 @@ class PutDataSourceMapper extends DataSourceMapper {
     protected readonly Mapper $entityToDataMapper,
     protected readonly Mapper $dataToEntityMapper,
   ) {
+    /** @var VoidDataSource<TData> $voidDataSource */
+    $voidDataSource = new VoidDataSource();
+
     parent::__construct(
-      new VoidDataSource(),
+      $voidDataSource,
       $this->putDataSource,
-      new VoidDataSource(),
+      $voidDataSource,
       $this->entityToDataMapper,
       $this->dataToEntityMapper,
     );
