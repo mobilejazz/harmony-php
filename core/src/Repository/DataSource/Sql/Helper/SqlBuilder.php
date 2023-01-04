@@ -11,6 +11,7 @@ use Harmony\Core\Repository\Query\Composed\OrderByQuery;
 use Harmony\Core\Repository\Query\Composed\PaginationOffsetLimitQuery;
 use Harmony\Core\Repository\Query\Composed\WhereQuery;
 use Harmony\Core\Repository\Query\Query;
+use Harmony\Core\Repository\Query\Criteria;
 use Latitude\QueryBuilder\Query as LatitudeQuery;
 use Latitude\QueryBuilder\Query\DeleteQuery as LatitudeDeleteQuery;
 use Latitude\QueryBuilder\Query\SelectQuery as LatitudeSelectQuery;
@@ -205,8 +206,22 @@ class SqlBuilder {
     if ($query instanceof WhereQuery) {
       $wheres = $query->where();
 
-      foreach ($wheres as $column => $value) {
-        $factory->andWhere(field($column)->eq($value));
+      foreach ($wheres as $where) {
+        $field = field($where->field);
+        $value = $where->value;
+        $condition = match ($where->condition) {
+          Criteria::In => $field->in($value),
+          Criteria::NotIn => $field->notIn($value),
+          Criteria::Eq => $field->eq($value),
+          Criteria::NotEq => $field->notEq($value),
+          Criteria::Gt => $field->gt($value),
+          Criteria::Gte => $field->gte($value),
+          Criteria::Lt => $field->lt($value),
+          Criteria::Lte => $field->lte($value),
+          Criteria::IsNull => $field->isNull(),
+          Criteria::IsNotNull => $field->isNotNull(),
+        };
+        $factory->andWhere($condition);
       }
     }
 

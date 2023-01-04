@@ -2,9 +2,11 @@
 
 namespace Harmony\Core\Repository\Query\Composed;
 
+use Harmony\Core\Repository\Query\WhereCriteria;
+
 interface WhereQuery extends ComposedQuery {
   /**
-   * @return array<string, mixed>
+   * @return WhereCriteria[]
    */
   public function where(): array;
 }
