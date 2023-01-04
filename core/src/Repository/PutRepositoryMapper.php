@@ -10,15 +10,17 @@ use Harmony\Core\Repository\Mapper\Mapper;
  * @template-extends RepositoryMapper<TModel, TEntity>
  */
 class PutRepositoryMapper extends RepositoryMapper {
-
   /**
-   * @inheritdoc $putRepository
+   * @param PutRepository<TEntity>  $putRepository
    * @param Mapper<TModel, TEntity> $modelToEntityMapper
    * @param Mapper<TEntity, TModel> $entityToModelMapper
    */
   public function __construct(
+    // @phpstan-ignore-next-line
     protected readonly PutRepository $putRepository,
+    // @phpstan-ignore-next-line
     protected readonly Mapper $modelToEntityMapper,
+    // @phpstan-ignore-next-line
     protected readonly Mapper $entityToModelMapper,
   ) {
     /** @var VoidRepository<TEntity> $voidRepository */

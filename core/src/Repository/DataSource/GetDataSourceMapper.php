@@ -11,13 +11,14 @@ use Harmony\Core\Repository\Mapper\VoidMapper;
  * @template-extends DataSourceMapper<TEntity, TData>
  */
 class GetDataSourceMapper extends DataSourceMapper {
-
   /**
    * @param GetDataSource<TData>   $getDataSource
    * @param Mapper<TData, TEntity> $dataToEntityMapper
    */
   public function __construct(
+    // @phpstan-ignore-next-line
     protected readonly GetDataSource $getDataSource,
+    // @phpstan-ignore-next-line
     protected readonly Mapper $dataToEntityMapper,
   ) {
     /** @var VoidDataSource<TData> $voidDataSource */

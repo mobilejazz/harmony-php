@@ -11,13 +11,14 @@ use Harmony\Core\Repository\Mapper\VoidMapper;
  * @template-extends RepositoryMapper<TModel, TEntity>
  */
 class GetRepositoryMapper extends RepositoryMapper {
-
   /**
-   * @param GetRepository<TEntity>   $getRepository
+   * @param GetRepository<TEntity>  $getRepository
    * @param Mapper<TEntity, TModel> $entityToModelMapper
    */
   public function __construct(
+    // @phpstan-ignore-next-line
     protected readonly GetRepository $getRepository,
+    // @phpstan-ignore-next-line
     protected readonly Mapper $entityToModelMapper,
   ) {
     /** @var VoidRepository<TEntity> $voidRepository */
