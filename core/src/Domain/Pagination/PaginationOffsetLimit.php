@@ -8,10 +8,10 @@ namespace Harmony\Core\Domain\Pagination;
  * @psalm-suppress UndefinedDocblockClass
  */
 class PaginationOffsetLimit extends Pagination {
+  /**
+  * @param T[] $values
+  */
   public function __construct(
-    /**
-     * @var T[]       $values
-     */
     array $values,
     public readonly int $offset,
     public readonly int $limit,

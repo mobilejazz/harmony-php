@@ -16,9 +16,7 @@ class GetDataSourceMapper extends DataSourceMapper {
    * @param Mapper<TData, TEntity> $dataToEntityMapper
    */
   public function __construct(
-    // @phpstan-ignore-next-line
     GetDataSource $getDataSource,
-    // @phpstan-ignore-next-line
     Mapper $dataToEntityMapper,
   ) {
     /** @var VoidDataSource<TData> $voidDataSource */

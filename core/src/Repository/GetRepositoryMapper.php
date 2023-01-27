@@ -16,9 +16,7 @@ class GetRepositoryMapper extends RepositoryMapper {
    * @param Mapper<TEntity, TModel> $entityToModelMapper
    */
   public function __construct(
-    // @phpstan-ignore-next-line
     GetRepository $getRepository,
-    // @phpstan-ignore-next-line
     Mapper $entityToModelMapper,
   ) {
     /** @var VoidRepository<TEntity> $voidRepository */

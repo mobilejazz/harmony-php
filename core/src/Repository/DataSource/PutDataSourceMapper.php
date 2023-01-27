@@ -16,11 +16,8 @@ class PutDataSourceMapper extends DataSourceMapper {
    * @param Mapper<TData, TEntity> $dataToEntityMapper
    */
   public function __construct(
-    // @phpstan-ignore-next-line
     PutDataSource $putDataSource,
-    // @phpstan-ignore-next-line
     Mapper $entityToDataMapper,
-    // @phpstan-ignore-next-line
     Mapper $dataToEntityMapper,
   ) {
     /** @var VoidDataSource<TData> $voidDataSource */
