@@ -210,10 +210,8 @@ class SqlBuilder {
         $field = field($where->field);
         $value = $where->value;
         $condition = match ($where->condition) {
-          /** @phpstan-ignore-next-line */
-          Criteria::In => $field->in(...$value),
-          /** @phpstan-ignore-next-line */
-          Criteria::NotIn => $field->notIn(...$value),
+          Criteria::In => $field->in(...(array) $value),
+          Criteria::NotIn => $field->notIn(...(array) $value),
           Criteria::Eq => $field->eq($value),
           Criteria::NotEq => $field->notEq($value),
           Criteria::Gt => $field->gt($value),
