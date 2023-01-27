@@ -12,7 +12,7 @@ class PaginationOffsetLimit extends Pagination {
     /**
      * @var T[]       $values
      */
-    public readonly array $values,
+    array $values,
     public readonly int $offset,
     public readonly int $limit,
     public readonly int $size,
