@@ -16,22 +16,19 @@ class PutDataSourceMapper extends DataSourceMapper {
    * @param Mapper<TData, TEntity> $dataToEntityMapper
    */
   public function __construct(
-    // @phpstan-ignore-next-line
-    protected readonly PutDataSource $putDataSource,
-    // @phpstan-ignore-next-line
-    protected readonly Mapper $entityToDataMapper,
-    // @phpstan-ignore-next-line
-    protected readonly Mapper $dataToEntityMapper,
+    PutDataSource $putDataSource,
+    Mapper $entityToDataMapper,
+    Mapper $dataToEntityMapper,
   ) {
     /** @var VoidDataSource<TData> $voidDataSource */
     $voidDataSource = new VoidDataSource();
 
     parent::__construct(
       $voidDataSource,
-      $this->putDataSource,
+      $putDataSource,
       $voidDataSource,
-      $this->entityToDataMapper,
-      $this->dataToEntityMapper,
+      $entityToDataMapper,
+      $dataToEntityMapper,
     );
   }
 }

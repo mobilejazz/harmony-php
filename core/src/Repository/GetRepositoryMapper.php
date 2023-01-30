@@ -16,10 +16,8 @@ class GetRepositoryMapper extends RepositoryMapper {
    * @param Mapper<TEntity, TModel> $entityToModelMapper
    */
   public function __construct(
-    // @phpstan-ignore-next-line
-    protected readonly GetRepository $getRepository,
-    // @phpstan-ignore-next-line
-    protected readonly Mapper $entityToModelMapper,
+    GetRepository $getRepository,
+    Mapper $entityToModelMapper,
   ) {
     /** @var VoidRepository<TEntity> $voidRepository */
     $voidRepository = new VoidRepository();
@@ -28,11 +26,11 @@ class GetRepositoryMapper extends RepositoryMapper {
     $voidMapper = new VoidMapper();
 
     parent::__construct(
-      $this->getRepository,
+      $getRepository,
       $voidRepository,
       $voidRepository,
       $voidMapper,
-      $this->entityToModelMapper,
+      $entityToModelMapper,
     );
   }
 }

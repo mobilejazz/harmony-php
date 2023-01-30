@@ -10,6 +10,8 @@ use Harmony\Core\Domain\Pagination\PaginationOffsetLimit;
  * @implements Mapper<PaginationOffsetLimit<TFrom>, PaginationOffsetLimit<TTo>>
  * @psalm-suppress InvalidArgument
  * @psalm-suppress UndefinedDocblockClass
+ * @psalm-suppress InvalidReturnType
+ * @psalm-suppress InvalidReturnStatement
  */
 class PaginationOffsetLimitMapper implements Mapper {
   public function __construct(

@@ -16,10 +16,8 @@ class GetDataSourceMapper extends DataSourceMapper {
    * @param Mapper<TData, TEntity> $dataToEntityMapper
    */
   public function __construct(
-    // @phpstan-ignore-next-line
-    protected readonly GetDataSource $getDataSource,
-    // @phpstan-ignore-next-line
-    protected readonly Mapper $dataToEntityMapper,
+    GetDataSource $getDataSource,
+    Mapper $dataToEntityMapper,
   ) {
     /** @var VoidDataSource<TData> $voidDataSource */
     $voidDataSource = new VoidDataSource();
@@ -28,11 +26,11 @@ class GetDataSourceMapper extends DataSourceMapper {
     $voidMapper = new VoidMapper();
 
     parent::__construct(
-      $this->getDataSource,
+      $getDataSource,
       $voidDataSource,
       $voidDataSource,
       $voidMapper,
-      $this->dataToEntityMapper,
+      $dataToEntityMapper,
     );
   }
 }

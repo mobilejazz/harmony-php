@@ -16,22 +16,19 @@ class PutRepositoryMapper extends RepositoryMapper {
    * @param Mapper<TEntity, TModel> $entityToModelMapper
    */
   public function __construct(
-    // @phpstan-ignore-next-line
-    protected readonly PutRepository $putRepository,
-    // @phpstan-ignore-next-line
-    protected readonly Mapper $modelToEntityMapper,
-    // @phpstan-ignore-next-line
-    protected readonly Mapper $entityToModelMapper,
+    PutRepository $putRepository,
+    Mapper $modelToEntityMapper,
+    Mapper $entityToModelMapper,
   ) {
     /** @var VoidRepository<TEntity> $voidRepository */
     $voidRepository = new VoidRepository();
 
     parent::__construct(
       $voidRepository,
-      $this->putRepository,
+      $putRepository,
       $voidRepository,
-      $this->modelToEntityMapper,
-      $this->entityToModelMapper,
+      $modelToEntityMapper,
+      $entityToModelMapper,
     );
   }
 }
