@@ -10,8 +10,8 @@ use Harmony\Core\Repository\Query\Composed\IncludeSoftDeletedQuery;
 use Harmony\Core\Repository\Query\Composed\OrderByQuery;
 use Harmony\Core\Repository\Query\Composed\PaginationOffsetLimitQuery;
 use Harmony\Core\Repository\Query\Composed\WhereQuery;
-use Harmony\Core\Repository\Query\Query;
 use Harmony\Core\Repository\Query\Criteria;
+use Harmony\Core\Repository\Query\Query;
 use Latitude\QueryBuilder\Query as LatitudeQuery;
 use Latitude\QueryBuilder\Query\DeleteQuery as LatitudeDeleteQuery;
 use Latitude\QueryBuilder\Query\SelectQuery as LatitudeSelectQuery;
@@ -63,6 +63,7 @@ class SqlBuilder {
     ?int $limit = null,
     ?string $orderBy = null,
     ?bool $ascending = null,
+    ?Query $query = null,
   ): LatitudeQuery {
     $factory = $this->factory->select()->from($this->schema->getTableName());
 
@@ -80,13 +81,16 @@ class SqlBuilder {
       );
     }
 
-    if ($this->schema->softDeleteEnabled()) {
-      $factory->andWhere(field(SqlBaseColumn::DELETED_AT)->eq(null));
+    if (
+      !$query instanceof IncludeSoftDeletedQuery &&
+      $this->schema->softDeleteEnabled()
+    ) {
+      $factory->andWhere(field(SqlBaseColumn::DELETED_AT)->isNull());
     }
 
-    $query = $factory->compile();
+    $latitudeQuery = $factory->compile();
 
-    return $query;
+    return $latitudeQuery;
   }
 
   public function selectComposed(ComposedQuery $composed): LatitudeQuery {
