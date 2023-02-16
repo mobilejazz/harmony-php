@@ -161,7 +161,8 @@ class SqlBuilder {
 
     foreach ($entities as $entity) {
       $values = (array) $entity;
-      $factory->values($values);
+      $factory->columns(...array_keys($values));
+      $factory->values(...array_values($values));
     }
 
     $query = $factory->compile();
