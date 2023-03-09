@@ -2,6 +2,9 @@
 
 namespace Harmony\Core\Repository\DataSource\Sql\Helper;
 
+use Harmony\Core\Repository\DataSource\Sql\Queries\InsertSqlQuery;
+use Harmony\Core\Repository\DataSource\Sql\Queries\PatchSqlQuery;
+use Harmony\Core\Repository\DataSource\Sql\Queries\UpdateSqlQuery;
 use Harmony\Core\Repository\DataSource\Sql\SqlBaseColumn;
 use Harmony\Core\Repository\DataSource\Sql\SqlOrderDirection;
 use Harmony\Core\Repository\Query\Composed\ComposedQuery;
@@ -109,6 +112,15 @@ class SqlBuilder {
     return $query;
   }
 
+  public function patch(PatchSqlQuery $query): LatitudeQuery {
+    $updates = $query->getValues();
+
+    $factory = $this->factory->update($this->schema->getTableName(), $updates);
+    $factory = $this->addWhereConditions($query, $factory);
+
+    return $factory->compile();
+  }
+
   public function selectAllComposed(ComposedQuery $composed): LatitudeQuery {
     $factory = $this->factory->select()->from($this->schema->getTableName());
 
@@ -141,8 +153,11 @@ class SqlBuilder {
     return $query;
   }
 
-  public function insert(mixed $entity): LatitudeQuery {
-    $values = (array) $entity;
+  public function insert(
+    mixed $entity = null,
+    InsertSqlQuery $query = null,
+  ): LatitudeQuery {
+    $values = $entity ? (array) $entity : $query->getValues();
 
     $query = $this->factory
       ->insert($this->schema->getTableName(), $values)
