@@ -6,6 +6,9 @@ use Harmony\Core\Repository\DataSource\DeleteDataSource;
 use Harmony\Core\Repository\DataSource\GetDataSource;
 use Harmony\Core\Repository\DataSource\PutDataSource;
 use Harmony\Core\Repository\DataSource\Sql\Helper\SqlBuilder;
+use Harmony\Core\Repository\DataSource\Sql\Queries\InsertSqlQuery;
+use Harmony\Core\Repository\DataSource\Sql\Queries\PatchSqlQuery;
+use Harmony\Core\Repository\DataSource\Sql\Queries\SqlQuery;
 use Harmony\Core\Repository\Error\DataNotFoundException;
 use Harmony\Core\Repository\Error\QueryNotSupportedException;
 use Harmony\Core\Repository\Query\AllQuery;
@@ -108,6 +111,10 @@ class RawSqlDataSource implements
    * @throws QueryNotSupportedException
    */
   public function put(Query $query, mixed $entity = null): mixed {
+    if ($query instanceof SqlQuery) {
+      return $this->queryPut($query);
+    }
+
     $id = $this->getId($query, $entity);
 
     try {
@@ -129,6 +136,25 @@ class RawSqlDataSource implements
     }
 
     return $this->get(new IdQuery($id));
+  }
+
+  /**
+   * @throws QueryNotSupportedException
+   * @throws DataNotFoundException
+   */
+  public function queryPut(SqlQuery $query): mixed {
+    switch (true) {
+      case $query instanceof InsertSqlQuery:
+        $sql = $this->sqlBuilder->insert(null, $query);
+        $id = $this->pdo->insert($sql->sql(), $sql->params());
+        return $this->get(new IdQuery($id));
+      case $query instanceof PatchSqlQuery:
+        $sql = $this->sqlBuilder->patch($query);
+        $this->pdo->execute($sql->sql(), $sql->params());
+        return $this->get($query);
+      default:
+        throw new QueryNotSupportedException();
+    }
   }
 
   /**
