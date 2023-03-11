@@ -3,24 +3,22 @@
 namespace Sample\Application;
 
 use Harmony\Core\Domain\Interactor\DeleteInteractor;
-use Harmony\Core\Domain\Interactor\GetAllInteractor;
 use Harmony\Core\Domain\Interactor\GetInteractor;
-use Harmony\Core\Domain\Interactor\PutAllInteractor;
 use Harmony\Core\Domain\Interactor\PutInteractor;
-use Harmony\Core\Repository\Query\AllQuery;
-use Harmony\Core\Repository\Query\IdQuery;
+use Harmony\Core\Data\Query\AllQuery;
+use Harmony\Core\Data\Query\IdQuery;
 use Sample\Product\Domain\Model\Product;
 
 class ProductIndexAction {
   public function __construct(
     /** @var GetInteractor<Product> $getProduct */
     protected readonly GetInteractor $getProduct,
-    /** @var GetAllInteractor<Product> $getAllProduct */
-    protected readonly GetAllInteractor $getAllProduct,
+    /** @var GetInteractor<Product[]> $getAllProduct */
+    protected readonly GetInteractor $getAllProduct,
     /** @var PutInteractor<Product> $putProduct */
     protected readonly PutInteractor $putProduct,
-    /** @var PutAllInteractor<Product> $putAllProduct */
-    protected readonly PutAllInteractor $putAllProduct,
+    /** @var PutInteractor<Product[]> $putAllProduct */
+    protected readonly PutInteractor $putAllProduct,
     /** @var DeleteInteractor $deleteProduct */
     protected readonly DeleteInteractor $deleteProduct,
   ) {

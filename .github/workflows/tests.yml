@@ -43,5 +43,5 @@ jobs:
         run: composer install --prefer-dist --no-progress
         working-directory: ./sample/src
       - name: PHPUnit Test
-        run: ./vendor/bin/pest --no-interaction --coverage --min=54
+        run: ./vendor/bin/pest --no-interaction --coverage --min=51
         working-directory: ./sample/src

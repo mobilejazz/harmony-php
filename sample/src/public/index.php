@@ -1,6 +1,6 @@
 <?php
 
-use Harmony\Core\Repository\DataSource\InMemoryDataSource;
+use Harmony\Core\Module\Memory\DataSource\InMemoryDataSource;
 use Sample\Application\ProductIndexAction;
 use Sample\Product\Data\Entity\ProductEntity;
 use Sample\Product\ProductProvider;
@@ -8,6 +8,7 @@ use Sample\Product\ProductProvider;
 require_once __DIR__ . "/../vendor/autoload.php";
 
 $productProvider = new ProductProvider(
+  new InMemoryDataSource(ProductEntity::class),
   new InMemoryDataSource(ProductEntity::class),
 );
 $controllerAction = new ProductIndexAction(
