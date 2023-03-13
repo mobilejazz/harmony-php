@@ -4,7 +4,7 @@ namespace Harmony\Core\Module\Sql\Schema;
 
 use Harmony\Core\Error\MethodNotImplementedException;
 
-class VoidSqlSchemaInterface implements SqlSchemaInterface {
+class VoidSqlSchema implements SqlSchemaInterface {
   /**
    * @throws MethodNotImplementedException
    */

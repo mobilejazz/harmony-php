@@ -80,20 +80,20 @@ trait DatabaseTest {
     return self::$dbh ?? throw new InvalidArgumentException();
   }
 
-  protected function getSqlBuilder(SqlSchemaInterface $sqlSchema): SqlBuilder {
+  protected function getPdoWrapper(): PdoWrapper {
+    return new PdoWrapper($this->getPdo());
+  }
+
+  protected function getSqlBuilder(): SqlBuilder {
     $queryFactory = new QueryFactory(new MySqlEngine());
     $sqlBuilder = new SqlBuilder($queryFactory);
 
     return $sqlBuilder;
   }
 
-  protected function insert(
-    SqlSchemaInterface $sqlSchema,
-    object $entity,
-  ): string|int {
-    $sqlBuilder = $this->getSqlBuilder($sqlSchema);
-    $sql = $sqlBuilder->insert($entity);
-    $pdo = new PdoWrapper($this->getPdo());
+  protected function insert(object $entity): string|int {
+    $pdo = $this->getPdoWrapper();
+    $sql = $this->getSqlBuilder()->insert($entity);
 
     $id = $pdo->insert($sql->sql(), $sql->params());
 

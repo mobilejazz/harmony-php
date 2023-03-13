@@ -3,6 +3,7 @@
 namespace Harmony\Core\Data\Repository;
 
 use Harmony\Core\Data\DataSource\PutDataSource;
+use Harmony\Core\Data\Operation\DefaultOperation;
 use Harmony\Core\Data\Operation\Operation;
 use Harmony\Core\Data\Query\Query;
 
@@ -21,8 +22,8 @@ class SinglePutDataSourceRepository implements PutRepository {
    * @inheritdoc
    */
   public function put(
-    Query $query,
-    Operation $operation,
+    Query $query = null,
+    Operation $operation = new DefaultOperation(),
     $model = null,
   ): mixed {
     return $this->putDataSource->put($query, $model);

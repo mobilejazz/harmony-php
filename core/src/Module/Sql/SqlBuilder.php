@@ -187,6 +187,9 @@ class SqlBuilder {
       ->compile();
   }
 
+  /**
+   * @param int[]|string[] $ids
+   */
   public function deleteByIds(array $ids): LatitudeQuery {
     return $this->getDeleteQuery()
       ->where(field($this->schema->getIdColumn())->in(...$ids))

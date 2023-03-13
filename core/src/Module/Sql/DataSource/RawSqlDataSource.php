@@ -2,8 +2,6 @@
 
 namespace Harmony\Core\Module\Sql\DataSource;
 
-use Harmony\Core\Module\Sql\Schema\SqlSchemaInterface;
-use Harmony\Core\Module\Sql\SqlBuilder;
 use Harmony\Core\Data\DataSource\DeleteDataSource;
 use Harmony\Core\Data\DataSource\GetDataSource;
 use Harmony\Core\Data\DataSource\PutDataSource;
@@ -13,6 +11,10 @@ use Harmony\Core\Data\Query\Composed\ComposedQuery;
 use Harmony\Core\Data\Query\CountQuery;
 use Harmony\Core\Data\Query\IdQuery;
 use Harmony\Core\Data\Query\Query;
+use Harmony\Core\Data\Query\VoidQuery;
+use Harmony\Core\Module\Sql\Error\IdRequiredToUpdateSqlRowException;
+use Harmony\Core\Module\Sql\Schema\SqlSchemaInterface;
+use Harmony\Core\Module\Sql\SqlBuilder;
 
 /**
  * @see RawSqlProductInteractorsTest
@@ -62,9 +64,10 @@ class RawSqlDataSource implements
   /**
    * @throws DataNotFoundException
    * @throws QueryNotSupportedException
+   * @throws IdRequiredToUpdateSqlRowException
    */
-  public function put(Query $query, mixed $entity = null): mixed {
-    $id = $this->getId($query, $entity);
+  public function put(Query $query = null, mixed $entity = null): mixed {
+    $id = $this->getId($query ?? new VoidQuery(), $entity);
 
     try {
       if (!empty($id)) {
@@ -79,21 +82,25 @@ class RawSqlDataSource implements
     if ($isInsertion) {
       $sql = $this->sqlBuilder->insert($entity);
       $id = $this->pdo->insert($sql->sql(), $sql->params());
-    } else {
+      // @phpstan-ignore-next-line
+    } elseif (!empty($id)) {
       $sql = $this->sqlBuilder->updateById($id, $entity);
       $this->pdo->execute($sql->sql(), $sql->params());
+    } else {
+      throw new IdRequiredToUpdateSqlRowException();
     }
 
     return $this->get(new IdQuery($id));
   }
 
-  public function getId(Query $query, mixed $entity = null): string|int {
+  public function getId(Query $query, mixed $entity = null): string|int|null {
     $id = null;
     $idColumnName = $this->sqlBuilder->getSchema()->getIdColumn();
 
     if ($query instanceof IdQuery) {
       $id = $query->id;
     } elseif (!empty($entity?->$idColumnName)) {
+      /** @var string|int|null $id */
       $id = $entity->$idColumnName;
     }
 

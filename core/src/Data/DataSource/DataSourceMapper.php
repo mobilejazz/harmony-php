@@ -6,7 +6,6 @@ use Harmony\Core\Data\Mapper\Mapper;
 use Harmony\Core\Data\Query\Query;
 
 /**
- * @template   T
  * @template   TEntity
  * @template   TData
  * @implements GetDataSource<TEntity>
@@ -33,59 +32,27 @@ class DataSourceMapper implements
   }
 
   /**
-   * @return T
+   * @inheritdoc
    */
   public function get(Query $query): mixed {
     $toMap = $this->getDataSource->get($query);
 
-    if (!is_array($toMap)) {
-      return $this->dataToEntityMapper->map($toMap);
-    }
-
-    $mapped = [];
-
-    foreach ($toMap as $from) {
-      $mapped[] = $this->dataToEntityMapper->map($from);
-    }
-
-    return $mapped;
+    return $this->dataToEntityMapper->map($toMap);
   }
 
   /**
-   * @param Query        $query
-   * @param T|null $entity
-   *
-   * @return T
+   * @inheritdoc
    */
-  public function put(Query $query, mixed $entity = null): mixed {
+  public function put(Query $query = null, mixed $entity = null): mixed {
     $toPut = null;
 
     if ($entity !== null) {
-      if (!is_array($entity)) {
-        $toPut = $this->entityToDataMapper->map($entity);
-      } else {
-        $toPut = [];
-
-        foreach ($entity as $entityToMap) {
-          $toPut[] = $this->entityToDataMapper->map($entityToMap);
-          unset($entityToMap);
-        }
-      }
+      $toPut = $this->entityToDataMapper->map($entity);
     }
 
     $toMap = $this->putDataSource->put($query, $toPut);
 
-    if (!is_array($entity)) {
-      return $this->dataToEntityMapper->map($toMap);
-    }
-
-    $mapped = [];
-
-    foreach ($toMap as $dataToMap) {
-      $mapped[] = $this->dataToEntityMapper->map($dataToMap);
-    }
-
-    return $mapped;
+    return $this->dataToEntityMapper->map($toMap);
   }
 
   public function delete(Query $query): void {

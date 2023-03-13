@@ -3,11 +3,11 @@
 namespace Harmony\Core\Data\Repository;
 
 use Harmony\Core\Data\Mapper\Mapper;
+use Harmony\Core\Data\Operation\DefaultOperation;
 use Harmony\Core\Data\Operation\Operation;
 use Harmony\Core\Data\Query\Query;
 
 /**
- * @template   T
  * @template   TModel
  * @template   TEntity
  * @implements GetRepository<TModel>
@@ -34,62 +34,31 @@ class RepositoryMapper implements
   }
 
   /**
-   * @return T
+   * @inheritdoc
    */
   public function get(Query $query, Operation $operation): mixed {
     $toMap = $this->getRepository->get($query, $operation);
 
-    if (!is_array($toMap)) {
-      return $this->entityToModelMapper->map($toMap);
-    }
-
-    $mapped = [];
-
-    foreach ($toMap as $entityToMap) {
-      $mapped[] = $this->entityToModelMapper->map($entityToMap);
-    }
-
-    return $mapped;
+    return $this->entityToModelMapper->map($toMap);
   }
 
   /**
-   * @param Query     $query
-   * @param Operation $operation
-   * @param T|null    $model
-   *
-   * @return T
+   * @inheritdoc
    */
   public function put(
-    Query $query,
-    Operation $operation,
-    $model = null,
+    Query $query = null,
+    Operation $operation = new DefaultOperation(),
+    mixed $model = null,
   ): mixed {
     $toPut = null;
 
     if ($model !== null) {
-      if (!is_array($model)) {
-        $toPut = $this->modelToEntityMapper->map($model);
-      } else {
-        $toPut = [];
-        foreach ($model as $modelToMap) {
-          $toPut[] = $this->modelToEntityMapper->map($modelToMap);
-        }
-      }
+      $toPut = $this->modelToEntityMapper->map($model);
     }
 
     $toMap = $this->putRepository->put($query, $operation, $toPut);
 
-    if (!is_array($model)) {
-      return $this->entityToModelMapper->map($toMap);
-    }
-
-    $mapped = [];
-
-    foreach ($toMap as $entityToMap) {
-      $mapped[] = $this->entityToModelMapper->map($entityToMap);
-    }
-
-    return $mapped;
+    return $this->entityToModelMapper->map($toMap);
   }
 
   public function delete(Query $query, Operation $operation): void {

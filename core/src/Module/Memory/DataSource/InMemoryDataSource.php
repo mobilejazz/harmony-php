@@ -8,8 +8,9 @@ use Harmony\Core\Data\DataSource\PutDataSource;
 use Harmony\Core\Data\Error\DataNotFoundException;
 use Harmony\Core\Data\Error\QueryNotSupportedException;
 use Harmony\Core\Data\Query\AllQuery;
-use Harmony\Core\Data\Query\IdQuery;
+use Harmony\Core\Data\Query\KeyQuery;
 use Harmony\Core\Data\Query\Query;
+use Harmony\Core\Data\Query\VoidQuery;
 use InvalidArgumentException;
 
 /**
@@ -40,12 +41,12 @@ class InMemoryDataSource implements
    * @throws QueryNotSupportedException
    */
   public function get(Query $query): mixed {
-    if ($query instanceof IdQuery) {
-      if (!isset($this->entities[$query->id])) {
+    if ($query instanceof KeyQuery) {
+      if (!isset($this->entities[$query->key])) {
         throw new DataNotFoundException();
       }
 
-      return $this->entities[$query->id];
+      return $this->entities[$query->key];
     }
 
     if ($query instanceof AllQuery) {
@@ -53,7 +54,8 @@ class InMemoryDataSource implements
         throw new DataNotFoundException();
       }
 
-      return $this->entities;
+      // @phpstan-ignore-next-line
+      return array_values($this->entities);
     }
 
     throw new QueryNotSupportedException($query);
@@ -63,21 +65,23 @@ class InMemoryDataSource implements
    * @inheritdoc
    * @throws QueryNotSupportedException
    */
-  public function put(Query $query, mixed $entity = null): mixed {
+  public function put(Query $query = null, mixed $entity = null): mixed {
     if ($entity === null) {
       throw new InvalidArgumentException();
     }
 
-    if ($query instanceof IdQuery) {
-      $this->entities[$query->id] = $entity;
+    if ($query instanceof KeyQuery) {
+      $this->entities[$query->key] = $entity;
 
       return $entity;
     }
 
     if ($query instanceof AllQuery) {
       foreach ($entity as $toFind) {
-        if (!empty($toFind->id)) {
-          $this->entities[$toFind->id] = $toFind;
+        // @phpstan-ignore-next-line
+        if (isset($toFind->id) && !empty((string) $toFind->id)) {
+          // @phpstan-ignore-next-line
+          $this->entities[(string) $toFind->id] = $toFind;
         } else {
           $this->entities[] = $toFind;
         }
@@ -86,7 +90,7 @@ class InMemoryDataSource implements
       return $entity;
     }
 
-    throw new QueryNotSupportedException($query);
+    throw new QueryNotSupportedException($query ?? new VoidQuery());
   }
 
   /**
@@ -94,12 +98,12 @@ class InMemoryDataSource implements
    * @throws QueryNotSupportedException
    */
   public function delete(Query $query): void {
-    if ($query instanceof IdQuery) {
-      if (!isset($this->entities[$query->id])) {
+    if ($query instanceof KeyQuery) {
+      if (!isset($this->entities[$query->key])) {
         throw new DataNotFoundException();
       }
 
-      unset($this->entities[$query->id]);
+      unset($this->entities[$query->key]);
 
       return;
     }

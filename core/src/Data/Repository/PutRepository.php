@@ -2,6 +2,7 @@
 
 namespace Harmony\Core\Data\Repository;
 
+use Harmony\Core\Data\Operation\DefaultOperation;
 use Harmony\Core\Data\Operation\Operation;
 use Harmony\Core\Data\Query\Query;
 
@@ -10,13 +11,15 @@ use Harmony\Core\Data\Query\Query;
  */
 interface PutRepository {
   /**
-   * @param T|null $model
+   * @param Query|null $query
+   * @param Operation  $operation
+   * @param T|null     $model
    *
    * @return T
    */
   public function put(
-    Query $query,
-    Operation $operation,
+    Query $query = null,
+    Operation $operation = new DefaultOperation(),
     mixed $model = null,
   ): mixed;
 }

@@ -12,6 +12,7 @@ use Harmony\Core\Data\Query\Composed\ComposedQuery;
 use Harmony\Core\Data\Query\IdsQuery;
 use Harmony\Core\Data\Query\Query;
 use Harmony\Core\Data\Query\VoidQuery;
+use Harmony\Core\Module\Sql\Error\IdRequiredToUpdateSqlRowException;
 use Harmony\Core\Module\Sql\Schema\SqlSchemaInterface;
 use Harmony\Core\Module\Sql\SqlBuilder;
 use InvalidArgumentException;
@@ -61,25 +62,31 @@ class ArrayRawSqlDataSource implements
   }
 
   /**
-   * @param Query         $query
-   * @param object[]|null $entity
+   * @param Query|null   $query
+   * @param mixed[]|null $entity
    *
    * @return mixed[]
-   * @throws QueryNotSupportedException|DataNotFoundException
    *
-   * @todo           At present this method is not returning the inserted
-   *                 or updated entities.
+   * @throws QueryNotSupportedException
+   * @throws DataNotFoundException
+   * @throws IdRequiredToUpdateSqlRowException
+   *
+   * @todo           At present this method is inserting one by one each
+   *                entity. But we can use `multiInsert` method to insert
+   *                all entities at once.
    */
-  public function put(Query $query, mixed $entity = null): array {
-    if (!is_array($entity)) {
-      throw new InvalidArgumentException();
-    }
+  public function put(Query $query = null, mixed $entity = null): array {
+    if (
+      $query instanceof AllQuery ||
+      $query instanceof VoidQuery ||
+      $query === null
+    ) {
+      if (!is_array($entity)) {
+        throw new InvalidArgumentException(
+          "For this type of Query is required and array of entities.",
+        );
+      }
 
-    if (empty($entity)) {
-      return [];
-    }
-
-    if ($query instanceof AllQuery) {
       $insertedEntities = [];
 
       foreach ($entity as $toInsert) {
@@ -92,14 +99,7 @@ class ArrayRawSqlDataSource implements
       return $insertedEntities;
     }
 
-    $sql = match (true) {
-      $query instanceof VoidQuery => $this->sqlBuilder->multiInsert($entity),
-      default => throw new QueryNotSupportedException($query),
-    };
-
-    $this->pdo->execute($sql->sql(), $sql->params());
-
-    return $entity;
+    throw new QueryNotSupportedException($query);
   }
 
   /**

@@ -2,6 +2,7 @@
 
 namespace Harmony\Core\Data\Repository;
 
+use Harmony\Core\Data\Operation\DefaultOperation;
 use Harmony\Core\Data\Operation\Operation;
 use Harmony\Core\Data\Query\Query;
 use Harmony\Core\Error\MethodNotImplementedException;
@@ -25,8 +26,8 @@ class VoidRepository implements GetRepository, PutRepository, DeleteRepository {
    * @throws MethodNotImplementedException
    */
   public function put(
-    Query $query,
-    Operation $operation,
+    Query $query = null,
+    Operation $operation = new DefaultOperation(),
     $model = null,
   ): mixed {
     throw new MethodNotImplementedException();
