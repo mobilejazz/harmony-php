@@ -61,6 +61,7 @@ class ProductIndexAction {
   protected function putProductAction(Product $product): Product {
     $query = new IdQuery((string) $product->id);
 
+    // @phpstan-ignore-next-line
     return ($this->putProduct)($product, $query);
   }
 
@@ -80,6 +81,7 @@ class ProductIndexAction {
     $query = new AllQuery();
     $productsUpdated = ($this->putAllProduct)($products, $query);
 
+    // @phpstan-ignore-next-line
     return $productsUpdated;
   }
 

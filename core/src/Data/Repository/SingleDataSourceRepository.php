@@ -42,10 +42,10 @@ class SingleDataSourceRepository implements
    */
   public function put(
     Query $query = null,
+    $models = null,
     Operation $operation = new DefaultOperation(),
-    $model = null,
   ): mixed {
-    return $this->putDataSource->put($query, $model);
+    return $this->putDataSource->put($query, $models);
   }
 
   public function delete(Query $query, Operation $operation): void {

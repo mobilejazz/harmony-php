@@ -2,7 +2,7 @@
 
 namespace Harmony\Core\Module\Sql\DataSource;
 
-interface SqlServiceInterface {
+interface SqlService {
   /**
    * @param string               $sql
    * @param array<string, mixed> $params

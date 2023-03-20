@@ -37,9 +37,9 @@ class RepositoryMapper implements
    * @inheritdoc
    */
   public function get(Query $query, Operation $operation): mixed {
-    $toMap = $this->getRepository->get($query, $operation);
+    $entities = $this->getRepository->get($query, $operation);
 
-    return $this->entityToModelMapper->map($toMap);
+    return $this->entityToModelMapper->map($entities);
   }
 
   /**
@@ -47,18 +47,19 @@ class RepositoryMapper implements
    */
   public function put(
     Query $query = null,
+    mixed $models = null,
     Operation $operation = new DefaultOperation(),
-    mixed $model = null,
   ): mixed {
-    $toPut = null;
+    $entities =
+      $models !== null ? $this->modelToEntityMapper->map($models) : null;
 
-    if ($model !== null) {
-      $toPut = $this->modelToEntityMapper->map($model);
-    }
+    $entitiesAfterPut = $this->putRepository->put(
+      query: $query,
+      models: $entities,
+      operation: $operation,
+    );
 
-    $toMap = $this->putRepository->put($query, $operation, $toPut);
-
-    return $this->entityToModelMapper->map($toMap);
+    return $this->entityToModelMapper->map($entitiesAfterPut);
   }
 
   public function delete(Query $query, Operation $operation): void {

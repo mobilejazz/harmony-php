@@ -8,7 +8,7 @@ use Harmony\Core\Module\Sql\DataSource\RawSqlDataSource;
 use Harmony\Core\Module\Sql\SqlProvider;
 use Sample\Product\Data\Sql\Mapper\ProductEntityToProductSqlDataMapper;
 use Sample\Product\Data\Sql\Mapper\ProductSqlDataToProductEntityMapper;
-use Sample\Product\Data\Sql\ProductSqlSchemaInterface;
+use Sample\Product\Data\Sql\ProductSqlSchema;
 use Sample\Product\ProductProvider;
 
 /**
@@ -21,7 +21,7 @@ class RawSqlProductInteractorsTest extends ProductInteractorsTest {
     $productDataSource = SqlProvider::dataSource(
       pdoWrapper: $this->getPdoWrapper(),
       sqlBuilder: $this->getSqlBuilder(),
-      schema: new ProductSqlSchemaInterface(),
+      schema: new ProductSqlSchema(),
       entityToDataMapper: new ProductEntityToProductSqlDataMapper(),
       dataToEntityMapper: new ProductSqlDataToProductEntityMapper(),
     );
@@ -29,7 +29,7 @@ class RawSqlProductInteractorsTest extends ProductInteractorsTest {
     $arrayProductDataSource = SqlProvider::arrayDataSource(
       pdoWrapper: $this->getPdoWrapper(),
       sqlBuilder: $this->getSqlBuilder(),
-      schema: new ProductSqlSchemaInterface(),
+      schema: new ProductSqlSchema(),
       entityToDataMapper: new ProductEntityToProductSqlDataMapper(),
       dataToEntityMapper: new ProductSqlDataToProductEntityMapper(),
     );

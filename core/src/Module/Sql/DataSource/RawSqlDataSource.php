@@ -13,7 +13,7 @@ use Harmony\Core\Data\Query\IdQuery;
 use Harmony\Core\Data\Query\Query;
 use Harmony\Core\Data\Query\VoidQuery;
 use Harmony\Core\Module\Sql\Error\IdRequiredToUpdateSqlRowException;
-use Harmony\Core\Module\Sql\Schema\SqlSchemaInterface;
+use Harmony\Core\Module\Sql\Schema\SqlSchema;
 use Harmony\Core\Module\Sql\SqlBuilder;
 
 /**
@@ -27,9 +27,9 @@ class RawSqlDataSource implements
   PutDataSource,
   DeleteDataSource {
   public function __construct(
-    protected readonly SqlServiceInterface $pdo,
+    protected readonly SqlService $pdo,
     protected readonly SqlBuilder $sqlBuilder,
-    protected readonly SqlSchemaInterface $schema,
+    protected readonly SqlSchema $schema,
   ) {
     $this->sqlBuilder->setSchema($schema);
   }
@@ -66,8 +66,8 @@ class RawSqlDataSource implements
    * @throws QueryNotSupportedException
    * @throws IdRequiredToUpdateSqlRowException
    */
-  public function put(Query $query = null, mixed $entity = null): mixed {
-    $id = $this->getId($query ?? new VoidQuery(), $entity);
+  public function put(Query $query = null, mixed $entities = null): mixed {
+    $id = $this->getId($query ?? new VoidQuery(), $entities);
 
     try {
       if (!empty($id)) {
@@ -80,11 +80,11 @@ class RawSqlDataSource implements
     $isInsertion = empty($id) || empty($currentData);
 
     if ($isInsertion) {
-      $sql = $this->sqlBuilder->insert($entity);
+      $sql = $this->sqlBuilder->insert($entities);
       $id = $this->pdo->insert($sql->sql(), $sql->params());
       // @phpstan-ignore-next-line
     } elseif (!empty($id)) {
-      $sql = $this->sqlBuilder->updateById($id, $entity);
+      $sql = $this->sqlBuilder->updateById($id, $entities);
       $this->pdo->execute($sql->sql(), $sql->params());
     } else {
       throw new IdRequiredToUpdateSqlRowException();

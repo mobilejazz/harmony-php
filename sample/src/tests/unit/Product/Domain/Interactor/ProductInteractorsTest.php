@@ -152,6 +152,7 @@ abstract class ProductInteractorsTest extends TestCase {
   ): Product {
     $query = new IdQuery((string) $product->id);
 
+    // @phpstan-ignore-next-line
     return $productProvider->providePutInteractor()($product, $query);
   }
 
@@ -166,6 +167,7 @@ abstract class ProductInteractorsTest extends TestCase {
   ): array {
     $query = new AllQuery();
 
+    // @phpstan-ignore-next-line
     return $productProvider->providePutAllInteractor()($products, $query);
   }
 

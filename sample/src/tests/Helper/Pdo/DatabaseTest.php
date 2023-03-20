@@ -3,7 +3,7 @@
 namespace App\Tests\Helper\Pdo;
 
 use Harmony\Core\Module\Pdo\PdoWrapper;
-use Harmony\Core\Module\Sql\Schema\SqlSchemaInterface;
+use Harmony\Core\Module\Sql\Schema\SqlSchema;
 use Harmony\Core\Module\Sql\SqlBuilder;
 use InvalidArgumentException;
 use Latitude\QueryBuilder\Engine\MySqlEngine;

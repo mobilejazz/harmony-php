@@ -13,8 +13,10 @@ class DeleteInteractor {
   ) {
   }
 
-  public function __invoke(Query $query, ?Operation $operation = null): void {
-    $operation = $operation ?? new DefaultOperation();
+  public function __invoke(
+    Query $query,
+    Operation $operation = new DefaultOperation(),
+  ): void {
     $this->deleteRepository->delete($query, $operation);
   }
 }

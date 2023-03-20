@@ -18,8 +18,8 @@ class VoidPutRepository implements PutRepository {
    */
   public function put(
     Query $query = null,
+    $models = null,
     Operation $operation = new DefaultOperation(),
-    $model = null,
   ): mixed {
     throw new MethodNotImplementedException();
   }

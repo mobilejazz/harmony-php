@@ -16,12 +16,9 @@ class GetCountInteractor {
   }
 
   public function __invoke(
-    ?Query $query = null,
-    ?Operation $operation = null,
+    Query $query = new CountAllQuery(),
+    Operation $operation = new DefaultOperation(),
   ): int {
-    $query = $query ?? new CountAllQuery();
-    $operation = $operation ?? new DefaultOperation();
-
     $result = $this->getRepository->get($query, $operation);
 
     return $result;

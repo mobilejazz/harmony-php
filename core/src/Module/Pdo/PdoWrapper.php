@@ -4,7 +4,7 @@ namespace Harmony\Core\Module\Pdo;
 
 use Exception;
 use Harmony\Core\Module\Pdo\Error\PdoConnectionNotReadyException;
-use Harmony\Core\Module\Sql\DataSource\SqlServiceInterface;
+use Harmony\Core\Module\Sql\DataSource\SqlService;
 use PDO;
 use PDOStatement;
 
@@ -12,7 +12,7 @@ use PDOStatement;
  * @link https://phpdelusions.net/pdo
  * @link https://phpdelusions.net/pdo_examples
  */
-class PdoWrapper implements SqlServiceInterface {
+class PdoWrapper implements SqlService {
   public function __construct(protected readonly PDO $pdoConnection) {
   }
 

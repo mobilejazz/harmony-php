@@ -2,9 +2,9 @@
 
 namespace Sample\Product\Data\Sql;
 
-use Harmony\Core\Module\Sql\Schema\SqlSchemaInterface;
+use Harmony\Core\Module\Sql\Schema\SqlSchema;
 
-class ProductSqlSchemaInterface implements SqlSchemaInterface {
+class ProductSqlSchema implements SqlSchema {
   public function getTableName(): string {
     return "products";
   }

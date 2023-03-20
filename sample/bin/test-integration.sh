@@ -4,4 +4,4 @@ source "${HELPERS_DIR}"/functions.sh
 
 exec_wwwdata vendor/bin/pest \
     --no-interaction \
-    --coverage --min=50
+    --coverage --min=52

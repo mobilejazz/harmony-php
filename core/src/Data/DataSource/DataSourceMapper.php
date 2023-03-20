@@ -35,24 +35,20 @@ class DataSourceMapper implements
    * @inheritdoc
    */
   public function get(Query $query): mixed {
-    $toMap = $this->getDataSource->get($query);
+    $data = $this->getDataSource->get($query);
 
-    return $this->dataToEntityMapper->map($toMap);
+    return $this->dataToEntityMapper->map($data);
   }
 
   /**
    * @inheritdoc
    */
-  public function put(Query $query = null, mixed $entity = null): mixed {
-    $toPut = null;
+  public function put(Query $query = null, mixed $entities = null): mixed {
+    $data =
+      $entities !== null ? $this->entityToDataMapper->map($entities) : null;
+    $dataAfterPut = $this->putDataSource->put($query, $data);
 
-    if ($entity !== null) {
-      $toPut = $this->entityToDataMapper->map($entity);
-    }
-
-    $toMap = $this->putDataSource->put($query, $toPut);
-
-    return $this->dataToEntityMapper->map($toMap);
+    return $this->dataToEntityMapper->map($dataAfterPut);
   }
 
   public function delete(Query $query): void {

@@ -11,14 +11,14 @@ use Harmony\Core\Domain\Interactor\GetCountInteractor;
 use Harmony\Core\Module\Pdo\PdoWrapper;
 use Harmony\Core\Module\Sql\DataSource\ArrayRawSqlDataSource;
 use Harmony\Core\Module\Sql\DataSource\RawSqlDataSource;
-use Harmony\Core\Module\Sql\Schema\SqlSchemaInterface;
+use Harmony\Core\Module\Sql\Schema\SqlSchema;
 use Harmony\Core\Module\Sql\Schema\VoidSqlSchema;
 
 class SqlProvider {
   public static function countInteractor(
     PdoWrapper $pdo,
     SqlBuilder $sqlBuilder,
-    SqlSchemaInterface $schema,
+    SqlSchema $schema,
   ): GetCountInteractor {
     $dataSource = self::dataSource($pdo, $sqlBuilder, $schema);
 
@@ -32,7 +32,7 @@ class SqlProvider {
   public static function dataSource(
     PdoWrapper $pdoWrapper,
     SqlBuilder $sqlBuilder,
-    SqlSchemaInterface $schema = new VoidSqlSchema(),
+    SqlSchema $schema = new VoidSqlSchema(),
     Mapper $entityToDataMapper = new BlankMapper(),
     Mapper $dataToEntityMapper = new BlankMapper(),
   ): DataSourceMapper {
@@ -58,7 +58,7 @@ class SqlProvider {
   public static function arrayDataSource(
     PdoWrapper $pdoWrapper,
     SqlBuilder $sqlBuilder,
-    SqlSchemaInterface $schema = new VoidSqlSchema(),
+    SqlSchema $schema = new VoidSqlSchema(),
     Mapper $entityToDataMapper = new BlankMapper(),
     Mapper $dataToEntityMapper = new BlankMapper(),
   ): DataSourceMapper {

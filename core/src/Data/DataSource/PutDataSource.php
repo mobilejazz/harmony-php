@@ -10,9 +10,9 @@ use Harmony\Core\Data\Query\Query;
 interface PutDataSource {
   /**
    * @param Query|null $query
-   * @param T|null     $entity
+   * @param T|null     $entities
    *
    * @return T
    */
-  public function put(Query $query = null, mixed $entity = null): mixed;
+  public function put(Query $query = null, mixed $entities = null): mixed;
 }

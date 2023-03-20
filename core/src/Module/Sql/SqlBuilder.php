@@ -10,7 +10,7 @@ use Harmony\Core\Data\Query\Composed\WhereQuery;
 use Harmony\Core\Data\Query\CountQuery;
 use Harmony\Core\Data\Query\Criteria\Criteria;
 use Harmony\Core\Data\Query\Query;
-use Harmony\Core\Module\Sql\Schema\SqlSchemaInterface;
+use Harmony\Core\Module\Sql\Schema\SqlSchema;
 use Latitude\QueryBuilder\Query as LatitudeQuery;
 use Latitude\QueryBuilder\Query\DeleteQuery as LatitudeDeleteQuery;
 use Latitude\QueryBuilder\Query\SelectQuery as LatitudeSelectQuery;
@@ -25,18 +25,18 @@ use function Latitude\QueryBuilder\func;
  * @psalm-suppress PropertyNotSetInConstructor
  */
 class SqlBuilder {
-  protected SqlSchemaInterface $schema;
+  protected SqlSchema $schema;
 
   public function __construct(
     protected readonly LatitudeQueryFactory $factory,
   ) {
   }
 
-  public function setSchema(SqlSchemaInterface $schema): void {
+  public function setSchema(SqlSchema $schema): void {
     $this->schema = $schema;
   }
 
-  public function getSchema(): SqlSchemaInterface {
+  public function getSchema(): SqlSchema {
     return $this->schema;
   }
 

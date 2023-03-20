@@ -19,14 +19,12 @@ class GetInteractor {
   }
 
   /**
-   * @phpstan-return T
+   * @return T
    */
   public function __invoke(
-    ?Query $query = null,
-    ?Operation $operation = null,
+    Query $query = new VoidQuery(),
+    Operation $operation = new DefaultOperation(),
   ): mixed {
-    $query = $query ?? new VoidQuery();
-    $operation = $operation ?? new DefaultOperation();
     return $this->getRepository->get($query, $operation);
   }
 }

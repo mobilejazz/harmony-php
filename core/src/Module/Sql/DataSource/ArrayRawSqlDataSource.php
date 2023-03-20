@@ -13,7 +13,7 @@ use Harmony\Core\Data\Query\IdsQuery;
 use Harmony\Core\Data\Query\Query;
 use Harmony\Core\Data\Query\VoidQuery;
 use Harmony\Core\Module\Sql\Error\IdRequiredToUpdateSqlRowException;
-use Harmony\Core\Module\Sql\Schema\SqlSchemaInterface;
+use Harmony\Core\Module\Sql\Schema\SqlSchema;
 use Harmony\Core\Module\Sql\SqlBuilder;
 use InvalidArgumentException;
 
@@ -30,9 +30,9 @@ class ArrayRawSqlDataSource implements
   protected readonly RawSqlDataSource $rawSqlDataSource;
 
   public function __construct(
-    protected readonly SqlServiceInterface $pdo,
+    protected readonly SqlService $pdo,
     protected readonly SqlBuilder $sqlBuilder,
-    protected readonly SqlSchemaInterface $schema,
+    protected readonly SqlSchema $schema,
   ) {
     $this->sqlBuilder->setSchema($schema);
     $this->rawSqlDataSource = new RawSqlDataSource($pdo, $sqlBuilder, $schema);
@@ -63,7 +63,7 @@ class ArrayRawSqlDataSource implements
 
   /**
    * @param Query|null   $query
-   * @param mixed[]|null $entity
+   * @param mixed[]|null $entities
    *
    * @return mixed[]
    *
@@ -75,13 +75,13 @@ class ArrayRawSqlDataSource implements
    *                entity. But we can use `multiInsert` method to insert
    *                all entities at once.
    */
-  public function put(Query $query = null, mixed $entity = null): array {
+  public function put(Query $query = null, mixed $entities = null): array {
     if (
       $query instanceof AllQuery ||
       $query instanceof VoidQuery ||
       $query === null
     ) {
-      if (!is_array($entity)) {
+      if (!is_array($entities)) {
         throw new InvalidArgumentException(
           "For this type of Query is required and array of entities.",
         );
@@ -89,7 +89,7 @@ class ArrayRawSqlDataSource implements
 
       $insertedEntities = [];
 
-      foreach ($entity as $toInsert) {
+      foreach ($entities as $toInsert) {
         $insertedEntities[] = $this->rawSqlDataSource->put(
           new VoidQuery(),
           $toInsert,

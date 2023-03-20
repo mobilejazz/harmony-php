@@ -2,7 +2,7 @@
 
 namespace Harmony\Core\Module\Sql\Schema;
 
-interface SqlSchemaInterface {
+interface SqlSchema {
   public function getTableName(): string;
 
   public function getIdColumn(): string;

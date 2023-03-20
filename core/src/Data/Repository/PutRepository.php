@@ -12,14 +12,14 @@ use Harmony\Core\Data\Query\Query;
 interface PutRepository {
   /**
    * @param Query|null $query
+   * @param T|null     $models
    * @param Operation  $operation
-   * @param T|null     $model
    *
    * @return T
    */
   public function put(
     Query $query = null,
+    mixed $models = null,
     Operation $operation = new DefaultOperation(),
-    mixed $model = null,
   ): mixed;
 }

@@ -12,8 +12,9 @@ use Harmony\Core\Error\MethodNotImplementedException;
 class VoidPutDataSource implements PutDataSource {
   /**
    * @inheritdoc
+   * @throws MethodNotImplementedException
    */
-  public function put(Query $query = null, mixed $entity = null): mixed {
+  public function put(Query $query = null, mixed $entities = null): mixed {
     throw new MethodNotImplementedException();
   }
 }

@@ -65,19 +65,19 @@ class InMemoryDataSource implements
    * @inheritdoc
    * @throws QueryNotSupportedException
    */
-  public function put(Query $query = null, mixed $entity = null): mixed {
-    if ($entity === null) {
+  public function put(Query $query = null, mixed $entities = null): mixed {
+    if ($entities === null) {
       throw new InvalidArgumentException();
     }
 
     if ($query instanceof KeyQuery) {
-      $this->entities[$query->key] = $entity;
+      $this->entities[$query->key] = $entities;
 
-      return $entity;
+      return $entities;
     }
 
     if ($query instanceof AllQuery) {
-      foreach ($entity as $toFind) {
+      foreach ($entities as $toFind) {
         // @phpstan-ignore-next-line
         if (isset($toFind->id) && !empty((string) $toFind->id)) {
           // @phpstan-ignore-next-line
@@ -87,7 +87,7 @@ class InMemoryDataSource implements
         }
       }
 
-      return $entity;
+      return $entities;
     }
 
     throw new QueryNotSupportedException($query ?? new VoidQuery());
