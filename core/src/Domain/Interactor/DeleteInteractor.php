@@ -2,10 +2,10 @@
 
 namespace Harmony\Core\Domain\Interactor;
 
-use Harmony\Core\Data\Operation\DefaultOperation;
-use Harmony\Core\Data\Operation\Operation;
-use Harmony\Core\Data\Query\Query;
-use Harmony\Core\Data\Repository\DeleteRepository;
+use Harmony\Core\Repository\DeleteRepository;
+use Harmony\Core\Repository\Operation\DefaultOperation;
+use Harmony\Core\Repository\Operation\Operation;
+use Harmony\Core\Repository\Query\Query;
 
 class DeleteInteractor {
   public function __construct(
@@ -13,10 +13,8 @@ class DeleteInteractor {
   ) {
   }
 
-  public function __invoke(
-    Query $query,
-    Operation $operation = new DefaultOperation(),
-  ): void {
+  public function __invoke(Query $query, ?Operation $operation = null): void {
+    $operation = $operation ?? new DefaultOperation();
     $this->deleteRepository->delete($query, $operation);
   }
 }

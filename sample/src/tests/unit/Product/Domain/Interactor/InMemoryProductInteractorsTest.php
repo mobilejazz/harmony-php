@@ -2,7 +2,7 @@
 
 namespace App\Tests\unit\Product\Domain\Interactor;
 
-use Harmony\Core\Module\Memory\DataSource\InMemoryDataSource;
+use Harmony\Core\Repository\DataSource\InMemoryDataSource;
 use Sample\Product\Data\Entity\ProductEntity;
 use Sample\Product\ProductProvider;
 
@@ -11,11 +11,6 @@ use Sample\Product\ProductProvider;
  */
 class InMemoryProductInteractorsTest extends ProductInteractorsTest {
   protected function getProvider(): ProductProvider {
-    $dataSource = new InMemoryDataSource(ProductEntity::class);
-
-    return new ProductProvider(
-      dataSource: $dataSource,
-      arrayDataSource: $dataSource,
-    );
+    return new ProductProvider(new InMemoryDataSource(ProductEntity::class));
   }
 }

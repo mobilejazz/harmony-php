@@ -29,7 +29,7 @@
   "require": {
     "ext-pdo": "*",
     "latitude/latitude": "4.2.*",
-    "nesbot/carbon": "2.66.*",
+    "nesbot/carbon": "2.64.*",
     "php": "8.1.*",
     "symfony/framework-bundle": "5.4.*",
     "symfony/property-access": "5.4.*",
@@ -38,11 +38,11 @@
   },
   "require-dev": {
     "pestphp/pest": "1.22.*",
-    "phpstan/phpstan": "1.10.*",
+    "phpstan/phpstan": "1.9.*",
     "psalm/plugin-phpunit": "0.18.*",
     "phpunit/phpunit": "9.5.*",
     "roave/security-advisories": "dev-latest",
-    "vimeo/psalm": "5.8.*"
+    "vimeo/psalm": "5.1.*"
   },
   "type": "project"
 }

@@ -2,11 +2,11 @@
 
 namespace Harmony\Core\Domain\Interactor;
 
-use Harmony\Core\Data\Operation\DefaultOperation;
-use Harmony\Core\Data\Operation\Operation;
-use Harmony\Core\Data\Query\Query;
-use Harmony\Core\Data\Query\VoidQuery;
-use Harmony\Core\Data\Repository\PutRepository;
+use Harmony\Core\Repository\Operation\DefaultOperation;
+use Harmony\Core\Repository\Operation\Operation;
+use Harmony\Core\Repository\PutRepository;
+use Harmony\Core\Repository\Query\Query;
+use Harmony\Core\Repository\Query\VoidQuery;
 
 /**
  * @template T
@@ -19,21 +19,20 @@ class PutInteractor {
   }
 
   /**
-   * @param T         $model
-   * @param Query     $query
-   * @param Operation $operation
+   * @param T              $model
+   * @param Query|null     $query
+   * @param Operation|null $operation
    *
    * @return mixed
+   * @phpstan-return T
    */
   public function __invoke(
     mixed $model = null,
-    Query $query = new VoidQuery(),
-    Operation $operation = new DefaultOperation(),
+    ?Query $query = null,
+    ?Operation $operation = null,
   ): mixed {
-    return $this->putRepository->put(
-      query: $query,
-      models: $model,
-      operation: $operation,
-    );
+    $query = $query ?? new VoidQuery();
+    $operation = $operation ?? new DefaultOperation();
+    return $this->putRepository->put($query, $operation, $model);
   }
 }

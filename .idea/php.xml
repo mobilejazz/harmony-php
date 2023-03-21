@@ -1,15 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="MessDetectorOptionsConfiguration">
-    <option name="transferred" value="true" />
-  </component>
-  <component name="PHPCSFixerOptionsConfiguration">
-    <option name="transferred" value="true" />
-  </component>
-  <component name="PHPCodeSnifferOptionsConfiguration">
-    <option name="highlightLevel" value="WARNING" />
-    <option name="transferred" value="true" />
-  </component>
   <component name="PhpIncludePathManager">
     <include_path>
       <path value="$PROJECT_DIR$/sample/src/vendor/sebastian/type" />
@@ -43,6 +33,7 @@
       <path value="$PROJECT_DIR$/sample/src/vendor/phpunit/phpunit" />
       <path value="$PROJECT_DIR$/sample/src/vendor/phpunit/php-text-template" />
       <path value="$PROJECT_DIR$/sample/src/vendor/symfony/property-access" />
+      <path value="$PROJECT_DIR$/sample/src/vendor/openlss/lib-array2xml" />
       <path value="$PROJECT_DIR$/sample/src/vendor/phpunit/php-timer" />
       <path value="$PROJECT_DIR$/sample/src/vendor/symfony/event-dispatcher-contracts" />
       <path value="$PROJECT_DIR$/sample/src/vendor/phpunit/php-code-coverage" />
@@ -96,8 +87,6 @@
       <path value="$PROJECT_DIR$/sample/src/vendor/symfony/polyfill-php73" />
       <path value="$PROJECT_DIR$/sample/src/vendor/symfony/polyfill-php81" />
       <path value="$PROJECT_DIR$/sample/src/vendor/psalm/plugin-phpunit" />
-      <path value="$PROJECT_DIR$/sample/src/vendor/spatie/array-to-xml" />
-      <path value="$PROJECT_DIR$/sample/src/vendor/fidry/cpu-core-counter" />
     </include_path>
   </component>
   <component name="PhpInterpreters">
@@ -176,9 +165,6 @@
       <PhpStanConfiguration tool_path="$PROJECT_DIR$/sample/src/vendor/bin/phpstan" />
     </PhpStan_settings>
   </component>
-  <component name="PhpStanOptionsConfiguration">
-    <option name="transferred" value="true" />
-  </component>
   <component name="PhpUnit">
     <phpunit_settings>
       <PhpUnitSettings custom_loader_path="$PROJECT_DIR$/sample/src/vendor/autoload.php" />
@@ -188,8 +174,5 @@
     <Psalm_settings>
       <PsalmConfiguration tool_path="$PROJECT_DIR$/sample/src/vendor/bin/psalm" />
     </Psalm_settings>
-  </component>
-  <component name="PsalmOptionsConfiguration">
-    <option name="transferred" value="true" />
   </component>
 </project>

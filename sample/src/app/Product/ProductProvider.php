@@ -2,15 +2,16 @@
 
 namespace Sample\Product;
 
-use Harmony\Core\Data\DataSource\DeleteDataSource;
-use Harmony\Core\Data\DataSource\GetDataSource;
-use Harmony\Core\Data\DataSource\PutDataSource;
-use Harmony\Core\Data\Mapper\ArrayMapper;
-use Harmony\Core\Data\Repository\RepositoryMapper;
-use Harmony\Core\Data\Repository\RepositoryProvider;
 use Harmony\Core\Domain\Interactor\DeleteInteractor;
+use Harmony\Core\Domain\Interactor\GetAllInteractor;
 use Harmony\Core\Domain\Interactor\GetInteractor;
+use Harmony\Core\Domain\Interactor\PutAllInteractor;
 use Harmony\Core\Domain\Interactor\PutInteractor;
+use Harmony\Core\Repository\DataSource\DeleteDataSource;
+use Harmony\Core\Repository\DataSource\GetDataSource;
+use Harmony\Core\Repository\DataSource\PutDataSource;
+use Harmony\Core\Repository\RepositoryMapper;
+use Harmony\Core\Repository\SingleDataSourceRepository;
 use Sample\Product\Data\Entity\ProductEntity;
 use Sample\Product\Data\Mapper\ProductEntityToProductMapper;
 use Sample\Product\Data\Mapper\ProductToProductEntityMapper;
@@ -19,58 +20,70 @@ use Sample\Product\Domain\Model\Product;
 class ProductProvider {
   /** @var RepositoryMapper<Product, ProductEntity> */
   protected RepositoryMapper $productRepository;
-  /** @var RepositoryMapper<Product[], ProductEntity[]> */
-  protected RepositoryMapper $arrayProductRepository;
 
   /**
    * @param GetDataSource&PutDataSource&DeleteDataSource $dataSource
-   * @param GetDataSource&PutDataSource&DeleteDataSource $arrayDataSource
    */
   // @phpstan-ignore-next-line
-  public function __construct(mixed $dataSource, mixed $arrayDataSource) {
-    $this->productRepository = RepositoryProvider::singleRepositoryMapper(
-      singleDataSource: $dataSource,
-      modelToEntityMapper: new ProductToProductEntityMapper(),
-      entityToModelMapper: new ProductEntityToProductMapper(),
+  public function __construct(mixed $dataSource) {
+    $this->productRepository = $this->provideRepository($dataSource);
+  }
+
+  /**
+   * @param GetDataSource&PutDataSource&DeleteDataSource $dataSource
+   *
+   * @return RepositoryMapper<Product, ProductEntity>
+   *
+   * @psalm-suppress InvalidArgument
+   */
+  // @phpstan-ignore-next-line
+  protected function provideRepository(mixed $dataSource): RepositoryMapper {
+    $repository = new SingleDataSourceRepository(
+      $dataSource,
+      $dataSource,
+      $dataSource,
     );
 
-    $this->arrayProductRepository = RepositoryProvider::singleRepositoryMapper(
-      singleDataSource: $arrayDataSource,
-      modelToEntityMapper: new ArrayMapper(new ProductToProductEntityMapper()),
-      entityToModelMapper: new ArrayMapper(new ProductEntityToProductMapper()),
+    $productRepository = new RepositoryMapper(
+      $repository,
+      $repository,
+      $repository,
+      // @phpstan-ignore-next-line
+      new ProductToProductEntityMapper(),
+      // @phpstan-ignore-next-line
+      new ProductEntityToProductMapper(),
     );
+
+    // @phpstan-ignore-next-line
+    return $productRepository;
   }
 
   /**
    * @return GetInteractor<Product>
    */
   public function provideGetInteractor(): GetInteractor {
-    /** @var GetInteractor<Product> */
     return new GetInteractor($this->productRepository);
   }
 
   /**
-   * @return GetInteractor<Product[]>
+   * @return GetAllInteractor<Product>
    */
-  public function provideGetAllInteractor(): GetInteractor {
-    /** @var GetInteractor<Product[]> */
-    return new GetInteractor($this->arrayProductRepository);
+  public function provideGetAllInteractor(): GetAllInteractor {
+    return new GetAllInteractor($this->productRepository);
   }
 
   /**
    * @return PutInteractor<Product>
    */
   public function providePutInteractor(): PutInteractor {
-    /** @var PutInteractor<Product> */
     return new PutInteractor($this->productRepository);
   }
 
   /**
-   * @return PutInteractor<Product[]>
+   * @return PutAllInteractor<Product>
    */
-  public function providePutAllInteractor(): PutInteractor {
-    /** @var PutInteractor<Product[]> */
-    return new PutInteractor($this->arrayProductRepository);
+  public function providePutAllInteractor(): PutAllInteractor {
+    return new PutAllInteractor($this->productRepository);
   }
 
   /**
