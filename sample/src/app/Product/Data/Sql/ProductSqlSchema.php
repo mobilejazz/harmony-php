@@ -2,28 +2,15 @@
 
 namespace Sample\Product\Data\Sql;
 
-use Harmony\Core\Repository\DataSource\Sql\Helper\SqlSchema;
+use Harmony\Core\Module\Sql\Schema\SqlSchema;
 
 class ProductSqlSchema implements SqlSchema {
-  public const TABLE_NAME = "products";
-
-  public const COLUMN_ID = "id";
-  public const COLUMN_NAME = "name";
-  public const COLUMN_DESCRIPTION = "description";
-  public const COLUMN_PRICE = "price";
-
-  public const COLUMN_CREATED_AT = "created_at";
-
   public function getTableName(): string {
-    return self::TABLE_NAME;
+    return "products";
   }
 
   public function getIdColumn(): string {
-    return self::COLUMN_ID;
-  }
-
-  public function getKeyColumn(): string {
-    return $this->getIdColumn();
+    return "id";
   }
 
   public function softDeleteEnabled(): bool {

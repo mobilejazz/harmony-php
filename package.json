@@ -17,8 +17,9 @@
     "*.{js,css,md,json}": "prettier --write"
   },
   "devDependencies": {
+    "prettier": "2.8.*",
     "@prettier/plugin-php": "0.19.*",
     "husky": "8.0.*",
-    "lint-staged": "13.0.*"
+    "lint-staged": "13.2.*"
   }
 }

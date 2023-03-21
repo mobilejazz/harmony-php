@@ -2,11 +2,11 @@
 
 namespace Harmony\Core\Domain\Interactor;
 
-use Harmony\Core\Repository\GetRepository;
-use Harmony\Core\Repository\Operation\DefaultOperation;
-use Harmony\Core\Repository\Operation\Operation;
-use Harmony\Core\Repository\Query\Query;
-use Harmony\Core\Repository\Query\VoidQuery;
+use Harmony\Core\Data\Operation\DefaultOperation;
+use Harmony\Core\Data\Operation\Operation;
+use Harmony\Core\Data\Query\Query;
+use Harmony\Core\Data\Query\VoidQuery;
+use Harmony\Core\Data\Repository\GetRepository;
 
 /**
  * @template T
@@ -19,14 +19,12 @@ class GetInteractor {
   }
 
   /**
-   * @phpstan-return T
+   * @return T
    */
   public function __invoke(
-    ?Query $query = null,
-    ?Operation $operation = null,
+    Query $query = new VoidQuery(),
+    Operation $operation = new DefaultOperation(),
   ): mixed {
-    $query = $query ?? new VoidQuery();
-    $operation = $operation ?? new DefaultOperation();
     return $this->getRepository->get($query, $operation);
   }
 }

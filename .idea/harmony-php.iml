@@ -37,7 +37,6 @@
       <excludeFolder url="file://$MODULE_DIR$/sample/src/vendor/phpunit/phpunit" />
       <excludeFolder url="file://$MODULE_DIR$/sample/src/vendor/phpunit/php-text-template" />
       <excludeFolder url="file://$MODULE_DIR$/sample/src/vendor/symfony/property-access" />
-      <excludeFolder url="file://$MODULE_DIR$/sample/src/vendor/openlss/lib-array2xml" />
       <excludeFolder url="file://$MODULE_DIR$/sample/src/vendor/phpunit/php-timer" />
       <excludeFolder url="file://$MODULE_DIR$/sample/src/vendor/symfony/event-dispatcher-contracts" />
       <excludeFolder url="file://$MODULE_DIR$/sample/src/vendor/phpunit/php-code-coverage" />
@@ -91,6 +90,9 @@
       <excludeFolder url="file://$MODULE_DIR$/sample/src/vendor/symfony/polyfill-php73" />
       <excludeFolder url="file://$MODULE_DIR$/sample/src/vendor/symfony/polyfill-php81" />
       <excludeFolder url="file://$MODULE_DIR$/sample/src/vendor/psalm/plugin-phpunit" />
+      <excludeFolder url="file://$MODULE_DIR$/sample/src/vendor/spatie/array-to-xml" />
+      <excludeFolder url="file://$MODULE_DIR$/sample/src/vendor/fidry/cpu-core-counter" />
+      <excludeFolder url="file://$MODULE_DIR$/sample/src/var/cache" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

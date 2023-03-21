@@ -3,8 +3,8 @@
 namespace App\Tests\Helper\Pdo;
 
 use Harmony\Core\Module\Pdo\PdoWrapper;
-use Harmony\Core\Repository\DataSource\Sql\Helper\SqlBuilder;
-use Harmony\Core\Repository\DataSource\Sql\Helper\SqlSchema;
+use Harmony\Core\Module\Sql\Schema\SqlSchema;
+use Harmony\Core\Module\Sql\SqlBuilder;
 use InvalidArgumentException;
 use Latitude\QueryBuilder\Engine\MySqlEngine;
 use Latitude\QueryBuilder\QueryFactory;
@@ -51,7 +51,7 @@ trait DatabaseTest {
   }
 
   /**
-   * @see            PdoFactory
+   * @see            PdoProvider
    * @psalm-suppress PossiblyFalseArgument
    */
   protected static function createNewConnection(): void {
@@ -80,17 +80,20 @@ trait DatabaseTest {
     return self::$dbh ?? throw new InvalidArgumentException();
   }
 
-  protected function getSqlBuilder(SqlSchema $sqlSchema): SqlBuilder {
+  protected function getPdoWrapper(): PdoWrapper {
+    return new PdoWrapper($this->getPdo());
+  }
+
+  protected function getSqlBuilder(): SqlBuilder {
     $queryFactory = new QueryFactory(new MySqlEngine());
-    $sqlBuilder = new SqlBuilder($sqlSchema, $queryFactory);
+    $sqlBuilder = new SqlBuilder($queryFactory);
 
     return $sqlBuilder;
   }
 
-  protected function insert(SqlSchema $sqlSchema, object $entity): string|int {
-    $sqlBuilder = $this->getSqlBuilder($sqlSchema);
-    $sql = $sqlBuilder->insert($entity);
-    $pdo = new PdoWrapper($this->getPdo());
+  protected function insert(object $entity): string|int {
+    $pdo = $this->getPdoWrapper();
+    $sql = $this->getSqlBuilder()->insert($entity);
 
     $id = $pdo->insert($sql->sql(), $sql->params());
 

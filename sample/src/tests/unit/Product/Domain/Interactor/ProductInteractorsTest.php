@@ -2,10 +2,10 @@
 
 namespace App\Tests\unit\Product\Domain\Interactor;
 
+use Harmony\Core\Data\Error\DataNotFoundException;
+use Harmony\Core\Data\Query\AllQuery;
+use Harmony\Core\Data\Query\IdQuery;
 use Harmony\Core\Helper\Random;
-use Harmony\Core\Repository\Error\DataNotFoundException;
-use Harmony\Core\Repository\Query\AllQuery;
-use Harmony\Core\Repository\Query\KeyQuery;
 use PHPUnit\Framework\TestCase;
 use Sample\Product\Domain\Model\Product;
 use Sample\Product\ProductProvider;
@@ -30,7 +30,7 @@ abstract class ProductInteractorsTest extends TestCase {
       $createdProduct,
     ] = $this->createAndGetProduct();
 
-    $getQuery = new KeyQuery((string) $createdProduct->id);
+    $getQuery = new IdQuery((string) $createdProduct->id);
     $resultingProduct = $productProvider->provideGetInteractor()($getQuery);
 
     $this->assertEquals($product, $resultingProduct);
@@ -54,7 +54,7 @@ abstract class ProductInteractorsTest extends TestCase {
 
     $this->assertEquals($editedProduct, $updatedProduct);
 
-    $getQuery = new KeyQuery((string) $createdProduct->id);
+    $getQuery = new IdQuery((string) $createdProduct->id);
     $resultingProduct = $productProvider->provideGetInteractor()($getQuery);
 
     $this->assertEquals($editedProduct, $resultingProduct);
@@ -117,10 +117,10 @@ abstract class ProductInteractorsTest extends TestCase {
       $createdProduct,
     ] = $this->createAndGetProduct();
 
-    $deleteQuery = new KeyQuery((string) $createdProduct->id);
+    $deleteQuery = new IdQuery((string) $createdProduct->id);
     $productProvider->provideDeleteInteractor()($deleteQuery);
 
-    $getQuery = new KeyQuery((string) $createdProduct->id);
+    $getQuery = new IdQuery((string) $createdProduct->id);
 
     $this->expectException(DataNotFoundException::class);
     $productProvider->provideGetInteractor()($getQuery);
@@ -150,8 +150,9 @@ abstract class ProductInteractorsTest extends TestCase {
     ProductProvider $productProvider,
     Product $product,
   ): Product {
-    $query = new KeyQuery((string) $product->id);
+    $query = new IdQuery((string) $product->id);
 
+    // @phpstan-ignore-next-line
     return $productProvider->providePutInteractor()($product, $query);
   }
 
@@ -166,6 +167,7 @@ abstract class ProductInteractorsTest extends TestCase {
   ): array {
     $query = new AllQuery();
 
+    // @phpstan-ignore-next-line
     return $productProvider->providePutAllInteractor()($products, $query);
   }
 
